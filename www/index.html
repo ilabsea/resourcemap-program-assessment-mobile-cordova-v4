@@ -1,0 +1,304 @@
+<html>
+    <head>
+        <title>Resource Map</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
+        <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
+        <link href="css/jquery.validate.password.css" rel="stylesheet" type="text/css"/>
+        <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
+        <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>
+        <script src="js/libs/jquery-1.11.0.min.js"></script>
+        <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
+        <script src="js/libs/jquery.validate.password.js"></script>
+        <script src="js/lib/persistence.js"></script>
+        <script src="js/lib/persistence.sync.js"></script>
+        <script src="js/lib/persistence.store.sql.js"></script>
+        <script src="js/lib/persistence.store.sqlite_web.js"></script>
+        <script src="js/lib/persistence.store.memory.js"></script>
+        <script src="js/lib/persistence.jquery.js"></script>
+        <script src="js/lib/persistence.jquery.mobile.js"></script>
+        <script src="include/table.js"></script>
+        <script src="include/user.js"></script>
+        <script src="include/collection.js"></script>
+        <script src="include/db_connection.js"></script>
+        <script src="include/site.js"></script>
+        <script src="include/field.js"></script>
+    </head>
+    <body>
+        <!--page-login-->   
+        <div data-role="page" id="page-login">
+            <div data-role="content">
+                <div>
+                    <center><img src="img/logo.png" alt="Resource Map"/></center>
+                    <br>
+                </div>
+                <p id="invalidmail" class="invalid">Invalid email or password.</p>
+                <p id="noMailInDb" class="invalid">Not found in database.</p>
+                <form id="form_login">
+                    <label for="email"> Email </label>
+                    <input type="email" id="email" name="user[email]" class="required email"/>
+                    <label for="password"> Password </label>
+                    <input type="password" id="password" name="user[password]" class="required"/>
+                    <center><button data-theme="e" id="btn_submitLogin" data-inset="true">Log in</button></center>
+                </form>
+            </div>
+            <div>
+                <center><a href="#page-signup">Create new account</a></center>
+            </div>
+        </div>
+        <!-- Create new account-->
+        <div data-role="page" id="page-signup">
+            <div data-role="content">
+                <div>
+                    <center><img src="img/logo.png" alt="Resource Map"></center>
+                </div>
+                <center><span id="internet">Unable to connect to the Internet</span></center>
+                <h2>Signup</h2>               
+                <form method="post" action="#" name="myForm" id="form_signup">
+                    <div data-role="fieldcontain">
+                        <em>* </em> Email
+                        <input type="email" name="user[email]" class="required email" id="signupemail"/>
+                        <p id="exitemail">Email have been already.</p>
+                        <em>* </em> Password
+                        <input type="password" name="user[password]" class="required" id="signuppassword"/>
+                        <em>* </em> Password confirmation
+                        <input type="password" name="user[password_confirmation]" class="required" id="pswConfirm"/>
+                        <p id="passmatch">Password doesn't match confirmation</p>
+                        Phone number<br><i>(+85512345678)</i>
+                        <input type="number" name="tel" id="tel"/>
+                        <center><button data-theme="e" data-inline="true" data-inset="true">Sign up</button></center>
+                    </div>
+                </form>               
+            </div>
+            <div>
+                <center> <a href="#page-login"> Already have an account </a>  </center> 
+            </div>
+        </div>
+        <!-- Login Success -->
+        <div data-role="page" id="submitLogin-page">
+            <div data-role="header" data-theme="e">
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
+                <h2>Collections</h2>
+            </div>
+            <div data-role="content">
+                <ul data-role='listview' id="collection-list" data-inset="true">
+                </ul>
+            </div>
+            <div>
+                <center><a data-role="button" data-theme="e" href="#page-list-view-site" data-inline="true" >View offline sites</a></center>
+            </div>
+        </div>
+        <!--page-list-view-site-offline-->
+        <div data-role="page" id="page-list-view-site">
+            <div data-role="header" data-theme="e">
+                <a href="#submitLogin-page" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
+                <h1>Sites</h1>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
+            </div>
+            <div data-role="content" id="sitelistview">
+                <ul id="offlinesite-list" data-role="listview" data-inset="true"> 
+                </ul> 
+            </div>
+            <div>
+                <center><button data-theme="e" id="btn_sendToServerAll" data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
+            </div>
+        </div>
+        <!--site-list-->
+        <div data-role="page" id="page-site-list">
+            <div data-role="header" data-theme="e">
+                <a href="#submitLogin-page" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
+                <h2 id="title"></h2>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
+            </div>
+            <div data-role="content" id="sitelist">
+                <p id="sendToServer" class="success">Sites are on server.</p>
+                <ul data-role='listview' id="site-list" data-inset="true">
+                </ul>
+            </div>
+            <div> 
+                <center><button data-theme="e" id="btn_sendToServer" data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
+                    <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site" data-inline="true" data-icon="plus" data-iconpos="left">Add new site</a></center>
+            </div>
+        </div>
+        <!--page-create-site-->
+        <div data-role="page" id="page-create-site">
+            <div data-role="header" data-theme="e">
+                <a data-role="button" data-theme="a"  href="#page-site-list" data-icon="back" class="ui-btn-left">Back</a>
+                <h1>Create Site</h1>
+                <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right">Logout</button>
+            </div>
+            <div data-role="content">
+                <form  method="post" id="form_create_site" enctype="multipart/form-data">                  
+                    <div>
+                        <label for="sname"> Name </label>
+                        <input type="text" name="sitename" id="sitename" class="required"/>
+                    </div>
+                    <a href="#page-map"><img id="create-icon-map" src="img/map.png" alt="map icon" width="50" height="50"></a>
+                    <div>
+                        <label for="lolat"> Location'Lat </label>
+                        <input type="number" name="lat" id="lat" class="required"/>
+                        <label for="lolng"> Location'Lng </label>
+                        <input type="number" name="lng" id="lng" class="required"/>
+                    </div>   
+                    <div id="div_field_collection"> 
+                    </div> 
+                     <div >
+                         <img id="myImage">                        
+                        <h1 onclick="camera()">Camera</h1>
+                    </div>
+                    <center><button id="btn_submitAddSite" data-theme="e" data-inline="true" data-inset="true">Save</button></center>                    
+                </form>                  
+            </div> 
+        </div>
+        <!-- view map -->
+        <div data-role="page" id="page-map">
+            <div data-role="header" data-theme="e">
+                <a href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
+                <h1>Map</h1>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
+            </div>
+            <div data-role="content" id="content_map">
+                <div id="latlng_canvas">
+                    <label for="lolat"> Location'Lat </label>
+                    <input type="number" name="lat" id="mark_lat" class="required"/>
+                    <label for="lolng"> Location'Lng </label>
+                    <input type="number" name="lng" id="mark_lng" class="required"/>
+                    <center><button id="updateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Ok</button></center>                    
+                </div>
+                <div data-role="fieldcontain" id="map_canvas"></div>
+            </div>
+        </div>
+        <!-- update site within a collection -->
+        <div data-role="page" id="page-update-site">
+            <div data-role="header" data-theme="e">
+                <a href="#page-site-list" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
+                <h1> Update Site </h1>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
+            </div>
+            <div data-role="content">
+                <form  method="post" id="form_update_site">
+                    <div id="div-site-update-name">
+                    </div>
+                    <div id="div_update_field_collection"> 
+                    </div>
+                    <center><button data-theme="e" id="btn_submitUpdateSite" data-inline="true" data-inset="true">Update</button>
+                    </center>  
+                </form> 
+            </div>
+        </div>
+        <!-- delete site within a collection -->
+        <div data-role="page" id="page-delete-site">
+            <div data-role="header" data-theme="e">
+                <h1>Delete Page</h1>
+            </div>
+            <div data-role="content">
+                <h1>Are you sure you want to delete the site.</h1>
+                <p> This action cannot be undone.</p>
+                <button>Cancel</button>
+                <button id="delete-site">Delete</button>
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
+        <script src="js/actionPage.js"></script>
+        <script src="js/libs/jquery.validate.min.js"></script>
+        <script src="js/form_validation.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script>
+            $(document).on("mobileinit", function() {
+                $.mobile.allowCrossDomainPages = true;
+                $.support.cors = true;
+            });
+        </script>
+
+        <script id="site-template" type="text/x-handlebars-template">
+            {{#each siteList}}
+            <li data-id='{{id}}' data-name='{{name}}'><a href='#page-update-site'> {{name}} <p class='ui-li-aside' style='color:blue'> {{date}} </p></a></li>
+            {{/each}}
+        </script>
+
+        <script type="text/x-handlebars-template" id="template">
+            {{name}}
+        </script>
+
+        <script type="text/javascript">
+            $(document).delegate('#submitLogin-page li', 'click', function() {
+                var cName = $(this).attr("data-name");
+                localStorage.setItem('collectionName', cName);
+                var title = {name: cName};
+                var template = Handlebars.compile($("#template").html());
+                $("#title").html(template(title));
+            });
+        </script>
+
+        <script id="siteoffline-template" type="text/x-handlebars-template">
+            {{#each siteofflineList}}
+            <li data-id='{{id}}' data-name='{{name}}'><a href='#page-update-site'> {{name}} <p class='ui-li-desc'> {{collectionName}} </p><p class='ui-li-aside' style='color:blue'> {{date}} </p></a></li>
+            {{/each}}
+        </script>
+
+        <script id="collection-template" type="text/x-handlebars-template">
+            {{#each collectionList}}
+            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='#page-site-list'> {{name}} <p class='ui-li-aside1 ui-li-count'> {{count}} </p></a></li>
+            {{/each}}
+        </script>
+
+        <script id="site-update-template" type="text/x-handlebars-template">
+            <label for="updatesitename"> Name </label>
+            <input type="text" name="updatesitename" id="updatesitename" class="required" value='{{name}}'/><br><br>
+            <div><a href="#page-map"><img src="img/map.png" alt="map icon" width="50" height="50" id="update_icon_map"/></a></div>
+            <label for="updatelolat"> Location'Lat </label>
+            <input type="number" name="updatelolat" id="updatelolat" class="required" value='{{lat}}'/>
+            <label for="updatelolng"> Location'Lng </label>
+            <input type="number" name="updatelolng" id="updatelolng" class="required" value='{{lng}}'/>
+        </script>
+
+        <!--field collection-->
+        <script id="field_collection-template" type="text/x-handlebars-template">
+            {{#each field_collectionList}}
+                {{#if config}} 
+                    <div>
+                        <label>{{name}}</label>
+                        <select id="{{idfield}}" data-native-menu="false" {{multiple}}>
+                        {{#if multiple}} <option>Options</option>{{/if}}
+                            {{#config.options}}
+                                <option value="{{id}}">{{label}}</option>
+                            {{/config.options}}
+                        </select>
+                    </div>
+                {{else}}
+                    <div>
+                        <label for='name'>{{{name}}}</label>
+                        <input type="{{kind}}" id="{{idfield}}" name="{{name}}"  multiple >  
+                    </div>
+                {{/if}}
+            {{/each}}
+        </script>
+        <!--site update-->
+        <script id="update_field_collection-template" type="text/x-handlebars-template">
+            {{#update_field_collectionList}}
+            {{#if config}} 
+            <div>
+            <label>{{name}}</label>
+            <select id="update{{idfield}}" data-native-menu="false" {{multiple}}>
+            {{#if multiple}} <option>Options</option>{{/if}}
+            {{#config.options}}
+            <option value="{{label}}">{{label}}</option>
+            {{/config.options}}
+            </select>
+            </div>
+            {{else}}
+            <div>
+            <label for='name'>{{name}}</label>
+            <input type="{{kind}}" id="update{{idfield}}" name="{{name}}" value="{{value}}"/>
+            </div>
+            {{/if}}
+            {{/update_field_collectionList}}
+        </script>
+        <script src="cordova.js"></script>
+       
+       
+    </body>
+</html>

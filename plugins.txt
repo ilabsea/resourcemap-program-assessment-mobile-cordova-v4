@@ -1,0 +1,3 @@
+org.apache.cordova.device
+org.apache.cordova.camera
+https://github.com/brodysoft/Cordova-SQLitePlugin

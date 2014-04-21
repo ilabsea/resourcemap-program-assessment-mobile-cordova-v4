@@ -1,0 +1,48 @@
+.invalid{
+    display: none;
+    text-align: center;
+    color: orangered;
+    border-style: groove;
+    font-size: 18px;
+    background-color: #FFCC99;
+    border-radius:10px;
+}
+.success{
+    display: none;
+    text-align: center;
+    color: green;
+    border-style: groove;
+    font-size: 18px;
+    background-color: #FFCC99;
+    border-radius:10px;
+}
+p{
+    display: none;
+    color: violet;  
+}
+span{
+    display:none;
+    /* color:red; */
+}
+em { color: red; font-weight: bold; padding-right: .25em; }
+sup{
+    font-size: 8px;
+}
+input[type="checkbox"]{
+    display:block;
+    margin-top:5px;
+}
+#updateLatLng_map{
+    display: none;
+    visibility: hidden;
+}
+.theme-button{
+    font-weight: normal;
+}
+
+#exitemail {
+    color:red;
+}
+#passmatch{
+    color:red;
+}

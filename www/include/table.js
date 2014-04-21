@@ -1,0 +1,35 @@
+function createTables() {
+    Collection = persistence.define('collections', {
+        idcollection: "INT",
+        name: "TEXT",
+        description: "TEXT",
+        user_id: "INT"
+    });
+
+    User = persistence.define('users', {
+        email: "TEXT",
+        password: "TEXT"
+    });
+
+    Site = persistence.define('sites', {
+        idsite: "INT",
+        name: "TEXT",
+        lat: "INT",
+        lng: "INT",
+        created_at: "DATE",
+        collection_id: "INT",
+        collection_name: "TEXT",
+        user_id: "INT",
+        field_id: "JSON"
+    });
+
+    Field = persistence.define('fields', {
+        idfield: "INT",
+        kind: "TEXT",
+        name: "TEXT",
+        code: "TEXT",
+        collection_id: "INT",
+        config: "JSON",
+        user_id: "INT"
+    });
+}
