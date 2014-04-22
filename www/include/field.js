@@ -23,9 +23,21 @@ function getFieldUpdateByFieldId(id) {
         Field.all().filter('idfield', '=', key).one(null, function(field) {
             var kind = field.kind();
             var multiple = "";
+            var config = field.config();
             if (kind === "select_many")
                 multiple = "multiple";
-            update_field_collection.update_field_collectionList.push({idfield: key, name: field.name(), kind: field.kind(), value: data, config: field.config(), multiple: multiple});
+            for (var k = 0; k < config.options.length; k++) {
+                for (var j = 0; j < data.length; j++) {
+                    if (config.options[k].id == data[j]) {
+                        config.options[k]["selected"] = "selected";
+                        break;
+                    } else {
+                        if (j === data.length - 1)
+                            config.options[k]["selected"] = "";
+                    }
+                }
+            }
+            update_field_collection.update_field_collectionList.push({idfield: key, name: field.name(), kind: field.kind(), value: data, config: config, multiple: multiple});
             i++;
             if (i === Object.keys(id).length) {
                 var update_fieldTemplate = Handlebars.compile($("#update_field_collection-template").html());
@@ -35,14 +47,6 @@ function getFieldUpdateByFieldId(id) {
         });
         field_id_arr.push(key);
     });
-    localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
-}
-
-function displayFieldForUpdate() {
-    var update_field_collection = JSON.parse(localStorage["update_field_collection"]);
-    var update_fieldTemplate = Handlebars.compile($("#update_field_collection-template").html());
-    $('#div_update_field_collection').html(update_fieldTemplate(update_field_collection));
-    $('#div_update_field_collection').trigger("create");
 }
 
 function getFieldByCollectionId(collectionId) {
@@ -70,8 +74,7 @@ function getFieldByCollectionId(collectionId) {
 //================================= online ==============================================
 function getFieldsCollection() {
     cId = localStorage.getItem("cId");
-   
-  if (isOnline()) {
+    if (isOnline()){
         $.ajax({
             url: App.URL_FIELD + cId + "/fields?auth_token=" + storeToken(),
             type: "get",
@@ -102,7 +105,7 @@ function getFieldsCollection() {
                         case "yes_no":
                             kind = "checkbox";
                             break;
-                      case "photo":
+                        case "photo":
                             kind = "file";
                             break;
                         case "select_many":
@@ -112,7 +115,7 @@ function getFieldsCollection() {
                             kind = "text";
                             break;
                     }
-                    field_collection.field_collectionList.push({idfield: idfield, name: name, kind: kind, code: code, multiple: multiple, config:config});
+                    field_collection.field_collectionList.push({idfield: idfield, name: name, kind: kind, code: code, multiple: multiple, config: config});
                     localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
                     Field.all().filter('idfield', "=", idfield).one(null, function(field) {
                         if (field === null) {

@@ -11,9 +11,7 @@ function addUser(email, password) {
 function validateLogin() {
     var email = $("#email").val();
     var psw = $("#password").val();
-
-  if (!isOnline()) {
-   
+    if (!isOnline()) {
         User.all().filter('email', "=", email).one(null, function(user) {
             if (user === null) {
                 $('#noMailInDb').show();
@@ -26,6 +24,8 @@ function validateLogin() {
             else {
                 $('#invalidmail').slideDown();
             }
+            $('#noMailInDb').hide();
+            $('#invalidmail').hide();
         });
     } else {
         getAuthToken(email, psw);
@@ -47,6 +47,9 @@ function signUp() {
             success: function() {
                 $("#exitemail").hide();
                 location.href = "#page-login";
+                $('#form_signup').each(function() {
+                    this.reset();
+                });
             },
             error: function() {
                 $("#exitemail").show();
@@ -60,6 +63,7 @@ function signUp() {
 
 function getAuthToken(email, psw) {
     data = {user: {email: email, password: psw}};
+    $('#invalidmail').hide();
     $.ajax({
         type: "post",
         data: data,
@@ -67,7 +71,6 @@ function getAuthToken(email, psw) {
         dataType: "json",
         crossDomain: true,
         success: function(response) {
-            $('#invalidmail').hide();
             localStorage.authToken = response.auth_token;
             location.href = "#submitLogin-page";
             User.all().filter('email', "=", email).one(null, function(user) {
@@ -89,7 +92,7 @@ function getAuthToken(email, psw) {
             });
         },
         error: function() {
-            $('#invalidmail').slideDown();
+            $('#invalidmail').show();
         }
     });
 }
@@ -99,8 +102,7 @@ function storeToken() {
 }
 
 function logout() {
-   if (!isOnline()) {
-   
+    if (!isOnline()){
         localStorage.clear();
         sessionStorage.clear();
         var len = history.length;

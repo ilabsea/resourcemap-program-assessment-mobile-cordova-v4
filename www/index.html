@@ -143,8 +143,8 @@
                     </div>   
                     <div id="div_field_collection"> 
                     </div> 
-                     <div >
-                         <img id="myImage">                        
+                    <div >
+                        <img id="myImage">                        
                         <h1 onclick="camera()">Camera</h1>
                     </div>
                     <center><button id="btn_submitAddSite" data-theme="e" data-inline="true" data-inset="true">Save</button></center>                    
@@ -199,13 +199,6 @@
                 <button id="delete-site">Delete</button>
             </div>
         </div>
-        
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
-        <script src="js/actionPage.js"></script>
-        <script src="js/libs/jquery.validate.min.js"></script>
-        <script src="js/form_validation.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <script>
             $(document).on("mobileinit", function() {
                 $.mobile.allowCrossDomainPages = true;
@@ -258,24 +251,25 @@
         <!--field collection-->
         <script id="field_collection-template" type="text/x-handlebars-template">
             {{#each field_collectionList}}
-                {{#if config}} 
-                    <div>
-                        <label>{{name}}</label>
-                        <select id="{{idfield}}" data-native-menu="false" {{multiple}}>
-                        {{#if multiple}} <option>Options</option>{{/if}}
-                            {{#config.options}}
-                                <option value="{{id}}">{{label}}</option>
-                            {{/config.options}}
-                        </select>
-                    </div>
-                {{else}}
-                    <div>
-                        <label for='name'>{{{name}}}</label>
-                        <input type="{{kind}}" id="{{idfield}}" name="{{name}}"  multiple >  
-                    </div>
-                {{/if}}
+            {{#if config}} 
+            <div>
+            <label>{{name}}</label>
+            <select id="{{idfield}}" data-native-menu="false" {{multiple}}>
+            {{#if multiple}} <option>Options</option>{{/if}}
+            {{#config.options}}
+            <option value="{{id}}">{{label}}</option>
+            {{/config.options}}
+            </select>
+            </div>
+            {{else}}
+            <div>
+            <label for='name'>{{{name}}}</label>
+            <input type="{{kind}}" id="{{idfield}}" name="{{name}}">  
+            </div>
+            {{/if}}
             {{/each}}
         </script>
+
         <!--site update-->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
             {{#update_field_collectionList}}
@@ -285,7 +279,7 @@
             <select id="update{{idfield}}" data-native-menu="false" {{multiple}}>
             {{#if multiple}} <option>Options</option>{{/if}}
             {{#config.options}}
-            <option value="{{label}}">{{label}}</option>
+            <option value="{{id}}" {{selected}}>{{label}}</option>
             {{/config.options}}
             </select>
             </div>
@@ -298,7 +292,11 @@
             {{/update_field_collectionList}}
         </script>
         <script src="cordova.js"></script>
-       
-       
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
+        <script src="js/actionPage.js"></script>
+        <script src="js/libs/jquery.validate.min.js"></script>
+        <script src="js/form_validation.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     </body>
 </html>

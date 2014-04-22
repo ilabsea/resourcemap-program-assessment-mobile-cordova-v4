@@ -16,6 +16,9 @@ function addSite(cId, sname, slat, slng, p) {
     persistence.add(site);
     persistence.flush();
     window.location.href = "#page-site-list";
+    $('#form_create_site ').each(function() {
+        this.reset();
+    });
 }
 
 function getSiteByCollectionId(id) {
@@ -35,7 +38,6 @@ function getSiteByCollectionId(id) {
 }
 
 function  getSiteByUserId(id) {
-    var t;
     $("#offlinesite-list").hide();
     Site.all().filter('user_id', '=', id).list(function(sites) {
         var siteofflineData = {siteofflineList: []};
@@ -106,27 +108,25 @@ function  addSiteToServer() {
     for (var i = 0; i < storedFieldId.length; i++) {
         var each_field = storedFieldId[i];
         var val_each_field = $('#' + each_field).val();
-        p[each_field] = val_each_field;            
-        console.log("p"+p);      
+        p[each_field] = val_each_field;
     }
-      if (isOnline()) {
+    if (isOnline()) {
         var data = {site: {collection_id: cId, name: sname, lat: slat, lng: slng,
-                properties:{cId:p}
-            }};               
+                properties: p
+            }};
         $.ajax({
             url: App.URL_SITE + cId + "/sites?auth_token=" + storeToken(),
             type: "POST",
             data: data,
-            enctype: 'multipart/form-data',
             crossDomain: true,
             datatype: 'json',
             success: function(data) {
-                console.log("data: " + data);
-                alert("successfully saved.");
-                location.href = "#submitLogin-page";
+                $('#form_create_site ').each(function() {
+                    this.reset();
+                });
+                location.href = '#page-site-list';
             },
             error: function(error) {
-                console.log("erro:  " + error);
                 alert("error");
             }
         });
@@ -135,21 +135,24 @@ function  addSiteToServer() {
         addSite(cId, sname, slat, slng, p);
     }
 }
-function sendSiteToServer(key, id) {  
-  if (isOnline()) {
+function sendSiteToServer(key, id) {
+    if (!isOnline()) {
         Site.all().filter(key, "=", id).list(function(sites) {
             sites.forEach(function(site) {
                 data = {site: {collection_id: site.collection_id(), name: site.name(), lat: site.lat(), lng: site.lng(), properties: site.field_id()}};
+                console.log("data:" + data);
                 $.ajax({
-                    url: App.URL_SITE + cId + "/sites?auth_token=" + storeToken(),
+                    url: App.URL_SITE + site.collection_id() + "/sites?auth_token=" + storeToken(),
                     type: "POST",
-                    enctype: 'multipart/form-data',
                     data: data,
                     crossDomain: true,
                     datatype: 'json',
-                    success: function(data) {
-                        console.log("data: " + data);
-                        alert("successfully saved.");
+                    success: function() {
+                        persistence.remove(site);
+                        persistence.flush();
+                        $('#sendToServer').slideDown(1000, function() {
+                            $(this).hide(4000);
+                        });
                     },
                     error: function(error) {
                         alert("err : " + error);
@@ -160,36 +163,29 @@ function sendSiteToServer(key, id) {
     }
     else {
         alert("No internet found.");
-        }
+    }
 }
 
-    
-    function cameraSuccess(url){
-        alert("success" )
-    }
-    function cameraError(message){
-        alert("message34"+message)
-    }
-    
-    function camera(){
-    
-    
-    
-    
-    
-        alert("camera");       
-        navigator.camera.getPicture(onSuccess, onFail, { 
-        quality: 50,   
+function cameraSuccess(url) {
+    alert("success");
+}
+
+function cameraError(message) {
+    alert("message34" + message);
+}
+
+function camera() {
+    alert("camera");
+    navigator.camera.getPicture(onSuccess, onFail, {
+        quality: 50,
         destinationType: 0
-        });
-        function onSuccess(imageData) {
-            var image = document.getElementById('myImage');
-            image.src = "data:image/jpeg;base64," + imageData;
-        }
+    });
+    function onSuccess(imageData) {
+        var image = document.getElementById('myImage');
+        image.src = "data:image/jpeg;base64," + imageData;
+    }
 
-        function onFail(message) {
-            alert('Failed because: ' + message);
-        }
-   }
-
-  
+    function onFail(message) {
+        alert('Failed because: ' + message);
+    }
+}

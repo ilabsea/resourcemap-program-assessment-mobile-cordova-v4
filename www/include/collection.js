@@ -31,18 +31,15 @@ function getCollectionByUserId(userId) {
 //============================================ online ==========================================
 function getCollection() {
     if (!isOnline()) {
-        alert("offline");
         App.userId = localStorage.getItem("userId");
         getCollectionByUserId(App.userId);
     } else {
-        alert("online");
         $.ajax({
             type: "get",
             url: App.LIST_COLLECTION + storeToken(),
             dataType: "json",
             crossDomain: true,
             success: function(response) {
-                alert("get conllection");
                 App.userId = localStorage.getItem("userId");
                 Collection.all().filter('user_id', '=', App.userId).list(function(collections) {
                     collections.forEach(function(collection) {
