@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
         <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
-        <link href="css/jquery.validate.password.css" rel="stylesheet" type="text/css"/>
         <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
         <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>
         <script src="js/libs/jquery-1.11.0.min.js"></script>
@@ -140,12 +139,8 @@
                         <label for="lolng"> Location'Lng </label>
                         <input type="number" name="lng" id="lng" class="required"/>
                     </div>   
-                    <div id="div_field_collection"> 
-                    </div> 
-                    <div >
-                        <img id="myImage">                        
-                        <h1 onclick="camera()">Camera</h1>
-                    </div>
+                    <div id="div_field_collection"> </div> 
+
                     <center><button id="btn_submitAddSite" data-theme="e" data-inline="true" data-inset="true">Save</button></center>                    
                 </form>                  
             </div> 
@@ -165,7 +160,7 @@
                     <input type="number" name="lng" id="mark_lng" class="required"/>
                     <center><button id="updateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Ok</button></center>                    
                 </div>
-                <div id="map_canvas"></div>
+                <div data-role="fieldcontain" id="map_canvas"></div>
             </div>
         </div>
         <!-- update site within a collection -->
@@ -198,6 +193,13 @@
                 <button id="delete-site">Delete</button>
             </div>
         </div>
+
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
+        <script src="js/actionPage.js"></script>
+        <script src="js/libs/jquery.validate.min.js"></script>
+        <script src="js/form_validation.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <script>
             $(document).on("mobileinit", function() {
                 $.mobile.allowCrossDomainPages = true;
@@ -250,25 +252,32 @@
         <!--field collection-->
         <script id="field_collection-template" type="text/x-handlebars-template">
             {{#each field_collectionList}}
-            {{#if config}} 
-            <div>
-            <label>{{name}}</label>
-            <select id="{{idfield}}" data-native-menu="false" {{multiple}}>
-            {{#if multiple}} <option>Options</option>{{/if}}
-            {{#config.options}}
-            <option value="{{id}}">{{label}}</option>
-            {{/config.options}}
-            </select>
-            </div>
-            {{else}}
-            <div>
-            <label for='name'>{{{name}}}</label>
-            <input type="{{kind}}" id="{{idfield}}" name="{{name}}">  
-            </div>
-            {{/if}}
+                {{#if config}} 
+                    <div>
+                        <label>{{name}}</label>
+                        <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+                        {{#if multiple}} <option>Options</option>{{/if}}
+                            {{#config.options}}
+                                <option value="{{id}}">{{label}}</option>
+                            {{/config.options}}
+                        </select>
+                    </div>
+                {{else}}    
+                    {{isPhoto}}
+                    {{#if isPhoto}}  
+                      <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+                      <div onclick="camera({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+                        <img width='100' height='70' src='' id='{{idfield}}'/>                        
+                      </div>
+                    {{else}}
+                        <div>
+                           <label for='name'>{{{name}}}</label>
+                           <input type="{{widgetType}}" id="{{idfield}}" name="{{name}}"  >  
+                        </div>
+                    {{/if}}
+                {{/if}}
             {{/each}}
         </script>
-
         <!--site update-->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
             {{#update_field_collectionList}}
@@ -278,7 +287,7 @@
             <select id="update{{idfield}}" data-native-menu="false" {{multiple}}>
             {{#if multiple}} <option>Options</option>{{/if}}
             {{#config.options}}
-            <option value="{{id}}" {{selected}}>{{label}}</option>
+            <option value="{{label}}">{{label}}</option>
             {{/config.options}}
             </select>
             </div>
@@ -290,12 +299,6 @@
             {{/if}}
             {{/update_field_collectionList}}
         </script>
-        <script src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
-        <script src="js/actionPage.js"></script>
-        <script src="js/libs/jquery.validate.min.js"></script>
-        <script src="js/form_validation.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script src="cordova.js"></script>  
     </body>
 </html>
