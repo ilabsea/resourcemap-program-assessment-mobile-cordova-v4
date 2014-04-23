@@ -69,7 +69,23 @@ function buildField(fieldObj) {
 }
 
 function addField(fields) {
-    var field = new Field(fields)
+    cId = localStorage.getItem("cId");
+    App.userId = localStorage.getItem("userId");
+    var fieldParams = {
+        idfield: fields.idfield,
+        kind: fields.kind,
+        name: fields.name,
+        code: fields.code,
+        config: fields.config,
+        multiple: fields.multiple,
+        isPhoto: fields.isPhoto,
+        widgetType:fields.widgetType,
+        slider:fields.slider,
+        ctrue:fields.ctrue,
+        collection_id: cId,
+        user_id: App.userId
+    };
+    var field = new Field(fieldParams);
     persistence.add(field);
     persistence.flush();
 }
@@ -95,6 +111,7 @@ function getFieldByCollectionIdOnline(){
                     console.log(properties);
                     field_id_arr.push(properties.id);
                     var fields = buildField(properties);
+                    console.log("f: ",fields);
                     field_collection.field_collectionList.push(fields);
                     localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
                     Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
@@ -119,8 +136,7 @@ function getFieldByCollectionIdOffline(collectionId) {
         var field_id_arr = new Array();
         var field_collection = {field_collectionList: []};
         fields.forEach(function(field) { 
-            field_id_arr.push(field.id);
-            
+            field_id_arr.push(field.id);           
             field_collection.field_collectionList.push(field);
             localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
         });

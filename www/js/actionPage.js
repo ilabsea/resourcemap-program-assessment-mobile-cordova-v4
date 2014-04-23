@@ -90,7 +90,6 @@ $(function() {
         updateLatLngBySiteId(sId);
     });
     $(document).delegate('#page-map', 'pageshow', function() {
-        
         var lat = $("#mark_lat").val();
         var lng = $("#mark_lng").val();
         var latlng = new google.maps.LatLng(lat, lng);

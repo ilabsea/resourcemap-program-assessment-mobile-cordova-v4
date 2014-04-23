@@ -35,7 +35,6 @@ function createTables() {
         config: "JSON",
         slider:"TEXT",
         ctrue:"TEXT",
-        cId:"INT",
         user_id: "INT"
         
     });
