@@ -96,7 +96,6 @@ function getFieldsCollection() {
   else 
     getFieldByCollectionIdOffline(cId);
 }
-
 function getFieldByCollectionIdOnline(){
     cId = localStorage.getItem("cId");
     $.ajax({

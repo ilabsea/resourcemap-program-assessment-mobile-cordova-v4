@@ -188,12 +188,10 @@ function cameraSuccess(url) {
 function cameraError(message) {
     alert("message34" + message)
 }
-
 window.currentImage  = '';
 window.imageMimeType = 'data:image/jpeg;base64,';
 window.id ;
 window.imageDatas = {}
-
 function camera(id) {
     window.id=id;
     navigator.camera.getPicture(onSuccess, onFail, {
@@ -212,7 +210,6 @@ function camera(id) {
         alert('Failed because: ' + message);
     }
 }
-
 function getPhoto(source) {
   // Retrieve image file location from specified source
   navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,

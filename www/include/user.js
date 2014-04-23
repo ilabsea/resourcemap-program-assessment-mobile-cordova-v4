@@ -46,6 +46,7 @@ function signUp() {
             data: data,
             success: function() {
                 $("#exitemail").hide();
+                alert("Sign up successful");
                 location.href = "#page-login";
                 $('#form_signup').each(function() {
                     this.reset();
