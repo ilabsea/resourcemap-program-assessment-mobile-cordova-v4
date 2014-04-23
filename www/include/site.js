@@ -1,4 +1,4 @@
-function addSite(cId, sname, slat, slng, p) {
+function addSite(cId, sname, slat, slng, properties) {
     App.userId = localStorage.getItem("userId");
     App.collectionName = localStorage.getItem("collectionName");
     var today = new Date();
@@ -111,9 +111,7 @@ function  addSiteToServer() {
             alert("image data");
             if(window.imageDatas[each_field]){
                 properties[ each_field] = window.imageMimeType + window.imageDatas[each_field]; 
-                alert(properties[ each_field]);
-                
-                
+                alert(properties[ each_field]);                
             }
         }
         else if($field.val()) {

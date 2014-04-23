@@ -132,12 +132,22 @@ function getFieldByCollectionIdOnline(){
 }
 //===============================offlinefield=========================================
 function getFieldByCollectionIdOffline(collectionId) {
-    Field.all().filter('collection_id', '=', collectionId).list(function(fields) {
+     Field.all().filter('collection_id', '=', collectionId).list(function(fields) {
         var field_id_arr = new Array();
         var field_collection = {field_collectionList: []};
-        fields.forEach(function(field) { 
-            field_id_arr.push(field.id);           
-            field_collection.field_collectionList.push(field);
+        fields.forEach(function(field) {
+            var config = field.config();
+            var widgetType = field.widgetType();
+            var name = field.name();
+            field_id_arr.push(field.idfield());
+            var multiple = "";
+            var isPhoto = "";
+            if (widgetType === "select_many")
+                multiple = "multiple";
+            if(widgetType === "photo")
+                isPhoto = "isPhoto";
+            field_collection.field_collectionList.push({idfield: field.idfield(), name: name, widgetType: widgetType, config: config, multiple: multiple,slider:field.slider(),ctrue:field.ctrue, isPhoto:isPhoto});
+            console.log("FiedID here:" + field_id_arr);
             localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
         });
         var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
@@ -145,3 +155,5 @@ function getFieldByCollectionIdOffline(collectionId) {
         $('#div_field_collection').trigger("create");
     });
 }
+
+

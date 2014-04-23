@@ -266,6 +266,7 @@
                         </select>
                     </div>
                 {{else}}    
+                    {{isPhoto}}
                     {{#if isPhoto}}  
                       <span style='display:inline; margin-top:10px'>{{{name}}}</span>
                       <div onclick="camera({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
