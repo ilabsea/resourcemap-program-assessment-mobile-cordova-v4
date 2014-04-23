@@ -21,7 +21,7 @@ p{
     color: violet;  
 }
 span{
-    display:none;
+    /* display:none; */
     /* color:red; */
 }
 em { color: red; font-weight: bold; padding-right: .25em; }

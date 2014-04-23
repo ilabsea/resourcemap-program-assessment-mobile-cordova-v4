@@ -28,8 +28,15 @@ function createTables() {
         kind: "TEXT",
         name: "TEXT",
         code: "TEXT",
+        multiple: "TEXT", 
+        isPhoto: "INT",
+        widgetType:"TEXT",
         collection_id: "INT",
         config: "JSON",
+        slider:"TEXT",
+        ctrue:"TEXT",
+        cId:"INT",
         user_id: "INT"
+        
     });
 }

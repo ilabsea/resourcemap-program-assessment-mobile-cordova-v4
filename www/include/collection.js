@@ -42,7 +42,7 @@ function getCollection() {
             dataType: "json",
             crossDomain: true,
             success: function(response) {
-                alert("get conllection");
+               
                 App.userId = localStorage.getItem("userId");
                 Collection.all().filter('user_id', '=', App.userId).list(function(collections) {
                     collections.forEach(function(collection) {

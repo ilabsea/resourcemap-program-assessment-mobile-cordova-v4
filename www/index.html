@@ -141,12 +141,8 @@
                         <label for="lolng"> Location'Lng </label>
                         <input type="number" name="lng" id="lng" class="required"/>
                     </div>   
-                    <div id="div_field_collection"> 
-                    </div> 
-                     <div >
-                         <img id="myImage">                        
-                        <h1 onclick="camera()">Camera</h1>
-                    </div>
+                    <div id="div_field_collection"> </div> 
+                    
                     <center><button id="btn_submitAddSite" data-theme="e" data-inline="true" data-inset="true">Save</button></center>                    
                 </form>                  
             </div> 
@@ -202,6 +198,7 @@
         
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
+        
         <script src="js/actionPage.js"></script>
         <script src="js/libs/jquery.validate.min.js"></script>
         <script src="js/form_validation.js"></script>
@@ -261,18 +258,25 @@
                 {{#if config}} 
                     <div>
                         <label>{{name}}</label>
-                        <select id="{{idfield}}" data-native-menu="false" {{multiple}}>
+                        <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
                         {{#if multiple}} <option>Options</option>{{/if}}
                             {{#config.options}}
                                 <option value="{{id}}">{{label}}</option>
                             {{/config.options}}
                         </select>
                     </div>
-                {{else}}
-                    <div>
-                        <label for='name'>{{{name}}}</label>
-                        <input type="{{kind}}" id="{{idfield}}" name="{{name}}"  multiple >  
-                    </div>
+                {{else}}    
+                    {{#if isPhoto}}  
+                      <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+                      <div onclick="camera({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+                        <img width='100' height='70' src='' id='{{idfield}}'/>                        
+                      </div>
+                    {{else}}
+                        <div>
+                           <label for='name'>{{{name}}}</label>
+                           <input type="{{widgetType}}" id="{{idfield}}" name="{{name}}"  >  
+                        </div>
+                    {{/if}}
                 {{/if}}
             {{/each}}
         </script>

@@ -17,11 +17,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"SQLitePlugin\"><param name=\"android-package\" value=\"org.pgsqlite.SQLitePlugin\" /></feature>",
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "xml": "<feature name=\"SQLitePlugin\"><param name=\"android-package\" value=\"org.pgsqlite.SQLitePlugin\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -56,10 +56,10 @@
         "org.apache.cordova.camera": {
             "PACKAGE_NAME": "org.instedd.resourcemap"
         },
-        "com.phonegap.plugins.sqlite": {
+        "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "org.instedd.resourcemap"
         },
-        "org.apache.cordova.network-information": {
+        "com.phonegap.plugins.sqlite": {
             "PACKAGE_NAME": "org.instedd.resourcemap"
         }
     },
