@@ -61,7 +61,7 @@ $(function() {
         });
     });
     $(document).delegate('#create-icon-map', 'click', function() {
-        $("#updateLatLng_map").hide();
+        $("#updateLatLng_page_map").hide();
     });
     $(document).delegate('#btn_sendToServer', 'click', function() {
         cId = localStorage.getItem("cId");
@@ -81,9 +81,9 @@ $(function() {
         location.href = "#page-site-list";
     });
     $(document).delegate('#update_icon_map', 'click', function() {
+        $("#updateLatLng_page_map").show();
         $("#mark_lat").val($("#updatelolat").val());
         $("#mark_lng").val($("#updatelolng").val());
-        $("#updateLatLng_map").show();
     });
     $(document).delegate('#updateLatLng_map', 'click', function() {
         sId = localStorage.getItem("sId");
@@ -98,9 +98,8 @@ $(function() {
             center: latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        
         var $content = $("#map_canvas");
-        $content.height(screen.height - 50);
+        $content.height(screen.height - 500);
         var map = new google.maps.Map($content[0], options);
         $.mobile.changePage($("#page-map"));
         var marker = new google.maps.Marker({

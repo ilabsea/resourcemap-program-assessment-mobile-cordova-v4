@@ -136,7 +136,7 @@ function  addSiteToServer() {
     }
 }
 function sendSiteToServer(key, id) {
-    if (!isOnline()) {
+    if (isOnline()) {
         Site.all().filter(key, "=", id).list(function(sites) {
             sites.forEach(function(site) {
                 data = {site: {collection_id: site.collection_id(), name: site.name(), lat: site.lat(), lng: site.lng(), properties: site.field_id()}};

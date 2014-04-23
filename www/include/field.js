@@ -24,16 +24,18 @@ function getFieldUpdateByFieldId(id) {
             var kind = field.kind();
             var multiple = "";
             var config = field.config();
-            if (kind === "select_many")
+            if (kind == "select_many")
                 multiple = "multiple";
-            for (var k = 0; k < config.options.length; k++) {
-                for (var j = 0; j < data.length; j++) {
-                    if (config.options[k].id == data[j]) {
-                        config.options[k]["selected"] = "selected";
-                        break;
-                    } else {
-                        if (j === data.length - 1)
-                            config.options[k]["selected"] = "";
+            if (kind == "select_one" || kind == "select_many") {
+                for (var k = 0; k < config.options.length; k++) {
+                    for (var j = 0; j < data.length; j++) {
+                        if (config.options[k].id == data[j]) {
+                            config.options[k]["selected"] = "selected";
+                            break;
+                        } else {
+                            if (j === data.length - 1)
+                                config.options[k]["selected"] = "";
+                        }
                     }
                 }
             }
@@ -74,7 +76,7 @@ function getFieldByCollectionId(collectionId) {
 //================================= online ==============================================
 function getFieldsCollection() {
     cId = localStorage.getItem("cId");
-    if (isOnline()){
+    if (isOnline()) {
         $.ajax({
             url: App.URL_FIELD + cId + "/fields?auth_token=" + storeToken(),
             type: "get",
@@ -110,9 +112,6 @@ function getFieldsCollection() {
                             break;
                         case "select_many":
                             multiple = "multiple";
-                            break;
-                        default:
-                            kind = "text";
                             break;
                     }
                     field_collection.field_collectionList.push({idfield: idfield, name: name, kind: kind, code: code, multiple: multiple, config: config});
