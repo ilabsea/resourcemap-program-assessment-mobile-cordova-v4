@@ -98,7 +98,6 @@ function deleteSiteBySiteId(sId) {
 }
 
 function  addSiteToServer() {
-    alert("not empty");
     var cId = localStorage.getItem("cId");
     var sname = $('#sitename').val();
     var slat = $('#lat').val();
@@ -109,10 +108,8 @@ function  addSiteToServer() {
         var each_field = storedFieldId[i];
         $field = $('#' + each_field);
         if ($field && $field[0].tagName.toLowerCase() === 'img') {
-            alert("image data");
             if (window.imageDatas[each_field]) {
                 properties[ each_field] = window.imageMimeType + window.imageDatas[each_field];
-                alert(properties[ each_field]);
             }
         }
         else if ($field.val()) {
@@ -135,6 +132,9 @@ function  addSiteToServer() {
             success: function(data) {
                 alert("site has been saved.");
                 location.href = "#submitLogin-page";
+                $('#form_create_site ').each(function() {
+                    this.reset();
+                });
             },
             error: function(error) {
                 for (prop in error)
@@ -147,6 +147,7 @@ function  addSiteToServer() {
     }
     window.imageDatas = {};
 }
+
 function sendSiteToServer(key, id) {
     if (isOnline()) {
         Site.all().filter(key, "=", id).list(function(sites) {
@@ -165,8 +166,9 @@ function sendSiteToServer(key, id) {
                     crossDomain: true,
                     datatype: 'json',
                     success: function(data) {
-                        console.log("data: " + data);
-                        alert("successfully saved.");
+                        persistence.remove(site);
+                        persistence.flush();
+                        $('#sendToServer').show();
                     },
                     error: function(error) {
                         alert("err : " + error);
@@ -191,7 +193,7 @@ function cameraError(message) {
 window.currentImage = '';
 window.imageMimeType = 'data:image/jpeg;base64,';
 window.id;
-window.imageDatas = {}
+window.imageDatas = {};
 function camera(id) {
     window.id = id;
     navigator.camera.getPicture(onSuccess, onFail, {

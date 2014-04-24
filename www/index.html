@@ -160,7 +160,7 @@
                     <input type="number" name="lng" id="mark_lng" class="required"/>
                     <center><button id="updateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Ok</button></center>                    
                 </div>
-                <div data-role="fieldcontain" id="map_canvas"></div>
+                <div id="map_canvas"></div>
             </div>
         </div>
         <!-- update site within a collection -->
@@ -229,7 +229,7 @@
 
         <script id="collection-template" type="text/x-handlebars-template">
             {{#each collectionList}}
-            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='#{{linkpagesite}}'> {{name}} <p class='ui-li-aside1 ui-li-count'> {{count}} </p></a></li>
+            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='{{linkpagesite}}'> {{name}} <p class='ui-li-aside1 ui-li-count'> {{count}} </p></a></li>
             {{/each}}
         </script>
 

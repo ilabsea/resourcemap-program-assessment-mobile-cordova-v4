@@ -38,13 +38,6 @@ function getFieldUpdateByFieldId(id) {
     localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
 }
 
-function displayFieldForUpdate() {
-    var update_field_collection = JSON.parse(localStorage["update_field_collection"]);
-    var update_fieldTemplate = Handlebars.compile($("#update_field_collection-template").html());
-    $('#div_update_field_collection').html(update_fieldTemplate(update_field_collection));
-    $('#div_update_field_collection').trigger("create");
-}
-
 function buildField(fieldObj) {
     var kind = fieldObj.kind;
     var widgetType = kind;
@@ -104,14 +97,14 @@ function addField(fields) {
 }
 
 function getFieldsCollection() {
+    cId = localStorage.getItem("cId");
     if (isOnline())
-        getFieldByCollectionIdOnline();
+        getFieldByCollectionIdOnline(cId);
     else
         getFieldByCollectionIdOffline(cId);
 }
 
-function getFieldByCollectionIdOnline() {
-    cId = localStorage.getItem("cId");
+function getFieldByCollectionIdOnline(cId) {
     $.ajax({
         url: App.URL_FIELD + cId + "/fields?auth_token=" + storeToken(),
         type: "get",

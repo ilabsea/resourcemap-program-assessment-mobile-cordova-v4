@@ -26,7 +26,6 @@ $(document).ready(function() {
             error.insertAfter($(element).parent());
         },
         submitHandler: function() {
-            alert("submitting")
             addSiteToServer();
         }
     });

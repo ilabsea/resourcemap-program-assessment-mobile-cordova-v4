@@ -17,11 +17,10 @@ window.App = {
     initialize: function() {
         this.bindEvents();
     },
-    resetDb: function(){
-      persistence.reset();
-      persistence.schemaSync();  
+    resetDb: function() {
+        persistence.reset();
+        persistence.schemaSync();
     },
-    
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
