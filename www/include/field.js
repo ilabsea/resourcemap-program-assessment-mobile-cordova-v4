@@ -12,7 +12,7 @@ function getFieldUpdateByFieldId(id) {
                 multiple = "multiple";
             if (widgetType === "photo")
                 isPhoto = "isPhoto";
-            if (widgetType === "select_many" && widgetType === "select_one") {
+            if (widgetType === "select_many" || widgetType === "select_one") {
                 for (var k = 0; k < config.options.length; k++) {
                     for (var j = 0; j < data.length; j++) {
                         if (config.options[k].id == data[j]) {
