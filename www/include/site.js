@@ -16,6 +16,9 @@ function addSite(cId, sname, slat, slng, properties) {
     persistence.add(site);
     persistence.flush();
     window.location.href = "#page-site-list";
+    $('#form_create_site ').each(function() {
+        this.reset();
+    });
 }
 
 function getSiteByCollectionId(id) {
@@ -35,7 +38,6 @@ function getSiteByCollectionId(id) {
 }
 
 function  getSiteByUserId(id) {
-    var t;
     $("#offlinesite-list").hide();
     Site.all().filter('user_id', '=', id).list(function(sites) {
         var siteofflineData = {siteofflineList: []};
@@ -94,7 +96,6 @@ function deleteSiteBySiteId(sId) {
         persistence.flush();
     });
 }
-//======================================= online Create site================================
 
 function  addSiteToServer() {
     var cId = localStorage.getItem("cId");
@@ -150,11 +151,10 @@ function  addSiteToServer() {
     }
     else {
         addSite(cId, sname, slat, slng, properties);
-    }
-    window.imageDatas = {};
+        }
+        window.imageDatas = {};
 }
 function sendSiteToServer(key, id) {
-    alert("sendSiteToServer");
     if (isOnline()) {
         Site.all().filter(key, "=", id).list(function(sites) {
             sites.forEach(function(site) {
@@ -190,6 +190,7 @@ function sendSiteToServer(key, id) {
 function cameraSuccess(url) {
     alert("success");
 }
+
 function cameraError(message) {
     alert("message34" + message);
 }
@@ -222,4 +223,3 @@ function getPhoto(source) {
         sourceType: source});
 }
 
-  

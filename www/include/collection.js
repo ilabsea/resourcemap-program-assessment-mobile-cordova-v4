@@ -19,8 +19,13 @@ function getCollectionByUserId(userId) {
             var count = 0;
             Site.all().filter('collection_id', "=", collection.idcollection()).count(null, function(l) {
                 count = l;
+                var linkpagesite;
+                if (count == 0)
+                    linkpagesite = "page-create-site";
+                else
+                    linkpagesite = "page-site-list";
                 i++;
-                collectionData.collectionList.push({idcollection: collection.idcollection(), name: collection.name(), count: count});
+                collectionData.collectionList.push({idcollection: collection.idcollection(), name: collection.name(), count: count, linkpagesite: linkpagesite});
                 if (i === collections.length)
                     displayCollectionList(collectionData);
             });
@@ -55,7 +60,12 @@ function getCollection() {
                     var count = 0;
                     Site.all().filter('collection_id', "=", idcollection).count(null, function(l) {
                         count = l;
-                        collectionData.collectionList.push({idcollection: idcollection, name: name, count: count});
+                        var linkpagesite;
+                        if (count == 0)
+                            linkpagesite = "page-create-site";
+                        else
+                            linkpagesite = "page-site-list";
+                        collectionData.collectionList.push({idcollection: idcollection, name: name, count: count, linkpagesite: linkpagesite});
                         if (key === response.length - 1) {
                             displayCollectionList(collectionData);
                         }
