@@ -122,7 +122,7 @@
         <!--page-create-site-->
         <div data-role="page" id="page-create-site">
             <div data-role="header" data-theme="e">
-                <a data-role="button" data-theme="a"  href="#page-site-list" data-icon="back" class="ui-btn-left">Back</a>
+                <a data-role="button" data-theme="a"  href="#submitLogin-page" data-icon="back" class="ui-btn-left">Back</a>
                 <h1>Create Site</h1>
                 <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right">Logout</button>
             </div>
@@ -194,12 +194,6 @@
             </div>
         </div>
 
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
-        <script src="js/actionPage.js"></script>
-        <script src="js/libs/jquery.validate.min.js"></script>
-        <script src="js/form_validation.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <script>
             $(document).on("mobileinit", function() {
                 $.mobile.allowCrossDomainPages = true;
@@ -235,7 +229,7 @@
 
         <script id="collection-template" type="text/x-handlebars-template">
             {{#each collectionList}}
-            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='#page-site-list'> {{name}} <p class='ui-li-aside1 ui-li-count'> {{count}} </p></a></li>
+            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='#{{linkpagesite}}'> {{name}} <p class='ui-li-aside1 ui-li-count'> {{count}} </p></a></li>
             {{/each}}
         </script>
 
@@ -253,52 +247,63 @@
         <script id="field_collection-template" type="text/x-handlebars-template">
             {{#each field_collectionList}}
                 {{#if config}} 
-                    <div>
-                        <label>{{name}}</label>
-                        <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-                        {{#if multiple}} <option>Options</option>{{/if}}
-                            {{#config.options}}
-                                <option value="{{id}}">{{label}}</option>
-                            {{/config.options}}
-                        </select>
-                    </div>
+                <div>
+                <label>{{name}}</label>
+                <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+                {{#if multiple}} <option>Options</option>{{/if}}
+                {{#config.options}}
+                <option value="{{id}}">{{label}}</option>
+                {{/config.options}}
+                </select>
+                </div>
                 {{else}}    
-                    {{isPhoto}}
-                    {{#if isPhoto}}  
-                      <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-                      <div onclick="camera({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
-                        <img width='100' height='70' src='' id='{{idfield}}'/>                        
-                      </div>
-                    {{else}}
-                        <div>
-                           <label for='name'>{{{name}}}</label>
-                           <input type="{{widgetType}}" id="{{idfield}}" name="{{name}}"  >  
-                        </div>
-                    {{/if}}
+                {{isPhoto}}
+                {{#if isPhoto}}  
+                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+                <div onclick="camera({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+                <img width='100' height='70' src='' id='{{idfield}}'/>                        
+                </div>
+                {{else}}
+                <div>
+                <label for='name'>{{{name}}}</label>
+                <input type="{{widgetType}}" id="{{idfield}}" name="{{name}}"  >  
+                </div>
+                {{/if}}
                 {{/if}}
             {{/each}}
         </script>
         <!--site update-->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
-            {{#update_field_collectionList}}
-            {{#if config}} 
-            <div>
-            <label>{{name}}</label>
-            <select id="update{{idfield}}" data-native-menu="false" {{multiple}}>
-            {{#if multiple}} <option>Options</option>{{/if}}
-            {{#config.options}}
-            <option value="{{label}}">{{label}}</option>
-            {{/config.options}}
-            </select>
-            </div>
-            {{else}}
-            <div>
-            <label for='name'>{{name}}</label>
-            <input type="{{kind}}" id="update{{idfield}}" name="{{name}}" value="{{value}}"/>
-            </div>
-            {{/if}}
-            {{/update_field_collectionList}}
+            {{#each update_field_collectionList}}
+                {{#if config}} 
+                    <div>
+                        <label>{{name}}</label>
+                        <select id="update{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+                            {{#if multiple}} <option>Options</option>{{/if}}
+                            {{#config.options}}
+                                <option value="{{id}}" {{selected}}>{{label}}</option>
+                            {{/config.options}}
+                        </select>
+                    </div>
+                {{else}}    
+                        {{isPhoto}}
+                        {{#if isPhoto}}  
+                            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+                        {{else}}
+                            <div>
+                                <label for='name'>{{{name}}}</label>
+                                <input type="{{widgetType}}" id="update{{idfield}}" name="{{name}}" value="{{value}}" >  
+                            </div>
+                        {{/if}}
+                {{/if}}
+            {{/each}}
         </script>
         <script src="cordova.js"></script>  
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
+        <script src="js/actionPage.js"></script>
+        <script src="js/libs/jquery.validate.min.js"></script>
+        <script src="js/form_validation.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     </body>
 </html>

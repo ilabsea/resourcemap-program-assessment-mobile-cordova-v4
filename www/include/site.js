@@ -16,6 +16,9 @@ function addSite(cId, sname, slat, slng, properties) {
     persistence.add(site);
     persistence.flush();
     window.location.href = "#page-site-list";
+    $('#form_create_site ').each(function() {
+        this.reset();
+    });
 }
 
 function getSiteByCollectionId(id) {
@@ -35,7 +38,6 @@ function getSiteByCollectionId(id) {
 }
 
 function  getSiteByUserId(id) {
-    var t;
     $("#offlinesite-list").hide();
     Site.all().filter('user_id', '=', id).list(function(sites) {
         var siteofflineData = {siteofflineList: []};
@@ -94,7 +96,6 @@ function deleteSiteBySiteId(sId) {
         persistence.flush();
     });
 }
-//======================================= online Create site================================
 
 function  addSiteToServer() {
     alert("not empty");
@@ -106,26 +107,25 @@ function  addSiteToServer() {
     var properties = {};
     for (var i = 0; i < storedFieldId.length; i++) {
         var each_field = storedFieldId[i];
-        $field =  $('#' + each_field);
-        if($field && $field[0].tagName.toLowerCase() === 'img'){
+        $field = $('#' + each_field);
+        if ($field && $field[0].tagName.toLowerCase() === 'img') {
             alert("image data");
-            if(window.imageDatas[each_field]){
-                properties[ each_field] = window.imageMimeType + window.imageDatas[each_field]; 
-                alert(properties[ each_field]);                
+            if (window.imageDatas[each_field]) {
+                properties[ each_field] = window.imageMimeType + window.imageDatas[each_field];
+                alert(properties[ each_field]);
             }
         }
-        else if($field.val()) {
-           properties["" + each_field + ""] = $field.val();  
-       }
+        else if ($field.val()) {
+            properties["" + each_field + ""] = $field.val();
+        }
     }
-      if (isOnline()) {
-        var data = {site: { collection_id: cId, 
-                            name: sname,
-                            lat: slat,
-                            lng: slng,
-                            properties: properties
-            }}; 
-        console.log("data: ", data);
+    if (isOnline()) {
+        var data = {site: {collection_id: cId,
+                name: sname,
+                lat: slat,
+                lng: slng,
+                properties: properties
+            }};
         $.ajax({
             url: App.URL_SITE + cId + "/sites?auth_token=" + storeToken(),
             type: "POST",
@@ -133,13 +133,12 @@ function  addSiteToServer() {
             crossDomain: true,
             datatype: 'json',
             success: function(data) {
-                console.log("data: " + data);
                 alert("site has been saved.");
                 location.href = "#submitLogin-page";
             },
             error: function(error) {
-                for(prop in error)
-                alert(error[prop]);
+                for (prop in error)
+                    alert(error[prop]);
             }
         });
     }
@@ -148,18 +147,17 @@ function  addSiteToServer() {
     }
     window.imageDatas = {};
 }
-function sendSiteToServer(key, id) {  
-    alert("sendSiteToServer");
-  if (isOnline()) {
+function sendSiteToServer(key, id) {
+    if (isOnline()) {
         Site.all().filter(key, "=", id).list(function(sites) {
             sites.forEach(function(site) {
                 data = {site: {
-                            collection_id: site.collection_id(), 
-                            name: site.name(), 
-                            lat: site.lat(), 
-                            lng: site.lng(), 
-                            properties: site.field_id()}
-                 };
+                        collection_id: site.collection_id(),
+                        name: site.name(),
+                        lat: site.lat(),
+                        lng: site.lng(),
+                        properties: site.field_id()}
+                };
                 $.ajax({
                     url: App.URL_SITE + cId + "/sites?auth_token=" + storeToken(),
                     type: "POST",
@@ -179,21 +177,23 @@ function sendSiteToServer(key, id) {
     }
     else {
         alert("No internet found.");
-        }
+    }
 }
-  
+
 function cameraSuccess(url) {
-    alert("success")
+    alert("success");
 }
+
 function cameraError(message) {
-    alert("message34" + message)
+    alert("message34" + message);
 }
-window.currentImage  = '';
+
+window.currentImage = '';
 window.imageMimeType = 'data:image/jpeg;base64,';
-window.id ;
+window.id;
 window.imageDatas = {}
 function camera(id) {
-    window.id=id;
+    window.id = id;
     navigator.camera.getPicture(onSuccess, onFail, {
         quality: 50,
         destinationType: 0,
@@ -203,16 +203,17 @@ function camera(id) {
     function onSuccess(imageData) {
         window.imageDatas[id] = imageData;
         var image = document.getElementById(id);
-        image.src = window.imageMimeType + window.imageDatas[id] ;
+        image.src = window.imageMimeType + window.imageDatas[id];
     }
 
     function onFail(message) {
         alert('Failed because: ' + message);
     }
 }
+
 function getPhoto(source) {
-  // Retrieve image file location from specified source
-  navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
-    destinationType: destinationType.FILE_URI,
-    sourceType: source });
+    // Retrieve image file location from specified source
+    navigator.camera.getPicture(onPhotoURISuccess, onFail, {quality: 50,
+        destinationType: destinationType.FILE_URI,
+        sourceType: source});
 }
