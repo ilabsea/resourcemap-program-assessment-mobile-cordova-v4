@@ -68,10 +68,9 @@ function updateLatLngBySiteId(sId) {
 }
 
 function deleteSiteBySiteId(sId) {
-    Site.all().filter('id', "=", sId).one(null, function(site) {
-        persistence.remove(site);
-        alert("t");
-        persistence.flush();
+  Site.all().filter('id', "=", sId).one(null, function(site) {       
+         persistence.remove(site);
+         persistence.flush();
     });
 }
 
@@ -154,24 +153,25 @@ function buildDataForSite() {
 
 function  addSiteToServer() {
     var data = buildDataForSite();
-    if (isOnline()){
-        alert("online");
-        addSiteOnline(data);
+    if (isOnline()) {
+        addSiteOnline(data,resetSiteFormOnline);
     }
-    else {
-        alert("offline");
-        addSiteOffline(data);
-        resetSiteForm();
+    else{
+        addSiteOffline(data, resetSiteFormOffline);
     }
-    PhotoList.clear();
+    
+}
+function resetSiteFormOnline(){ 
+   PhotoList.clear();
+   location.href = "#submitLogin-page";       
+}
+function resetSiteFormOffline() {
+   PhotoList.clear();
+   window.location.href = "#page-site-list";
+   $('#form_create_site ')[0].reset();
 }
 
-function resetSiteForm() {
-    window.location.href = "#page-site-list";
-    $('#form_create_site ')[0].reset();
-}
-
-function addSiteOnline(data) {
+function addSiteOnline(data, callback) {
     alert("addSite");
     var cId = localStorage.getItem("cId");
     var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + storeToken();
@@ -181,13 +181,11 @@ function addSiteOnline(data) {
         data: {site: data},
         crossDomain: true,
         datatype: 'json',
-        success: function() {
-            location.href = "#submitLogin-page";
-        }
+        success: callback
     });
 }
 
-function addSiteOffline(data) {
+function addSiteOffline(data, callback) {
     App.userId = localStorage.getItem("userId");
     App.collectionName = localStorage.getItem("collectionName");
     var today = new Date();
@@ -202,6 +200,7 @@ function addSiteOffline(data) {
     var site = new Site(siteParams);
     persistence.add(site);
     persistence.flush();
+    callback();
 }
 
 PhotoList = {
@@ -215,8 +214,8 @@ PhotoList = {
     remove: function(id) {
         for (var i = 0; i < PhotoList.count(); i++) {
             var photo = PhotoList.getPhotos()[i];
-            if (photo.id == id) {
-                return PhotoList.photo.splice(i, 1);
+            if (photo.id === id) {
+                return PhotoList.photos.splice(i, 1);
             }
         }
     },
@@ -235,7 +234,8 @@ function Photo(id, data, format) {
     this.data = data;
     this.format = format || "png";
     this.name = function() {
-        return this.id + "." + this.format;
+        var date = new Date();
+        return "" + date.getTime() + "_" + this.id + "." + this.format;
     };
 }
 
@@ -245,8 +245,8 @@ SiteCamera = {
         navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, {
             quality: 50,
             destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-            encodingType: Camera.EncodingType.PNG
+            sourceType:      Camera.PictureSourceType.PHOTOLIBRARY,
+            encodingType:    Camera.EncodingType.PNG
         });
     },
     onSuccess: function(imageData) {
