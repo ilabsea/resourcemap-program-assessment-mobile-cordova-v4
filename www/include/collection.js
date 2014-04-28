@@ -1,18 +1,19 @@
 function addCollection(idcollection, name, description) {
-    App.userId = localStorage.getItem("userId");
+
     var collectionParams = {
         idcollection: idcollection,
         name: name,
         description: description,
-        user_id: App.userId
+        user_id:  getCurrentUser().id
     };
     var collection = new Collection(collectionParams);
     persistence.add(collection);
     persistence.flush();
 }
 
-function getCollectionByUserId(userId) {
-    Collection.all().filter('user_id', '=', userId).list(null, function(collections) {
+function getCollectionByUserIdOffline() {
+    var currentUser = getCurrentUser();
+    Collection.all().filter('user_id', '=', currentUser.id).list(null, function(collections) {
         var collectionData = {collectionList: []};
         var i = 0;
         collections.forEach(function(collection) {
@@ -20,33 +21,33 @@ function getCollectionByUserId(userId) {
             Site.all().filter('collection_id', "=", collection.idcollection()).count(null, function(l) {
                 count = l;
                 var linkpagesite;
-                if (count == 0)
+                if (count === 0)
                     linkpagesite = "page-create-site";
                 else
                     linkpagesite = "page-site-list";
                 i++;
-                collectionData.collectionList.push({idcollection: collection.idcollection(), name: collection.name(), count: count, linkpagesite: linkpagesite});
+                var item = { idcollection: collection.idcollection(), 
+                             name: collection.name(), 
+                             count: count, 
+                             linkpagesite: linkpagesite
+                         }
+                collectionData.collectionList.push(item);
                 if (i === collections.length)
                     displayCollectionList(collectionData);
             });
         });
     });
 }
-
-//============================================ online ==========================================
-function getCollection() {
-    if (!isOnline()) {
-        App.userId = localStorage.getItem("userId");
-        getCollectionByUserId(App.userId);
-    } else {
-        $.ajax({
+function getCollectionByUserIdOnline(){
+    $.ajax({
             type: "get",
-            url: App.LIST_COLLECTION + storeToken(),
+            url: App.LIST_COLLECTION + getAuthToken(),
             dataType: "json",
             crossDomain: true,
             success: function(response) {
-                App.userId = localStorage.getItem("userId");
-                Collection.all().filter('user_id', '=', App.userId).list(function(collections) {
+               var currentUser = getCurrentUser();
+                
+                Collection.all().filter('user_id', '=', currentUser.id).list(function(collections) {
                     collections.forEach(function(collection) {
                         persistence.remove(collection);
                         persistence.flush();
@@ -65,7 +66,12 @@ function getCollection() {
                             linkpagesite = "page-create-site";
                         else
                             linkpagesite = "page-site-list";
-                        collectionData.collectionList.push({idcollection: idcollection, name: name, count: count, linkpagesite: linkpagesite});
+                        var item = { idcollection: idcollection, 
+                                             name: name, 
+                                            count: count, 
+                                     linkpagesite: linkpagesite
+                                 }
+                        collectionData.collectionList.push(item);
                         if (key === response.length - 1) {
                             displayCollectionList(collectionData);
                         }
@@ -77,6 +83,14 @@ function getCollection() {
                 });
             }
         });
+}
+//============================================ online ==========================================
+function getCollection() {
+    if (!isOnline()) {
+        alert("offline");
+       getCollectionByUserIdOffline();
+    } else {
+       getCollectionByUserIdOnline();
     }
 }
 

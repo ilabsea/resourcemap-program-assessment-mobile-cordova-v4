@@ -148,6 +148,7 @@ function buildDataForSite() {
         properties: properties,
         files: files
     };
+    App.log(data)
     return data;
 }
 

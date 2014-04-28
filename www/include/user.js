@@ -6,19 +6,20 @@ function addUser(email, password) {
     user = new User(userParams);
     persistence.add(user);
     persistence.flush();
+    return user;
 }
 
 function validateLogin() {
     var email = $("#email").val();
     var psw = $("#password").val();
+    
     if (!isOnline()) {
         User.all().filter('email', "=", email).one(null, function(user) {
             if (user === null) {
                 $('#noMailInDb').show();
             }
             if (user.password() === psw) {
-                App.userId = user.id;
-                localStorage.setItem("userId", App.userId);
+                setCurrentUser(user);
                 location.href = "#submitLogin-page";
             }
             else {
@@ -27,8 +28,9 @@ function validateLogin() {
             $('#noMailInDb').hide();
             $('#invalidmail').hide();
         });
-    } else {
-        getAuthToken(email, psw);
+    } 
+    else {
+        authoriseUser(email, psw);
     }
 }
 // ============================== online ===========================================
@@ -44,15 +46,10 @@ function signUp() {
             type: "POST",
             crossDomain: true,
             data: data,
-            beforeSend: function() { },
-            complete: function() { },
             success: function() {
                 $("#exitemail").hide();
-                alert("Sign up successful");
                 location.href = "#page-login";
-                $('#form_signup').each(function() {
-                    this.reset();
-                });
+                $('#form_signup')[0].reset();
             },
             error: function() { 
                 $('#exitemail').show();
@@ -64,7 +61,7 @@ function signUp() {
         $("#passmatch").slideDown();
 }
 
-function getAuthToken(email, psw) {
+function authoriseUser(email, psw) {
     data = {user: {email: email, password: psw}};
     $('#invalidmail').hide();
     $.ajax({
@@ -74,23 +71,20 @@ function getAuthToken(email, psw) {
         dataType: "json",
         crossDomain: true,
         success: function(response) {
-            localStorage.authToken = response.auth_token;
+            setAuthToken( response.auth_token);
             location.href = "#submitLogin-page";
+            
             User.all().filter('email', "=", email).one(null, function(user) {
                 if (user === null) {
-                    addUser(email, psw);
-                    User.all().filter('email', "=", email).one(null, function(user) {
-                        App.userId = user.id;
-                        localStorage.setItem("userId", App.userId);
-                    });
-                } else {
+                    var currentUser = addUser(email, psw);
+                    setCurrentUser(currentUser);
+                } 
+                else {
                     if (user.password() !== psw) {
                         user.password(psw);
-                        persistence.flush();
-                    } else {
-                        App.userId = user.id;
-                        localStorage.setItem("userId", App.userId);
+                        persistence.flush();      
                     }
+                    setCurrentUser(user);
                 }
             });
         },
@@ -99,17 +93,34 @@ function getAuthToken(email, psw) {
         }
     });
 }
-
+function setCurrentUser(user){
+  var currentUser = { id: user.id, password: user.password(), email: user.email()} 
+  localStorage.setItem("currentUser", JSON.stringify(currentUser) );
+}
+function getCurrentUser(){
+  var u = localStorage.getItem("currentUser")
+  if(u)
+    return JSON.parse(u);
+  return {};
+}
+function setAuthToken(auth_token){
+   localStorage.setItem("authToken", auth_token);
+}
+function getAuthToken(){
+    return localStorage.getItem("authToken");
+}
 function storeToken() {
-    return localStorage.authToken;
+  return localStorage.authToken;
 }
 
+function resetState(){
+   localStorage.clear();
+   sessionStorage.clear();
+   window.location.href = App.AUTH_URL;
+}
 function logout() {
     if (!isOnline()){
-        localStorage.clear();
-        sessionStorage.clear();
-        var len = history.length;
-        history.go(-len+1);
+        resetState();  
     } else {
         $.ajax({
             type: "post",
@@ -117,10 +128,7 @@ function logout() {
             dataType: "json",
             crossDomain: true,
             success: function() {
-                localStorage.clear();
-                sessionStorage.clear();
-                var len = history.length;
-                history.go(-len+1);
+                resetState();
             },
             error: function() {
                 alert("logout fail");
