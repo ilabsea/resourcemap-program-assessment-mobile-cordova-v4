@@ -20,7 +20,8 @@ function createTables() {
         collection_id: "INT",
         collection_name: "TEXT",
         user_id: "INT",
-        field_id: "JSON"
+        properties: "JSON",
+        files:"JSON"
     });
 
     Field = persistence.define('fields', {

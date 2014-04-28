@@ -5,12 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
         <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
-        <link href="css/jquery.validate.password.css" rel="stylesheet" type="text/css"/>
         <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
         <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>
         <script src="js/libs/jquery-1.11.0.min.js"></script>
         <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
-        <script src="js/libs/jquery.validate.password.js"></script>
         <script src="js/lib/persistence.js"></script>
         <script src="js/lib/persistence.sync.js"></script>
         <script src="js/lib/persistence.store.sql.js"></script>
@@ -24,6 +22,7 @@
         <script src="include/db_connection.js"></script>
         <script src="include/site.js"></script>
         <script src="include/field.js"></script>
+        <script src="language/kh.js"></script>
     </head>
     <body>
         <!--page-login-->   
@@ -31,8 +30,9 @@
             <div data-role="content">
                 <div>
                     <center><img src="img/logo.png" alt="Resource Map"/></center>
-                    <br>
+                    <br>                  
                 </div>
+
                 <p id="invalidmail" class="invalid">Invalid email or password.</p>
                 <p id="noMailInDb" class="invalid">Not found in database.</p>
                 <form id="form_login">
@@ -65,7 +65,7 @@
                         <em>* </em> Password confirmation
                         <input type="password" name="user[password_confirmation]" class="required" id="pswConfirm"/>
                         <p id="passmatch">Password doesn't match confirmation</p>
-                        Phone number<br><i>(+85512345678)</i>
+                        Phone number<br><i>(+855XXXXXXXXX)</i>
                         <input type="number" name="tel" id="tel"/>
                         <center><button data-theme="e" data-inline="true" data-inset="true">Sign up</button></center>
                     </div>
@@ -124,7 +124,7 @@
         <!--page-create-site-->
         <div data-role="page" id="page-create-site">
             <div data-role="header" data-theme="e">
-                <a data-role="button" data-theme="a"  href="#page-site-list" data-icon="back" class="ui-btn-left">Back</a>
+                <a data-role="button" data-theme="a"  href="#submitLogin-page" data-icon="back" class="ui-btn-left">Back</a>
                 <h1>Create Site</h1>
                 <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right">Logout</button>
             </div>
@@ -169,8 +169,8 @@
         <div data-role="page" id="page-update-site">
             <div data-role="header" data-theme="e">
                 <a href="#page-site-list" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
-                <h1> Update Site </h1>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
+                <h1> Site update and delete</h1>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>          
             </div>
             <div data-role="content">
                 <form  method="post" id="form_update_site">
@@ -178,7 +178,9 @@
                     </div>
                     <div id="div_update_field_collection"> 
                     </div>
-                    <center><button data-theme="e" id="btn_submitUpdateSite" data-inline="true" data-inset="true">Update</button>
+                    <center>
+                        <button data-theme="e" id="delete-site" data-inline="true" data-inset="true">Delete</button>
+                        <button data-theme="e" id="btn_submitUpdateSite" data-inline="true" data-inset="true">Update</button
                     </center>  
                 </form> 
             </div>
@@ -195,10 +197,8 @@
                 <button id="delete-site">Delete</button>
             </div>
         </div>
-
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
-
         <script src="js/actionPage.js"></script>
         <script src="js/libs/jquery.validate.min.js"></script>
         <script src="js/form_validation.js"></script>
@@ -238,7 +238,7 @@
 
         <script id="collection-template" type="text/x-handlebars-template">
             {{#each collectionList}}
-            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='#page-site-list'> {{name}} <p class='ui-li-aside1 ui-li-count'> {{count}} </p></a></li>
+            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='#{{linkpagesite}}'> {{name}} <p class='ui-li-aside1 ui-li-count'> {{count}} </p></a></li>
             {{/each}}
         </script>
 
@@ -255,53 +255,64 @@
         <!--field collection-->
         <script id="field_collection-template" type="text/x-handlebars-template">
             {{#each field_collectionList}}
-                {{#if config}} 
-                    <div>
-                        <label>{{name}}</label>
-                        <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-                        {{#if multiple}} <option>Options</option>{{/if}}
-                            {{#config.options}}
-                                <option value="{{id}}">{{label}}</option>
-                            {{/config.options}}
-                        </select>
-                    </div>
-                {{else}}    
-                    {{isPhoto}}
-                    {{#if isPhoto}}  
-                      <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-                      <div onclick="camera({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
-                        <img width='100' height='70' src='' id='{{idfield}}'/>                        
-                      </div>
-                    {{else}}
-                        <div>
-                           <label for='name'>{{{name}}}</label>
-                           <input type="{{widgetType}}" id="{{idfield}}" name="{{name}}"  >  
-                        </div>
-                    {{/if}}
-                {{/if}}
+            {{#if config}} 
+            <div>
+            <label>{{name}}</label>
+            <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+            {{#if multiple}} <option>Options</option>{{/if}}
+            {{#config.options}}
+            <option value="{{id}}">{{label}}</option>
+            {{/config.options}}
+            </select>
+            </div>
+            {{else}}    
+            {{isPhoto}}
+            {{#if isPhoto}}  
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div onclick="SiteCamera.takePhoto({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+            <img width='100' height='70' src='' id='{{idfield}}'/>                        
+            </div>
+            {{else}}
+            <div>
+            <label for='name'>{{{name}}}</label>
+            <input type="{{widgetType}}" id="{{idfield}}" name="{{name}}"  >  
+            </div>
+            {{/if}}
+            {{/if}}
             {{/each}}
         </script>
         <!--site update-->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
-            {{#update_field_collectionList}}
+            {{#each update_field_collectionList}}
             {{#if config}} 
             <div>
             <label>{{name}}</label>
-            <select id="update{{idfield}}" data-native-menu="false" {{multiple}}>
+            <select id="update{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
             {{#if multiple}} <option>Options</option>{{/if}}
             {{#config.options}}
-            <option value="{{label}}">{{label}}</option>
+            <option value="{{id}}" {{selected}}>{{label}}</option>
             {{/config.options}}
             </select>
             </div>
+            {{else}}    
+            {{isPhoto}}
+            {{#if isPhoto}}  
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
             {{else}}
             <div>
-            <label for='name'>{{name}}</label>
-            <input type="{{kind}}" id="update{{idfield}}" name="{{name}}" value="{{value}}"/>
+            <label for='name'>{{{name}}}</label>
+            <input type="{{widgetType}}" id="update{{idfield}}" name="{{name}}" value="{{value}}" >  
             </div>
             {{/if}}
-            {{/update_field_collectionList}}
+            {{/if}}
+            {{/each}}
         </script>
         <script src="cordova.js"></script>  
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
+        <script src="js/actionPage.js"></script>
+        <script src="js/libs/jquery.validate.min.js"></script>
+        <script src="js/form_validation.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     </body>
 </html>

@@ -1,23 +1,3 @@
-function addSite(cId, sname, slat, slng, properties) {
-    App.userId = localStorage.getItem("userId");
-    App.collectionName = localStorage.getItem("collectionName");
-    var today = new Date();
-    var siteParams = {
-        name: sname,
-        lat: slat,
-        lng: slng,
-        created_at: today,
-        collection_id: cId,
-        collection_name: App.collectionName,
-        user_id: App.userId,
-        field_id: properties
-    };
-    var site = new Site(siteParams);
-    persistence.add(site);
-    persistence.flush();
-    window.location.href = "#page-site-list";
-}
-
 function getSiteByCollectionId(id) {
     Site.all().filter('collection_id', "=", id).list(null, function(sites) {
         var siteData = {siteList: []};
@@ -35,7 +15,6 @@ function getSiteByCollectionId(id) {
 }
 
 function  getSiteByUserId(id) {
-    var t;
     $("#offlinesite-list").hide();
     Site.all().filter('user_id', '=', id).list(function(sites) {
         var siteofflineData = {siteofflineList: []};
@@ -89,77 +68,24 @@ function updateLatLngBySiteId(sId) {
 }
 
 function deleteSiteBySiteId(sId) {
-    Site.all().filter('id', "=", sId).one(function(site) {
+    Site.all().filter('id', "=", sId).one(null, function(site) {
         persistence.remove(site);
+        alert("t");
         persistence.flush();
     });
 }
-//======================================= online Create site================================
 
-function  addSiteToServer() {
-    alert("not empty");
-    var cId = localStorage.getItem("cId");
-    var sname = $('#sitename').val();
-    var slat = $('#lat').val();
-    var slng = $('#lng').val();
-    var storedFieldId = JSON.parse(localStorage["field_id_arr"]);
-    var properties = {};
-    for (var i = 0; i < storedFieldId.length; i++) {
-        var each_field = storedFieldId[i];
-        $field =  $('#' + each_field);
-        if($field && $field[0].tagName.toLowerCase() === 'img'){
-            alert("image data");
-            if(window.imageDatas[each_field]){
-                properties[ each_field] = window.imageMimeType + window.imageDatas[each_field]; 
-                alert(properties[ each_field]);                
-            }
-        }
-        else if($field.val()) {
-           properties["" + each_field + ""] = $field.val();  
-       }
-    }
-      if (isOnline()) {
-        var data = {site: { collection_id: cId, 
-                            name: sname,
-                            lat: slat,
-                            lng: slng,
-                            properties: properties
-            }}; 
-        console.log("data: ", data);
-        $.ajax({
-            url: App.URL_SITE + cId + "/sites?auth_token=" + storeToken(),
-            type: "POST",
-            data: data,
-            crossDomain: true,
-            datatype: 'json',
-            success: function(data) {
-                console.log("data: " + data);
-                alert("site has been saved.");
-                location.href = "#submitLogin-page";
-            },
-            error: function(error) {
-                for(prop in error)
-                alert(error[prop]);
-            }
-        });
-    }
-    else {
-        addSite(cId, sname, slat, slng, properties);
-    }
-    window.imageDatas = {};
-}
-function sendSiteToServer(key, id) {  
-    alert("sendSiteToServer");
-  if (isOnline()) {
+function sendSiteToServer(key, id) {
+    if (isOnline()) {
         Site.all().filter(key, "=", id).list(function(sites) {
             sites.forEach(function(site) {
                 data = {site: {
-                            collection_id: site.collection_id(), 
-                            name: site.name(), 
-                            lat: site.lat(), 
-                            lng: site.lng(), 
-                            properties: site.field_id()}
-                 };
+                        collection_id: site.collection_id(),
+                        name: site.name(),
+                        lat: site.lat(),
+                        lng: site.lng(),
+                        properties: site.field_id()}
+                };
                 $.ajax({
                     url: App.URL_SITE + cId + "/sites?auth_token=" + storeToken(),
                     type: "POST",
@@ -167,8 +93,9 @@ function sendSiteToServer(key, id) {
                     crossDomain: true,
                     datatype: 'json',
                     success: function(data) {
-                        console.log("data: " + data);
-                        alert("successfully saved.");
+                        persistence.remove(site);
+                        persistence.flush();
+                        $('#sendToServer').show();
                     },
                     error: function(error) {
                         alert("err : " + error);
@@ -179,42 +106,165 @@ function sendSiteToServer(key, id) {
     }
     else {
         alert("No internet found.");
+    }
+}
+
+//==================================== Add site to Sever ====================================================
+
+function buildDataForSite() {
+    var cId = localStorage.getItem("cId");
+    var sname = $('#sitename').val();
+    var slat = $('#lat').val();
+    var slng = $('#lng').val();
+    var storedFieldId = JSON.parse(localStorage["field_id_arr"]);
+    var properties = {};
+    var files = {};
+    for (var i = 0; i < storedFieldId.length; i++) {
+        var each_field = storedFieldId[i];
+        $field = $('#' + each_field);
+        if ($field && $field[0].tagName.toLowerCase() === 'img') {
+            for (var p = 0; p < PhotoList.getPhotos().length; p++) {
+                if (PhotoList.getPhotos()[p].id === each_field) {
+                    var fileName = PhotoList.getPhotos()[p].name();
+                    properties[each_field] = fileName;
+                    files[fileName] = PhotoList.getPhotos()[p].data;
+                    break;
+                }
+            }
         }
+        else if ($field && $field[0].getAttribute("type") === 'date') {
+            var date = $field.val();
+            date = new Date(date);
+            date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+            properties["" + each_field + ""] = date;
+        } else {
+            var data = $field.val();
+            properties[each_field] = data;
+        }
+    }
+    var data = {collection_id: cId,
+        name: sname,
+        lat: slat,
+        lng: slng,
+        properties: properties,
+        files: files
+    };
+    return data;
 }
-  
-function cameraSuccess(url) {
-    alert("success")
+
+function  addSiteToServer() {
+    var data = buildDataForSite();
+    if (isOnline()){
+        alert("online");
+        addSiteOnline(data);
+    }
+    else {
+        alert("offline");
+        addSiteOffline(data);
+        resetSiteForm();
+    }
+    PhotoList.clear();
 }
-function cameraError(message) {
-    alert("message34" + message)
+
+function resetSiteForm() {
+    window.location.href = "#page-site-list";
+    $('#form_create_site ')[0].reset();
 }
-window.currentImage  = '';
-window.imageMimeType = 'data:image/jpeg;base64,';
-window.id ;
-window.imageDatas = {}
-function camera(id) {
-    window.id=id;
-    navigator.camera.getPicture(onSuccess, onFail, {
-        quality: 50,
-        destinationType: 0,
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-        allowEdit: true
+
+function addSiteOnline(data) {
+    alert("addSite");
+    var cId = localStorage.getItem("cId");
+    var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + storeToken();
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {site: data},
+        crossDomain: true,
+        datatype: 'json',
+        success: function() {
+            location.href = "#submitLogin-page";
+        }
     });
-    function onSuccess(imageData) {
-        window.imageDatas[id] = imageData;
-        var image = document.getElementById(id);
-        image.src = window.imageMimeType + window.imageDatas[id] ;
-    }
-
-    function onFail(message) {
-        alert('Failed because: ' + message);
-    }
-}
-function getPhoto(source) {
-  // Retrieve image file location from specified source
-  navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
-    destinationType: destinationType.FILE_URI,
-    sourceType: source });
 }
 
-  
+function addSiteOffline(data) {
+    App.userId = localStorage.getItem("userId");
+    App.collectionName = localStorage.getItem("collectionName");
+    var today = new Date();
+    var siteParams = data;
+
+    siteParams = {
+        created_at: today,
+        collection_name: App.collectionName,
+        user_id: App.userId
+    };
+
+    var site = new Site(siteParams);
+    persistence.add(site);
+    persistence.flush();
+}
+
+function cameraSuccess(url) {
+    alert("success");
+}
+
+function cameraError(message) {
+    alert("message34" + message);
+}
+
+PhotoList = {
+    photos: [],
+    format: "png",
+    add: function(id, data) {
+        photo = new Photo(id, data);
+        PhotoList.remove(id);
+        PhotoList.photos.push(photo);
+    },
+    remove: function(id) {
+        for (var i = 0; i < PhotoList.count(); i++) {
+            var photo = PhotoList.getPhotos()[i];
+            if (photo.id == id) {
+                return PhotoList.photo.splice(i, 1);
+            }
+        }
+    },
+    getPhotos: function() {
+        return PhotoList.photos;
+    },
+    clear: function() {
+        PhotoList.photos = [];
+    },
+    count: function() {
+        return PhotoList.getPhotos().length;
+    }
+
+};
+function Photo(id, data, format) {
+    this.id = id;
+    this.data = data;
+    this.format = format || "png";
+    this.name = function() {
+        return this.id + "." + this.format;
+    };
+}
+
+SiteCamera = {
+    takePhoto: function(idField) {
+        SiteCamera.id = idField;
+        navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, {
+            quality: 50,
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+            encodingType: Camera.EncodingType.PNG
+        });
+    },
+    onSuccess: function(imageData) {
+        var image = document.getElementById(SiteCamera.id);
+        image.src = 'data:image/png;base64,' + imageData;
+        PhotoList.add(SiteCamera.id, imageData);
+
+    },
+    onFail: function() {
+        alert("Failed");
+    }
+};

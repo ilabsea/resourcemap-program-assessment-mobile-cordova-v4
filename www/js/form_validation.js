@@ -12,7 +12,6 @@ $(document).ready(function() {
             error.insertAfter($(element).parent());
         },
         submitHandler: function() {
-            var status = navigator.onLine;
             if (isOnline()) {
                 alert("online");
                 $("#internet").hide();
@@ -26,8 +25,7 @@ $(document).ready(function() {
         errorPlacement: function(error, element) {
             error.insertAfter($(element).parent());
         },
-        submitHandler: function() {
-            alert("submitting")
+        submitHandler: function() {           
             addSiteToServer();
         }
     });

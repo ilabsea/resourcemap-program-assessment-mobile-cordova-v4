@@ -44,6 +44,8 @@ function signUp() {
             type: "POST",
             crossDomain: true,
             data: data,
+            beforeSend: function() { },
+            complete: function() { },
             success: function() {
                 $("#exitemail").hide();
                 alert("Sign up successful");
@@ -52,8 +54,8 @@ function signUp() {
                     this.reset();
                 });
             },
-            error: function() {
-                $("#exitemail").show();
+            error: function() { 
+                $('#exitemail').show();
                 location.href = "#page-signup";
             }
         });

@@ -4,9 +4,6 @@ $(function() {
     $(document).delegate('#submitLogin-page', 'pagebeforeshow', function() {
         getCollection();
     });
-    $(document).delegate('#submitLogin-page', 'pageshow', function() {
-        $('#collection-list').listview("refresh");
-    });
     $(document).delegate('#submitLogin-page li', 'click', function() {
         var cId = $(this).attr("data-id");
         localStorage.setItem("cId", cId);
@@ -49,8 +46,6 @@ $(function() {
     });
     $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
         getFieldsCollection();
-    });
-    $(document).delegate('#btn_create_site', 'click', function() {
         navigator.geolocation.getCurrentPosition(function(pos) {
             var lat = pos.coords.latitude;
             var lng = pos.coords.longitude;
@@ -123,5 +118,11 @@ $(function() {
         markerBounds.extend(latlng);
         map.fitBounds(markerBounds);
         google.maps.event.trigger(map_canvas, 'resize');
+    });   
+     $(document).delegate('#kh', 'click', function() {
+         var kh = $(this).attr("id");
+         localStorage.setItem("kh", kh);
+         alert(kh);
+         setLang(kh);
     });
 });
