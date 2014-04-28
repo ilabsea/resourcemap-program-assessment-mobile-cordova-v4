@@ -204,14 +204,6 @@ function addSiteOffline(data) {
     persistence.flush();
 }
 
-function cameraSuccess(url) {
-    alert("success");
-}
-
-function cameraError(message) {
-    alert("message34" + message);
-}
-
 PhotoList = {
     photos: [],
     format: "png",
@@ -237,7 +229,6 @@ PhotoList = {
     count: function() {
         return PhotoList.getPhotos().length;
     }
-
 };
 function Photo(id, data, format) {
     this.id = id;

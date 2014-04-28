@@ -37,6 +37,5 @@ function createTables() {
         slider:"TEXT",
         ctrue:"TEXT",
         user_id: "INT"
-        
     });
 }
