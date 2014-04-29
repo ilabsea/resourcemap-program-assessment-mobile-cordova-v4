@@ -67,8 +67,8 @@ $(function() {
         sendSiteToServer("user_id", currentUser.id);
     });
     $(document).delegate('#page-update-site', 'pagebeforeshow', function() {
-        sId = localStorage.getItem("sId");
-        getSiteBySiteId(sId);
+        var sId = localStorage.getItem("sId");
+        renderUpdateSiteForm(sId);
     });
     $(document).delegate('#btn_submitUpdateSite', 'click', function() {
         sId = localStorage.getItem("sId");

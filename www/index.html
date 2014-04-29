@@ -176,10 +176,8 @@
             </div>
             <div data-role="content">
                 <form  method="post" id="form_update_site">
-                    <div id="div-site-update-name">
-                    </div>
-                    <div id="div_update_field_collection"> 
-                    </div>
+                    <div id="div-site-update-name"> </div>
+                    <div id="div_update_field_collection"> </div>
                     <center>
                         <button data-theme="e" id="delete-site" data-inline="true" data-inset="true">Delete</button>
                         <button data-theme="e" id="btn_submitUpdateSite" data-inline="true" data-inset="true">Update</button
@@ -256,31 +254,29 @@
 
         <!--field collection-->
         <script id="field_collection-template" type="text/x-handlebars-template">
-            {{#each field_collectionList}}
-
+            {{#each field_collections}}
                 {{#if config}} 
-                <div>
-                <label>{{name}}</label>
-                <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-                {{#if multiple}} <option>Options</option>{{/if}}
-                {{#config.options}}
-                <option value="{{id}}">{{label}}</option>
-                {{/config.options}}
-                </select>
-                </div>
+                    <div>
+                        <label>{{name}}</label>
+                        <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+                            {{#if multiple}} <option>Options</option>{{/if}}
+                            {{#config.options}}
+                             <option value="{{id}}">{{label}}</option>
+                             {{/config.options}}
+                        </select>
+                    </div>
                 {{else}}    
-                {{isPhoto}}
-                {{#if isPhoto}}  
-                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-                <div onclick="SiteCamera.takePhoto({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
-                <img width='100' height='70' src='' id='{{idfield}}'/>                        
-                </div>
-                {{else}}
-                <div>
-                <label for='name'>{{{name}}}</label>
-                <input type="{{widgetType}}" id="{{idfield}}" name="{{name}}"  >  
-                </div>
-                {{/if}}
+                    {{#if isPhoto}}  
+                        <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+                        <div onclick="SiteCamera.takePhoto({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+                        <img width='100' height='70' src='{{__value}}' id='{{idfield}}'/>                        
+                        </div>
+                    {{else}}
+                        <div>
+                            <label for='name'>{{{name}}}</label>
+                            <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+                        </div>
+                    {{/if}}
                 {{/if}}
             {{/each}}
         </script>

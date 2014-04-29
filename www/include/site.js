@@ -26,7 +26,7 @@ function  getSiteByUserId(id) {
             var item = {id: site.id, 
                       name: site.name(), 
                       collectionName: site.collection_name(), 
-                      date: fullDate}
+                      date: fullDate};
             siteofflineData.siteofflineList.push(item);
         });
         var siteofflineTemplate = Handlebars.compile($('#siteoffline-template').html());
@@ -35,13 +35,13 @@ function  getSiteByUserId(id) {
     });
 }
 
-function getSiteBySiteId(id) {
+function renderUpdateSiteForm(id) {
     Site.all().filter('id', "=", id).one(function(site) {
         var siteUpdateData = {name: site.name(), lat: site.lat(), lng: site.lng()};
         var siteUpdateTemplate = Handlebars.compile($("#site-update-template").html());
         $('#div-site-update-name').html(siteUpdateTemplate(siteUpdateData));
         $('#div-site-update-name').trigger("create");
-        getFieldUpdateByFieldId(site.field_id());
+        renderFieldsFromLocalDB(site.properties());
     });
 }
 
@@ -72,7 +72,8 @@ function updateLatLngBySiteId(sId) {
 }
 
 function deleteSiteBySiteId(sId) {
-  Site.all().filter('id', "=", sId).one(null, function(site) {       
+  Site.all().filter('id', "=", sId).one(null, function(site) { 
+      console.dir(site);
          persistence.remove(site);
          persistence.flush();
     });
@@ -89,8 +90,6 @@ function sendSiteToServer(key, id) {
         alert("No internet found.");
     }
 }
-
-
 
 function submitSiteServer(sites){
     var cId = localStorage.getItem("cId");
