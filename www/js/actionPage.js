@@ -19,13 +19,7 @@ $(function() {
         var sId = $(this).attr("data-id");
         localStorage.setItem("sId", sId);
     });
-//    $(document).delegate('#page-site-list li', 'taphold', function() {
-//        var sId = $(this).attr("data-id");
-//        localStorage.setItem("sId", sId);
-//        deleteSiteBySiteId(sId);
-//        $("#page-delete-site").popup();
-//    });
-    $(document).delegate('#delete-site', 'click', function() {
+    $(document).delegate('#btn_delete-site', 'click', function() {
         var sId = localStorage.getItem("sId");
         deleteSiteBySiteId(sId);
     });
@@ -119,3 +113,10 @@ $(function() {
         google.maps.event.trigger(map_canvas, 'resize');
     });
 });
+function showSpinner() {
+    $.mobile.loading("show");
+}
+
+function hideSpinner() {
+    $.mobile.loading("hide");
+}

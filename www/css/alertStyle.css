@@ -20,9 +20,9 @@ p{
     display: none;
     color: violet;  
 }
-span{
-    /* display:none; */
-    /* color:red; */
+#internet{
+     display:none; 
+     color:red; 
 }
 em { color: red; font-weight: bold; padding-right: .25em; }
 sup{
@@ -45,4 +45,9 @@ input[type="checkbox"]{
 }
 #passmatch{
     color:red;
+}
+#info_sign_in{
+    display: none;
+    color: orange;
+    font-weight: normal;
 }

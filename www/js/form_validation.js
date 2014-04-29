@@ -13,7 +13,8 @@ $(document).ready(function() {
         },
         submitHandler: function() {
             var status = navigator.onLine;
-            if (status) {
+            if (isOnline()) {
+                alert("online");
                 $("#internet").hide();
                 signUp();
             }

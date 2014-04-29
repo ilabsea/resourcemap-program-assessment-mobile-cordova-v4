@@ -94,6 +94,7 @@ function deleteSiteBySiteId(sId) {
     Site.all().filter('id', "=", sId).one(function(site) {
         persistence.remove(site);
         persistence.flush();
+        location.href = "#page-site-list";
     });
 }
 
@@ -112,9 +113,16 @@ function  addSiteToServer() {
                 properties[ each_field] = window.imageMimeType + window.imageDatas[each_field];
             }
         }
-        else if ($field.val()) {
-            properties["" + each_field + ""] = $field.val();
+        else if ($field && $field[0].getAttribute("type") === 'date') {
+            var date = $field.val();
+            date = new Date(date);
+            date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+            properties["" + each_field + ""] = date;
+        } else {
+            var data = $field.val();
+            properties["" + each_field + ""] = data;
         }
+
     }
     if (isOnline()) {
         var data = {site: {collection_id: cId,
@@ -171,14 +179,15 @@ function sendSiteToServer(key, id) {
                         $('#sendToServer').show();
                     },
                     error: function(error) {
-                        alert("err : " + error);
+                        $('#info_sign_in').show();
+                        location.href = "#page-login";
                     }
                 });
             });
         });
     }
     else {
-        alert("No internet found.");
+        alert("No internet inconnection.");
     }
 }
 
@@ -189,7 +198,6 @@ function cameraSuccess(url) {
 function cameraError(message) {
     alert("message34" + message);
 }
-
 window.currentImage = '';
 window.imageMimeType = 'data:image/jpeg;base64,';
 window.id;
@@ -212,10 +220,10 @@ function camera(id) {
         alert('Failed because: ' + message);
     }
 }
-
 function getPhoto(source) {
     // Retrieve image file location from specified source
     navigator.camera.getPicture(onPhotoURISuccess, onFail, {quality: 50,
         destinationType: destinationType.FILE_URI,
         sourceType: source});
 }
+

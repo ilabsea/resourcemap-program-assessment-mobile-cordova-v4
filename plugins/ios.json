@@ -33,10 +33,7 @@
                 "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>": 1,
                 "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>": 1,
                 "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>": 1,
-                "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>": 1,
-                "<feature name=\"StatusBar\"><param name=\"ios-package\" onload=\"true\" value=\"CDVStatusBar\" /></feature>": 1,
-                "<preference name=\"StatusBarOverlaysWebView\" value=\"true\" />": 1,
-                "<preference name=\"StatusBarBackgroundColor\" value=\"#000000\" />": 1
+                "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>": 1
             }
         }
     },
@@ -54,9 +51,6 @@
             "PACKAGE_NAME": "org.instedd.resourcemap"
         },
         "org.apache.cordova.network-information": {
-            "PACKAGE_NAME": "org.instedd.resourcemap"
-        },
-        "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "org.instedd.resourcemap"
         }
     },

@@ -17,7 +17,6 @@ function getFieldUpdateByFieldId(id) {
                     for (var j = 0; j < data.length; j++) {
                         if (config.options[k].id == data[j]) {
                             config.options[k]["selected"] = "selected";
-                            break;
                         } else {
                             if (j === data.length - 1)
                                 config.options[k]["selected"] = "";
@@ -49,7 +48,7 @@ function buildField(fieldObj) {
         config = "";
     }
     if (widgetType === "yes_no") {
-        widgetType = "checkbox";
+        widgetType = "select_one";
         var configg = {options: [{"id": 1, "code": "1", "label": "YES"}, {"id": 2, "code": "2", "label": "NO"}]};
         config = configg;
         slider = "slider";

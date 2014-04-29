@@ -46,6 +46,7 @@ function signUp() {
             data: data,
             success: function() {
                 $("#exitemail").hide();
+                alert("Sign up successful");
                 location.href = "#page-login";
                 $('#form_signup').each(function() {
                     this.reset();
@@ -70,6 +71,12 @@ function getAuthToken(email, psw) {
         url: App.AUTH_URL,
         dataType: "json",
         crossDomain: true,
+        beforeSend: function(){
+            $.mobile.loader("show");
+        },
+        complete: function(){
+            $.mobile.loader("hide");
+        },
         success: function(response) {
             localStorage.authToken = response.auth_token;
             location.href = "#submitLogin-page";
@@ -102,11 +109,11 @@ function storeToken() {
 }
 
 function logout() {
-    if (!isOnline()){
+    if (!isOnline()) {
         localStorage.clear();
         sessionStorage.clear();
         var len = history.length;
-        history.go(-len+1);
+        history.go(-len + 1);
     } else {
         $.ajax({
             type: "post",
@@ -117,11 +124,14 @@ function logout() {
                 localStorage.clear();
                 sessionStorage.clear();
                 var len = history.length;
-                history.go(-len+1);
+                history.go(-len + 1);
             },
             error: function() {
                 alert("logout fail");
             }
         });
     }
+    $('#form_login').each(function() {
+        this.reset();
+    });
 }
