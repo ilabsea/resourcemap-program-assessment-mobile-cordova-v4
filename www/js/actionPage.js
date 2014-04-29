@@ -30,8 +30,8 @@ $(function() {
         deleteSiteBySiteId(sId);
     });
     $(document).delegate('#page-list-view-site', 'pagebeforeshow', function() {
-        App.userId = localStorage.getItem("userId");
-        getSiteByUserId(App.userId);
+        var currentUser = getCurrentUser();
+        getSiteByUserId(currentUser.id);
     });
     $(document).delegate('#page-list-view-site', 'pageshow', function() {
         $("#offlinesite-list").show();
@@ -63,8 +63,8 @@ $(function() {
         sendSiteToServer("collection_id", cId);
     });
     $(document).delegate('#btn_sendToServerAll', 'click', function() {
-        App.userId = localStorage.getItem("userId");
-        sendSiteToServer("user_id", App.userId);
+        var currentUser = getCurrentUser();
+        sendSiteToServer("user_id", currentUser.id);
     });
     $(document).delegate('#page-update-site', 'pagebeforeshow', function() {
         sId = localStorage.getItem("sId");

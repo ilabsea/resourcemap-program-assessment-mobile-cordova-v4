@@ -1,11 +1,14 @@
+function dateToParam(date){
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yyyy = date.getFullYear();
+    return  mm + "/" + dd + "/" + yyyy;
+}
 function getSiteByCollectionId(id) {
     Site.all().filter('collection_id', "=", id).list(null, function(sites) {
         var siteData = {siteList: []};
         sites.forEach(function(site) {
-            var dd = site.created_at().getDate();
-            var mm = site.created_at().getMonth() + 1;
-            var yyyy = site.created_at().getFullYear();
-            var fullDate = mm + "/" + dd + "/" + yyyy;
+            var fullDate = dateToParam(site.created_at());
             siteData.siteList.push({id: site.id, name: site.name(), date: fullDate});
         });
         var siteTemplate = Handlebars.compile($("#site-template").html());
@@ -19,11 +22,12 @@ function  getSiteByUserId(id) {
     Site.all().filter('user_id', '=', id).list(function(sites) {
         var siteofflineData = {siteofflineList: []};
         sites.forEach(function(site) {
-            var dd = site.created_at().getDate();
-            var mm = site.created_at().getMonth() + 1;
-            var yyyy = site.created_at().getFullYear();
-            var fullDate = mm + "/" + dd + "/" + yyyy;
-            siteofflineData.siteofflineList.push({id: site.id, name: site.name(), collectionName: site.collection_name(), date: fullDate});
+            var fullDate = dateToParam(site.created_at());
+            var item = {id: site.id, 
+                      name: site.name(), 
+                      collectionName: site.collection_name(), 
+                      date: fullDate}
+            siteofflineData.siteofflineList.push(item);
         });
         var siteofflineTemplate = Handlebars.compile($('#siteoffline-template').html());
         $('#offlinesite-list').html(siteofflineTemplate(siteofflineData));
@@ -77,30 +81,8 @@ function deleteSiteBySiteId(sId) {
 function sendSiteToServer(key, id) {
     if (isOnline()) {
         Site.all().filter(key, "=", id).list(function(sites) {
-            sites.forEach(function(site) {
-                data = {site: {
-                        collection_id: site.collection_id(),
-                        name: site.name(),
-                        lat: site.lat(),
-                        lng: site.lng(),
-                        properties: site.field_id()}
-                };
-                $.ajax({
-                    url: App.URL_SITE + cId + "/sites?auth_token=" + storeToken(),
-                    type: "POST",
-                    data: data,
-                    crossDomain: true,
-                    datatype: 'json',
-                    success: function(data) {
-                        persistence.remove(site);
-                        persistence.flush();
-                        $('#sendToServer').show();
-                    },
-                    error: function(error) {
-                        alert("err : " + error);
-                    }
-                });
-            });
+            if(sites.length>0)
+              submitSiteServer(sites);
         });
     }
     else {
@@ -108,6 +90,42 @@ function sendSiteToServer(key, id) {
     }
 }
 
+
+
+function submitSiteServer(sites){
+    var cId = localStorage.getItem("cId");
+    var site = sites[0];
+    var data = {site: {
+                       collection_id: site.collection_id(),
+                       name: site.name(),
+                       lat: site.lat(),
+                       lng: site.lng(),
+                       properties: site.properties(),
+                       files: site.files()
+                   }
+               }; 
+    $.ajax({
+        url:  App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + getAuthToken(),
+        type: "POST",
+        data: data,
+        crossDomain: true,
+        datatype: 'json',
+        success: function() {
+            persistence.remove(site);
+            persistence.flush();
+            $('#sendToServer').show();
+            sites.splice(0,1);
+             if(sites.length===0){
+                window.location.href="#submitLogin-page" ;
+             }
+             else
+              submitSiteServer(sites);  
+        },
+        error: function(error) {
+            alert("err : " + error);
+        }
+    });
+}
 //==================================== Add site to Sever ====================================================
 
 function buildDataForSite() {
@@ -134,7 +152,7 @@ function buildDataForSite() {
         else if ($field && $field[0].getAttribute("type") === 'date') {
             var date = $field.val();
             date = new Date(date);
-            date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+            date = dateToParam(date);
             properties["" + each_field + ""] = date;
         } else {
             var data = $field.val();
@@ -148,7 +166,7 @@ function buildDataForSite() {
         properties: properties,
         files: files
     };
-    App.log(data)
+    App.log(data);
     return data;
 }
 
@@ -175,7 +193,7 @@ function resetSiteFormOffline() {
 function addSiteOnline(data, callback) {
     alert("addSite");
     var cId = localStorage.getItem("cId");
-    var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + storeToken();
+    var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + getAuthToken();
     $.ajax({
         url: url,
         type: "POST",
@@ -187,16 +205,14 @@ function addSiteOnline(data, callback) {
 }
 
 function addSiteOffline(data, callback) {
-    App.userId = localStorage.getItem("userId");
-    App.collectionName = localStorage.getItem("collectionName");
+   console.dir(data) ;
+   var collectionName = localStorage.getItem("collectionName");
     var today = new Date();
     var siteParams = data;
-
-    siteParams = {
-        created_at: today,
-        collection_name: App.collectionName,
-        user_id: App.userId
-    };
+    siteParams["created_at"] = today;
+    siteParams["collection_name"] = collectionName;
+    siteParams["user_id"]= getCurrentUser().id;
+    console.dir(siteParams);
 
     var site = new Site(siteParams);
     persistence.add(site);
