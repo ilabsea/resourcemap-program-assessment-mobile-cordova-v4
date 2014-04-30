@@ -58,23 +58,12 @@ $(function() {
     $(document).delegate('#create-icon-map', 'click', function() {
         $("#updateLatLng_page_map").hide();
     });
-    $(document).delegate('#btn_sendToServer', 'click', function() {
-        cId = localStorage.getItem("cId");
-        sendSiteToServer("collection_id", cId);
-    });
-    $(document).delegate('#btn_sendToServerAll', 'click', function() {
-        var currentUser = getCurrentUser();
-        sendSiteToServer("user_id", currentUser.id);
-    });
+
+
     $(document).delegate('#page-update-site', 'pagebeforeshow', function() {
-        var sId = localStorage.getItem("sId");
-        renderUpdateSiteForm(sId);
+        renderUpdateSiteForm();
     });
-    $(document).delegate('#btn_submitUpdateSite', 'click', function() {
-        sId = localStorage.getItem("sId");
-        updateSiteBySiteId(sId);
-        location.href = "#page-site-list";
-    });
+    
     $(document).delegate('#update_icon_map', 'click', function() {
         $("#updateLatLng_page_map").show();
         $("#mark_lat").val($("#updatelolat").val());

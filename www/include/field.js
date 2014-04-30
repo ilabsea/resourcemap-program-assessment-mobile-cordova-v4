@@ -1,42 +1,28 @@
-function renderFieldsFromLocalDB(properties) {  
-    var fieldIds = [];
-    for (pro in properties){
-       fieldIds.push(parseInt(pro)) 
-    }
-    
+function renderFieldsBySite(site) {      
     queryFieldByCollectionIdOffline(function(fields) {
-        var field_collections = [];
-        
-      
+        var field_collections = []; 
         fields.forEach(function(field) {
             var item = buildField(field, {fromServer: false});
+            var properties = site.properties();
+            var files = site.files();
             for (propertyId in properties){
                 if(parseInt(item["idfield"])=== parseInt(propertyId)){
-                    item.__value = properties[propertyId];
+                    if(item.widgetType==="photo"){
+                       var imageId = properties[propertyId]; 
+                       var imageData = files[imageId];
+                       item.__value = SiteCamera.dataWithMimeType(imageData); 
+                    }
+                    else
+                      item.__value = properties[propertyId];
                 }
             }
             field_collections.push(item);
         });
-        
-        
-        
-        var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
+             
+        var fieldTemplate = Handlebars.compile($("#update_field_collection-template").html());
         $('#div_update_field_collection').html(fieldTemplate({field_collections: field_collections}));
         $('#div_update_field_collection').trigger("create");
-    })
-    
-//    Field.all().filter('idfield', 'in', fieldIds).list(null, function(fields) {
-//        var field_id_arr = new Array();
-//        var field_collections = [];
-//        fields.forEach(function(field) {
-//            var item = buildField(field, false);
-//            field_collections.push(item);
-//            localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
-//        });
-//        var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
-//        $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
-//        $('#div_field_collection').trigger("create");
-//    });
+    });
 }
 
 function buildField(fieldObj, options) {
@@ -129,7 +115,6 @@ function renderFieldByCollectionIdOnline(){
                 field_id_arr.push(properties.id);
                 var fields = buildField(properties, {fromServer: true} );
                 field_collections.push(fields);
-                localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
                 Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
                     if (field === null) {
                         addField(fields);

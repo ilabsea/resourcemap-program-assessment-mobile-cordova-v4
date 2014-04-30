@@ -35,30 +35,53 @@ function  getSiteByUserId(id) {
     });
 }
 
-function renderUpdateSiteForm(id) {
+function renderUpdateSiteForm() {
+    var id = localStorage.getItem("sId");
     Site.all().filter('id', "=", id).one(function(site) {
         var siteUpdateData = {name: site.name(), lat: site.lat(), lng: site.lng()};
         var siteUpdateTemplate = Handlebars.compile($("#site-update-template").html());
         $('#div-site-update-name').html(siteUpdateTemplate(siteUpdateData));
         $('#div-site-update-name').trigger("create");
-        renderFieldsFromLocalDB(site.properties());
+        renderFieldsBySite(site);
     });
 }
 
-function updateSiteBySiteId(id) {
+function updateSiteBySiteId() {
+    var id = localStorage.getItem("sId");
     Site.all().filter('id', "=", id).one(function(site) {
         site.name($("#updatesitename").val());
         site.lat($("#updatelolat").val());
         site.lng($("#updatelolng").val());
-        var storedFieldId = JSON.parse(localStorage["field_id_arr"]);
-        var fieldIdJSON = {};
-        for (var i = 0; i < storedFieldId.length; i++) {
-            var each_field = storedFieldId[i];
-            var val_each_field = $('#update' + each_field).val();
-            fieldIdJSON[each_field] = val_each_field;
-        }
-        site.field_id(fieldIdJSON);
-        persistence.flush();
+ 
+        queryFieldByCollectionIdOffline(function(fields) {
+            var properties  = {} ;
+            var files = {};
+            fields.forEach(function(field) {
+              var item = buildField(field, {fromServer: false});
+              if(item.isPhoto){
+                var idfield  = item["idfield"] ;
+                for(var i=0; i<PhotoList.getPhotos().length; i++){
+                  if(PhotoList.getPhotos()[i].id === idfield ) {
+                    var fileName = PhotoList.getPhotos()[i].name();
+                    properties[idfield] = fileName;
+                    files[fileName] = PhotoList.getPhotos()[i].data;
+                    break;
+                   }
+                }
+              }
+              else{    
+                var nodeId = "#update_" + item["idfield"] ;
+                var value = $(nodeId).val();
+                properties[item["idfield"]] = value;
+              }
+           });
+           
+          site.properties = properties;
+          site.files = files;
+          persistence.flush(site);
+          location.href = "index.html#page-site-list";
+        
+        });
     });
 }
 
@@ -73,25 +96,33 @@ function updateLatLngBySiteId(sId) {
 
 function deleteSiteBySiteId(sId) {
   Site.all().filter('id', "=", sId).one(null, function(site) { 
-      console.dir(site);
-         persistence.remove(site);
-         persistence.flush();
-    });
+    persistence.remove(site);
+    persistence.flush();
+  });
+}
+
+function sendSiteToServerByCollectiion(){
+  var cId = localStorage.getItem("cId");
+  sendSiteToServer("collection_id", cId);
+}
+function sendSiteToServerByUser(){ 
+  var currentUser = getCurrentUser();
+  sendSiteToServer("user_id", currentUser.id);
 }
 
 function sendSiteToServer(key, id) {
-    if (isOnline()) {
-        Site.all().filter(key, "=", id).list(function(sites) {
-            if(sites.length>0)
-              submitSiteServer(sites);
-        });
-    }
-    else {
-        alert("No internet found.");
-    }
+  if(isOnline()) {
+   Site.all().filter(key, "=", id).list(function(sites) {
+    if(sites.length>0)
+      submitSiteServer(sites);
+   });
+  }
+  else 
+   alert("No internet found.");
 }
 
 function submitSiteServer(sites){
+    console.log("length: "+sites.length);
     var cId = localStorage.getItem("cId");
     var site = sites[0];
     var data = {site: {
@@ -103,6 +134,7 @@ function submitSiteServer(sites){
                        files: site.files()
                    }
                }; 
+    console.log("sending site: " + sites.length);           
     $.ajax({
         url:  App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + getAuthToken(),
         type: "POST",
@@ -112,13 +144,14 @@ function submitSiteServer(sites){
         success: function() {
             persistence.remove(site);
             persistence.flush();
+            console.log("finish: "+sites.length);
             $('#sendToServer').show();
-            sites.splice(0,1);
-             if(sites.length===0){
-                window.location.href="#submitLogin-page" ;
-             }
-             else
-              submitSiteServer(sites);  
+            sites.splice(0,1);  
+            if(sites.length===0){
+               window.location.href="#submitLogin-page" ;
+            }
+            else
+             submitSiteServer(sites);  
         },
         error: function(error) {
             alert("err : " + error);
@@ -222,9 +255,8 @@ function addSiteOffline(data, callback) {
 PhotoList = {
     photos: [],
     format: "png",
-    add: function(id, data) {
-        photo = new Photo(id, data);
-        PhotoList.remove(id);
+    add: function(photo) {
+        PhotoList.remove(photo.id);
         PhotoList.photos.push(photo);
     },
     remove: function(id) {
@@ -256,8 +288,12 @@ function Photo(id, data, format) {
 }
 
 SiteCamera = {
-    takePhoto: function(idField) {
+    dataWithMimeType: function(data){
+        return 'data:image/png;base64,' + data;
+    },
+    takePhoto: function(idField, updated) {
         SiteCamera.id = idField;
+        SiteCamera.updated = updated;
         navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, {
             quality: 50,
             destinationType: Camera.DestinationType.DATA_URL,
@@ -266,11 +302,14 @@ SiteCamera = {
         });
     },
     onSuccess: function(imageData) {
-        var image = document.getElementById(SiteCamera.id);
-        image.src = 'data:image/png;base64,' + imageData;
-        PhotoList.add(SiteCamera.id, imageData);
+        var imageId = SiteCamera.updated ? "update_" + SiteCamera.id : SiteCamera.id; 
+        var image = document.getElementById(imageId);
+        var photo = new Photo(SiteCamera.id, imageData);
+        image.src = SiteCamera.dataWithMimeType(imageData);
+        PhotoList.add(photo);
 
     },
+
     onFail: function() {
         alert("Failed");
     }
