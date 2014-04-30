@@ -22,6 +22,7 @@
         <script src="include/db_connection.js"></script>
         <script src="include/site.js"></script>
         <script src="include/field.js"></script>
+        <script src="language/kh.js"></script>
     </head>
     <body>
         <!--page-login-->   
@@ -29,7 +30,7 @@
             <div data-role="content">
                 <div>
                     <center><img src="img/logo.png" alt="Resource Map"/></center>
-                    <br>
+                    <br>                  
                 </div>
                 <p id="invalidmail" class="invalid">Invalid email or password.</p>
                 <p id="noMailInDb" class="invalid">Not found in database.</p>
@@ -64,7 +65,7 @@
                         <em>* </em> Password confirmation
                         <input type="password" name="user[password_confirmation]" class="required" id="pswConfirm"/>
                         <p id="passmatch">Password doesn't match confirmation</p>
-                        Phone number<br><i>(+85512345678)</i>
+                        Phone number<br><i>(+855XXXXXXXXX)</i>
                         <input type="number" name="tel" id="tel"/>
                         <center><button data-theme="e" data-inline="true" data-inset="true">Sign up</button></center>
                     </div>
@@ -111,13 +112,14 @@
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
             </div>
             <div data-role="content" id="sitelist">
-                <p id="sendToServer" class="success">Sites are on server.</p>
                 <ul data-role='listview' id="site-list" data-inset="true">
                 </ul>
             </div>
             <div> 
-                <center><button data-theme="e" id="btn_sendToServer" data-inline="true" data-icon="forward" data-iconpos="left"  data-transition="pop" data-position-to="window">Send to server</button>
-                    <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site" data-inline="true" data-icon="plus" data-iconpos="left">Add new site</a></center>
+                <center>
+                    <button data-theme="e" id="btn_sendToServer" data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
+                    <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site" data-inline="true" data-icon="plus" data-iconpos="left">Add new site</a>
+                </center>
             </div>
         </div>
         <!--page-create-site-->
@@ -128,7 +130,7 @@
                 <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right">Logout</button>
             </div>
             <div data-role="content">
-                <form  method="post" id="form_create_site" enctype="multipart/form-data">                  
+                <form method="post" id="form_create_site" enctype="multipart/form-data">                  
                     <div>
                         <label for="sname"> Name </label>
                         <input type="text" name="sitename" id="sitename" class="required"/>
@@ -140,16 +142,15 @@
                         <label for="lolng"> Location'Lng </label>
                         <input type="number" name="lng" id="lng" class="required"/>
                     </div>   
-                    <div id="div_field_collection"> </div> 
-
+                    <div id="div_field_collection"></div> 
                     <center><button id="btn_submitAddSite" data-theme="e" data-inline="true" data-inset="true">Save</button></center>                    
                 </form>                  
             </div> 
         </div>
         <!-- view map -->
         <div data-role="page" id="page-map">
-            <div data-role="header" data-theme="e">
-                <a href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
+            <div data-role="header" data-theme="e" >
+                <a id="btn_back_create_site" href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
                 <h1>Map</h1>
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
             </div>
@@ -159,7 +160,8 @@
                     <input type="number" name="lat" id="mark_lat" class="required"/>
                     <label for="lolng"> Location'Lng </label>
                     <input type="number" name="lng" id="mark_lng" class="required"/>
-                    <center><button id="updateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Ok</button></center>                    
+                    <center><button id="updateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Ok</button>
+                        <button id="cancelupdateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Cancel</button></center>                    
                 </div>
                 <div id="map_canvas"></div>
             </div>
@@ -168,8 +170,8 @@
         <div data-role="page" id="page-update-site">
             <div data-role="header" data-theme="e">
                 <a href="#page-site-list" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
-                <h1> Update Site </h1>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
+                <h1> Site update and delete</h1>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>          
             </div>
             <div data-role="content">
                 <form  method="post" id="form_update_site">
@@ -267,7 +269,7 @@
             {{isPhoto}}
             {{#if isPhoto}}  
             <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-            <div onclick="camera({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+            <div onclick="SiteCamera.takePhoto({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
             <img width='100' height='70' src='' id='{{idfield}}'/>                        
             </div>
             {{else}}
@@ -305,6 +307,7 @@
             {{/if}}
             {{/each}}
         </script>
+
         <script src="cordova.js"></script>  
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>

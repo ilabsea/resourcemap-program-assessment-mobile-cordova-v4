@@ -21,8 +21,8 @@ p{
     color: violet;  
 }
 #internet{
-     display:none; 
-     color:red; 
+    display:none; 
+    color:red; 
 }
 em { color: red; font-weight: bold; padding-right: .25em; }
 sup{

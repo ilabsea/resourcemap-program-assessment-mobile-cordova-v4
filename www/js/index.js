@@ -1,13 +1,14 @@
+END_POINT = "http://resmap-stg-ilab.instedd.org";
 window.App = {
     DB_SIZE: 5 * 1024 * 1024,
     DB_NAME: 'resourcemap_db',
-    END_POINT: "http://resmap-stg-ilab.instedd.org",
-    AUTH_URL: "http://resmap-stg-ilab.instedd.org/api/users/sign_in.json",
-    LIST_COLLECTION: "http://resmap-stg-ilab.instedd.org/api/collections?auth_token=",
-    URL_SIGNUP: "http://resmap-stg-ilab.instedd.org/api/users.json",
-    URL_LOGOUT: "http://resmap-stg-ilab.instedd.org/api/users/sign_out.json?auth_token=",
-    URL_SITE: "http://resmap-stg-ilab.instedd.org/api/v1/collections/",
-    URL_FIELD: "http://resmap-stg-ilab.instedd.org/api/collections/",
+    END_POINT: END_POINT,
+    AUTH_URL: END_POINT + "/api/users/sign_in.json",
+    LIST_COLLECTION: END_POINT + "/api/collections?auth_token=",
+    URL_SIGNUP: END_POINT + "/api/users.json",
+    URL_LOGOUT: END_POINT + "/api/users/sign_out.json?auth_token=",
+    URL_FIELD: END_POINT + "/api/collections/",
+    URL_SITE: END_POINT + "/api/v1/collections/",
     DEBUG: true,
     userId: "",
     log: function(obj) {
