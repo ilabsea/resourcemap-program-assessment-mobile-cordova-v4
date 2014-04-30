@@ -1,24 +1,43 @@
-function renderFieldsBySite(site) {      
+function renderFieldsBySite(site) {
     queryFieldByCollectionIdOffline(function(fields) {
-        var field_collections = []; 
+        var field_collections = [];
         fields.forEach(function(field) {
             var item = buildField(field, {fromServer: false});
             var properties = site.properties();
             var files = site.files();
-            for (propertyId in properties){
-                if(parseInt(item["idfield"])=== parseInt(propertyId)){
-                    if(item.widgetType==="photo"){
-                       var imageId = properties[propertyId]; 
-                       var imageData = files[imageId];
-                       item.__value = SiteCamera.dataWithMimeType(imageData); 
+            for (propertyId in properties) {
+                if (parseInt(item["idfield"]) === parseInt(propertyId)) {
+                    if (item.widgetType === "photo") {
+                        var imageId = properties[propertyId];
+                        var imageData = files[imageId];
+                        item.__value = SiteCamera.dataWithMimeType(imageData);
                     }
-                    else
-                      item.__value = properties[propertyId];
+                    else if (item.widgetType === "select_many" || item.widgetType === "select_one") {
+                        item.__value = properties[propertyId];
+                        for (var k = 0; k < item.config.options.length; k++) {
+                            for (var j = 0; j < item.__value.length; j++) {
+                                if (item.config.options[k].id == item.__value[j]) {
+                                    item.config.options[k]["selected"] = "selected";
+                                } else {
+                                    if (j === item.__value.length) {
+                                        item.config.options[k]["selected"] = "";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (item.widgetType === "date") {
+                        var val = properties[propertyId];
+                        var date = new Date(val);
+                        item.__value =  originalDateFormat(date);
+                    }
+                    else {
+                        item.__value = properties[propertyId];
+                    }
                 }
             }
             field_collections.push(item);
         });
-             
         var fieldTemplate = Handlebars.compile($("#update_field_collection-template").html());
         $('#div_update_field_collection').html(fieldTemplate({field_collections: field_collections}));
         $('#div_update_field_collection').trigger("create");
@@ -29,15 +48,14 @@ function buildField(fieldObj, options) {
     options = options || {};
     var field = {};
     var id = null;
-    if(options["fromServer"]){
-       field = fieldObj;
-       id =  fieldObj.id;
+    if (options["fromServer"]) {
+        field = fieldObj;
+        id = fieldObj.id;
     }
     else {
-       field = fieldObj._data; 
-       id = fieldObj.idfield();
+        field = fieldObj._data;
+        id = fieldObj.idfield();
     }
-    
     var kind = field.kind;
     var widgetType = kind;
     var config = field.config;
@@ -48,7 +66,7 @@ function buildField(fieldObj, options) {
         config = "";
     }
     if (widgetType === "yes_no") {
-        widgetType = "checkbox";
+        widgetType = "select_one";
         var configOptions = {options: [{"id": 1, "code": "1", "label": "YES"}, {"id": 2, "code": "2", "label": "NO"}]};
         config = configOptions;
         slider = "slider";
@@ -57,18 +75,18 @@ function buildField(fieldObj, options) {
     if (widgetType === "phone") {
         widgetType = "tel";
     }
-    var fields = {  idfield: id,
-                    name: field.name,
-                    kind: kind,
-                    code: field.code,
-                    multiple: (kind === "select_many" ? "multiple" : ""),
-                    isPhoto: (kind === "photo" ? true : false),
-                    widgetType: widgetType,
-                    config: config,
-                    slider: slider,
-                    ctrue: ctrue,
-                    cId: localStorage.getItem("cId"),
-                    userId: getCurrentUser().id
+    var fields = {idfield: id,
+        name: field.name,
+        kind: kind,
+        code: field.code,
+        multiple: (kind === "select_many" ? "multiple" : ""),
+        isPhoto: (kind === "photo" ? true : false),
+        widgetType: widgetType,
+        config: config,
+        slider: slider,
+        ctrue: ctrue,
+        cId: localStorage.getItem("cId"),
+        userId: getCurrentUser().id
     };
     return fields;
 }
@@ -101,8 +119,8 @@ function getFieldsCollection() {
         renderFieldByCollectionIdOffline();
 }
 
-function renderFieldByCollectionIdOnline(){
-    var cId = localStorage.getItem("cId")
+function renderFieldByCollectionIdOnline() {
+    var cId = localStorage.getItem("cId");
     $.ajax({
         url: App.URL_FIELD + cId + "/fields?auth_token=" + storeToken(),
         type: "get",
@@ -110,11 +128,12 @@ function renderFieldByCollectionIdOnline(){
         datatype: 'json',
         success: function(response) {
             var field_id_arr = new Array();
-            var field_collections =  [];
+            var field_collections = [];
             $.each(response, function(key, properties) {
                 field_id_arr.push(properties.id);
-                var fields = buildField(properties, {fromServer: true} );
+                var fields = buildField(properties, {fromServer: true});
                 field_collections.push(fields);
+                localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
                 Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
                     if (field === null) {
                         addField(fields);
@@ -127,25 +146,27 @@ function renderFieldByCollectionIdOnline(){
         },
         error: function(error) {
             console.log("erro:  " + error);
-            alert("err" + error);
         }
     });
 }
 
 function renderFieldByCollectionIdOffline() {
-   queryFieldByCollectionIdOffline(function(fields) {
+    queryFieldByCollectionIdOffline(function(fields) {
         var field_collections = [];
+        var field_id_arr = new Array();
         fields.forEach(function(field) {
-            var item = buildField(field, {fromServer: false} );
+            field_id_arr.push(field.idfield());
+            localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
+            var item = buildField(field, {fromServer: false});
             field_collections.push(item);
         });
         var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
         $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
         $('#div_field_collection').trigger("create");
-    })
+    });
 }
 
 function queryFieldByCollectionIdOffline(callback) {
-     var cId = localStorage.getItem("cId");
-     Field.all().filter('collection_id', '=', cId).list(callback);
+    var cId = localStorage.getItem("cId");
+    Field.all().filter('collection_id', '=', cId).list(callback);
 }
