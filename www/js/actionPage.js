@@ -58,23 +58,12 @@ $(function() {
         $("#updateLatLng_page_map").hide();
         $("#btn_back_create_site").show();
     });
-    $(document).delegate('#btn_sendToServer', 'click', function() {
-        cId = localStorage.getItem("cId");
-        sendSiteToServer("collection_id", cId);
-    });
-    $(document).delegate('#btn_sendToServerAll', 'click', function() {
-        var currentUser = getCurrentUser();
-        sendSiteToServer("user_id", currentUser.id);
-    });
+
+
     $(document).delegate('#page-update-site', 'pagebeforeshow', function() {
-        sId = localStorage.getItem("sId");
-        getSiteBySiteId(sId);
+        renderUpdateSiteForm();
     });
-    $(document).delegate('#btn_submitUpdateSite', 'click', function() {
-        sId = localStorage.getItem("sId");
-        updateSiteBySiteId(sId);
-        location.href = "#page-site-list";
-    });
+    
     $(document).delegate('#update_icon_map', 'click', function() {
         $("#updateLatLng_page_map").show();
         $("#btn_back_create_site").hide();
