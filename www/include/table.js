@@ -20,7 +20,8 @@ function createTables() {
         collection_id: "INT",
         collection_name: "TEXT",
         user_id: "INT",
-        field_id: "JSON"
+        properties: "JSON",
+        files: "JSON"
     });
 
     Field = persistence.define('fields', {
@@ -28,14 +29,13 @@ function createTables() {
         kind: "TEXT",
         name: "TEXT",
         code: "TEXT",
-        multiple: "TEXT", 
+        multiple: "TEXT",
         isPhoto: "INT",
-        widgetType:"TEXT",
+        widgetType: "TEXT",
         collection_id: "INT",
         config: "JSON",
-        slider:"TEXT",
-        ctrue:"TEXT",
+        slider: "TEXT",
+        ctrue: "TEXT",
         user_id: "INT"
-        
     });
 }

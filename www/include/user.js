@@ -6,6 +6,7 @@ function addUser(email, password) {
     user = new User(userParams);
     persistence.add(user);
     persistence.flush();
+    return user;
 }
 
 function validateLogin() {
@@ -17,8 +18,7 @@ function validateLogin() {
                 $('#noMailInDb').show();
             }
             if (user.password() === psw) {
-                App.userId = user.id;
-                localStorage.setItem("userId", App.userId);
+                setCurrentUser(user);
                 location.href = "#submitLogin-page";
             }
             else {
@@ -27,33 +27,35 @@ function validateLogin() {
             $('#noMailInDb').hide();
             $('#invalidmail').hide();
         });
-    } else {
-        getAuthToken(email, psw);
+    }
+    else {
+        authoriseUser(email, psw);
     }
 }
 // ============================== online ===========================================
 function signUp() {
-    email = $('#signupemail').val();
-    password = $('#signuppassword').val();
-    password_confirmation = $('#pswConfirm').val();
-    data = {user: {email: email, password: password, password_confirmation: password_confirmation}};
+    var email = $('#signupemail').val();
+    var password = $('#signuppassword').val();
+    var password_confirmation = $('#pswConfirm').val();
+    var data = {user: {email: email, password: password, password_confirmation: password_confirmation}};
     if (password === password_confirmation) {
         $("#passmatch").hide();
+        $(".loader").show();
         $.ajax({
             url: App.URL_SIGNUP,
             type: "POST",
             crossDomain: true,
             data: data,
             success: function() {
+                $(".loader").hide();
                 $("#exitemail").hide();
                 alert("Sign up successful");
                 location.href = "#page-login";
-                $('#form_signup').each(function() {
-                    this.reset();
-                });
+                $('#form_signup')[0].reset();
             },
             error: function() {
-                $("#exitemail").show();
+                $('#exitemail').show();
+                $(".loader").hide();
                 location.href = "#page-signup";
             }
         });
@@ -62,9 +64,10 @@ function signUp() {
         $("#passmatch").slideDown();
 }
 
-function getAuthToken(email, psw) {
+function authoriseUser(email, psw) {
     data = {user: {email: email, password: psw}};
     $('#invalidmail').hide();
+    $(".loader").show();
     $.ajax({
         type: "post",
         data: data,
@@ -72,57 +75,77 @@ function getAuthToken(email, psw) {
         dataType: "json",
         crossDomain: true,
         success: function(response) {
-            localStorage.authToken = response.auth_token;
+            setAuthToken(response.auth_token);
             location.href = "#submitLogin-page";
             User.all().filter('email', "=", email).one(null, function(user) {
                 if (user === null) {
-                    addUser(email, psw);
-                    User.all().filter('email', "=", email).one(null, function(user) {
-                        App.userId = user.id;
-                        localStorage.setItem("userId", App.userId);
-                    });
-                } else {
+                    var currentUser = addUser(email, psw);
+                    setCurrentUser(currentUser);
+                }
+                else {
                     if (user.password() !== psw) {
                         user.password(psw);
                         persistence.flush();
-                    } else {
-                        App.userId = user.id;
-                        localStorage.setItem("userId", App.userId);
                     }
+                    setCurrentUser(user);
                 }
             });
         },
         error: function() {
+            $(".loader").hide();
             $('#invalidmail').show();
         }
     });
 }
 
-function storeToken() {
-    return localStorage.authToken;
+
+function setCurrentUser(user) {
+    $(".loader").hide();
+    var currentUser = {id: user.id, password: user.password(), email: user.email()};
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+}
+
+function getCurrentUser() {
+    var u = localStorage.getItem("currentUser");
+    if (u)
+        return JSON.parse(u);
+    return {};
+}
+
+function setAuthToken(auth_token) {
+    localStorage.setItem("authToken", auth_token);
+}
+
+function getAuthToken() {
+    var authToken = localStorage.getItem("authToken");
+    console.log("auth: " + authToken);
+    return authToken;
+}
+
+function resetState() {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "#page-login";
 }
 
 function logout() {
-    if (!isOnline()){
-        localStorage.clear();
-        sessionStorage.clear();
-        var len = history.length;
-        history.go(-len+1);
+    if (!isOnline()) {
+        resetState();
     } else {
         $.ajax({
             type: "post",
-            url: App.URL_LOGOUT + storeToken(),
+            url: App.URL_LOGOUT + getAuthToken(),
             dataType: "json",
             crossDomain: true,
             success: function() {
-                localStorage.clear();
-                sessionStorage.clear();
-                var len = history.length;
-                history.go(-len+1);
+                resetState();
             },
             error: function() {
                 alert("logout fail");
             }
         });
     }
+    $('#form_login').each(function() {
+        this.reset();
+    });
 }

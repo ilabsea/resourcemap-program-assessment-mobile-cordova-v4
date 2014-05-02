@@ -3,9 +3,7 @@ App.onDeviceReady();
 $(function() {
     $(document).delegate('#submitLogin-page', 'pagebeforeshow', function() {
         getCollection();
-    });
-    $(document).delegate('#submitLogin-page', 'pageshow', function() {
-        $('#collection-list').listview("refresh");
+        $('#form_create_site ')[0].reset();
     });
     $(document).delegate('#submitLogin-page li', 'click', function() {
         var cId = $(this).attr("data-id");
@@ -22,19 +20,13 @@ $(function() {
         var sId = $(this).attr("data-id");
         localStorage.setItem("sId", sId);
     });
-    $(document).delegate('#page-site-list li', 'taphold', function() {
-        var sId = $(this).attr("data-id");
-        localStorage.setItem("sId", sId);
-        deleteSiteBySiteId(sId);
-//        $("#page-delete-site").popup();
-    });
-    $(document).delegate('#delete-site', 'click', function() {
+    $(document).delegate('#btn_delete-site', 'click', function() {
         var sId = localStorage.getItem("sId");
         deleteSiteBySiteId(sId);
     });
     $(document).delegate('#page-list-view-site', 'pagebeforeshow', function() {
-        App.userId = localStorage.getItem("userId");
-        getSiteByUserId(App.userId);
+        var currentUser = getCurrentUser();
+        getSiteByUserId(currentUser.id);
     });
     $(document).delegate('#page-list-view-site', 'pageshow', function() {
         $("#offlinesite-list").show();
@@ -49,31 +41,34 @@ $(function() {
     });
     $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
         getFieldsCollection();
-    });
-    $(document).delegate('#btn_create_site', 'click', function() {
-        navigator.geolocation.getCurrentPosition(function(pos) {
-            var lat = pos.coords.latitude;
-            var lng = pos.coords.longitude;
-            $("#lat").val(lat);
-            $("#lng").val(lng);
-            $("#mark_lat").val(lat);
-            $("#mark_lng").val(lng);
-        });
+        var lat = $("#lat").val();
+        var lng = $("#lng").val();
+        if (lat =="" && lng == "") {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                var lat = pos.coords.latitude;
+                var lng = pos.coords.longitude;
+                $("#lat").val(lat);
+                $("#lng").val(lng);
+                $("#mark_lat").val(lat);
+                $("#mark_lng").val(lng);
+            });
+        }
     });
     $(document).delegate('#create-icon-map', 'click', function() {
-        $("#updateLatLng_map").hide();
+        $("#updateLatLng_page_map").hide();
+        $("#cancelupdateLatLng_page_map").hide();
+        $("#btn_back_create_site").show();
     });
     $(document).delegate('#btn_sendToServer', 'click', function() {
         cId = localStorage.getItem("cId");
         sendSiteToServer("collection_id", cId);
     });
     $(document).delegate('#btn_sendToServerAll', 'click', function() {
-        App.userId = localStorage.getItem("userId");
-        sendSiteToServer("user_id", App.userId);
+        var currentUser = getCurrentUser();
+        sendSiteToServer("user_id", currentUser.id);
     });
     $(document).delegate('#page-update-site', 'pagebeforeshow', function() {
-        sId = localStorage.getItem("sId");
-        getSiteBySiteId(sId);
+        renderUpdateSiteForm();
     });
     $(document).delegate('#btn_submitUpdateSite', 'click', function() {
         sId = localStorage.getItem("sId");
@@ -81,13 +76,18 @@ $(function() {
         location.href = "#page-site-list";
     });
     $(document).delegate('#update_icon_map', 'click', function() {
+        $("#updateLatLng_page_map").show();
+        $("#cancelupdateLatLng_page_map").show();
+        $("#btn_back_create_site").hide();
         $("#mark_lat").val($("#updatelolat").val());
         $("#mark_lng").val($("#updatelolng").val());
-        $("#updateLatLng_map").show();
     });
-    $(document).delegate('#updateLatLng_map', 'click', function() {
+    $(document).delegate('#updateLatLng_page_map', 'click', function() {
         sId = localStorage.getItem("sId");
         updateLatLngBySiteId(sId);
+    });
+    $(document).delegate('#cancelupdateLatLng_page_map', 'click', function() {
+        location.href = "#page-update-site";
     });
     $(document).delegate('#page-map', 'pageshow', function() {
         var lat = $("#mark_lat").val();
@@ -98,9 +98,8 @@ $(function() {
             center: latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        
         var $content = $("#map_canvas");
-        $content.height(screen.height - 50);
+        $content.height(screen.height - 200);
         var map = new google.maps.Map($content[0], options);
         $.mobile.changePage($("#page-map"));
         var marker = new google.maps.Marker({

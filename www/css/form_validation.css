@@ -1,11 +1,15 @@
 label.error {
     color: red;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: normal;
     line-height: 1.4;
     margin-top: 0.5em;
     width: 100%;
-    float: none;
+    float: left;
+}
+
+input.error {
+    border: 1px solid red;
 }
 
 @media screen and (orientation: portrait){
@@ -13,5 +17,5 @@ label.error {
 }
 
 @media screen and (orientation: landscape){
-    label.error { display: inline-block; margin-left: 22%; }
+    label.error { display: inline-block; margin-left: 0; }
 }

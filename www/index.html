@@ -5,12 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
         <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
-        <link href="css/jquery.validate.password.css" rel="stylesheet" type="text/css"/>
         <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
         <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>
         <script src="js/libs/jquery-1.11.0.min.js"></script>
         <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
-        <script src="js/libs/jquery.validate.password.js"></script>
         <script src="js/lib/persistence.js"></script>
         <script src="js/lib/persistence.sync.js"></script>
         <script src="js/lib/persistence.store.sql.js"></script>
@@ -24,6 +22,7 @@
         <script src="include/db_connection.js"></script>
         <script src="include/site.js"></script>
         <script src="include/field.js"></script>
+        <script src="language/kh.js"></script>
     </head>
     <body>
         <!--page-login-->   
@@ -31,11 +30,12 @@
             <div data-role="content">
                 <div>
                     <center><img src="img/logo.png" alt="Resource Map"/></center>
-                    <br>
+                    <br>                  
                 </div>
                 <p id="invalidmail" class="invalid">Invalid email or password.</p>
                 <p id="noMailInDb" class="invalid">Not found in database.</p>
                 <form id="form_login">
+                    <h3 id="info_sign_in">Please sign in</h3>
                     <label for="email"> Email </label>
                     <input type="email" id="email" name="user[email]" class="required email"/>
                     <label for="password"> Password </label>
@@ -54,8 +54,9 @@
                     <center><img src="img/logo.png" alt="Resource Map"></center>
                 </div>
                 <center><span id="internet">Unable to connect to the Internet</span></center>
-                <h2>Signup</h2>               
-                <form method="post" action="#" name="myForm" id="form_signup">
+                <h2>Signup</h2>                
+                <img src='img/ajax-loader.gif' class="loader">
+                <form method="post" action="#" name="myForm" id="form_signup">                  
                     <div data-role="fieldcontain">
                         <em>* </em> Email
                         <input type="email" name="user[email]" class="required email" id="signupemail"/>
@@ -65,7 +66,7 @@
                         <em>* </em> Password confirmation
                         <input type="password" name="user[password_confirmation]" class="required" id="pswConfirm"/>
                         <p id="passmatch">Password doesn't match confirmation</p>
-                        Phone number<br><i>(+85512345678)</i>
+                        Phone number<br><i>(+855XXXXXXXXX)</i>
                         <input type="number" name="tel" id="tel"/>
                         <center><button data-theme="e" data-inline="true" data-inset="true">Sign up</button></center>
                     </div>
@@ -94,14 +95,14 @@
             <div data-role="header" data-theme="e">
                 <a href="#submitLogin-page" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
                 <h1>Sites</h1>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>   
             </div>
             <div data-role="content" id="sitelistview">
                 <ul id="offlinesite-list" data-role="listview" data-inset="true"> 
                 </ul> 
             </div>
             <div>
-                <center><button data-theme="e" id="btn_sendToServerAll" data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
+                <center><button onclick='sendSiteToServerByUser()' data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
             </div>
         </div>
         <!--site-list-->
@@ -112,24 +113,25 @@
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
             </div>
             <div data-role="content" id="sitelist">
-                <p id="sendToServer" class="success">Sites are on server.</p>
                 <ul data-role='listview' id="site-list" data-inset="true">
                 </ul>
             </div>
             <div> 
-                <center><button data-theme="e" id="btn_sendToServer" data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
-                    <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site" data-inline="true" data-icon="plus" data-iconpos="left">Add new site</a></center>
+                <center>
+                    <button data-theme="e" id="btn_sendToServer" data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
+                    <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site" data-inline="true" data-icon="plus" data-iconpos="left">Add new site</a>
+                </center>
             </div>
         </div>
         <!--page-create-site-->
         <div data-role="page" id="page-create-site">
             <div data-role="header" data-theme="e">
-                <a data-role="button" data-theme="a"  href="#page-site-list" data-icon="back" class="ui-btn-left">Back</a>
+                <a data-role="button" data-theme="a"  href="#submitLogin-page" data-icon="back" class="ui-btn-left">Back</a>
                 <h1>Create Site</h1>
                 <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right">Logout</button>
             </div>
-            <div data-role="content">
-                <form  method="post" id="form_create_site" enctype="multipart/form-data">                  
+            <div data-role="content">              
+                <form method="post" id="form_create_site" enctype="multipart/form-data">                  
                     <div>
                         <label for="sname"> Name </label>
                         <input type="text" name="sitename" id="sitename" class="required"/>
@@ -141,16 +143,15 @@
                         <label for="lolng"> Location'Lng </label>
                         <input type="number" name="lng" id="lng" class="required"/>
                     </div>   
-                    <div id="div_field_collection"> </div> 
-
+                    <div id="div_field_collection"></div> 
                     <center><button id="btn_submitAddSite" data-theme="e" data-inline="true" data-inset="true">Save</button></center>                    
                 </form>                  
             </div> 
         </div>
         <!-- view map -->
         <div data-role="page" id="page-map">
-            <div data-role="header" data-theme="e">
-                <a href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
+            <div data-role="header" data-theme="e" >
+                <a id="btn_back_create_site" href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
                 <h1>Map</h1>
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
             </div>
@@ -160,17 +161,18 @@
                     <input type="number" name="lat" id="mark_lat" class="required"/>
                     <label for="lolng"> Location'Lng </label>
                     <input type="number" name="lng" id="mark_lng" class="required"/>
-                    <center><button id="updateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Ok</button></center>                    
+                    <center><button id="updateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Ok</button>
+                        <button id="cancelupdateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Cancel</button></center>                    
                 </div>
-                <div data-role="fieldcontain" id="map_canvas"></div>
+                <div id="map_canvas"></div>
             </div>
         </div>
         <!-- update site within a collection -->
         <div data-role="page" id="page-update-site">
             <div data-role="header" data-theme="e">
                 <a href="#page-site-list" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
-                <h1> Update Site </h1>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
+                <h1> Site update and delete</h1>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>          
             </div>
             <div data-role="content">
                 <form  method="post" id="form_update_site">
@@ -178,31 +180,24 @@
                     </div>
                     <div id="div_update_field_collection"> 
                     </div>
-                    <center><button data-theme="e" id="btn_submitUpdateSite" data-inline="true" data-inset="true">Update</button>
+                    <center>
+                        <button data-theme="e" id="btn_submitUpdateSite" data-inline="true" data-inset="true">Update</button>
+                        <a data-role="button" data-theme="e" href="#confirm_delete_site" data-inline="true" data-inset="true" data-rel="dialog">Delete</a>
                     </center>  
                 </form> 
             </div>
         </div>
         <!-- delete site within a collection -->
-        <div data-role="page" id="page-delete-site">
+        <div data-dom-cache="false" data-role="page" id="confirm_delete_site">
             <div data-role="header" data-theme="e">
-                <h1>Delete Page</h1>
+                <h1> Delete the site</h1>
             </div>
             <div data-role="content">
-                <h1>Are you sure you want to delete the site.</h1>
-                <p> This action cannot be undone.</p>
-                <button>Cancel</button>
-                <button id="delete-site">Delete</button>
+                <h3> Are you sure you want to delete the site? </h3>
+                <center><a data-role="button" data-theme="e" href="#page-site-list" data-inline="true" data-inset="true">Cancel</a>
+                    <button data-theme="e" id="btn_delete-site" data-inline="true" data-inset="true">Delete</button></center>
             </div>
         </div>
-
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
-
-        <script src="js/actionPage.js"></script>
-        <script src="js/libs/jquery.validate.min.js"></script>
-        <script src="js/form_validation.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <script>
             $(document).on("mobileinit", function() {
                 $.mobile.allowCrossDomainPages = true;
@@ -238,7 +233,7 @@
 
         <script id="collection-template" type="text/x-handlebars-template">
             {{#each collectionList}}
-            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='#page-site-list'> {{name}} <p class='ui-li-aside1 ui-li-count'> {{count}} </p></a></li>
+            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='{{linkpagesite}}'> {{name}} <p class='ui-li-aside1 ui-li-count'> {{count}} </p></a></li>
             {{/each}}
         </script>
 
@@ -254,54 +249,66 @@
 
         <!--field collection-->
         <script id="field_collection-template" type="text/x-handlebars-template">
-            {{#each field_collectionList}}
-                {{#if config}} 
-                    <div>
-                        <label>{{name}}</label>
-                        <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-                        {{#if multiple}} <option>Options</option>{{/if}}
-                            {{#config.options}}
-                                <option value="{{id}}">{{label}}</option>
-                            {{/config.options}}
-                        </select>
-                    </div>
-                {{else}}    
-                    {{isPhoto}}
-                    {{#if isPhoto}}  
-                      <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-                      <div onclick="camera({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
-                        <img width='100' height='70' src='' id='{{idfield}}'/>                        
-                      </div>
-                    {{else}}
-                        <div>
-                           <label for='name'>{{{name}}}</label>
-                           <input type="{{widgetType}}" id="{{idfield}}" name="{{name}}"  >  
-                        </div>
-                    {{/if}}
-                {{/if}}
+            {{#each field_collections}}
+            {{#if config}} 
+            <div>
+                <label>{{name}}</label>
+                <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+                    {{#if multiple}} <option>Options</option>{{/if}}
+                    {{#config.options}}
+                    <option value="{{id}}">{{label}}</option>
+                    {{/config.options}}
+                </select>
+            </div>
+            {{else}}    
+            {{#if isPhoto}}  
+                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+                <div onclick="SiteCamera.takePhoto({{idfield}}, false)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+                <img width='100' height='70' src='{{__value}}' id='{{idfield}}'/>                        
+                </div>
+            {{else}}
+            <div>
+                <label for='name'>{{{name}}}</label>
+                <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+            </div>
+            {{/if}}
+            {{/if}}
             {{/each}}
         </script>
         <!--site update-->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
-            {{#update_field_collectionList}}
+            {{#each field_collections}}
             {{#if config}} 
             <div>
-            <label>{{name}}</label>
-            <select id="update{{idfield}}" data-native-menu="false" {{multiple}}>
-            {{#if multiple}} <option>Options</option>{{/if}}
-            {{#config.options}}
-            <option value="{{label}}">{{label}}</option>
-            {{/config.options}}
-            </select>
+                <label>{{name}}</label>
+                <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+                    {{#if multiple}} <option>Options</option>{{/if}}
+                    {{#config.options}}
+                        <option value="{{id}}" {{selected}}>{{label}}</option>
+                    {{/config.options}}
+                </select>
             </div>
+            {{else}}    
+            {{#if isPhoto}}  
+                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+                <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+                     <img width='100' height='100' src='{{__value}}' id='update_{{idfield}}'/>                        
+                </div>
             {{else}}
             <div>
-            <label for='name'>{{name}}</label>
-            <input type="{{kind}}" id="update{{idfield}}" name="{{name}}" value="{{value}}"/>
+                <label for='name'>{{{name}}}</label>
+                <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
             </div>
             {{/if}}
-            {{/update_field_collectionList}}
+            {{/if}}
+            {{/each}}
         </script>
         <script src="cordova.js"></script>  
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
+        <script src="js/actionPage.js"></script>
+        <script src="js/libs/jquery.validate.min.js"></script>
+        <script src="js/form_validation.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     </body>
 </html>

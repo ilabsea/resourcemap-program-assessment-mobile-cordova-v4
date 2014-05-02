@@ -12,9 +12,7 @@ $(document).ready(function() {
             error.insertAfter($(element).parent());
         },
         submitHandler: function() {
-            var status = navigator.onLine;
-            if (isOnline()) {
-                alert("online");
+            if (isOnline()) {               
                 $("#internet").hide();
                 signUp();
             }
@@ -27,22 +25,20 @@ $(document).ready(function() {
             error.insertAfter($(element).parent());
         },
         submitHandler: function() {
-            alert("submitting")
             addSiteToServer();
         }
     });
-    
-     jQuery.validator.setDefaults({
-          debug: true,
-          success: "valid"
-        });
-        $( "#form_create_site" ).validate({
-          rules: {
+    jQuery.validator.setDefaults({
+        debug: true,
+        success: "valid"
+    });
+    $("#form_create_site").validate({
+        rules: {
             field: {
-              required: true,
-              number: true
+                required: true,
+                number: true
             }
-         }
-     });
-    
+        }
+    });
+
 });

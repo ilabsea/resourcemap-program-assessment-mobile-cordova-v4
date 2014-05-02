@@ -21,8 +21,8 @@ p{
     color: violet;  
 }
 #internet{
-     display:none; 
-     color:red; 
+    display:none; 
+    color:red; 
 }
 em { color: red; font-weight: bold; padding-right: .25em; }
 sup{
@@ -46,8 +46,20 @@ input[type="checkbox"]{
 #passmatch{
     color:red;
 }
-/*h4 {
+#info_sign_in{
     display: none;
-    color:red;
-       
-}*/
+    color: orange;
+    font-weight: normal;
+}
+.loader {
+        display: none;
+        position: absolute;
+        top: 45%;
+        left: 45%;
+        width: 64px;
+        height: 64px;
+        padding:30px 15px 0px;
+        z-index: 1002;
+        text-align:center;
+        overflow: auto;
+}
