@@ -55,7 +55,6 @@ function signUp() {
             },
             error: function() {
                 $('#exitemail').show();
-                $(".loader").hide();
                 location.href = "#page-signup";
             }
         });
@@ -74,6 +73,12 @@ function authoriseUser(email, psw) {
         url: App.AUTH_URL,
         dataType: "json",
         crossDomain: true,
+        beforeSend: function() {
+            $.mobile.loader("show");
+        },
+        complete: function() {
+            $.mobile.loader("hide");
+        },
         success: function(response) {
             setAuthToken(response.auth_token);
             location.href = "#submitLogin-page";
@@ -120,6 +125,17 @@ function getAuthToken() {
     var authToken = localStorage.getItem("authToken");
     console.log("auth: " + authToken);
     return authToken;
+}
+
+function resetState() {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "#page-login";
+    return localStorage.getItem("authToken");
+}
+
+function storeToken() {
+    return localStorage.authToken;
 }
 
 function resetState() {

@@ -226,6 +226,8 @@ function buildDataForSite() {
     for (var i = 0; i < storedFieldId.length; i++) {
         var each_field = (storedFieldId[i]);
         $field = $('#' + (each_field));
+        console.log("each",each_field);
+        console.log("fields",$field);
         if ($field && $field[0].tagName.toLowerCase() === 'img') {
             for (var p = 0; p < PhotoList.getPhotos().length; p++) {
                 if (PhotoList.getPhotos()[p].id === each_field) {
