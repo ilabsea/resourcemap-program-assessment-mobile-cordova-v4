@@ -157,7 +157,7 @@ function logout() {
                 resetState();
             },
             error: function() {
-                alert("logout fail");
+                resetState();
             }
         });
     }

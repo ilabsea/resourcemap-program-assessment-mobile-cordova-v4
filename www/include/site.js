@@ -1,21 +1,27 @@
 function dateToParam(date) {
     var dd = date.getDate();
     var mm = date.getMonth() + 1;
-    if (mm < 10) { mm = '0' + mm; }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
     var yyyy = date.getFullYear();
     return  mm + "/" + dd + "/" + yyyy;
 }
 
-function convertDateWidgetToParam(format){
-   var items =  format.split("-");
-   return items[1]+ "/" + items[2] + "/" + items[0];
+function convertDateWidgetToParam(format) {
+    var items = format.split("-");
+    return items[1] + "/" + items[2] + "/" + items[0];
 }
 
 function originalDateFormat(date) {
     var dd = date.getDate();
-if (dd < 10) { dd = '0' + dd; }
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
     var mm = date.getMonth() + 1;
-    if (mm < 10) { mm = '0' + mm; }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
     var yyyy = date.getFullYear();
     return  yyyy + "-" + mm + "-" + dd;
 }
@@ -68,8 +74,8 @@ function updateSiteBySiteId() {
     Site.all().filter('id', "=", id).one(function(site) {
         var params = {};
         params["name"] = ($("#updatesitename").val());
-        params["lat"]  = ($("#updatelolat").val());
-        params["lng"]  = ($("#updatelolng").val());
+        params["lat"] = ($("#updatelolat").val());
+        params["lng"] = ($("#updatelolng").val());
         queryFieldByCollectionIdOffline(function(fields) {
             var properties = {};
             var files = {};
@@ -86,7 +92,7 @@ function updateSiteBySiteId() {
                         }
                     }
                 }
-                else if( item.widgetType === "date"){
+                else if (item.widgetType === "date") {
                     var nodeId = "#update_" + item["idfield"];
                     var value = $(nodeId).val();
                     value = new Date(value);
@@ -99,44 +105,44 @@ function updateSiteBySiteId() {
                     properties[item["idfield"]] = value;
                 }
             });
-            params["properties"] = properties;          
-            params["files"] = files;           
-            updateSite(site,params);
+            params["properties"] = properties;
+            params["files"] = files;
+            updateSite(site, params);
             location.href = "#page-site-list";
         });
     });
 }
 
-function updateSite(site,dataParams){
+function updateSite(site, dataParams) {
     persistence.remove(site);
     persistence.flush();
-     var params = {
-         name : site.name(),
-         lat : site.lat(),
-         lng  : site.lng(),
-         collection_id: site.collection_id(),
-         collection_name:  site.collection_name(),
-         user_id:  site.user_id(),
-         created_at:  site.created_at(),     
-         properties : site.properties(),
-         files: site.files()
-     };
+    var params = {
+        name: site.name(),
+        lat: site.lat(),
+        lng: site.lng(),
+        collection_id: site.collection_id(),
+        collection_name: site.collection_name(),
+        user_id: site.user_id(),
+        created_at: site.created_at(),
+        properties: site.properties(),
+        files: site.files()
+    };
     params = overideProperty(params, dataParams);
     var newSite = new Site(params);
     persistence.add(newSite);
     persistence.flush();
 }
 
-function overideProperty(params, dataParams){
-    for (proName in dataParams){
-        if(typeof dataParams[proName] === "object"){
-            for(subProperty in dataParams[proName]){
-               params[proName][subProperty]= dataParams[proName][subProperty];
+function overideProperty(params, dataParams) {
+    for (proName in dataParams) {
+        if (typeof dataParams[proName] === "object") {
+            for (subProperty in dataParams[proName]) {
+                params[proName][subProperty] = dataParams[proName][subProperty];
             }
         }
-        else 
+        else
             params[proName] = dataParams[proName];
-    } 
+    }
     return params;
 }
 
@@ -192,7 +198,7 @@ function submitSiteServer(sites) {
         }
     };
     $.ajax({
-        url: App.URL_SITE + cId + "/sites?auth_token=" + getAuthToken(),
+        url: App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + getAuthToken(),
         type: "POST",
         data: data,
         crossDomain: true,
@@ -226,26 +232,31 @@ function buildDataForSite() {
     for (var i = 0; i < storedFieldId.length; i++) {
         var each_field = (storedFieldId[i]);
         $field = $('#' + (each_field));
-        console.log("each",each_field);
-        console.log("fields",$field);
         if ($field && $field[0].tagName.toLowerCase() === 'img') {
-            for (var p = 0; p < PhotoList.getPhotos().length; p++) {
-                if (PhotoList.getPhotos()[p].id === each_field) {
-                    var fileName = PhotoList.getPhotos()[p].name();
-                    properties[each_field] = fileName;
-                    files[fileName] = PhotoList.getPhotos()[p].data;
-                    break;
+            var lPhotoList = PhotoList.getPhotos().length;
+            if (lPhotoList == 0)
+                properties[each_field] = "";
+            else {
+                for (var p = 0; p < lPhotoList; p++) {
+                    if (PhotoList.getPhotos()[p].id === each_field) {
+                        var fileName = PhotoList.getPhotos()[p].name();
+                        properties[each_field] = fileName;
+                        files[fileName] = PhotoList.getPhotos()[p].data;
+                        break;
+                    }
                 }
             }
         }
         else if ($field && $field[0].getAttribute("type") === 'date') {
             var date = $field.val();
-            if(date){
+            if (date) {
                 date = convertDateWidgetToParam(date);
                 properties["" + each_field + ""] = date;
             }
         } else {
             var data = $field.val();
+            if (data == null)
+                data = "";
             properties[each_field] = data;
         }
     }
@@ -261,6 +272,7 @@ function buildDataForSite() {
 
 function  addSiteToServer() {
     var data = buildDataForSite();
+    console.dir(data);
     if (isOnline()) {
         addSiteOnline(data, resetSiteFormOnline);
     }
@@ -281,7 +293,7 @@ function resetSiteFormOffline() {
 
 function addSiteOnline(data, callback) {
     var cId = localStorage.getItem("cId");
-    var url = App.URL_SITE + cId + "/sites?auth_token=" + getAuthToken() ;
+    var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + getAuthToken();
     $.ajax({
         url: url,
         type: "POST",
@@ -332,7 +344,6 @@ PhotoList = {
 };
 
 function Photo(id, data, format) {
-    alert("Photo");
     this.id = id;
     this.data = data;
     this.format = format || "png";
@@ -347,7 +358,6 @@ SiteCamera = {
         return 'data:image/png;base64,' + data;
     },
     takePhoto: function(idField, updated) {
-        alert("takePhoto");
         SiteCamera.id = idField;
         SiteCamera.updated = updated;
         navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, {
@@ -365,6 +375,6 @@ SiteCamera = {
         PhotoList.add(photo);
     },
     onFail: function() {
-        alert("Failed");
+        alert("No photo selected");
     }
 };

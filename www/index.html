@@ -72,7 +72,7 @@
                 </form>               
             </div>
             <div>
-                <center> <a href="#page-login"> Already have an account </a>  </center> 
+                <center> <a href="#page-login"> Already have an account </a></center> 
             </div>
         </div>
         <!-- Login Success -->
@@ -151,6 +151,7 @@
         <div data-role="page" id="page-map">
             <div data-role="header" data-theme="e" >
                 <a id="btn_back_create_site" href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
+                <a id="btn_back_update_site" href="#page-update-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
                 <h1>Map</h1>
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
             </div>
@@ -160,8 +161,6 @@
                     <input type="number" name="lat" id="mark_lat" class="required"/>
                     <label for="lolng"> Location'Lng </label>
                     <input type="number" name="lng" id="mark_lng" class="required"/>
-                    <center><button id="updateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Ok</button>
-                        <button id="cancelupdateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Cancel</button></center>                    
                 </div>
                 <div id="map_canvas"></div>
             </div>

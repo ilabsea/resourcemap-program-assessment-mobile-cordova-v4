@@ -26,11 +26,10 @@ function renderFieldsBySite(site) {
                             }
                         }
                     }
-
                     else if (item.widgetType === "date") {
                         var val = properties[propertyId];
-                        if (val)
-                            item.__value = convertDateWidgetToParam(val);
+                        var date = new Date(val);
+                        item.__value =  originalDateFormat(date);
                     }
                     else
                         item.__value = properties[propertyId];
