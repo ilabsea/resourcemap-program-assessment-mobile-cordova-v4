@@ -34,18 +34,20 @@ function validateLogin() {
 }
 // ============================== online ===========================================
 function signUp() {
-    email = $('#signupemail').val();
-    password = $('#signuppassword').val();
-    password_confirmation = $('#pswConfirm').val();
-    data = {user: {email: email, password: password, password_confirmation: password_confirmation}};
+    var email = $('#signupemail').val();
+    var password = $('#signuppassword').val();
+    var password_confirmation = $('#pswConfirm').val();
+    var data = {user: {email: email, password: password, password_confirmation: password_confirmation}};
     if (password === password_confirmation) {
         $("#passmatch").hide();
+        $(".loader").show();
         $.ajax({
             url: App.URL_SIGNUP,
             type: "POST",
             crossDomain: true,
             data: data,
             success: function() {
+                $(".loader").hide();
                 $("#exitemail").hide();
                 alert("Sign up successful");
                 location.href = "#page-login";
@@ -64,6 +66,7 @@ function signUp() {
 function authoriseUser(email, psw) {
     data = {user: {email: email, password: psw}};
     $('#invalidmail').hide();
+    $(".loader").show();
     $.ajax({
         type: "post",
         data: data,
@@ -94,12 +97,15 @@ function authoriseUser(email, psw) {
             });
         },
         error: function() {
+            $(".loader").hide();
             $('#invalidmail').show();
         }
     });
 }
 
+
 function setCurrentUser(user) {
+    $(".loader").hide();
     var currentUser = {id: user.id, password: user.password(), email: user.email()};
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
 }
@@ -116,6 +122,15 @@ function setAuthToken(auth_token) {
 }
 
 function getAuthToken() {
+    var authToken = localStorage.getItem("authToken");
+    console.log("auth: " + authToken);
+    return authToken;
+}
+
+function resetState() {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "#page-login";
     return localStorage.getItem("authToken");
 }
 
@@ -135,7 +150,7 @@ function logout() {
     } else {
         $.ajax({
             type: "post",
-            url: App.URL_LOGOUT + storeToken(),
+            url: App.URL_LOGOUT + getAuthToken(),
             dataType: "json",
             crossDomain: true,
             success: function() {

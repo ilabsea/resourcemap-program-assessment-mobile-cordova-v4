@@ -12,8 +12,7 @@ $(document).ready(function() {
             error.insertAfter($(element).parent());
         },
         submitHandler: function() {
-            if (isOnline()) {
-                alert("online");
+            if (isOnline()) {               
                 $("#internet").hide();
                 signUp();
             }
@@ -29,7 +28,6 @@ $(document).ready(function() {
             addSiteToServer();
         }
     });
-
     jQuery.validator.setDefaults({
         debug: true,
         success: "valid"

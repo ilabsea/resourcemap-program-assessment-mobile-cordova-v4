@@ -3,7 +3,7 @@ App.onDeviceReady();
 $(function() {
     $(document).delegate('#submitLogin-page', 'pagebeforeshow', function() {
         getCollection();
-        $('#form_create_site ')[0].reset()
+        $('#form_create_site ')[0].reset();
     });
     $(document).delegate('#submitLogin-page li', 'click', function() {
         var cId = $(this).attr("data-id");
@@ -43,7 +43,7 @@ $(function() {
         getFieldsCollection();
         var lat = $("#lat").val();
         var lng = $("#lng").val();
-        if (lat == "" && lng == "") {
+        if (lat =="" && lng == "") {
             navigator.geolocation.getCurrentPosition(function(pos) {
                 var lat = pos.coords.latitude;
                 var lng = pos.coords.longitude;
@@ -87,7 +87,7 @@ $(function() {
         updateLatLngBySiteId(sId);
     });
     $(document).delegate('#cancelupdateLatLng_page_map', 'click', function() {
-        location.href="#page-update-site";
+        location.href = "#page-update-site";
     });
     $(document).delegate('#page-map', 'pageshow', function() {
         var lat = $("#mark_lat").val();

@@ -53,8 +53,9 @@
                     <center><img src="img/logo.png" alt="Resource Map"></center>
                 </div>
                 <center><span id="internet">Unable to connect to the Internet</span></center>
-                <h2>Signup</h2>               
-                <form method="post" action="#" name="myForm" id="form_signup">
+                <h2>Signup</h2>                
+                <img src='img/ajax-loader.gif' class="loader">
+                <form method="post" action="#" name="myForm" id="form_signup">                  
                     <div data-role="fieldcontain">
                         <em>* </em> Email
                         <input type="email" name="user[email]" class="required email" id="signupemail"/>
@@ -66,7 +67,7 @@
                         <p id="passmatch">Password doesn't match confirmation</p>
                         Phone number<br><i>(+855XXXXXXXXX)</i>
                         <input type="number" name="tel" id="tel"/>
-                        <center><button data-theme="e" data-inline="true" data-inset="true">Sign up</button></center>
+                        <center><button data-theme="e" data-inset="true">Sign up</button></center>
                     </div>
                 </form>               
             </div>
@@ -93,7 +94,7 @@
             <div data-role="header" data-theme="e">
                 <a href="#submitLogin-page" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
                 <h1>Sites</h1>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>   
             </div>
             <div data-role="content" id="sitelistview">
                 <ul id="offlinesite-list" data-role="listview" data-inset="true"> 
@@ -128,7 +129,7 @@
                 <h1>Create Site</h1>
                 <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right">Logout</button>
             </div>
-            <div data-role="content">
+            <div data-role="content">              
                 <form method="post" id="form_create_site" enctype="multipart/form-data">                  
                     <div>
                         <label for="sname"> Name </label>
@@ -196,12 +197,6 @@
                     <button data-theme="e" id="btn_delete-site" data-inline="true" data-inset="true">Delete</button></center>
             </div>
         </div>
-        <!--ajax loader-->   
-        <!--        <div data-role="page" id="page-loader">
-                    <div data-role="content">
-                        <center><img src="img/ajax-loader.gif" alt="waiting..."/></center>
-                    </div>
-                </div>-->
         <script>
             $(document).on("mobileinit", function() {
                 $.mobile.allowCrossDomainPages = true;
@@ -256,25 +251,24 @@
             {{#each field_collections}}
             {{#if config}} 
             <div>
-            <label>{{name}}</label>
-            <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-            {{#if multiple}} <option>Options</option>{{/if}}
-            {{#config.options}}
-            <option value="{{id}}">{{label}}</option>
-            {{/config.options}}
-            </select>
+                <label>{{name}}</label>
+                <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+                    {{#if multiple}} <option>Options</option>{{/if}}
+                    {{#config.options}}
+                    <option value="{{id}}">{{label}}</option>
+                    {{/config.options}}
+                </select>
             </div>
             {{else}}    
-            {{isPhoto}}
             {{#if isPhoto}}  
-            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-            <div onclick="SiteCamera.takePhoto({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
-            <img width='100' height='70' src='' id='{{idfield}}'/>                        
-            </div>
+                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+                <div onclick="SiteCamera.takePhoto({{idfield}}, false)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+                <img width='100' height='70' src='{{__value}}' id='{{idfield}}'/>                        
+                </div>
             {{else}}
             <div>
-            <label for='name'>{{{name}}}</label>
-            <input type="{{widgetType}}" id="{{idfield}}" name="{{name}}"  >  
+                <label for='name'>{{{name}}}</label>
+                <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
             </div>
             {{/if}}
             {{/if}}

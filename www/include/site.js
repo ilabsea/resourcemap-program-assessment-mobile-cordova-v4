@@ -6,9 +6,14 @@ function dateToParam(date) {
     return  mm + "/" + dd + "/" + yyyy;
 }
 
+function convertDateWidgetToParam(format){
+   var items =  format.split("-");
+   return items[1]+ "/" + items[2] + "/" + items[0];
+}
+
 function originalDateFormat(date) {
     var dd = date.getDate();
-    if (dd < 10) { dd = '0' + dd; }
+if (dd < 10) { dd = '0' + dd; }
     var mm = date.getMonth() + 1;
     if (mm < 10) { mm = '0' + mm; }
     var yyyy = date.getFullYear();
@@ -37,13 +42,14 @@ function  getSiteByUserId(id) {
             var item = {id: site.id,
                 name: site.name(),
                 collectionName: site.collection_name(),
-                date: fullDate}
+                date: fullDate};
             siteofflineData.siteofflineList.push(item);
         });
         var siteofflineTemplate = Handlebars.compile($('#siteoffline-template').html());
         $('#offlinesite-list').html(siteofflineTemplate(siteofflineData));
         $('#offlinesite-list').listview("refresh");
     });
+
 }
 
 function renderUpdateSiteForm() {
@@ -60,9 +66,10 @@ function renderUpdateSiteForm() {
 function updateSiteBySiteId() {
     var id = localStorage.getItem("sId");
     Site.all().filter('id', "=", id).one(function(site) {
-        site.name($("#updatesitename").val());
-        site.lat($("#updatelolat").val());
-        site.lng($("#updatelolng").val());
+        var params = {};
+        params["name"] = ($("#updatesitename").val());
+        params["lat"]  = ($("#updatelolat").val());
+        params["lng"]  = ($("#updatelolng").val());
         queryFieldByCollectionIdOffline(function(fields) {
             var properties = {};
             var files = {};
@@ -79,7 +86,7 @@ function updateSiteBySiteId() {
                         }
                     }
                 }
-                else if( item.widgetType== "date"){
+                else if( item.widgetType === "date"){
                     var nodeId = "#update_" + item["idfield"];
                     var value = $(nodeId).val();
                     value = new Date(value);
@@ -92,13 +99,47 @@ function updateSiteBySiteId() {
                     properties[item["idfield"]] = value;
                 }
             });
-            site.properties(properties);
-            site.files(files);
-            persistence.flush(site);
+            params["properties"] = properties;          
+            params["files"] = files;           
+            updateSite(site,params);
             location.href = "#page-site-list";
         });
     });
 }
+
+function updateSite(site,dataParams){
+    persistence.remove(site);
+    persistence.flush();
+     var params = {
+         name : site.name(),
+         lat : site.lat(),
+         lng  : site.lng(),
+         collection_id: site.collection_id(),
+         collection_name:  site.collection_name(),
+         user_id:  site.user_id(),
+         created_at:  site.created_at(),     
+         properties : site.properties(),
+         files: site.files()
+     };
+    params = overideProperty(params, dataParams);
+    var newSite = new Site(params);
+    persistence.add(newSite);
+    persistence.flush();
+}
+
+function overideProperty(params, dataParams){
+    for (proName in dataParams){
+        if(typeof dataParams[proName] === "object"){
+            for(subProperty in dataParams[proName]){
+               params[proName][subProperty]= dataParams[proName][subProperty];
+            }
+        }
+        else 
+            params[proName] = dataParams[proName];
+    } 
+    return params;
+}
+
 
 function updateLatLngBySiteId(sId) {
     Site.all().filter('id', "=", sId).one(function(site) {
@@ -140,6 +181,7 @@ function sendSiteToServer(key, id) {
 function submitSiteServer(sites) {
     var cId = localStorage.getItem("cId");
     var site = sites[0];
+    $(".loader").show();
     var data = {site: {
             collection_id: site.collection_id(),
             name: site.name(),
@@ -158,6 +200,7 @@ function submitSiteServer(sites) {
         success: function() {
             persistence.remove(site);
             persistence.flush();
+            $(".loader").hide();
             $('#sendToServer').show();
             sites.splice(0, 1);
             if (sites.length === 0) {
@@ -167,7 +210,7 @@ function submitSiteServer(sites) {
                 submitSiteServer(sites);
         },
         error: function(error) {
-            alert("err : " + error);
+            alert("error");
         }
     });
 }
@@ -181,8 +224,10 @@ function buildDataForSite() {
     var properties = {};
     var files = {};
     for (var i = 0; i < storedFieldId.length; i++) {
-        var each_field = storedFieldId[i];
-        $field = $('#' + each_field);
+        var each_field = (storedFieldId[i]);
+        $field = $('#' + (each_field));
+        console.log("each",each_field);
+        console.log("fields",$field);
         if ($field && $field[0].tagName.toLowerCase() === 'img') {
             for (var p = 0; p < PhotoList.getPhotos().length; p++) {
                 if (PhotoList.getPhotos()[p].id === each_field) {
@@ -195,9 +240,10 @@ function buildDataForSite() {
         }
         else if ($field && $field[0].getAttribute("type") === 'date') {
             var date = $field.val();
-            date = new Date(date);
-            date = dateToParam(date);
-            properties["" + each_field + ""] = date;
+            if(date){
+                date = convertDateWidgetToParam(date);
+                properties["" + each_field + ""] = date;
+            }
         } else {
             var data = $field.val();
             properties[each_field] = data;
@@ -222,6 +268,7 @@ function  addSiteToServer() {
         addSiteOffline(data, resetSiteFormOffline);
     }
 }
+
 function resetSiteFormOnline() {
     PhotoList.clear();
     location.href = "#submitLogin-page";
@@ -234,7 +281,7 @@ function resetSiteFormOffline() {
 
 function addSiteOnline(data, callback) {
     var cId = localStorage.getItem("cId");
-    var url = App.URL_SITE + cId + "/sites?auth_token=" + getAuthToken();
+    var url = App.URL_SITE + cId + "/sites?auth_token=" + getAuthToken() ;
     $.ajax({
         url: url,
         type: "POST",
@@ -246,7 +293,6 @@ function addSiteOnline(data, callback) {
 }
 
 function addSiteOffline(data, callback) {
-    console.dir(data.properties);
     var collectionName = localStorage.getItem("collectionName");
     var today = new Date();
     var siteParams = data;
@@ -286,6 +332,7 @@ PhotoList = {
 };
 
 function Photo(id, data, format) {
+    alert("Photo");
     this.id = id;
     this.data = data;
     this.format = format || "png";
@@ -300,6 +347,7 @@ SiteCamera = {
         return 'data:image/png;base64,' + data;
     },
     takePhoto: function(idField, updated) {
+        alert("takePhoto");
         SiteCamera.id = idField;
         SiteCamera.updated = updated;
         navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, {

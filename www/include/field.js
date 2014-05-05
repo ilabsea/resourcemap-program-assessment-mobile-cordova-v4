@@ -26,17 +26,18 @@ function renderFieldsBySite(site) {
                             }
                         }
                     }
+
                     else if (item.widgetType === "date") {
                         var val = properties[propertyId];
-                        var date = new Date(val);
-                        item.__value =  originalDateFormat(date);
+                        if (val)
+                            item.__value = convertDateWidgetToParam(val);
                     }
-                    else {
+                    else
                         item.__value = properties[propertyId];
-                    }
+                    field_collections.push(item);
+                    break;
                 }
             }
-            field_collections.push(item);
         });
         var fieldTemplate = Handlebars.compile($("#update_field_collection-template").html());
         $('#div_update_field_collection').html(fieldTemplate({field_collections: field_collections}));
@@ -122,7 +123,7 @@ function getFieldsCollection() {
 function renderFieldByCollectionIdOnline() {
     var cId = localStorage.getItem("cId");
     $.ajax({
-        url: App.URL_FIELD + cId + "/fields?auth_token=" + storeToken(),
+        url: App.URL_FIELD + cId + "/fields?auth_token=" + getAuthToken(),
         type: "get",
         crossDomain: true,
         datatype: 'json',
@@ -143,6 +144,7 @@ function renderFieldByCollectionIdOnline() {
             var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
             $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
             $('#div_field_collection').trigger("create");
+
         },
         error: function(error) {
             console.log("erro:  " + error);
