@@ -1,6 +1,6 @@
 function renderFieldsBySite(site) {
     alert("renderFieldBySite");
-    queryFieldByCollectionIdOffline(function(fields) {     
+    queryFieldByCollectionIdOffline(function(fields) {
         var field_collections = [];
         fields.forEach(function(field) {
             var item = buildField(field, {fromServer: false});
@@ -27,17 +27,17 @@ function renderFieldsBySite(site) {
                             }
                         }
                     }
-                    else if (item.widgetType === "date") {                       
+                    else if (item.widgetType === "date") {
                         var val = properties[propertyId];
-                        alert("properties: "+val);
+                        alert("properties: " + val);
                         if (val)
-                           item.__value = convertDateWidgetToParam(val);                   
+                            item.__value = convertDateWidgetToParam(val);
                     }
-                    else 
+                    else
                         item.__value = properties[propertyId];
-                   field_collections.push(item);
-                   break;
-                } 
+                    field_collections.push(item);
+                    break;
+                }
             }
         });
         var fieldTemplate = Handlebars.compile($("#update_field_collection-template").html());
@@ -59,7 +59,7 @@ function buildField(fieldObj, options) {
         id = fieldObj.idfield();
     }
     var kind = field.kind;
-    var widgetType = kind;   
+    var widgetType = kind;
     var config = field.config;
     var slider = "";
     var ctrue = "";
@@ -77,7 +77,7 @@ function buildField(fieldObj, options) {
     if (widgetType === "phone") {
         widgetType = "tel";
     }
-    
+
     var fields = {idfield: id,
         name: field.name,
         kind: kind,
@@ -136,17 +136,16 @@ function renderFieldByCollectionIdOnline() {
                 field_id_arr.push(properties.id);
                 var fields = buildField(properties, {fromServer: true});
                 field_collections.push(fields);
-                localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
                 Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
                     if (field === null) {
                         addField(fields);
                     }
                 });
             });
+            localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
             var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
             $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
             $('#div_field_collection').trigger("create");
-
         },
         error: function(error) {
             console.log("erro:  " + error);
