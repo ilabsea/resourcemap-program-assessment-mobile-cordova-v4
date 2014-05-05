@@ -54,6 +54,7 @@ function signUp() {
                 $('#form_signup')[0].reset();
             },
             error: function() {
+                $(".loader").hide();
                 $('#exitemail').show();
                 location.href = "#page-signup";
             }
@@ -157,7 +158,7 @@ function logout() {
                 resetState();
             },
             error: function() {
-                alert("logout fail");
+                resetState();
             }
         });
     }

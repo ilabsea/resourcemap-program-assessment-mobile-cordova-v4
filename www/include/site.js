@@ -6,8 +6,13 @@ function dateToParam(date) {
     return  mm + "/" + dd + "/" + yyyy;
 }
 function convertDateWidgetToParam(format){
-   var items =  format.split("-");
-   return items[1]+ "/" + items[2] + "/" + items[0];
+   if (format.indexOf("-") !== -1){ //native HTML5 date
+       var items =  format.split("-");
+       return items[1]+ "/" + items[2] + "/" + items[0];
+   }   
+   else{ //unsported
+       return format;
+   }
 }
 
 function originalDateFormat(date) {
@@ -159,16 +164,19 @@ function deleteSiteBySiteId(sId) {
 
 function sendSiteToServerByCollectiion() {
     var cId = localStorage.getItem("cId");
+    console.log("currentUser",currentUser);
     sendSiteToServer("collection_id", cId);
 }
 function sendSiteToServerByUser() {
-    var currentUser = getCurrentUser();
+    var currentUser = getCurrentUser(); 
+    console.log("currentUser",currentUser);
     sendSiteToServer("user_id", currentUser.id);
 }
 
 function sendSiteToServer(key, id) {
+    alert("key: "+key);
     if (isOnline()) {
-        Site.all().filter(key, "=", id).list(function(sites) {
+        Site.all().filter(key, "=", id).list(function(sites) {           
             if (sites.length > 0)
                 submitSiteServer(sites);
         });
@@ -178,7 +186,6 @@ function sendSiteToServer(key, id) {
 }
 
 function submitSiteServer(sites) {
-    var cId = localStorage.getItem("cId");
     var site = sites[0];
     $(".loader").show();
     var data = {site: {
@@ -189,10 +196,11 @@ function submitSiteServer(sites) {
             properties: site.properties(),
             files: site.files()
         }
-    };
-    
+    }; 
+   
+    console.log("getAuthToken(): "+getAuthToken());
     $.ajax({
-        url: App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + getAuthToken(),
+        url: App.END_POINT + "/v1/collections/" + site.collection_id() + "/sites?auth_token=" + getAuthToken(),
         type: "POST",
         data: data,
         crossDomain: true,
@@ -210,9 +218,9 @@ function submitSiteServer(sites) {
                 submitSiteServer(sites);
         },
         error: function(error) {
-            alert("error");
+        window.location.href = "#page-login";
         }
-    });
+    });   
 }
 
 function buildDataForSite() {
@@ -240,12 +248,15 @@ function buildDataForSite() {
         }
         else if ($field && $field[0].getAttribute("type") === 'date') {
             var date = $field.val();
+           
             if(date){
-                date = convertDateWidgetToParam(date);
-                properties["" + each_field + ""] = date;
+                convertedDate = convertDateWidgetToParam(date);
+                properties[ each_field ] = convertedDate;
             }
-        } else {
+        } 
+        else {
             var data = $field.val();
+            if(data==null) data = "";
             properties[each_field] = data;
         }
     }
@@ -270,7 +281,6 @@ function  addSiteToServer() {
 }
 
 function resetSiteFormOnline() {
-    alert("resetSiteFormOnline");
     PhotoList.clear();
     location.href = "#submitLogin-page";
 }
@@ -282,6 +292,7 @@ function resetSiteFormOffline() {
 
 function addSiteOnline(data, callback) {
     var cId = localStorage.getItem("cId");
+    alert("getAutoToken"+getAuthToken());
     var url = App.URL_SITE + cId + "/sites?auth_token=" +getAuthToken() ;
     $.ajax({
         url: url,
@@ -289,7 +300,12 @@ function addSiteOnline(data, callback) {
         data: {site: data},
         crossDomain: true,
         datatype: 'json',
-        success: callback
+        success: callback,
+         error: function(error) {
+             //window.location.href = ""
+             console.log(error);          
+        }
+        
     });
 }
 
@@ -332,8 +348,7 @@ PhotoList = {
     }
 };
 
-function Photo(id, data, format) {
-    alert("Photo");
+function Photo(id, data, format) {    
     this.id = id;
     this.data = data;
     this.format = format || "png";

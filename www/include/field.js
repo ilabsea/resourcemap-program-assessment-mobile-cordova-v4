@@ -1,5 +1,6 @@
 function renderFieldsBySite(site) {
-    queryFieldByCollectionIdOffline(function(fields) {
+    alert("renderFieldBySite");
+    queryFieldByCollectionIdOffline(function(fields) {     
         var field_collections = [];
         fields.forEach(function(field) {
             var item = buildField(field, {fromServer: false});
@@ -26,8 +27,9 @@ function renderFieldsBySite(site) {
                             }
                         }
                     }
-                    else if (item.widgetType === "date") {
+                    else if (item.widgetType === "date") {                       
                         var val = properties[propertyId];
+                        alert("properties: "+val);
                         if (val)
                            item.__value = convertDateWidgetToParam(val);                   
                     }
@@ -75,6 +77,7 @@ function buildField(fieldObj, options) {
     if (widgetType === "phone") {
         widgetType = "tel";
     }
+    
     var fields = {idfield: id,
         name: field.name,
         kind: kind,
