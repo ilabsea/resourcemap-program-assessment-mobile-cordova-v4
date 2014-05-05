@@ -101,7 +101,7 @@
                 </ul> 
             </div>
             <div>
-                <center><button onclick='sendSiteToServerByUser()' data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
+                <center><button data-theme="e" id="btn_sendToServerAll" data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
             </div>
         </div>
         <!--site-list-->
@@ -117,7 +117,7 @@
             </div>
             <div> 
                 <center>
-                    <button data-theme="e" onclick='sendSiteToServerByCollectiion()' data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
+                    <button data-theme="e" id="btn_sendToServer" data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
                     <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site" data-inline="true" data-icon="plus" data-iconpos="left">Add new site</a>
                 </center>
             </div>
@@ -175,8 +175,10 @@
             </div>
             <div data-role="content">
                 <form  method="post" id="form_update_site">
-                    <div id="div-site-update-name"> </div>
-                    <div id="div_update_field_collection"> </div>
+                    <div id="div-site-update-name">
+                    </div>
+                    <div id="div_update_field_collection"> 
+                    </div>
                     <center>
                         <button data-theme="e" id="btn_submitUpdateSite" data-inline="true" data-inset="true">Update</button>
                         <a data-role="button" data-theme="e" href="#confirm_delete_site" data-inline="true" data-inset="true" data-rel="dialog">Delete</a>
@@ -252,61 +254,61 @@
 
         <!--field collection-->
         <script id="field_collection-template" type="text/x-handlebars-template">
-        {{#each field_collections}}
-                {{#if config}} 
-                    <div>
-                        <label>{{name}}</label>
-                        <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-                            {{#if multiple}} <option>Options</option>{{/if}}
-                            {{#config.options}}
-                             <option value="{{id}}">{{label}}</option>
-                             {{/config.options}}
-                        </select>
-                    </div>
-                {{else}}    
-                    {{#if isPhoto}}  
-                        <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-                        <div onclick="SiteCamera.takePhoto({{idfield}}, false)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
-                        <img width='100' height='70' src='{{__value}}' id='{{idfield}}'/>                        
-                        </div>
-                    {{else}}
-                        <div>
-                            <label for='name'>{{{name}}}</label>
-                            <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
-                        </div>
-                    {{/if}}
-                {{/if}}
+            {{#each field_collections}}
+            {{#if config}} 
+            <div>
+            <label>{{name}}</label>
+            <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+            {{#if multiple}} <option>Options</option>{{/if}}
+            {{#config.options}}
+            <option value="{{id}}">{{label}}</option>
+            {{/config.options}}
+            </select>
+            </div>
+            {{else}}    
+            {{isPhoto}}
+            {{#if isPhoto}}  
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div onclick="SiteCamera.takePhoto({{idfield}})" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+            <img width='100' height='70' src='' id='{{idfield}}'/>                        
+            </div>
+            {{else}}
+            <div>
+            <label for='name'>{{{name}}}</label>
+            <input type="{{widgetType}}" id="{{idfield}}" name="{{name}}"  >  
+            </div>
+            {{/if}}
+            {{/if}}
             {{/each}}
         </script>
-        
+        <!--site update-->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
-        {{#each field_collections}}
-                {{#if config}} 
-                    <div>
-                        <label>{{name}}</label>
-                        <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-                            {{#if multiple}} <option>Options</option>{{/if}}
-                            {{#config.options}}
-                             <option value="{{id}}">{{label}}</option>
-                             {{/config.options}}
-                        </select>
-                    </div>
-                {{else}}    
-                    {{#if isPhoto}}  
-                        <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-                        <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
-                        <img width='100' height='100' src='{{__value}}' id='update_{{idfield}}'/>                        
-                        </div>
-                    {{else}}
-                        <div>
-                            <label for='name'>{{{name}}}</label>
-                            <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
-                        </div>
-                    {{/if}}
-                {{/if}}
+            {{#each field_collections}}
+            {{#if config}} 
+            <div>
+            <label>{{name}}</label>
+            <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+            {{#if multiple}} <option>Options</option>{{/if}}
+            {{#config.options}}
+            <option value="{{id}}" {{selected}}>{{label}}</option>
+            {{/config.options}}
+            </select>
+            </div>
+            {{else}}    
+            {{#if isPhoto}}  
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+            <img width='100' height='100' src='{{__value}}' id='update_{{idfield}}'/>                        
+            </div>
+            {{else}}
+            <div>
+            <label for='name'>{{{name}}}</label>
+            <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+            </div>
+            {{/if}}
+            {{/if}}
             {{/each}}
         </script>
-       
         <script src="cordova.js"></script>  
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
