@@ -142,7 +142,7 @@ function renderFieldByCollectionIdOnline() {
                     }
                 });
             });
-            localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
+            localStorage["field_id_arr"] = JSON.stringify(field_id_arr);         
             var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
             $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
             $('#div_field_collection').trigger("create");
@@ -158,11 +158,11 @@ function renderFieldByCollectionIdOffline() {
         var field_collections = [];
         var field_id_arr = new Array();
         fields.forEach(function(field) {
-            field_id_arr.push(field.idfield());
-            localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
+            field_id_arr.push(field.idfield());           
             var item = buildField(field, {fromServer: false});
             field_collections.push(item);
         });
+        localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
         var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
         $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
         $('#div_field_collection').trigger("create");

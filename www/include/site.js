@@ -222,6 +222,7 @@ function submitSiteServer(sites) {
                 submitSiteServer(sites);
         },
         error: function(error) {
+            $(".loader").hide();
             window.location.href = "#page-login";
         }
     });
@@ -286,6 +287,7 @@ function  addSiteToServer() {
 }
 
 function resetSiteFormOnline() {
+    $(".loader").hide();
     PhotoList.clear();
     location.href = "#submitLogin-page";
 }
@@ -297,8 +299,8 @@ function resetSiteFormOffline() {
 
 function addSiteOnline(data, callback) {
     var cId = localStorage.getItem("cId");
-    alert("getAutoToken" + getAuthToken());
     var url = App.URL_SITE + cId + "/sites?auth_token=" + getAuthToken();
+    $(".loader").show();
     $.ajax({
         url: url,
         type: "POST",
@@ -307,7 +309,6 @@ function addSiteOnline(data, callback) {
         datatype: 'json',
         success: callback,
         error: function(error) {
-            //window.location.href = ""
             console.log(error);
         }
 
