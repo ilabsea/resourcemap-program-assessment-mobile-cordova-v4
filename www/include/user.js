@@ -54,6 +54,7 @@ function signUp() {
                 $('#form_signup')[0].reset();
             },
             error: function() {
+                $(".loader").hide();
                 $('#exitemail').show();
                 location.href = "#page-signup";
             }
@@ -81,6 +82,7 @@ function authoriseUser(email, psw) {
         },
         success: function(response) {
             setAuthToken(response.auth_token);
+            $(".loader").hide();
             location.href = "#submitLogin-page";
             User.all().filter('email', "=", email).one(null, function(user) {
                 if (user === null) {

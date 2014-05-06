@@ -22,6 +22,7 @@
         <script src="include/db_connection.js"></script>
         <script src="include/site.js"></script>
         <script src="include/field.js"></script>
+        <script src="language/kh.js"></script>
     </head>
     <body>
         <!--page-login-->   
@@ -33,6 +34,7 @@
                 </div>
                 <p id="invalidmail" class="invalid">Invalid email or password.</p>
                 <p id="noMailInDb" class="invalid">Not found in database.</p>
+                <div><img src='img/ajax-loader.gif' class="loader"></div>
                 <form id="form_login">
                     <h3 id="info_sign_in">Please sign in</h3>
                     <label for="email"> Email </label>
@@ -72,7 +74,7 @@
                 </form>               
             </div>
             <div>
-                <center> <a href="#page-login"> Already have an account </a></center> 
+                <center> <a href="#page-login"> Already have an account </a>  </center> 
             </div>
         </div>
         <!-- Login Success -->
@@ -101,7 +103,10 @@
                 </ul> 
             </div>
             <div>
-                <center><button data-theme="e" id="btn_sendToServerAll" data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
+                    <img src='img/ajax-loader.gif' class="loader">
+            </div>
+            <div>
+                <center><button onclick='sendSiteToServerByUser()' data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
             </div>
         </div>
         <!--site-list-->
@@ -129,7 +134,10 @@
                 <h1>Create Site</h1>
                 <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right">Logout</button>
             </div>
-            <div data-role="content">              
+            <div data-role="content">  
+                <div>
+                    <img src='img/ajax-loader.gif' class="loader">
+                </div>
                 <form method="post" id="form_create_site" enctype="multipart/form-data">                  
                     <div>
                         <label for="sname"> Name </label>
@@ -151,7 +159,6 @@
         <div data-role="page" id="page-map">
             <div data-role="header" data-theme="e" >
                 <a id="btn_back_create_site" href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
-                <a id="btn_back_update_site" href="#page-update-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
                 <h1>Map</h1>
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
             </div>
@@ -161,6 +168,8 @@
                     <input type="number" name="lat" id="mark_lat" class="required"/>
                     <label for="lolng"> Location'Lng </label>
                     <input type="number" name="lng" id="mark_lng" class="required"/>
+                    <center><button id="updateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Ok</button>
+                        <button id="cancelupdateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Cancel</button></center>                    
                 </div>
                 <div id="map_canvas"></div>
             </div>
@@ -267,7 +276,7 @@
             {{else}}
             <div>
                 <label for='name'>{{{name}}}</label>
-                <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+                <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"/ >  
             </div>
             {{/if}}
             {{/if}}
@@ -278,24 +287,24 @@
             {{#each field_collections}}
             {{#if config}} 
             <div>
-            <label>{{name}}</label>
-            <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-            {{#if multiple}} <option>Options</option>{{/if}}
-            {{#config.options}}
-            <option value="{{id}}" {{selected}}>{{label}}</option>
-            {{/config.options}}
-            </select>
+                <label>{{name}}</label>
+                <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+                    {{#if multiple}} <option>Options</option>{{/if}}
+                    {{#config.options}}
+                        <option value="{{id}}" {{selected}}>{{label}}</option>
+                    {{/config.options}}
+                </select>
             </div>
             {{else}}    
             {{#if isPhoto}}  
-            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-            <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
-            <img width='100' height='100' src='{{__value}}' id='update_{{idfield}}'/>                        
-            </div>
+                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+                <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+                     <img width='100' height='100' src='{{__value}}' id='update_{{idfield}}'/>                        
+                </div>
             {{else}}
             <div>
-            <label for='name'>{{{name}}}</label>
-            <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+                <label for='name'>{{{name}}}</label>
+                <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
             </div>
             {{/if}}
             {{/if}}
