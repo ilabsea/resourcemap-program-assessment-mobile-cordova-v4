@@ -1,5 +1,4 @@
 function renderFieldsBySite(site) {
-    alert("renderFieldBySite");
     queryFieldByCollectionIdOffline(function(fields) {
         var field_collections = [];
         fields.forEach(function(field) {
@@ -17,7 +16,7 @@ function renderFieldsBySite(site) {
                         item.__value = properties[propertyId];
                         for (var k = 0; k < item.config.options.length; k++) {
                             for (var j = 0; j < item.__value.length; j++) {
-                                if (item.config.options[k].id === item.__value[j]) {
+                                if (item.config.options[k].id == item.__value[j]) {
                                     item.config.options[k]["selected"] = "selected";
                                 } else {
                                     if (j === item.__value.length) {
@@ -29,9 +28,8 @@ function renderFieldsBySite(site) {
                     }
                     else if (item.widgetType === "date") {
                         var val = properties[propertyId];
-                        alert("properties: " + val);
-                        if (val)
-                            item.__value = convertDateWidgetToParam(val);
+                        var date = new Date(val);
+                        item.__value =  originalDateFormat(date);
                     }
                     else
                         item.__value = properties[propertyId];
@@ -77,7 +75,6 @@ function buildField(fieldObj, options) {
     if (widgetType === "phone") {
         widgetType = "tel";
     }
-
     var fields = {idfield: id,
         name: field.name,
         kind: kind,
@@ -142,10 +139,11 @@ function renderFieldByCollectionIdOnline() {
                     }
                 });
             });
-            localStorage["field_id_arr"] = JSON.stringify(field_id_arr);         
+            localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
             var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
             $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
             $('#div_field_collection').trigger("create");
+
         },
         error: function(error) {
             console.log("erro:  " + error);
@@ -158,7 +156,7 @@ function renderFieldByCollectionIdOffline() {
         var field_collections = [];
         var field_id_arr = new Array();
         fields.forEach(function(field) {
-            field_id_arr.push(field.idfield());           
+            field_id_arr.push(field.idfield());
             var item = buildField(field, {fromServer: false});
             field_collections.push(item);
         });

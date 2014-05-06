@@ -34,7 +34,7 @@
                 </div>
                 <p id="invalidmail" class="invalid">Invalid email or password.</p>
                 <p id="noMailInDb" class="invalid">Not found in database.</p>
-                <div><img src='img/ajax-loader.gif' class="loader"></div>
+                <img src='img/ajax-loader.gif' class="loader">
                 <form id="form_login">
                     <h3 id="info_sign_in">Please sign in</h3>
                     <label for="email"> Email </label>
@@ -103,7 +103,7 @@
                 </ul> 
             </div>
             <div>
-                    <img src='img/ajax-loader.gif' class="loader">
+                <img src='img/ajax-loader.gif' class="loader">
             </div>
             <div>
                 <center><button onclick='sendSiteToServerByUser()' data-inline="true" data-icon="forward" data-iconpos="left">Send to server</button>
@@ -113,7 +113,7 @@
         <div data-role="page" id="page-site-list">
             <div data-role="header" data-theme="e">
                 <a href="#submitLogin-page" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
-                <h2 id="title"></h2>
+                <h2 class="title"></h2>
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
             </div>
             <div data-role="content" id="sitelist">
@@ -131,7 +131,7 @@
         <div data-role="page" id="page-create-site">
             <div data-role="header" data-theme="e">
                 <a data-role="button" data-theme="a"  href="#submitLogin-page" data-icon="back" class="ui-btn-left">Back</a>
-                <h1>Create Site</h1>
+                <h2 class="title"></h2>
                 <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right">Logout</button>
             </div>
             <div data-role="content">  
@@ -159,6 +159,7 @@
         <div data-role="page" id="page-map">
             <div data-role="header" data-theme="e" >
                 <a id="btn_back_create_site" href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
+                <a id="btn_back_update_site" href="#page-update-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
                 <h1>Map</h1>
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
             </div>
@@ -168,8 +169,6 @@
                     <input type="number" name="lat" id="mark_lat" class="required"/>
                     <label for="lolng"> Location'Lng </label>
                     <input type="number" name="lng" id="mark_lng" class="required"/>
-                    <center><button id="updateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Ok</button>
-                        <button id="cancelupdateLatLng_page_map" data-theme="e" data-inline="true" data-inset="true">Cancel</button></center>                    
                 </div>
                 <div id="map_canvas"></div>
             </div>
@@ -228,7 +227,7 @@
                 localStorage.setItem('collectionName', cName);
                 var title = {name: cName};
                 var template = Handlebars.compile($("#template").html());
-                $("#title").html(template(title));
+                $(".title").html(template(title));
             });
         </script>
 
@@ -259,24 +258,24 @@
             {{#each field_collections}}
             {{#if config}} 
             <div>
-                <label>{{name}}</label>
-                <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-                    {{#if multiple}} <option>Options</option>{{/if}}
-                    {{#config.options}}
-                    <option value="{{id}}">{{label}}</option>
-                    {{/config.options}}
-                </select>
+            <label>{{name}}</label>
+            <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+            {{#if multiple}} <option>Options</option>{{/if}}
+            {{#config.options}}
+            <option value="{{id}}">{{label}}</option>
+            {{/config.options}}
+            </select>
             </div>
             {{else}}    
             {{#if isPhoto}}  
-                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-                <div onclick="SiteCamera.takePhoto({{idfield}}, false)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
-                <img width='100' height='70' src='{{__value}}' id='{{idfield}}'/>                        
-                </div>
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div onclick="SiteCamera.takePhoto({{idfield}}, false)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+            <img width='100' height='70' src='{{__value}}' id='{{idfield}}'/>                        
+            </div>
             {{else}}
             <div>
-                <label for='name'>{{{name}}}</label>
-                <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"/ >  
+            <label for='name'>{{{name}}}</label>
+            <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"/ >  
             </div>
             {{/if}}
             {{/if}}
@@ -287,24 +286,24 @@
             {{#each field_collections}}
             {{#if config}} 
             <div>
-                <label>{{name}}</label>
-                <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-                    {{#if multiple}} <option>Options</option>{{/if}}
-                    {{#config.options}}
-                        <option value="{{id}}" {{selected}}>{{label}}</option>
-                    {{/config.options}}
-                </select>
+            <label>{{name}}</label>
+            <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+            {{#if multiple}} <option>Options</option>{{/if}}
+            {{#config.options}}
+            <option value="{{id}}" {{selected}}>{{label}}</option>
+            {{/config.options}}
+            </select>
             </div>
             {{else}}    
             {{#if isPhoto}}  
-                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-                <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
-                     <img width='100' height='100' src='{{__value}}' id='update_{{idfield}}'/>                        
-                </div>
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
+            <img width='100' height='100' src='{{__value}}' id='update_{{idfield}}'/>                        
+            </div>
             {{else}}
             <div>
-                <label for='name'>{{{name}}}</label>
-                <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+            <label for='name'>{{{name}}}</label>
+            <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
             </div>
             {{/if}}
             {{/if}}
