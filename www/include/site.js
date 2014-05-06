@@ -272,7 +272,6 @@ function buildDataForSite() {
 
 function  addSiteToServer() {
     var data = buildDataForSite();
-    console.dir(data);
     if (isOnline()) {
         addSiteOnline(data, resetSiteFormOnline);
     }
