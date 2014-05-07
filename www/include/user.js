@@ -32,7 +32,7 @@ function validateLogin() {
         authoriseUser(email, psw);
     }
 }
-// ============================== online ===========================================
+
 function signUp() {
     var email = $('#signupemail').val();
     var password = $('#signuppassword').val();
