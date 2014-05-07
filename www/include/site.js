@@ -41,6 +41,7 @@ function getSiteByCollectionId(id) {
 }
 
 function  getSiteByUserId(id) {
+    alert("getSite");
     $("#offlinesite-list").hide();
     Site.all().filter('user_id', '=', id).list(function(sites) {
         var siteofflineData = {siteofflineList: []};
@@ -148,7 +149,6 @@ function overideProperty(params, dataParams) {
     return params;
 }
 
-
 function updateLatLngBySiteId(sId) {
     Site.all().filter('id', "=", sId).one(function(site) {
         site.lat($("#updatelolat").val());
@@ -178,7 +178,6 @@ function sendSiteToServerByUser() {
 }
 
 function sendSiteToServer(key, id) {
-    alert("key: " + key);
     if (isOnline()) {
         Site.all().filter(key, "=", id).list(function(sites) {
             if (sites.length > 0)
@@ -241,12 +240,17 @@ function buildDataForSite() {
             var each_field = (storedFieldId[i]);
             $field = $('#' + (each_field));
             if ($field && $field[0].tagName.toLowerCase() === 'img') {
-                for (var p = 0; p < PhotoList.getPhotos().length; p++) {
-                    if (PhotoList.getPhotos()[p].id === each_field) {
-                        var fileName = PhotoList.getPhotos()[p].name();
-                        properties[each_field] = fileName;
-                        files[fileName] = PhotoList.getPhotos()[p].data;
-                        break;
+                var lPhotoList = PhotoList.getPhotos().length;
+                if (lPhotoList == 0)
+                    properties[each_field] = "";
+                else {
+                    for (var p = 0; p < lPhotoList; p++) {
+                        if (PhotoList.getPhotos()[p].id === each_field) {
+                            var fileName = PhotoList.getPhotos()[p].name();
+                            properties[each_field] = fileName;
+                            files[fileName] = PhotoList.getPhotos()[p].data;
+                            break;
+                        }
                     }
                 }
             }
@@ -330,7 +334,7 @@ function addSiteOffline(data, callback) {
 
 PhotoList = {
     photos: [],
-    format: "png",
+
     add: function(photo) {
         PhotoList.remove(photo.id);
         PhotoList.photos.push(photo);
@@ -357,7 +361,7 @@ PhotoList = {
 function Photo(id, data, format) {
     this.id = id;
     this.data = data;
-    this.format = format || "png";
+    this.format = format;
     this.name = function() {
         var date = new Date();
         return "" + date.getTime() + "_" + this.id + "." + this.format;
@@ -365,24 +369,25 @@ function Photo(id, data, format) {
 }
 
 SiteCamera = {
+    format: "jpeg",
     dataWithMimeType: function(data) {
-        return 'data:image/png;base64,' + data;
+        return 'data:image/jpeg;base64,' + data;
     },
     takePhoto: function(idField, updated) {
-        alert("takePhoto");
         SiteCamera.id = idField;
         SiteCamera.updated = updated;
+        
         navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, {
             quality: 50,
             destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-            encodingType: Camera.EncodingType.PNG
+            sourceType : Camera.PictureSourceType.CAMERA,
+            encodingType: Camera.EncodingType.JPEG
         });
     },
     onSuccess: function(imageData) {
         var imageId = SiteCamera.updated ? "update_" + SiteCamera.id : SiteCamera.id;
         var image = document.getElementById(imageId);
-        var photo = new Photo(SiteCamera.id, imageData);
+        var photo = new Photo(SiteCamera.id, imageData, SiteCamera.format );
         image.src = SiteCamera.dataWithMimeType(imageData);
         PhotoList.add(photo);
     },
@@ -390,3 +395,4 @@ SiteCamera = {
         alert("Failed");
     }
 };
+

@@ -1,5 +1,4 @@
-function renderFieldsBySite(site) {
-    alert("renderFieldBySite");
+function renderFieldsBySite(site) { 
     queryFieldByCollectionIdOffline(function(fields) {
         var field_collections = [];
         fields.forEach(function(field) {
@@ -12,6 +11,7 @@ function renderFieldsBySite(site) {
                         var imageId = properties[propertyId];
                         var imageData = files[imageId];
                         item.__value = SiteCamera.dataWithMimeType(imageData);
+                       
                     }
                     else if (item.widgetType === "select_many" || item.widgetType === "select_one") {
                         item.__value = properties[propertyId];

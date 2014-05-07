@@ -39,7 +39,7 @@ $(function() {
     $(document).delegate('#logout', 'click', function() {
         logout();
     });
-    $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
+     $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
         getFieldsCollection();
         var lat = $("#lat").val();
         var lng = $("#lng").val();
@@ -55,9 +55,8 @@ $(function() {
         }
     });
     $(document).delegate('#create-icon-map', 'click', function() {
-        $("#updateLatLng_page_map").hide();
-        $("#cancelupdateLatLng_page_map").hide();
         $("#btn_back_create_site").show();
+        $("#btn_back_update_site").hide();
     });
     $(document).delegate('#btn_sendToServer', 'click', function() {
         cId = localStorage.getItem("cId");
@@ -73,21 +72,17 @@ $(function() {
     $(document).delegate('#btn_submitUpdateSite', 'click', function() {
         sId = localStorage.getItem("sId");
         updateSiteBySiteId(sId);
-        location.href = "#page-site-list";
     });
     $(document).delegate('#update_icon_map', 'click', function() {
-        $("#updateLatLng_page_map").show();
-        $("#cancelupdateLatLng_page_map").show();
         $("#btn_back_create_site").hide();
+        $("#btn_back_update_site").show();
         $("#mark_lat").val($("#updatelolat").val());
         $("#mark_lng").val($("#updatelolng").val());
     });
-    $(document).delegate('#updateLatLng_page_map', 'click', function() {
+    $(document).delegate('#btn_back_update_site', 'click', function() {
         sId = localStorage.getItem("sId");
         updateLatLngBySiteId(sId);
-    });
-    $(document).delegate('#cancelupdateLatLng_page_map', 'click', function() {
-        location.href = "#page-update-site";
+        window.location.href = "#page-site-list";
     });
     $(document).delegate('#page-map', 'pageshow', function() {
         var lat = $("#mark_lat").val();
@@ -118,9 +113,8 @@ $(function() {
             $("#mark_lat").val(lat);
             $("#mark_lng").val(lng);
         });
-        var markerBounds = new google.maps.LatLngBounds();
-        markerBounds.extend(latlng);
-        map.fitBounds(markerBounds);
+        var point = marker.getPosition();
+        map.panTo(point);
         google.maps.event.trigger(map_canvas, 'resize');
     });
 });
