@@ -10,7 +10,6 @@
         <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
         <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/> 
         
-        <script src="js/i18next.js"></script>
         <script src="js/libs/jquery-1.11.0.min.js"></script>
         <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
         <script src="js/lib/persistence.js"></script>
@@ -27,18 +26,19 @@
         <script src="include/site.js"></script>
         <script src="include/field.js"></script>
         <script src="language/kh.js"></script>
+        <script src="js/i18next.js"></script>
         
     </head>
     <body>
         <!--page-login-->   
         <div data-role="page" id="page-login">
             <div data-role="header" data-corners="true" data-icon="arrow-d" data-iconpos="right" data-theme="e">
-                <select data-theme="g" id="lang-switcher" onchange="switchLangTo()">
+                <select data-theme="g" id="lang-switcher" onchange="setLang('kh')">
                 <option selected="selected" value="en">
-                English
+                 English
                 </option>
                 <option value="kh">
-                ខ្មែរ
+                 <!--ខ្មែរ--> kh
                 </option>        
                 </select>
             </div>
