@@ -7,6 +7,7 @@ function dateToParam(date) {
     var yyyy = date.getFullYear();
     return  mm + "/" + dd + "/" + yyyy;
 }
+
 function convertDateWidgetToParam(format) {
     if (format.indexOf("-") !== -1) { //native HTML5 date
         var items = format.split("-");
@@ -19,6 +20,9 @@ function convertDateWidgetToParam(format) {
 
 function originalDateFormat(date) {
     var dd = date.getDate();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
     var mm = date.getMonth() + 1;
     if (mm < 10) {
         mm = '0' + mm;
@@ -41,8 +45,6 @@ function getSiteByCollectionId(id) {
 }
 
 function  getSiteByUserId(id) {
-    alert("getSite");
-    $("#offlinesite-list").hide();
     Site.all().filter('user_id', '=', id).list(function(sites) {
         var siteofflineData = {siteofflineList: []};
         sites.forEach(function(site) {
@@ -57,7 +59,6 @@ function  getSiteByUserId(id) {
         $('#offlinesite-list').html(siteofflineTemplate(siteofflineData));
         $('#offlinesite-list').listview("refresh");
     });
-
 }
 
 function renderUpdateSiteForm() {
@@ -107,11 +108,10 @@ function updateSiteBySiteId() {
                     properties[item["idfield"]] = value;
                 }
             });
-
             params["properties"] = properties;
             params["files"] = files;
             updateSite(site, params);
-            location.href = "#page-site-list";
+            window.location.href = "index.html#page-site-list";
         });
     });
 }
@@ -168,12 +168,10 @@ function deleteSiteBySiteId(sId) {
 
 function sendSiteToServerByCollectiion() {
     var cId = localStorage.getItem("cId");
-    console.log("currentUser", currentUser);
     sendSiteToServer("collection_id", cId);
 }
 function sendSiteToServerByUser() {
     var currentUser = getCurrentUser();
-    console.log("currentUser", currentUser);
     sendSiteToServer("user_id", currentUser.id);
 }
 
@@ -200,8 +198,6 @@ function submitSiteServer(sites) {
             files: site.files()
         }
     };
-
-    console.log("getAuthToken(): " + getAuthToken());
     $.ajax({
         url: App.END_POINT + "/v1/collections/" + site.collection_id() + "/sites?auth_token=" + getAuthToken(),
         type: "POST",
@@ -221,8 +217,7 @@ function submitSiteServer(sites) {
                 submitSiteServer(sites);
         },
         error: function(error) {
-            $(".loader").hide();
-            window.location.href = "#page-login";
+            alert("error");
         }
     });
 }
@@ -256,13 +251,11 @@ function buildDataForSite() {
             }
             else if ($field && $field[0].getAttribute("type") === 'date') {
                 var date = $field.val();
-
                 if (date) {
-                    convertedDate = convertDateWidgetToParam(date);
-                    properties[ each_field ] = convertedDate;
+                    date = convertDateWidgetToParam(date);
+                    properties["" + each_field + ""] = date;
                 }
-            }
-            else {
+            } else {
                 var data = $field.val();
                 if (data == null)
                     data = "";
@@ -295,6 +288,7 @@ function resetSiteFormOnline() {
     PhotoList.clear();
     location.href = "#submitLogin-page";
 }
+
 function resetSiteFormOffline() {
     PhotoList.clear();
     window.location.href = "#page-site-list";
@@ -303,7 +297,7 @@ function resetSiteFormOffline() {
 
 function addSiteOnline(data, callback) {
     var cId = localStorage.getItem("cId");
-    var url = App.URL_SITE + cId + "/sites?auth_token=" + getAuthToken();
+    var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + getAuthToken();
     $(".loader").show();
     $.ajax({
         url: url,
@@ -311,11 +305,7 @@ function addSiteOnline(data, callback) {
         data: {site: data},
         crossDomain: true,
         datatype: 'json',
-        success: callback,
-        error: function(error) {
-            console.log(error);
-        }
-
+        success: callback
     });
 }
 

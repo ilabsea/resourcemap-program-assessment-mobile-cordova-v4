@@ -94,7 +94,7 @@ $(function() {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var $content = $("#map_canvas");
-        $content.height(screen.height - 200);
+        $content.height(screen.height - 400);
         var map = new google.maps.Map($content[0], options);
         $.mobile.changePage($("#page-map"));
         var marker = new google.maps.Marker({

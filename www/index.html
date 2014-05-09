@@ -8,8 +8,9 @@
         <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
         <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
         <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
-        <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/> 
         
+        <script src="js/i18next.js"></script>
         <script src="js/libs/jquery-1.11.0.min.js"></script>
         <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
         <script src="js/lib/persistence.js"></script>
@@ -26,11 +27,23 @@
         <script src="include/site.js"></script>
         <script src="include/field.js"></script>
         <script src="language/kh.js"></script>
+        
     </head>
     <body>
         <!--page-login-->   
         <div data-role="page" id="page-login">
+            <div data-role="header" data-corners="true" data-icon="arrow-d" data-iconpos="right" data-theme="e">
+                <select data-theme="g" id="lang-switcher" onchange="switchLangTo()">
+                <option selected="selected" value="en">
+                English
+                </option>
+                <option value="kh">
+                ខ្មែរ
+                </option>        
+                </select>
+            </div>
             <div data-role="content">
+                 
                 <div>
                     <center><img src="img/logo.png" alt="Resource Map"/></center>
                     <br>                  
@@ -89,10 +102,11 @@
             <div data-role="content">
                 <ul data-role='listview' id="collection-list" data-inset="true">
                 </ul>
+                <div>
+                <a data-role="button" data-theme="e" href="#page-list-view-site" data-inset="true">View offline sites</a>
+                </div>
             </div>
-            <div>
-                <center><a data-role="button" data-theme="e" href="#page-list-view-site" data-inline="true" >View offline sites</a></center>
-            </div>
+            
         </div>
         <!--page-list-view-site-offline-->
         <div data-role="page" id="page-list-view-site">
@@ -109,14 +123,14 @@
                     <img src='img/ajax-loader.gif' class="loader">
             </div>
             <div>
-                <center><button onclick='sendSiteToServerByUser()' data-inline="true" data-icon="forward" data-iconpos="left" data-inset="true">Send to server</button>
+                <center><button onclick='sendSiteToServerByUser()' data-theme=e" data-inline="true" data-icon="forward" data-iconpos="left" data-inset="true">Send to server</button>
             </div>
         </div>
         <!--site-list-->
         <div data-role="page" id="page-site-list">
             <div data-role="header" data-theme="e">
                 <a href="#submitLogin-page" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
-                <h2 id="title"></h2>
+                <h2 class="title"></h2>
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>
             </div>
             <div data-role="content" id="sitelist">
@@ -134,12 +148,12 @@
         <div data-role="page" id="page-create-site">
             <div data-role="header" data-theme="e">
                 <a data-role="button" data-theme="a"  href="#submitLogin-page" data-icon="back" class="ui-btn-left">Back</a>
-                <h1>Create Site</h1>
+                <h2 class="title"></h2>
                 <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right">Logout</button>
             </div>
             <div data-role="content">  
                 <div>
-                    <!--<img src='img/ajax-loader.gif' class="loader">-->
+                    <img src='img/ajax-loader.gif' class="loader">
                 </div>
                 <form method="post" id="form_create_site" enctype="multipart/form-data">                  
                     <div>
@@ -155,7 +169,7 @@
                     </div>  
                
                     <div id="div_field_collection"></div> 
-                    <center><button id="btn_submitAddSite" data-theme="e"  data-inset="true">Save</button></center 
+                    <center><button id="btn_submitAddSite" data-theme="e"  data-inset="true">Save</button></center >
                 </form>                  
             </div> 
         </div>
@@ -181,7 +195,7 @@
         <div data-role="page" id="page-update-site">
             <div data-role="header" data-theme="e">
                 <a href="#page-site-list" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
-                <h1> Site update and delete</h1>
+                <h1 id="site-title"> </h1>
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right">Logout</button>          
             </div>
             <div data-role="content">
@@ -226,14 +240,16 @@
         </script>
 
         <script type="text/javascript">
-            $(document).delegate('#submitLogin-page li', 'click', function() {
+               $(document).delegate('#submitLogin-page li', 'click', function() {
                 var cName = $(this).attr("data-name");
                 localStorage.setItem('collectionName', cName);
                 var title = {name: cName};
                 var template = Handlebars.compile($("#template").html());
-                $("#title").html(template(title));
+                $(".title").html(template(title));
             });
         </script>
+        
+        
 
         <script id="siteoffline-template" type="text/x-handlebars-template">
             {{#each siteofflineList}}
@@ -267,7 +283,7 @@
                     {{#if multiple}} <option>Options</option>{{/if}}
                     {{#config.options}}
                     <option value="{{id}}">{{label}}</option>
-                    {{/config.options}}
+                    {{/config.options}}                   
                 </select>
             </div>
             {{else}}    
@@ -290,24 +306,24 @@
             {{#each field_collections}}
             {{#if config}} 
             <div>
-                <label>{{name}}</label>
-                <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-                    {{#if multiple}} <option>Options</option>{{/if}}
-                    {{#config.options}}
-                        <option value="{{id}}" {{selected}}>{{label}}</option>
-                    {{/config.options}}
-                </select>
+            <label>{{name}}</label>
+            <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+            {{#if multiple}} <option>Options</option>{{/if}}
+            {{#config.options}}
+            <option value="{{id}}" {{selected}}>{{label}}</option>
+            {{/config.options}}
+            </select>
             </div>
             {{else}}    
             {{#if isPhoto}}  
-                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-                <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' class="photo" > 
-                 <img class="image" src='{{__value}}' id='update_{{idfield}}' />                        
-                </div>
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' class="photo" > 
+                 <img class="image" src='{{__value}}' id='update_{{idfield}}' />
+                 </div>
             {{else}}
             <div>
-                <label for='name'>{{{name}}}</label>
-                <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+            <label for='name'>{{{name}}}</label>
+            <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
             </div>
             {{/if}}
             {{/if}}
