@@ -1,0 +1,19 @@
+ {
+    "global": {
+      "save": "save",
+      "lat": "Location'Lat",
+      "lng": "Location'lng",
+      "logout": "logout",
+      "back": "back",
+      "send_to_server": "Send to server",
+      "name" : "name",
+
+      "update": "update",
+      "delete": "delete"
+    },
+    "login_page": {
+        "login":"Login",
+        "email":"email",
+        "password":"password"
+    }   
+}

@@ -1,0 +1,42 @@
+{ 
+    
+     "global": {
+      "email":"អ៊ីម៉ែល",
+      "password":"ពាក្យសម្ងាត់",   
+      "save": "រក្សាទុក",
+      "lat": "រយៈទទឹង",
+      "lng": "រយៈណ្តោយ",
+      "logout": "ចាកចេញ",
+      "back": "ត្រឡប់ក្រោយ",
+      "send_to_server": "ផ្ញើទៅម៉ាស៊ីនបម្រើ",
+      "name" : "ឈ្មោះ",
+      "update": "កែប្រែ",
+      "delete": "លុប",
+      "cancel": "បោះបង់",
+      "site": "តំបន់",
+      "add":"បន្ថែមតំបន់ថ្មី"
+    },
+    "login_page": {
+        "login":"ការចូល",
+        "creat_new_accotun": "បង្កើតគណនីថ្មី",
+        "invalide_email":"សូមបញ្ចូលអ៊ីម៉ែលអោយបានត្រឹមត្រូវ"
+        
+    },
+    "signup_page": {      
+        "sign_up": "ចុះឈ្មោះ"  , 
+        "passwrod_confirmp":"ការបញ្ជាក់ពាក្យសម្ងាត់" ,
+        "phone_number": "លេខទូរស័ព្ទ" ,
+        "already_have_accont":"មានគណនីមួយរួចទៅហើយ"
+    },
+    "collection_page":{
+        "view_offline_site": "បង្ហាញតំបន់ក្រៅបណ្ដាញ",
+        "collection": "ទិន្នន័យ"
+    },
+    "map_page": {
+        "map": "ផែនទី"
+    },
+    "update_site_page":{        
+        "delete_site":"លុបតំបន់",
+        "alert_delete":"តើអ្នកប្រាកដថាអ្នកចង់លុបតំបន់?"
+    }
+}
