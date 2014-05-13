@@ -1,6 +1,14 @@
 App.initialize();
 App.onDeviceReady();
+
+ function translateLang(ele){
+  Translation.setLang($(ele).val());
+ }
+
 $(function() {
+    Translation.setLang(Translation.getLang());
+    Translation.renderLang();
+    
     $(document).delegate('#submitLogin-page', 'pagebeforeshow', function() {
         getCollection();
         $('#form_create_site ')[0].reset();
@@ -39,7 +47,7 @@ $(function() {
     $(document).delegate('#logout', 'click', function() {
         logout();
     });
-    $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
+     $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
         getFieldsCollection();
         var lat = $("#lat").val();
         var lng = $("#lng").val();
@@ -73,6 +81,7 @@ $(function() {
         sId = localStorage.getItem("sId");
         updateSiteBySiteId(sId);
     });
+    
     $(document).delegate('#update_icon_map', 'click', function() {
         $("#btn_back_create_site").hide();
         $("#btn_back_update_site").show();

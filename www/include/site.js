@@ -75,7 +75,6 @@ function renderUpdateSiteForm() {
 function updateSiteBySiteId() {
     var id = localStorage.getItem("sId");
     Site.all().filter('id', "=", id).one(function(site) {
-        var params = {};
         site.name($("#updatesitename").val());
         site.lat($("#updatelolat").val());
         site.lng($("#updatelolng").val());
@@ -189,6 +188,7 @@ function submitSiteServer(sites) {
                 submitSiteServer(sites);
         },
         error: function(error) {
+            $(".loader").hide();
             alert("error");
         }
     });
@@ -278,7 +278,10 @@ function addSiteOnline(data, callback) {
         data: {site: data},
         crossDomain: true,
         datatype: 'json',
-        success: callback
+        success: callback,
+        error: function(error){
+            
+        }
     });
 }
 
@@ -358,4 +361,3 @@ SiteCamera = {
         alert("Failed");
     }
 };
-

@@ -35,8 +35,8 @@ legend,
 /* Form labels (overrides font-weight bold in bars, and mini font-size) */
 .ui-mobile label,
 div.ui-controlgroup-label {
-	/* font-weight: normal; */
-	/* font-size: 16px; */
+	font-weight: normal;
+	font-size: 16px;
 }
 /* Separators
 -----------------------------------------------------------------------------------------------------------*/
@@ -145,12 +145,12 @@ label.ui-btn {
 .ui-btn-icon-top:after,
 .ui-btn-icon-bottom:after,
 .ui-btn-icon-notext:after {
-	background-color: #666666 /*{global-icon-color}*/;
-	background-color: rgba(0,0,0,.4) /*{global-icon-disc}*/;
-	background-position: center center;
-	background-repeat: no-repeat;
-	-webkit-border-radius: 1em;
-	border-radius: 1em;
+	/* background-color: #666666 /*{global-icon-color}*/
+	/* background-color: rgba(0,0,0,.4) /*{global-icon-disc}*/
+	/* background-position: center center; */
+	/* background-repeat: no-repeat; */
+	/* -webkit-border-radius: 1em; */
+	/* border-radius: 1em; */
 }
 /* Alt icons */
 .ui-alt-icon.ui-btn:after,
@@ -305,8 +305,8 @@ html .ui-body-a .ui-btn:hover,
 html body .ui-group-theme-a .ui-btn:hover,
 html head + body .ui-btn.ui-btn-a:hover {
 	background: #e6e6e6 /*{a-bhover-background-color}*/;
-	border-color: #cccccc /*{a-bhover-border}*/;
-	color: #333333 /*{a-bhover-color}*/;
+	/* border-color: #cccccc /*{a-bhover-border}*/
+	/* color: #333333 /*{a-bhover-color}*/
 	text-shadow: undefined /*{a-bhover-shadow-x}*/ undefined /*{a-bhover-shadow-y}*/ undefined /*{a-bhover-shadow-radius}*/ undefined /*{a-bhover-shadow-color}*/;
 }
 /* Button down */
