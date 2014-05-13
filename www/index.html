@@ -46,7 +46,7 @@
                     <input type="password" id="password" name="user[password]" class="required"/>
                     <center><button data-theme="e" id="btn_submitLogin" data-inset="true" data-i18n="login_page.login">Log in</button></center>
                 </form>
-               
+
             </div>
             <div>
                 <center><a href="#page-signup" data-i18n="login_page.creat_new_accotun">Create new account</a></center>
@@ -63,16 +63,16 @@
                 <img src='img/ajax-loader.gif' class="loader">
                 <form method="post" name="myForm" id="form_signup">                                                   
                     <label for="email" data-i18n="global.email">Email</label>
-                        <input type="email" name="user[email]" class="required email" id="signupemail"/>
-                        <p id="exitemail">Email have been already.</p>
-                        <label for="psw" data-i18n="global.password">Password</label>
-                        <input type="password" name="user[password]" class="required" id="signuppassword"/>
-                        <label for="pswf" data-i18n="signup_page.passwrod_confirm">Password confirmation</label>
-                        <input type="password" name="user[password_confirmation]" class="required" id="pswConfirm"/>
-                        <p id="passmatch">Password doesn't match confirmation</p>
-                        <label for="num" data-i18n="signup_page.phone_number">Phone number<br><i>(+855XXXXXXXXX)</i></label>
-                        <input type="number" name="tel" id="tel"/>
-                        <center><button data-theme="e" data-inset="true" data-i18n="global.save">Save</button></center>                  
+                    <input type="email" name="user[email]" class="required email" id="signupemail"/>
+                    <p id="exitemail">Email have been already.</p>
+                    <label for="psw" data-i18n="global.password">Password</label>
+                    <input type="password" name="user[password]" class="required" id="signuppassword"/>
+                    <label for="pswf" data-i18n="signup_page.passwrod_confirm">Password confirmation</label>
+                    <input type="password" name="user[password_confirmation]" class="required" id="pswConfirm"/>
+                    <p id="passmatch">Password doesn't match confirmation</p>
+                    <label for="num" data-i18n="signup_page.phone_number">Phone number<br><i>(+855XXXXXXXXX)</i></label>
+                    <input type="number" name="tel" id="tel"/>
+                    <center><button data-theme="e" data-inset="true" data-i18n="global.save">Save</button></center>                  
                 </form>               
             </div>
             <div>
@@ -89,7 +89,7 @@
                 <ul data-role='listview' id="collection-list" data-inset="true">
                 </ul>
                 <div>
-                <a data-role="button" data-theme="e" href="#page-list-view-site" data-inset="true" data-i18n="collection_page.view_offline_site">View offline sites</a>
+                    <a data-role="button" data-theme="e" href="#page-list-view-site" data-inset="true" data-i18n="collection_page.view_offline_site">View offline sites</a>
                 </div>
             </div>
         </div>
@@ -103,14 +103,14 @@
             <div data-role="content" id="sitelistview">
                 <ul id="offlinesite-list" data-role="listview" data-inset="true"> 
                 </ul> 
-                 <div class="ui-grid-solo">
+                <div class="ui-grid-solo">
                     <div class="ui-block-a"> <button onclick='sendSiteToServerByUser()' type="v" data-theme="e" data-icon="forward" data-i18n="global.send_to_server">Send to server</button> </div>          
-                 </div>
+                </div>
             </div>
             <div>
-                    <img src='img/ajax-loader.gif' class="loader">
+                <img src='img/ajax-loader.gif' class="loader">
             </div>
-          
+
         </div>
         <!--site-list-->
         <div data-role="page" id="page-site-list">
@@ -122,10 +122,10 @@
             <div data-role="content" id="sitelist">
                 <ul data-role='listview' id="site-list" data-inset="true">
                 </ul>        
-            <div class="ui-grid-a">
-                <div class="ui-block-a"> <button data-theme="e" id="btn_sendToServer" data-icon="forward" data-i18n="global.send_to_server">Send to server</button></div>
-                <div class="ui-block-b"> <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add">Add new site</a></div>	   
-            </div>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a"> <button data-theme="e" id="btn_sendToServer" data-icon="forward" data-i18n="global.send_to_server">Send to server</button></div>
+                    <div class="ui-block-b"> <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add">Add new site</a></div>	   
+                </div>
             </div>
         </div>
         <!--page-create-site-->
@@ -156,7 +156,7 @@
                 </form>                  
             </div> 
         </div>
-       <!-- view map -->
+        <!-- view map -->
         <div data-role="page" id="page-map">
             <div data-role="header" data-theme="e" >
                 <a id="btn_back_create_site" href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
@@ -221,7 +221,7 @@
         </script>
 
         <script type="text/javascript">
-               $(document).delegate('#submitLogin-page li', 'click', function() {
+            $(document).delegate('#submitLogin-page li', 'click', function() {
                 var cName = $(this).attr("data-name");
                 localStorage.setItem('collectionName', cName);
                 var title = {name: cName};
@@ -265,23 +265,23 @@
             <label for="updatelolng"> Location'Lng </label>
             <input type="number" name="updatelolng" id="updatelolng" class="required" value='{{lng}}'/>
         </script>
-        
+
         <!--field collection-->
         <script id="field_collection-template" type="text/x-handlebars-template">
             {{#each field_collections}}
             {{#if config}} 
             {{#if isHierarchy}} 
-            <label>{{name}}</label>
-            <select id="{{idfield}}" data-native-menu="false">
-            <option>(no value)</option>
-            {{#config.hierarchy}}
-            <option value="{{id}}">{{name}}
-            {{#sub}}
-            <option value="{{id}}">{{name}}</option>
-            {{/sub}}
-            </option>
-            {{/config.hierarchy}}
-            </select>
+                <label>{{name}}</label>
+                <select id="{{idfield}}" data-native-menu="false">
+                    <option>(no value)</option>
+                    {{#config.hierarchy}}
+                    <option value="{{id}}">{{name}}
+                        {{#sub}}
+                        <option value="{{id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{name}}</option>
+                        {{/sub}}
+                    </option>
+                    {{/config.hierarchy}}
+                </select>
             {{else}}
             <div>
                 <label>{{name}}</label>
@@ -310,7 +310,7 @@
         </script>
         <!--site update-->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
-            
+
             {{#each field_collections}}
             {{#if config}} 
             <div>
@@ -326,8 +326,8 @@
             {{#if isPhoto}}  
             <span style='display:inline; margin-top:10px'>{{{name}}}</span>
             <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' class="photo" > 
-                 <img class="image" src='{{__value}}' id='update_{{idfield}}' />
-                 </div>
+            <img class="image" src='{{__value}}' id='update_{{idfield}}' />
+            </div>
             {{else}}
             <div>
             <label for='name'>{{{name}}}</label>
@@ -337,19 +337,19 @@
             {{/if}}
             {{/each}}
         </script>
-        
+
         <script id="language-template" type="text/x-handlebars-template">
-        <select data-theme="g" id="lang-switcher" onchange="translateLang(this)"> 
-          {{#each langs}} 
+            <select data-theme="g" id="lang-switcher" onchange="translateLang(this)"> 
+            {{#each langs}} 
             {{#if selected}}
-              <option value="{{value}}" selected >{{text}}</option>   
+            <option value="{{value}}" selected >{{text}}</option>   
             {{else}}
-               <option value="{{value}}" >{{text}}</option> 
+            <option value="{{value}}" >{{text}}</option> 
             {{/if}}                  
-          {{/each}}  
-         </select>
+            {{/each}}  
+            </select>
         </script>
-        
+
         <script src="cordova.js"></script>  
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>

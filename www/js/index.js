@@ -1,5 +1,6 @@
 //       END_POINT = "http://192.168.1.102:3000/api",
         END_POINT = "http://resmap-stg-ilab.instedd.org/api",
+//END_POINT = "http://192.168.1.65:3000/api",
         window.App = {
             DB_SIZE: 5 * 1024 * 1024,
             DB_NAME: 'resourcemap_db',
