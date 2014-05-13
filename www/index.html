@@ -3,10 +3,13 @@
         <title>Resource Map</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
         <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
         <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
-        <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/> 
+        <link href="css/libs/dasBaum.css" rel="stylesheet" type="text/css"/>
+        <script src="js/i18next.js"></script>
         <script src="js/libs/jquery-1.11.0.min.js"></script>
         <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
         <script src="js/lib/persistence.js"></script>
@@ -27,6 +30,16 @@
     <body>
         <!--page-login-->   
         <div data-role="page" id="page-login">
+            <!--            <div data-role="header" data-corners="true" data-icon="arrow-d" data-iconpos="right" data-theme="e">
+                            <select data-theme="g" id="lang-switcher" onchange="switchLangTo()">
+                                <option selected="selected" value="en">
+                                    English
+                                </option>
+                                <option value="kh">
+                                    ខ្មែរ
+                                </option>        
+                            </select>
+                        </div>-->
             <div data-role="content">
                 <div>
                     <center><img src="img/logo.png" alt="Resource Map"/></center>
@@ -34,7 +47,7 @@
                 </div>
                 <p id="invalidmail" class="invalid">Invalid email or password.</p>
                 <p id="noMailInDb" class="invalid">Not found in database.</p>
-                <img src='img/ajax-loader.gif' class="loader">
+                <div><img src='img/ajax-loader.gif' class="loader"></div>
                 <form id="form_login">
                     <h3 id="info_sign_in">Please sign in</h3>
                     <label for="email"> Email </label>
@@ -71,10 +84,10 @@
                         <input type="number" name="tel" id="tel"/>
                         <center><button data-theme="e" data-inset="true">Sign up</button></center>
                     </div>
-                </form>               
-            </div>
-            <div>
-                <center> <a href="#page-login"> Already have an account </a>  </center> 
+                </form> 
+                <div>
+                    <center> <a href="#page-login"> Already have an account </a>  </center> 
+                </div>
             </div>
         </div>
         <!-- Login Success -->
@@ -86,7 +99,9 @@
             <div data-role="content">
                 <ul data-role='listview' id="collection-list" data-inset="true">
                 </ul>
-                <div><center><a data-role="button" data-theme="e" href="#page-list-view-site" data-inset="true">View offline sites</a></center></div>
+                <div>
+                    <a data-role="button" data-theme="e" href="#page-list-view-site" data-inset="true">View offline sites</a>
+                </div>
             </div>
         </div>
         <!--page-list-view-site-offline-->
@@ -100,11 +115,11 @@
                 <ul id="offlinesite-list" data-role="listview" data-inset="true"> 
                 </ul> 
                 <div>
-                    <img src='img/ajax-loader.gif' class="loader">
+                    <center><button onclick='sendSiteToServerByUser()' data-theme="e" data-icon="forward" data-iconpos="left" data-inset="true">Send to server</button>
                 </div>
-                <div>
-                    <center><button onclick='sendSiteToServerByUser()' data-theme="e" data-inset="true">Send to server</button>
-                </div>
+            </div>
+            <div>
+                <img src='img/ajax-loader.gif' class="loader">
             </div>
         </div>
         <!--site-list-->
@@ -147,9 +162,9 @@
                         <input type="number" name="lat" id="lat" class="required"/>
                         <label for="lolng"> Location'Lng </label>
                         <input type="number" name="lng" id="lng" class="required"/>
-                    </div>   
+                    </div>  
                     <div id="div_field_collection"></div> 
-                    <center><button id="btn_submitAddSite" data-theme="e" data-inset="true">Save</button></center>                    
+                    <center><button id="btn_submitAddSite" data-theme="e"  data-inset="true">Save</button></center >
                 </form>                  
             </div> 
         </div>
@@ -269,20 +284,34 @@
         <script id="field_collection-template" type="text/x-handlebars-template">
             {{#each field_collections}}
             {{#if config}} 
+            {{#if isHierarchy}} 
+            <label>{{name}}</label>
+            <select id="{{idfield}}" data-native-menu="false">
+            <option>(no value)</option>
+            {{#config.hierarchy}}
+            <option value="{{id}}">{{name}}
+            {{#sub}}
+            <option value="{{id}}">{{name}}</option>
+            {{/sub}}
+            </option>
+            {{/config.hierarchy}}
+            </select>
+            {{else}}
             <div>
             <label>{{name}}</label>
             <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
             {{#if multiple}} <option>Options</option>{{/if}}
             {{#config.options}}
             <option value="{{id}}">{{label}}</option>
-            {{/config.options}}
+            {{/config.options}}                   
             </select>
             </div>
+            {{/if}}
             {{else}}    
             {{#if isPhoto}}  
             <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-            <div onclick="SiteCamera.takePhoto({{idfield}}, false)" id='property_{{idfield}}_container' style=' margin-top: 10px;cursor: pointer;' > 
-            <img width='100' height='70' src='{{__value}}' id='{{idfield}}'/>                        
+            <div  onclick="SiteCamera.takePhoto({{idfield}}, false)" id='property_{{idfield}}_container' class="photo" > 
+            <img class="image" src='{{__value}}' id='{{idfield}}'  />   
             </div>
             {{else}}
             <div>

@@ -116,7 +116,7 @@ function updateSiteBySiteId() {
             site.properties(properties);
             site.files(files);
             persistence.flush();
-//            location.href = "index.html#page-site-list";
+            location.href = "index.html#page-site-list";
         });
     });
 }
@@ -242,6 +242,7 @@ function buildDataForSite() {
         properties: properties,
         files: files
     };
+    console.dir(properties);
     return data;
 }
 
@@ -256,6 +257,7 @@ function  addSiteToServer() {
 }
 
 function resetSiteFormOnline() {
+    $(".loader").hide();
     PhotoList.clear();
     location.href = "#submitLogin-page";
 }
@@ -269,6 +271,7 @@ function resetSiteFormOffline() {
 function addSiteOnline(data, callback) {
     var cId = localStorage.getItem("cId");
     var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + getAuthToken();
+    $(".loader").show();
     $.ajax({
         url: url,
         type: "POST",
@@ -294,7 +297,7 @@ function addSiteOffline(data, callback) {
 
 PhotoList = {
     photos: [],
-    format: "png",
+
     add: function(photo) {
         PhotoList.remove(photo.id);
         PhotoList.photos.push(photo);
@@ -321,7 +324,7 @@ PhotoList = {
 function Photo(id, data, format) {
     this.id = id;
     this.data = data;
-    this.format = format || "png";
+    this.format = format;
     this.name = function() {
         var date = new Date();
         return "" + date.getTime() + "_" + this.id + "." + this.format;
@@ -329,27 +332,30 @@ function Photo(id, data, format) {
 }
 
 SiteCamera = {
+    format: "jpeg",
     dataWithMimeType: function(data) {
-        return 'data:image/png;base64,' + data;
+        return 'data:image/jpeg;base64,' + data;
     },
     takePhoto: function(idField, updated) {
         SiteCamera.id = idField;
         SiteCamera.updated = updated;
+        
         navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, {
             quality: 50,
             destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-            encodingType: Camera.EncodingType.PNG
+            sourceType : Camera.PictureSourceType.CAMERA,
+            encodingType: Camera.EncodingType.JPEG
         });
     },
     onSuccess: function(imageData) {
         var imageId = SiteCamera.updated ? "update_" + SiteCamera.id : SiteCamera.id;
         var image = document.getElementById(imageId);
-        var photo = new Photo(SiteCamera.id, imageData);
+        var photo = new Photo(SiteCamera.id, imageData, SiteCamera.format );
         image.src = SiteCamera.dataWithMimeType(imageData);
         PhotoList.add(photo);
     },
     onFail: function() {
-        alert("No photo selected");
+        alert("Failed");
     }
 };
+

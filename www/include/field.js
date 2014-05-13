@@ -67,7 +67,7 @@ function buildField(fieldObj, options) {
     }
     if (widgetType === "yes_no") {
         widgetType = "select_one";
-        var configOptions = {options: [{"id": 1, "code": "1", "label": "YES"}, {"id": 2, "code": "2", "label": "NO"}]};
+        var configOptions = {options: [{"id": 0, "code": "0", "label": "NO"}, {"id": 1, "code": "1", "label": "YES"}]};
         config = configOptions;
         slider = "slider";
         ctrue = "true";
@@ -85,6 +85,7 @@ function buildField(fieldObj, options) {
         config: config,
         slider: slider,
         ctrue: ctrue,
+        isHierarchy: (kind === "hierarchy" ? true : ""),
         cId: localStorage.getItem("cId"),
         userId: getCurrentUser().id
     };
@@ -143,7 +144,6 @@ function renderFieldByCollectionIdOnline() {
             var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
             $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
             $('#div_field_collection').trigger("create");
-
         },
         error: function(error) {
             console.log("erro:  " + error);

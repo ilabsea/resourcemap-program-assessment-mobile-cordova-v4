@@ -36,6 +36,7 @@ function createTables() {
         config: "JSON",
         slider: "TEXT",
         ctrue: "TEXT",
+        isHierarchy: "INT",
         user_id: "INT"
     });
 }

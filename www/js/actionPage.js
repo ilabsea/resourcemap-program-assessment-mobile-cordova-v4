@@ -43,7 +43,7 @@ $(function() {
         getFieldsCollection();
         var lat = $("#lat").val();
         var lng = $("#lng").val();
-        if (lat =="" && lng == "") {
+        if (lat == "" && lng == "") {
             navigator.geolocation.getCurrentPosition(function(pos) {
                 var lat = pos.coords.latitude;
                 var lng = pos.coords.longitude;
@@ -82,6 +82,7 @@ $(function() {
     $(document).delegate('#btn_back_update_site', 'click', function() {
         sId = localStorage.getItem("sId");
         updateLatLngBySiteId(sId);
+        window.location.href = "#page-site-list";
     });
     $(document).delegate('#page-map', 'pageshow', function() {
         var lat = $("#mark_lat").val();
@@ -93,7 +94,7 @@ $(function() {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var $content = $("#map_canvas");
-        $content.height(screen.height - 200);
+        $content.height(screen.height - 400);
         var map = new google.maps.Map($content[0], options);
         $.mobile.changePage($("#page-map"));
         var marker = new google.maps.Marker({

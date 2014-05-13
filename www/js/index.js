@@ -1,6 +1,6 @@
-//END_POINT = "http://192.168.1.102:3000/api",
+//       END_POINT = "http://192.168.1.102:3000/api",
         END_POINT = "http://resmap-stg-ilab.instedd.org/api",
-
+        
         window.App = {
             DB_SIZE: 5 * 1024 * 1024,
             DB_NAME: 'resourcemap_db',
@@ -19,6 +19,10 @@
             },
             initialize: function() {
                 this.bindEvents();
+            },
+            resetDb: function() {
+                persistence.reset();
+                persistence.schemaSync();
             },
             bindEvents: function() {
                 document.addEventListener('deviceready', this.onDeviceReady, false);
