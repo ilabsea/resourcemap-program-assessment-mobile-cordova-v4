@@ -1,19 +1,43 @@
- {
+{
     "global": {
-      "save": "save",
-      "lat": "Location'Lat",
-      "lng": "Location'lng",
-      "logout": "logout",
-      "back": "back",
-      "send_to_server": "Send to server",
-      "name" : "name",
-
-      "update": "update",
-      "delete": "delete"
+        "email": "Email",
+        "password": "Password",
+        "save": "Save",
+        "lat": "Location'Lat",
+        "lng": "Location'lng",
+        "logout": "Logout",
+        "back": "Back",
+        "send_to_server": "Send to server",
+        "name": "Name",
+        "update": "Update",
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "site": "Sites",
+        "add": "Add new site"
     },
     "login_page": {
-        "login":"Login",
-        "email":"email",
-        "password":"password"
-    }   
+        "login": "Login",
+        "creat_new_accotun": "Create new account",
+        "invalide_email": "Please enter a valid email address."
+    },
+    "signup_page": {
+        "sign_up": "signUp",
+        "passwrod_confirm": "Password confirmation",
+        "phone_number": "Phone number",
+        "already_have_accont": "Already have an account"
+    },
+    "collection_page": {
+        "view_offline_site": "View offline site",
+        "collection": "Collections"
+    },
+    "map_page": {
+        "map": "Map"
+    },
+    "update_site_page": {
+        "update": "Update",
+        "delete": "Delete",
+        "delete_site": "Delete the site",
+        "alert_delete": "Are you sure you want to delete the site?"
+    }
+
 }

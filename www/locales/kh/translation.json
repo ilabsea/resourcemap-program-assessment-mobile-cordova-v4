@@ -1,5 +1,4 @@
-{ 
-    
+{  
      "global": {
       "email":"អ៊ីម៉ែល",
       "password":"ពាក្យសម្ងាត់",   
@@ -24,7 +23,7 @@
     },
     "signup_page": {      
         "sign_up": "ចុះឈ្មោះ"  , 
-        "passwrod_confirmp":"ការបញ្ជាក់ពាក្យសម្ងាត់" ,
+        "passwrod_confirm":"ការបញ្ជាក់ពាក្យសម្ងាត់" ,
         "phone_number": "លេខទូរស័ព្ទ" ,
         "already_have_accont":"មានគណនីមួយរួចទៅហើយ"
     },

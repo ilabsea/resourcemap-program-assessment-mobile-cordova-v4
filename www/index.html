@@ -27,8 +27,8 @@
     </head>
     <body>
         <!--page-login-->   
-        <div data-role="page" id="page-login">
-            <div data-role="header"  id="div-language" data-corners="true" data-icon="arrow-d" data-iconpos="right" data-theme="e" > 
+        <div data-role="page" id="page-login"> 
+            <div data-role="header"  id="div-language" data-corners="true"data-icon="arrow-d" data-iconpos="right" data-theme="e" > 
             </div>         
             <div data-role="content">               
                 <div>
@@ -103,16 +103,14 @@
             <div data-role="content" id="sitelistview">
                 <ul id="offlinesite-list" data-role="listview" data-inset="true"> 
                 </ul> 
-                <div>
-                    <center><button onclick='sendSiteToServerByUser()' data-theme="e" data-icon="forward" data-iconpos="left" data-inset="true">Send to server</button>
-                </div>
+                 <div class="ui-grid-solo">
+                    <div class="ui-block-a"> <button onclick='sendSiteToServerByUser()' type="v" data-theme="e" data-icon="forward" data-i18n="global.send_to_server">Send to server</button> </div>          
+                 </div>
             </div>
             <div>
                     <img src='img/ajax-loader.gif' class="loader">
             </div>
-            <div>
-                <center><button onclick='sendSiteToServerByUser()' data-theme=e" data-inline="true" data-icon="forward" data-iconpos="left" data-inset="true" data-i18n="global.send_to_server">Send to server</button>
-            </div>
+          
         </div>
         <!--site-list-->
         <div data-role="page" id="page-site-list">
@@ -123,13 +121,11 @@
             </div>
             <div data-role="content" id="sitelist">
                 <ul data-role='listview' id="site-list" data-inset="true">
-                </ul>
+                </ul>        
+            <div class="ui-grid-a">
+                <div class="ui-block-a"> <button data-theme="e" id="btn_sendToServer" data-icon="forward" data-i18n="global.send_to_server">Send to server</button></div>
+                <div class="ui-block-b"> <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add">Add new site</a></div>	   
             </div>
-            <div> 
-                <center>
-                    <button data-theme="e" id="btn_sendToServer" data-inline="true" data-icon="forward" data-iconpos="left" data-i18n="global.send_to_server">Send to server</button>
-                    <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site" data-inline="true" data-icon="plus" data-iconpos="left" data-i18n="global.add">Add new site</a>
-                </center>
             </div>
         </div>
         <!--page-create-site-->
@@ -182,19 +178,18 @@
             <div data-role="header" data-theme="e">
                 <a href="#page-site-list" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
                 <h1 id="site-title"> </h1>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right"​ data-i18n="global.logout">Logout</button>          
->           </div>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right"​ data-i18n="global.logout">Logout</button>                     </div>
             <div data-role="content">
                 <form  method="post" id="form_update_site">
                     <div id="div-site-update-name">
                     </div>
                     <div id="div_update_field_collection"> 
                     </div>
-                    <center>
-                        <button data-theme="e" id="btn_submitUpdateSite" data-inline="true" data-inset="true" data-i18n="global.update">Update</button>
-                        <a data-role="button" data-theme="e" href="#confirm_delete_site" data-inline="true" data-inset="true" data-rel="dialog" data-i18n="global.delete">Delete</a>
-                    </center>  
-                </form> 
+                </form>                  
+                <div class="ui-grid-a">
+                    <div class="ui-block-a"><button data-theme="e" id="btn_submitUpdateSite"  data-i18n="global.update">Update</button></div>
+                    <div class="ui-block-b">  <a data-role="button" data-theme="e" href="#confirm_delete_site" data-rel="dialog" data-i18n="global.delete">Delete</a></div>	   
+                </div>
             </div>
         </div>
         <!-- delete site within a collection -->
