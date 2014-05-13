@@ -85,7 +85,6 @@ function buildField(fieldObj, options) {
         config: config,
         slider: slider,
         ctrue: ctrue,
-        isHierarchy: (kind === "hierarchy" ? true : ""),
         cId: localStorage.getItem("cId"),
         userId: getCurrentUser().id
     };
@@ -134,13 +133,13 @@ function renderFieldByCollectionIdOnline() {
                 field_id_arr.push(properties.id);
                 var fields = buildField(properties, {fromServer: true});
                 field_collections.push(fields);
-                localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
                 Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
                     if (field === null) {
                         addField(fields);
                     }
                 });
             });
+            localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
             var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
             $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
             $('#div_field_collection').trigger("create");
@@ -158,10 +157,10 @@ function renderFieldByCollectionIdOffline() {
         var field_id_arr = new Array();
         fields.forEach(function(field) {
             field_id_arr.push(field.idfield());
-            localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
             var item = buildField(field, {fromServer: false});
             field_collections.push(item);
         });
+        localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
         var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
         $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
         $('#div_field_collection').trigger("create");

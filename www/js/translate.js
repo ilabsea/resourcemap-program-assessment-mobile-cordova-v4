@@ -20,6 +20,10 @@ Translation = {
     var languageTemplate = Handlebars.compile($("#language-template").html());
     $('#div-language').html(languageTemplate({langs: langs}));
     $('#div-language').trigger("create");
+  },
+  translateLang: function(ele){
+    Translation.setLang($('#' +ele).val());
   }
+  
     
 };
