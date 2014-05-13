@@ -1,9 +1,7 @@
 App.initialize();
 App.onDeviceReady();
 
- function translateLang(ele){
-  Translation.setLang($(ele).val());
- }
+
 
 $(function() {
     Translation.setLang(Translation.getLang());

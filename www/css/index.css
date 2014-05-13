@@ -107,3 +107,13 @@ h1 {
   width: 80px;
   height: 80px;
 }
+#div-language {
+  float: right; 
+  margin-right:0.5em; 
+}
+
+#div-language .ui-select{
+  margin-bottom: 0.25em;
+  margin-top: 0.25em;
+  
+}

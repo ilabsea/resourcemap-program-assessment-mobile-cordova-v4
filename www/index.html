@@ -34,8 +34,13 @@
         <!--page-login-->   
         <div data-role="page" id="page-login">
          
-            <div data-role="header"  id="div-language" data-corners="true"data-icon="arrow-d" data-iconpos="right" data-theme="e" > 
-            </div>         
+<!--            <div data-role="header"   data-corners="true"data-icon="arrow-d" data-iconpos="right" data-theme="e" > 
+            </div>         -->
+            <div data-role="header" data-theme="e"> 
+                 <div id="div-language" style=""> </div>
+                 <div style="clear: both"></div>
+                
+            </div> 
             <div data-role="content">                
                 <div>
                     <center><img src="img/logo.png" alt="Resource Map"/></center>
@@ -238,8 +243,6 @@
                 $(".title").html(template(title));
             });
         </script>
-        
-        
 
         <script id="siteoffline-template" type="text/x-handlebars-template">
             {{#each siteofflineList}}
@@ -320,9 +323,9 @@
             {{/if}}
             {{/each}}
         </script>
-        
+       
         <script id="language-template" type="text/x-handlebars-template">
-        <select data-theme="g" id="lang-switcher" onchange="translateLang(this)"> 
+        <select style="width:100%;" data-theme="g" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
           {{#each langs}} 
             {{#if selected}}
               <option value="{{value}}" selected >{{text}}</option>   
