@@ -2,7 +2,7 @@ Translation = {
   setLang: function(currentLang){
     localStorage['currentLang'] = currentLang;
     i18n.init({lng: currentLang}, function(){
-        $(document.body).i18n()
+        $(document.body).i18n();
     });
   },
   getLang: function(){
@@ -17,10 +17,9 @@ Translation = {
             break;
         }
     }
-
     var languageTemplate = Handlebars.compile($("#language-template").html());
     $('#div-language').html(languageTemplate({langs: langs}));
     $('#div-language').trigger("create");
   }
     
-}
+};
