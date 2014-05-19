@@ -18,7 +18,7 @@ body {
         color-stop(0.51, #E4E4E4)
         );
     background-attachment:fixed;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-family: 'HelveticaNeue-Light', 'HelveticaNeue', "Helvetica", "Arial", "sans-serif";
     font-size:12px;
     height:100%;
     margin:0px;
@@ -90,16 +90,8 @@ h1 {
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
-@font-face {
-    font-family: "customfont";
-    src: url("") format("opentype");   
-        /* Make sure you defined the correct path, which is related to
-            the location of your file `my_css.css` */ 
-    }
-    body {
-        font-family: "customfont";
-        font-size:30px;
-    }
+
+   
 
 .blink {
     animation:fade 3000ms infinite;

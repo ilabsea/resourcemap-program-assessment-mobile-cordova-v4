@@ -21,10 +21,13 @@
         "invalide_email": "Please enter a valid email address."
     },
     "signup_page": {
-        "sign_up": "signUp",
+        "sign_up": "SignUp",
         "passwrod_confirm": "Password confirmation",
         "phone_number": "Phone number",
-        "already_have_accont": "Already have an account"
+        "already_have_accont": "Already have an account",
+        "pwd_not_match": "Password doesn't match confirmation",
+        "exit_email": "Email have been already",
+        "internet": "Unable to connect to the Internet"
     },
     "collection_page": {
         "view_offline_site": "View offline site",

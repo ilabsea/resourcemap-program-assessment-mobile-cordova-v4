@@ -25,7 +25,11 @@
         "sign_up": "ចុះឈ្មោះ"  , 
         "passwrod_confirm":"ការបញ្ជាក់ពាក្យសម្ងាត់" ,
         "phone_number": "លេខទូរស័ព្ទ" ,
-        "already_have_accont":"មានគណនីមួយរួចទៅហើយ"
+        "already_have_accont":"មានគណនីមួយរួចទៅហើយ",
+        "pwd_not_match": "ពាក្យសម្ងាត់គឺមិនដូចគ្នា",
+        "exit_email": "អ៊ីម៉ែលមានរួចហើយ",
+        "internet": "មិនអាចតភ្ជាប់ទៅអ៊ីនធឺណិត"
+        
     },
     "collection_page":{
         "view_offline_site": "បង្ហាញតំបន់ក្រៅបណ្ដាញ",

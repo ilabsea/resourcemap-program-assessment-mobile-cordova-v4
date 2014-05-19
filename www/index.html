@@ -8,7 +8,8 @@
         <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
         <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
         <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
-        <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>        
+        <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>    
+        <link rel="stylesheet" type="text/css" href="css/font_style.css"/>
        
         <script src="js/libs/jquery-1.11.0.min.js"></script>
         <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
@@ -33,9 +34,6 @@
     <body>
         <!--page-login-->   
         <div data-role="page" id="page-login">
-         
-<!--            <div data-role="header"   data-corners="true"data-icon="arrow-d" data-iconpos="right" data-theme="e" > 
-            </div>         -->
             <div data-role="header" data-theme="e"> 
                  <div id="div-language" style=""> </div>
                  <div style="clear: both"></div>
@@ -69,18 +67,18 @@
                 <div>
                     <center><img src="img/logo.png" alt="Resource Map"></center>
                 </div>
-                <center><span id="internet">Unable to connect to the Internet</span></center>
+                <center><span id="internet" data-i18n="signup_page.internet">Unable to connect to the Internet</span></center>
                 <h2 data-i18n="signup_page.sign_up">Signup</h2>                
                 <img src='img/ajax-loader.gif' class="loader">
                 <form method="post" name="myForm" id="form_signup">                                                   
                     <label for="email" data-i18n="global.email">Email</label>
                         <input type="email" name="user[email]" class="required email" id="signupemail"/>
-                        <p id="exitemail">Email have been already.</p>
+                        <p id="exitemail" data-i18n="signup_page.exit_email">Email have been already.</p>
                         <label for="psw" data-i18n="global.password">Password</label>
                         <input type="password" name="user[password]" class="required" id="signuppassword"/>
                         <label for="pswf" data-i18n="signup_page.passwrod_confirm">Password confirmation</label>
                         <input type="password" name="user[password_confirmation]" class="required" id="pswConfirm"/>
-                        <p id="passmatch">Password doesn't match confirmation</p>
+                        <p id="passmatch" data-i18n="signup_page.pwd_not_match">Password doesn't match confirmation</p>
                         <label for="num" data-i18n="signup_page.phone_number">Phone number<br><i>(+855XXXXXXXXX)</i></label>
                         <input type="number" name="tel" id="tel"/>
                         <center><button data-theme="e" data-inset="true" data-i18n="global.save">Save</button></center>                  
@@ -100,7 +98,7 @@
                 <ul data-role='listview' id="collection-list" data-inset="true">
                 </ul>
                 <div>
-                <a data-role="button" data-theme="e" href="#page-list-view-site" data-inset="true" data-i18n="collection_page.view_offline_site">View offline sites</a>
+                <a data-role="button" data-theme="e" href="#page-list-view-site" data-i18n="collection_page.view_offline_site">View offline sites</a>
                 </div>
             </div>
             

@@ -229,7 +229,7 @@ function buildDataForSite() {
                     properties["" + each_field + ""] = date;
                 }
             } else {
-                var data = $field.val();
+                var data = $field.val();              
                 if (data == null)
                     data = "";
                 properties[each_field] = data;
@@ -280,7 +280,7 @@ function addSiteOnline(data, callback) {
         datatype: 'json',
         success: callback,
         error: function(error){
-            
+            window.location.href = "#page-login"
         }
     });
 }
@@ -358,7 +358,7 @@ SiteCamera = {
         PhotoList.add(photo);
     },
     onFail: function() {
-        alert("Failed");
+       
     }
 };
 
