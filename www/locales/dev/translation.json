@@ -38,6 +38,12 @@
         "delete": "Delete",
         "delete_site": "Delete the site",
         "alert_delete": "Are you sure you want to delete the site?"
+    },
+     "validation":{ 
+        "email_format":"Please enter a valid email address.",
+        "number_format":"Please enter a valid number.",
+        "empty_validate":"This field is required.",
+        "date_validate":"Please enter a valid date."        
     }
 
 }

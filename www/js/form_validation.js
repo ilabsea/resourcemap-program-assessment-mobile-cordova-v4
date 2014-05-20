@@ -8,8 +8,8 @@ $(document).ready(function() {
         }
     });
     $('#form_signup').validate({
-        errorPlacement: function(error, element) {
-            error.insertAfter($(element).parent());
+        errorPlacement: function(error, element) { 
+           error.insertAfter($(element).parent());       
         },
         submitHandler: function() {
             if (isOnline()) {               

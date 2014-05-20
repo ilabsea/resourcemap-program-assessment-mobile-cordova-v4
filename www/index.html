@@ -8,7 +8,8 @@
         <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
         <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
         <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
-        <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>    
+        <link rel="stylesheet" type="text/css" href="css/font_style.css"/>
 
         <script src="js/libs/jquery-1.11.0.min.js"></script>
         <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
@@ -44,8 +45,8 @@
                     <center><img src="img/logo.png" alt="Resource Map"/></center>
                     <br>     
                 </div>
-                <p id="invalidmail" class="invalid">Invalid email or password.</p>
-                <p id="noMailInDb" class="invalid">Not found in database.</p>
+                <p id="invalidmail" class="invalid" data-i18n="validation.invalide">Invalid email or password.</p>
+                <p id="noMailInDb" class="invalid" data-i18n="validation.not_found">Not found in database.</p>
                 <div><img src='img/ajax-loader.gif' class="loader"></div>
                 <form id="form_login">
                     <h3 id="info_sign_in">Please sign in</h3>
@@ -54,7 +55,7 @@
                     <label for="password" data-i18n="global.password"> Password </label>
                     <input type="password" id="password" name="user[password]" class="required"/>
                     <center><button data-theme="e" id="btn_submitLogin" data-inset="true" data-i18n="login_page.login">Log in</button></center>
-                </form>
+                </form>              
             </div>
             <div>
                 <center><a href="#page-signup" data-i18n="login_page.creat_new_accotun">Create new account</a></center>
@@ -66,18 +67,18 @@
                 <div>
                     <center><img src="img/logo.png" alt="Resource Map"></center>
                 </div>
-                <center><span id="internet">Unable to connect to the Internet</span></center>
+                <center><span id="internet" data-i18n="signup_page.internet">Unable to connect to the Internet</span></center>
                 <h2 data-i18n="signup_page.sign_up">Signup</h2>                
                 <img src='img/ajax-loader.gif' class="loader">
                 <form method="post" name="myForm" id="form_signup">                                                   
                     <label for="email" data-i18n="global.email">Email</label>
                     <input type="email" name="user[email]" class="required email" id="signupemail"/>
-                    <p id="exitemail">Email have been already.</p>
+                    <p id="exitemail" data-i18n="signup_page.exit_email">Email have been already.</p>
                     <label for="psw" data-i18n="global.password">Password</label>
                     <input type="password" name="user[password]" class="required" id="signuppassword"/>
                     <label for="pswf" data-i18n="signup_page.passwrod_confirm">Password confirmation</label>
                     <input type="password" name="user[password_confirmation]" class="required" id="pswConfirm"/>
-                    <p id="passmatch">Password doesn't match confirmation</p>
+                    <p id="passmatch" data-i18n="signup_page.pwd_not_match">Password doesn't match confirmation</p>
                     <label for="num" data-i18n="signup_page.phone_number">Phone number<br><i>(+855XXXXXXXXX)</i></label>
                     <input type="number" name="tel" id="tel"/>
                     <center><button data-theme="e" data-inset="true" data-i18n="global.save">Save</button></center>                  
@@ -279,11 +280,11 @@
             {{#each field_collections}}
             {{#if config}} 
             {{#if isHierarchy}} 
-                <label>{{name}}</label>
-                <select id="{{idfield}}">
-                <option value="">(no value)</option>
-                {{{displayHierarchy}}}
-                </select>
+            <label>{{name}}</label>
+            <select id="{{idfield}}">
+            <option value="">(no value)</option>
+            {{{displayHierarchy}}}
+            </select>
             {{else}}
             <div>
             <label>{{name}}</label>
@@ -365,8 +366,10 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
         <script src="js/action_page.js"></script>
-        <script src="js/libs/jquery.validate.min.js"></script>
+        <script src="js/libs/jquery.validate.js"></script>
+        <script src="localization/jquery.validation_form.js"></script>   
         <script src="js/form_validation.js"></script>
+
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     </body>
 </html>
