@@ -44,8 +44,18 @@ function getSiteByCollectionId(id) {
     });
 }
 
+function countSiteByUserId(id) {
+    Site.all().filter('user_id', '=', id).count(null, function(count) {
+        if (count == 0) {
+            $('#btn_viewOfflineSite').hide();
+        } else {
+            $('#btn_viewOfflineSite').show();
+        }
+    });
+}
+
 function  getSiteByUserId(id) {
-    Site.all().filter('user_id', '=', id).list(function(sites) {
+    Site.all().filter('user_id', '=', id).list(null, function(sites) {
         var siteofflineData = {siteofflineList: []};
         sites.forEach(function(site) {
             var fullDate = dateToParam(site.created_at());
@@ -112,6 +122,7 @@ function updateSiteBySiteId() {
                     properties[item["idfield"]] = value;
                 }
             });
+            console.log(properties);
             site.properties(properties);
             site.files(files);
             persistence.flush();
@@ -119,7 +130,6 @@ function updateSiteBySiteId() {
         });
     });
 }
-
 
 function updateLatLngBySiteId(sId) {
     Site.all().filter('id', "=", sId).one(function(site) {
@@ -190,7 +200,8 @@ function submitSiteServer(sites) {
         },
         error: function(error) {
             $(".loader").hide();
-            alert("error");
+            $("#info_sign_in").show();
+            location.href = "#page-login";
         }
     });
 }
@@ -207,7 +218,7 @@ function buildDataForSite() {
         for (var i = 0; i < storedFieldId.length; i++) {
             var each_field = (storedFieldId[i]);
             $field = $('#' + (each_field));
-            if ($field && $field[0].tagName.toLowerCase() === 'img') {
+            if ($field.length >0 && $field[0].tagName.toLowerCase() === 'img') {
                 var lPhotoList = PhotoList.getPhotos().length;
                 if (lPhotoList == 0)
                     properties[each_field] = "";
@@ -222,7 +233,7 @@ function buildDataForSite() {
                     }
                 }
             }
-            else if ($field && $field[0].getAttribute("type") === 'date') {
+            else if ($field.length>0 && $field[0].getAttribute("type") === 'date') {
                 var date = $field.val();
                 if (date) {
                     date = convertDateWidgetToParam(date);
@@ -279,8 +290,8 @@ function addSiteOnline(data, callback) {
         crossDomain: true,
         datatype: 'json',
         success: callback,
-        error: function(error){
-            
+        error: function(error) {
+
         }
     });
 }
@@ -300,7 +311,6 @@ function addSiteOffline(data, callback) {
 
 PhotoList = {
     photos: [],
-
     add: function(photo) {
         PhotoList.remove(photo.id);
         PhotoList.photos.push(photo);
@@ -342,22 +352,22 @@ SiteCamera = {
     takePhoto: function(idField, updated) {
         SiteCamera.id = idField;
         SiteCamera.updated = updated;
-        
+
         navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, {
             quality: 50,
             destinationType: Camera.DestinationType.DATA_URL,
-            sourceType : Camera.PictureSourceType.CAMERA,
+            sourceType: Camera.PictureSourceType.CAMERA,
             encodingType: Camera.EncodingType.JPEG
         });
     },
     onSuccess: function(imageData) {
         var imageId = SiteCamera.updated ? "update_" + SiteCamera.id : SiteCamera.id;
         var image = document.getElementById(imageId);
-        var photo = new Photo(SiteCamera.id, imageData, SiteCamera.format );
+        var photo = new Photo(SiteCamera.id, imageData, SiteCamera.format);
         image.src = SiteCamera.dataWithMimeType(imageData);
         PhotoList.add(photo);
     },
     onFail: function() {
-        alert("Failed");
+
     }
 };

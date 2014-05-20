@@ -1,14 +1,13 @@
 App.initialize();
 App.onDeviceReady();
-
-
-
 $(function() {
     Translation.setLang(Translation.getLang());
     Translation.renderLang();
-    
     $(document).delegate('#submitLogin-page', 'pagebeforeshow', function() {
+        $("#info_sign_in").hide();
         getCollection();
+        var currentUser = getCurrentUser();
+        countSiteByUserId(currentUser.id);
         $('#form_create_site ')[0].reset();
     });
     $(document).delegate('#submitLogin-page li', 'click', function() {
@@ -45,7 +44,7 @@ $(function() {
     $(document).delegate('#logout', 'click', function() {
         logout();
     });
-     $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
+    $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
         getFieldsCollection();
         var lat = $("#lat").val();
         var lng = $("#lng").val();
@@ -79,7 +78,7 @@ $(function() {
         sId = localStorage.getItem("sId");
         updateSiteBySiteId(sId);
     });
-    
+
     $(document).delegate('#update_icon_map', 'click', function() {
         $("#btn_back_create_site").hide();
         $("#btn_back_update_site").show();
@@ -101,7 +100,7 @@ $(function() {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var $content = $("#map_canvas");
-        $content.height(screen.height - 400);
+        $content.height(screen.height - 200);
         var map = new google.maps.Map($content[0], options);
         $.mobile.changePage($("#page-map"));
         var marker = new google.maps.Marker({
