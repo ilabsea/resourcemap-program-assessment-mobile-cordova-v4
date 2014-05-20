@@ -49,7 +49,7 @@ function signUp() {
             success: function() {
                 $(".loader").hide();
                 $("#exitemail").hide();
-                alert("Sign up successful");
+                alert(i18n.t("signup_page.alert"));
                 location.href = "#page-login";
                 $('#form_signup')[0].reset();
             },

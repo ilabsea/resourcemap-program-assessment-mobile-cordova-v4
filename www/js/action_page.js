@@ -1,8 +1,5 @@
 App.initialize();
 App.onDeviceReady();
-
-
-
 $(function() {
     Translation.setLang(Translation.getLang());
     Translation.renderLang();

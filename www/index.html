@@ -14,6 +14,7 @@
         <script src="js/libs/jquery-1.11.0.min.js"></script>
         <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
         <script src="js/libs/i18next.js"></script>
+      
         
         <script src="js/lib/persistence.js"></script>
         <script src="js/lib/persistence.sync.js"></script>
@@ -44,8 +45,8 @@
                     <center><img src="img/logo.png" alt="Resource Map"/></center>
                     <br>     
                 </div>
-                <p id="invalidmail" class="invalid">Invalid email or password.</p>
-                <p id="noMailInDb" class="invalid">Not found in database.</p>
+                <p id="invalidmail" class="invalid" data-i18n="validation.invalide">Invalid email or password.</p>
+                <p id="noMailInDb" class="invalid" data-i18n="validation.not_found">Not found in database.</p>
                 <div><img src='img/ajax-loader.gif' class="loader"></div>
                 <form id="form_login">
                     <h3 id="info_sign_in">Please sign in</h3>
@@ -54,8 +55,7 @@
                     <label for="password" data-i18n="global.password"> Password </label>
                     <input type="password" id="password" name="user[password]" class="required"/>
                     <center><button data-theme="e" id="btn_submitLogin" data-inset="true" data-i18n="login_page.login">Log in</button></center>
-                </form>
-               
+                </form>              
             </div>
             <div>
                 <center><a href="#page-signup" data-i18n="login_page.creat_new_accotun">Create new account</a></center>
@@ -339,8 +339,10 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
         <script src="js/action_page.js"></script>
-        <script src="js/libs/jquery.validate.min.js"></script>
+        <script src="js/libs/jquery.validate.js"></script>
+        <script src="localization/jquery.validation_form.js"></script>   
         <script src="js/form_validation.js"></script>
+        
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     </body>
 </html>

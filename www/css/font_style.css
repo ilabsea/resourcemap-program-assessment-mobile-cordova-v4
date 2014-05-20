@@ -1,7 +1,9 @@
 
 @font-face {
     font-family: "Khmer OS";
-    src: url(../font/KhmerOS.ttf) format('truetype');     
+    src: url(../font/KhmerOS.ttf) format('truetype');  
+    font-weight:bold;
+ 
 }
     
 body {
