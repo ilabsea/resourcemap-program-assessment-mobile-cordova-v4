@@ -26,10 +26,14 @@ function renderFieldsBySite(site) {
                             }
                         }
                     }
+                    else if (item.widgetType === "hierarchy") {
+                        item.__value = properties[propertyId];
+                        item.displayHierarchy = Hierarchy.generateField(item.config, item.__value);
+                    }
                     else if (item.widgetType === "date") {
                         var val = properties[propertyId];
                         var date = new Date(val);
-                        item.__value =  originalDateFormat(date);
+                        item.__value = originalDateFormat(date);
                     }
                     else
                         item.__value = properties[propertyId];
@@ -67,7 +71,7 @@ function buildField(fieldObj, options) {
     }
     if (widgetType === "yes_no") {
         widgetType = "select_one";
-        var configOptions = {options: [{"id": 1, "code": "1", "label": "YES"}, {"id": 2, "code": "2", "label": "NO"}]};
+        var configOptions = {options: [{"id": 0, "code": "1", "label": "NO"}, {"id": 1, "code": "2", "label": "YES"}]};
         config = configOptions;
         slider = "slider";
         ctrue = "true";
@@ -88,6 +92,10 @@ function buildField(fieldObj, options) {
         cId: localStorage.getItem("cId"),
         userId: getCurrentUser().id
     };
+    if (widgetType === "hierarchy") {
+        fields.isHierarchy = true;
+        fields.displayHierarchy = Hierarchy.generateField(fields.config, "");
+    }
     return fields;
 }
 
@@ -132,6 +140,7 @@ function renderFieldByCollectionIdOnline() {
             $.each(response, function(key, properties) {
                 field_id_arr.push(properties.id);
                 var fields = buildField(properties, {fromServer: true});
+                console.log("fields : ", fields);
                 field_collections.push(fields);
                 Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
                     if (field === null) {

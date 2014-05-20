@@ -27,6 +27,4 @@ Translation = {
      Translation.setLang($('#' +ele).val());
    
   }
-  
-    
 };

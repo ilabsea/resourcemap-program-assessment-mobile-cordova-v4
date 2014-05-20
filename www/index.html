@@ -3,19 +3,19 @@
         <title>Resource Map</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
         <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
         <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
         <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>    
         <link rel="stylesheet" type="text/css" href="css/font_style.css"/>
-       
+
         <script src="js/libs/jquery-1.11.0.min.js"></script>
         <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
+
         <script src="js/libs/i18next.js"></script>
-      
-        
+
         <script src="js/lib/persistence.js"></script>
         <script src="js/lib/persistence.sync.js"></script>
         <script src="js/lib/persistence.store.sql.js"></script>
@@ -29,16 +29,16 @@
         <script src="include/db_connection.js"></script>
         <script src="include/site.js"></script>
         <script src="include/field.js"></script>
-         
+        <script src="include/hierarchy.js" type="text/javascript"></script>
+
         <script src="js/translate.js"></script>
     </head>
     <body>
         <!--page-login-->   
         <div data-role="page" id="page-login">
             <div data-role="header" data-theme="e"> 
-                 <div id="div-language" style=""> </div>
-                 <div style="clear: both"></div>
-                
+                <div id="div-language" style=""> </div>
+                <div style="clear: both"></div>
             </div> 
             <div data-role="content">                
                 <div>
@@ -72,16 +72,16 @@
                 <img src='img/ajax-loader.gif' class="loader">
                 <form method="post" name="myForm" id="form_signup">                                                   
                     <label for="email" data-i18n="global.email">Email</label>
-                        <input type="email" name="user[email]" class="required email" id="signupemail"/>
-                        <p id="exitemail" data-i18n="signup_page.exit_email">Email have been already.</p>
-                        <label for="psw" data-i18n="global.password">Password</label>
-                        <input type="password" name="user[password]" class="required" id="signuppassword"/>
-                        <label for="pswf" data-i18n="signup_page.passwrod_confirm">Password confirmation</label>
-                        <input type="password" name="user[password_confirmation]" class="required" id="pswConfirm"/>
-                        <p id="passmatch" data-i18n="signup_page.pwd_not_match">Password doesn't match confirmation</p>
-                        <label for="num" data-i18n="signup_page.phone_number">Phone number<br><i>(+855XXXXXXXXX)</i></label>
-                        <input type="number" name="tel" id="tel"/>
-                        <center><button data-theme="e" data-inset="true" data-i18n="global.save">Save</button></center>                  
+                    <input type="email" name="user[email]" class="required email" id="signupemail"/>
+                    <p id="exitemail" data-i18n="signup_page.exit_email">Email have been already.</p>
+                    <label for="psw" data-i18n="global.password">Password</label>
+                    <input type="password" name="user[password]" class="required" id="signuppassword"/>
+                    <label for="pswf" data-i18n="signup_page.passwrod_confirm">Password confirmation</label>
+                    <input type="password" name="user[password_confirmation]" class="required" id="pswConfirm"/>
+                    <p id="passmatch" data-i18n="signup_page.pwd_not_match">Password doesn't match confirmation</p>
+                    <label for="num" data-i18n="signup_page.phone_number">Phone number<br><i>(+855XXXXXXXXX)</i></label>
+                    <input type="number" name="tel" id="tel"/>
+                    <center><button data-theme="e" data-inset="true" data-i18n="global.save">Save</button></center>                  
                 </form>               
             </div>
             <div>
@@ -98,10 +98,9 @@
                 <ul data-role='listview' id="collection-list" data-inset="true">
                 </ul>
                 <div>
-                <a data-role="button" data-theme="e" href="#page-list-view-site" data-i18n="collection_page.view_offline_site">View offline sites</a>
+                    <a id="btn_viewOfflineSite" data-role="button" data-theme="e" href="#page-list-view-site" data-inset="true" data-i18n="collection_page.view_offline_site">View offline sites</a>
                 </div>
             </div>
-            
         </div>
         <!--page-list-view-site-offline-->
         <div data-role="page" id="page-list-view-site">
@@ -113,14 +112,13 @@
             <div data-role="content" id="sitelistview">
                 <ul id="offlinesite-list" data-role="listview" data-inset="true"> 
                 </ul> 
-                 <div class="ui-grid-solo">
+                <div class="ui-grid-solo">
                     <div class="ui-block-a"> <button onclick='sendSiteToServerByUser()' type="v" data-theme="e" data-icon="forward" data-i18n="global.send_to_server">Send to server</button> </div>          
-                 </div>
+                </div>
             </div>
             <div>
-                    <img src='img/ajax-loader.gif' class="loader">
+                <img src='img/ajax-loader.gif' class="loader">
             </div>
-          
         </div>
         <!--site-list-->
         <div data-role="page" id="page-site-list">
@@ -132,10 +130,10 @@
             <div data-role="content" id="sitelist">
                 <ul data-role='listview' id="site-list" data-inset="true">
                 </ul>        
-            <div class="ui-grid-a">
-                <div class="ui-block-a"> <button data-theme="e" id="btn_sendToServer" data-icon="forward" data-i18n="global.send_to_server">Send to server</button></div>
-                <div class="ui-block-b"> <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add">Add new site</a></div>	   
-            </div>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a"> <button data-theme="e" id="btn_sendToServer" data-icon="forward" data-i18n="global.send_to_server">Send to server</button></div>
+                    <div class="ui-block-b"> <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add">Add new site</a></div>	   
+                </div>
             </div>
         </div>
         <!--page-create-site-->
@@ -161,16 +159,16 @@
                         <label for="lolng" data-i18n="global.lng"> Location'Lng </label>
                         <input type="number" name="lng" id="lng" class="required"/>
                     </div>  
-               
                     <div id="div_field_collection"></div> 
                     <center><button id="btn_submitAddSite" data-theme="e"  data-inset="true" data-i18n="global.save">Save</button></center >
                 </form>                  
             </div> 
         </div>
-       <!-- view map -->
+        <!-- view map -->
         <div data-role="page" id="page-map">
             <div data-role="header" data-theme="e" >
-                <a id="btn_back_create_site" href="#page-create-site" data-role="button" data-theme="e" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
+                <a id="btn_back_create_site" href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
+                <a id="btn_back_update_site" href="#page-update-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
                 <h1 data-i18n="map_page.map">Map</h1>
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
             </div>
@@ -189,8 +187,7 @@
             <div data-role="header" data-theme="e">
                 <a href="#page-site-list" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
                 <h1 id="site-title"> </h1>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right"​ data-i18n="global.logout">Logout</button>          
-            </div>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right"​ data-i18n="global.logout">Logout</button>                     </div>
             <div data-role="content">
                 <form  method="post" id="form_update_site">
                     <div id="div-site-update-name">
@@ -211,7 +208,7 @@
             </div>
             <div data-role="content">
                 <h3 data-i18n="update_site_page.alert_delete"> Are you sure you want to delete the site? </h3>
-                <center><a data-role="button" data-theme="e" href="#page-site-list" data-inline="true" data-inset="true" data-i18n="global.cancel">Cancel</a>
+                <center><a data-role="button" data-theme="e" href="#page-update-site" data-inline="true" data-inset="true" data-i18n="global.cancel">Cancel</a>
                     <button data-theme="e" id="btn_delete-site" data-inline="true" data-inset="true" data-i18n="global.delete">Delete</button></center>
             </div>
         </div>
@@ -233,12 +230,26 @@
         </script>
 
         <script type="text/javascript">
-               $(document).delegate('#submitLogin-page li', 'click', function() {
+            $(document).delegate('#submitLogin-page li', 'click', function() {
                 var cName = $(this).attr("data-name");
                 localStorage.setItem('collectionName', cName);
                 var title = {name: cName};
                 var template = Handlebars.compile($("#template").html());
                 $(".title").html(template(title));
+            });
+        </script>
+
+        <script type="text/x-handlebars-template" id="template-site-list">
+            {{name}}
+        </script>
+
+        <script type="text/javascript">
+            $(document).delegate('#page-site-list li', 'click', function() {
+                var sName = $(this).attr("data-name");
+                localStorage.setItem('siteName', sName);
+                var title = {name: sName};
+                var template = Handlebars.compile($("#template-site-list").html());
+                $("#site-title").html(template(title));
             });
         </script>
 
@@ -263,30 +274,39 @@
             <label for="updatelolng"> Location'Lng </label>
             <input type="number" name="updatelolng" id="updatelolng" class="required" value='{{lng}}'/>
         </script>
-        
+
         <!--field collection-->
         <script id="field_collection-template" type="text/x-handlebars-template">
             {{#each field_collections}}
             {{#if config}} 
-            <div>
-                <label>{{name}}</label>
-                <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-                    {{#if multiple}} <option>Options</option>{{/if}}
-                    {{#config.options}}
-                    <option value="{{id}}">{{label}}</option>
-                    {{/config.options}}                   
-                </select>
-            </div>
-            {{else}}    
-            {{#if isPhoto}}  
-                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-                <div  onclick="SiteCamera.takePhoto({{idfield}}, false)" id='property_{{idfield}}_container' class="photo" > 
-                <img class="image" src='{{__value}}' id='{{idfield}}'  />   
-                </div>
+            {{#if isHierarchy}} 
+            <label>{{name}}</label>
+            <select id="{{idfield}}">
+            <option value="">(no value)</option>
+            {{{displayHierarchy}}}
+            </select>
             {{else}}
             <div>
-                <label for='name'>{{{name}}}</label>
-                <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"/ >  
+            <label>{{name}}</label>
+            <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+            {{#if multiple}} <option>Options</option>
+            {{else}}  <option value="">(no value)</option> {{/if}}
+            {{#config.options}}
+            <option value="{{id}}">{{label}}</option>
+            {{/config.options}}                   
+            </select>
+            </div>
+            {{/if}}
+            {{else}}    
+            {{#if isPhoto}}  
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div  onclick="SiteCamera.takePhoto({{idfield}}, false)" id='property_{{idfield}}_container' class="photo" > 
+            <img class="image" src='{{__value}}' id='{{idfield}}'  />
+            </div>
+            {{else}}
+            <div>
+            <label for='name'>{{{name}}}</label>
+            <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"/ >  
             </div>
             {{/if}}
             {{/if}}
@@ -294,24 +314,32 @@
         </script>
         <!--site update-->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
-            
             {{#each field_collections}}
             {{#if config}} 
+            {{#if isHierarchy}} 
+            <label>{{name}}</label>
+            <select id="update_{{idfield}}">
+            <option value="">(no value)</option>
+            {{{displayHierarchy}}}
+            </select>
+            {{else}}
             <div>
             <label>{{name}}</label>
             <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-            {{#if multiple}} <option>Options</option>{{/if}}
+            {{#if multiple}} <option>Options</option>\n\
+            {{else}}  <option value="">(no value)</option> {{/if}}
             {{#config.options}}
             <option value="{{id}}" {{selected}}>{{label}}</option>
             {{/config.options}}
             </select>
             </div>
+            {{/if}}
             {{else}}    
             {{#if isPhoto}}  
             <span style='display:inline; margin-top:10px'>{{{name}}}</span>
             <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' class="photo" > 
-                 <img class="image" src='{{__value}}' id='update_{{idfield}}' />
-                 </div>
+            <img class="image" src='{{__value}}' id='update_{{idfield}}' />
+            </div>
             {{else}}
             <div>
             <label for='name'>{{{name}}}</label>
@@ -321,20 +349,19 @@
             {{/if}}
             {{/each}}
         </script>
-       
+
         <script id="language-template" type="text/x-handlebars-template">
-        <select style="width:100%;" data-theme="g" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
-          {{#each langs}} 
+            <select style="width:100%;" data-theme="g" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
+            {{#each langs}} 
             {{#if selected}}
-              <option value="{{value}}" selected >{{text}}</option>   
+            <option value="{{value}}" selected >{{text}}</option>   
             {{else}}
-               <option value="{{value}}" >{{text}}</option> 
+            <option value="{{value}}" >{{text}}</option> 
             {{/if}}                  
-          {{/each}}  
-         </select>
+            {{/each}}  
+            </select>
         </script>
-        
-        
+
         <script src="cordova.js"></script>  
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
@@ -342,7 +369,7 @@
         <script src="js/libs/jquery.validate.js"></script>
         <script src="localization/jquery.validation_form.js"></script>   
         <script src="js/form_validation.js"></script>
-        
+
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     </body>
 </html>
