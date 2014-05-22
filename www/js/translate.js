@@ -1,4 +1,5 @@
 Translation = {
+    
   setLang: function(currentLang){
     localStorage['currentLang'] = currentLang;
     i18n.init({lng: currentLang}, function(){

@@ -349,19 +349,27 @@ SiteCamera = {
     dataWithMimeType: function(data) {
         return 'data:image/jpeg;base64,' + data;
     },
-    takePhoto: function(idField, updated) {
+    takePhoto: function(idField, updated, cameraType) {
+        var type ;
+        if(cameraType == "camera")
+           type= Camera.PictureSourceType.CAMERA
+        else
+           type = Camera.PictureSourceType.SAVEDPHOTOALBUM;
+            
         SiteCamera.id = idField;
-        SiteCamera.updated = updated;
-
+        SiteCamera.updated = updated;         
         navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, {
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.CAMERA,
-            encodingType: Camera.EncodingType.JPEG
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL,
+        sourceType: type,
+        encodingType: Camera.EncodingType.JPEG
+        
         });
+    
+         
     },
     onSuccess: function(imageData) {
-        var imageId = SiteCamera.updated ? "update_" + SiteCamera.id : SiteCamera.id;
+        var imageId = SiteCamera.updated ? "update_img_" + SiteCamera.id : SiteCamera.id;
         var image = document.getElementById(imageId);
         var photo = new Photo(SiteCamera.id, imageData, SiteCamera.format);
         image.src = SiteCamera.dataWithMimeType(imageData);

@@ -1,11 +1,11 @@
 
 @font-face {
-    font-family: "Khmer OS";
+    font-family: "Khmer OS"6;
     src: url(../font/KhmerOS.ttf) format('truetype');  
     font-weight:bold;
  
 }
     
 body {
-    font-family: "Khmer OS",arial, sans-serif;    
+    font-family: Khmer OS,Times New Roman;    
 } 

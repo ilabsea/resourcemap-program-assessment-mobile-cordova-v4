@@ -42,13 +42,13 @@
             </div> 
             <div data-role="content">                
                 <div>
-                    <center><img src="img/logo.png" alt="Resource Map"/></center>
+                    <center><img src="img/logo.png" alt="Resource Map"/></center>                 
                     <br>     
                 </div>
                 <p id="invalidmail" class="invalid" data-i18n="validation.invalide">Invalid email or password.</p>
                 <p id="noMailInDb" class="invalid" data-i18n="validation.not_found">Not found in database.</p>
                 <div><img src='img/ajax-loader.gif' class="loader"></div>
-                <form id="form_login">
+                <form id="form_login">                   
                     <h3 id="info_sign_in">Please sign in</h3>
                     <label for="email" data-i18n="global.email"> Email </label>
                     <input type="email" id="email" name="user[email]" class="required email"/>
@@ -139,7 +139,7 @@
         <!--page-create-site-->
         <div data-role="page" id="page-create-site">
             <div data-role="header" data-theme="e">
-                <a data-role="button" data-theme="a"  href="#submitLogin-page" data-icon="back" class="ui-btn-left" data-i18n="global.back">Back</a>
+                <a data-role="button" data-theme="a" href="#submitLogin-page" data-icon="back" class="ui-btn-left" data-i18n="global.back" id="back">Back</a>
                 <h2 class="title"></h2>
                 <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
             </div>
@@ -160,7 +160,7 @@
                         <input type="number" name="lng" id="lng" class="required"/>
                     </div>  
                     <div id="div_field_collection"></div> 
-                    <center><button id="btn_submitAddSite" data-theme="e"  data-inset="true" data-i18n="global.save">Save</button></center >
+                    <button id="btn_submitAddSite" data-theme="e"  data-inset="true" data-i18n="global.save">Save</button>
                 </form>                  
             </div> 
         </div>
@@ -212,6 +212,7 @@
                     <button data-theme="e" id="btn_delete-site" data-inline="true" data-inset="true" data-i18n="global.delete">Delete</button></center>
             </div>
         </div>
+       
         <script>
             $(document).on("mobileinit", function() {
                 $.mobile.allowCrossDomainPages = true;
@@ -279,30 +280,35 @@
         <script id="field_collection-template" type="text/x-handlebars-template">
             {{#each field_collections}}
             {{#if config}} 
-            {{#if isHierarchy}} 
-            <label>{{name}}</label>
-            <select id="{{idfield}}">
-            <option value="">(no value)</option>
+              {{#if isHierarchy}} 
+              <label>{{name}}</label>
+              <select id="{{idfield}}">
+              <option value="">(no value)</option>
             {{{displayHierarchy}}}
             </select>
             {{else}}
             <div>
             <label>{{name}}</label>
             <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-            {{#if multiple}} <option>Options</option>
-            {{else}}  <option value="">(no value)</option> {{/if}}
-            {{#config.options}}
-            <option value="{{id}}">{{label}}</option>
-            {{/config.options}}                   
+                {{#if multiple}} <option>Options</option>{{/if}}
+                {{#config.options}}
+                   <option value="{{id}}">{{label}}</option>
+               {{/config.options}}                   
             </select>
             </div>
             {{/if}}
             {{else}}    
             {{#if isPhoto}}  
-            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-            <div  onclick="SiteCamera.takePhoto({{idfield}}, false)" id='property_{{idfield}}_container' class="photo" > 
-            <img class="image" src='{{__value}}' id='{{idfield}}'  />
-            </div>
+               <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+               <div  id='property_{{idfield}}_container' class="photo" > 
+                  <div style="float:left; width:95px; height:93px;">
+                    <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'camera')" class="image" src='{{__value}}' id='{{idfield}}' />
+                 </div>
+                 <div style="margin-left:100px;">
+                    <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'camera')" class="camera_icon" src='img/camera.png' alt="camera"  />                 
+                    <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'gallery')" class="camera_icon1" src='img/galleryIcon.png' alt="gallery" />
+                 </div>       
+               </div>
             {{else}}
             <div>
             <label for='name'>{{{name}}}</label>
@@ -319,31 +325,36 @@
             {{#if isHierarchy}} 
             <label>{{name}}</label>
             <select id="update_{{idfield}}">
-            <option value="">(no value)</option>
-            {{{displayHierarchy}}}
+                <option value="">(no value)</option>
+                {{{displayHierarchy}}}
             </select>
             {{else}}
             <div>
             <label>{{name}}</label>
             <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-            {{#if multiple}} <option>Options</option>\n\
-            {{else}}  <option value="">(no value)</option> {{/if}}
-            {{#config.options}}
-            <option value="{{id}}" {{selected}}>{{label}}</option>
-            {{/config.options}}
+                {{#if multiple}} <option>Options</option>{{/if}}
+                {{#config.options}}
+                <option value="{{id}}" {{selected}}>{{label}}</option>
+                {{/config.options}}
             </select>
             </div>
             {{/if}}
             {{else}}    
             {{#if isPhoto}}  
-            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-            <div onclick="SiteCamera.takePhoto({{idfield}}, true)" id='property_{{idfield}}_container' class="photo" > 
-            <img class="image" src='{{__value}}' id='update_{{idfield}}' />
-            </div>
+               <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+               <div  id='property_{{idfield}}_container' class="photo" > 
+                  <div style="float:left; width:95px; height:93px;">
+                   <img onclick="SiteCamera.takePhoto({{idfield}},true, 'camera')" class="image" src='{{__value}}' id='update_img_{{idfield}}' /> 
+                 </div>
+                 <div style="margin-left:100px;">
+                    <img onclick="SiteCamera.takePhoto({{idfield}}, true, 'camera')" class="camera_icon" src='img/camera.png' alt="camera" />                 
+                    <img onclick="SiteCamera.takePhoto({{idfield}}, true, 'gallery')" class="camera_icon1" src='img/galleryIcon.png' alt="gallery" />
+                 </div>       
+               </div>         
             {{else}}
             <div>
-            <label for='name'>{{{name}}}</label>
-            <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+                <label for='name'>{{{name}}}</label>
+                <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
             </div>
             {{/if}}
             {{/if}}
@@ -354,14 +365,14 @@
             <select style="width:100%;" data-theme="g" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
             {{#each langs}} 
             {{#if selected}}
-            <option value="{{value}}" selected >{{text}}</option>   
+                <option value="{{value}}" selected >{{text}}</option>   
             {{else}}
-            <option value="{{value}}" >{{text}}</option> 
+                <option value="{{value}}" >{{text}}</option> 
             {{/if}}                  
             {{/each}}  
             </select>
         </script>
-
+        <script src="include/test.js"></script>
         <script src="cordova.js"></script>  
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>

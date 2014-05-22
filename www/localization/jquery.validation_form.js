@@ -2,7 +2,7 @@ var jquery_validation = {
     kh:{
         required: "វាលនេះត្រូវបានទាមទារ",
         remote: "សូមកែវាលនេះ.",
-        email: "សូមបញ្ចូលអាសយដ្ឋានអ៊ីមែលដែលត្រឹមត្រូ",
+        email: "សូមបញ្ចូលអ៊ីមែលដែលត្រឹមត្រូវ",
         url: "សូមផ្ដល់នូវ URL ដែលត្រឹមត្រូវ.",
         date: "សូមបញ្ចូលកាលបរិច្ឆេទត្រឹមត្រូវ",
         dateISO: "សូមផ្តល់នូវកាលបរិច្ឆេទត្រឹមត្រូវ (ISO).",
@@ -37,5 +37,5 @@ var jquery_validation = {
 		max: $.validator.format("Please enter a value less than or equal to {0}."),
 		min: $.validator.format("Please enter a value greater than or equal to {0}.")
     }
-}
+};
 
