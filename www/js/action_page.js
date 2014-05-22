@@ -132,6 +132,7 @@ $(function() {
 });
 
 function showSpinner(){
+    $.mobile.activePage.addClass("ui-disabled");
     $.mobile.loading('show', {
         text: "Please wait...",
         textVisible: true,
@@ -141,4 +142,5 @@ function showSpinner(){
 }
 function hideSpinner(){
     $.mobile.loading('hide');
+    $.mobile.activePage.removeClass("ui-disabled");
 }
