@@ -3,6 +3,7 @@ App.onDeviceReady();
 $(function() {
     Translation.setLang(Translation.getLang());
     Translation.renderLang();
+    
     $(document).delegate('#submitLogin-page', 'pagebeforeshow', function() {
         $("#info_sign_in").hide();
         getCollection();
@@ -129,3 +130,17 @@ $(function() {
         google.maps.event.trigger(map_canvas, 'resize');
     });
 });
+
+function showSpinner(){
+    $.mobile.activePage.addClass("ui-disabled");
+    $.mobile.loading('show', {
+        text: "Please wait...",
+        textVisible: true,
+        theme: "a",
+        html: ""
+    });
+}
+function hideSpinner(){
+    $.mobile.loading('hide');
+    $.mobile.activePage.removeClass("ui-disabled");
+}
