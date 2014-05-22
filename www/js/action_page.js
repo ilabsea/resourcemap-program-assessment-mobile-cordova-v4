@@ -3,6 +3,7 @@ App.onDeviceReady();
 $(function() {
     Translation.setLang(Translation.getLang());
     Translation.renderLang();
+    
     $(document).delegate('#submitLogin-page', 'pagebeforeshow', function() {
         $("#info_sign_in").hide();
         getCollection();
@@ -44,8 +45,13 @@ $(function() {
     $(document).delegate('#logout', 'click', function() {
         logout();
     });
-    $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
+    $(document).delegate('#submitLogin-page', 'pagebeforehide', function() {
         getFieldsCollection();
+    });
+    $(document).delegate('#page-site-list', 'pagebeforehide', function() {
+        getFieldsCollection();
+    });
+    $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
         var lat = $("#lat").val();
         var lng = $("#lng").val();
         if (lat == "" && lng == "") {
@@ -124,3 +130,15 @@ $(function() {
         google.maps.event.trigger(map_canvas, 'resize');
     });
 });
+
+function showSpinner(){
+    $.mobile.loading('show', {
+        text: "Please wait...",
+        textVisible: true,
+        theme: "a",
+        html: ""
+    });
+}
+function hideSpinner(){
+    $.mobile.loading('hide');
+}

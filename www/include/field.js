@@ -152,7 +152,6 @@ function renderFieldByCollectionIdOnline() {
             var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
             $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
             $('#div_field_collection').trigger("create");
-
         },
         error: function(error) {
             console.log("erro:  " + error);

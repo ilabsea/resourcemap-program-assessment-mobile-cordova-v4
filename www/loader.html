@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>loader demo</title>
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
+        <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
+        <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
+        <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>    
+        <link rel="stylesheet" type="text/css" href="css/font_style.css"/>
+
+        <script src="js/libs/jquery-1.11.0.min.js"></script>
+        <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
+    </head>
+    <body>
+
+        <div data-role="page" id="page1">
+            <div role="main" class="ui-content">
+                <div data-role="controlgroup">
+                    <button class="show-page-loading-msg" data-theme="a" >Theme b</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).on("click", ".show-page-loading-msg", function() {
+                $.mobile.loading('show', {
+                    text: "Loading theme b",
+                    textVisible: true,
+                    theme: "a",
+                    html: ""
+                });
+            })
+                    .on("click", ".hide-page-loading-msg", function() {
+                        $.mobile.loading("hide");
+                    });
+        </script>
+
+    </body>
+</html>

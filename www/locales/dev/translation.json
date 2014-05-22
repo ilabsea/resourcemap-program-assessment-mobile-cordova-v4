@@ -21,10 +21,14 @@
         "invalide_email": "Please enter a valid email address."
     },
     "signup_page": {
-        "sign_up": "signUp",
+        "sign_up": "SignUp",
         "passwrod_confirm": "Password confirmation",
         "phone_number": "Phone number",
-        "already_have_accont": "Already have an account"
+        "already_have_accont": "Already have an account",
+        "pwd_not_match": "Password doesn't match confirmation",
+        "exit_email": "Email have been already",
+        "internet": "Unable to connect to the Internet",
+        "alert":"Sign up successful"
     },
     "collection_page": {
         "view_offline_site": "View offline site",
@@ -39,11 +43,14 @@
         "delete_site": "Delete the site",
         "alert_delete": "Are you sure you want to delete the site?"
     },
-     "validation":{ 
-        "email_format":"Please enter a valid email address.",
+    "validation":{
+       "email_format":"Please enter a valid email address.",
         "number_format":"Please enter a valid number.",
         "empty_validate":"This field is required.",
-        "date_validate":"Please enter a valid date."        
+        "date_validate":"Please enter a valid date."  ,
+        "invalide":"Invalid email or password.",
+        "not_found":"Not found in database.",
+        "plsSignIn":"Please sign in."
     }
 
 }

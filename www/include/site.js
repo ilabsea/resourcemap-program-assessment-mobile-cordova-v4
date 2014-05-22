@@ -170,7 +170,7 @@ function sendSiteToServer(key, id) {
 
 function submitSiteServer(sites) {
     var site = sites[0];
-    $(".loader").show();
+    showSpinner();
     var data = {site: {
             collection_id: site.collection_id(),
             name: site.name(),
@@ -189,7 +189,7 @@ function submitSiteServer(sites) {
         success: function() {
             persistence.remove(site);
             persistence.flush();
-            $(".loader").hide();
+            hideSpinner();
             $('#sendToServer').show();
             sites.splice(0, 1);
             if (sites.length === 0) {
@@ -199,7 +199,7 @@ function submitSiteServer(sites) {
                 submitSiteServer(sites);
         },
         error: function(error) {
-            $(".loader").hide();
+            hideSpinner();
             $("#info_sign_in").show();
             location.href = "#page-login";
         }
@@ -268,7 +268,7 @@ function  addSiteToServer() {
 }
 
 function resetSiteFormOnline() {
-    $(".loader").hide();
+    hideSpinner();
     PhotoList.clear();
     location.href = "#submitLogin-page";
 }
@@ -282,7 +282,7 @@ function resetSiteFormOffline() {
 function addSiteOnline(data, callback) {
     var cId = localStorage.getItem("cId");
     var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + getAuthToken();
-    $(".loader").show();
+    showSpinner();
     $.ajax({
         url: url,
         type: "POST",
@@ -291,7 +291,8 @@ function addSiteOnline(data, callback) {
         datatype: 'json',
         success: callback,
         error: function(error){
-            window.location.href = "#page-login";
+            hideSpinner();
+            alert("Please resend the data.");
         }
     });
 }

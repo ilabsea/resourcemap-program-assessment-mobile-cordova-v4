@@ -40,21 +40,21 @@ function signUp() {
     var data = {user: {email: email, password: password, password_confirmation: password_confirmation}};
     if (password === password_confirmation) {
         $("#passmatch").hide();
-        $(".loader").show();
+        showSpinner();
         $.ajax({
             url: App.URL_SIGNUP,
             type: "POST",
             crossDomain: true,
             data: data,
             success: function() {
-                $(".loader").hide();
+                hideSpinner();
                 $("#exitemail").hide();
                 alert(i18n.t("signup_page.alert"));
                 location.href = "#page-login";
                 $('#form_signup')[0].reset();
             },
             error: function() {
-                $(".loader").hide();
+                hideSpinner();
                 $('#exitemail').show();
                 location.href = "#page-signup";
             }
@@ -67,23 +67,16 @@ function signUp() {
 function authoriseUser(email, psw) {
     data = {user: {email: email, password: psw}};
     $('#invalidmail').hide();
-    $(".loader").show();
+    showSpinner();
     $.ajax({
         type: "post",
         data: data,
         url: App.AUTH_URL,
         dataType: "json",
         crossDomain: true,
-        beforeSend: function() {
-            $.mobile.loader("show");
-        },
-        complete: function() {
-            $.mobile.loader("hide");
-        },
         success: function(response) {
             setAuthToken(response.auth_token);
-            $(".loader").hide();
-            location.href = "#submitLogin-page";
+            hideSpinner();
             User.all().filter('email', "=", email).one(null, function(user) {
                 if (user === null) {
                     var currentUser = addUser(email, psw);
@@ -96,10 +89,11 @@ function authoriseUser(email, psw) {
                     }
                     setCurrentUser(user);
                 }
+                location.href = "#submitLogin-page";
             });
         },
         error: function() {
-            $(".loader").hide();
+            hideSpinner();
             $('#invalidmail').show();
         }
     });
@@ -107,7 +101,7 @@ function authoriseUser(email, psw) {
 
 
 function setCurrentUser(user) {
-    $(".loader").hide();
+    hideSpinner();
     var currentUser = {id: user.id, password: user.password(), email: user.email()};
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
 }

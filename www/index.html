@@ -47,14 +47,13 @@
                 </div>
                 <p id="invalidmail" class="invalid" data-i18n="validation.invalide">Invalid email or password.</p>
                 <p id="noMailInDb" class="invalid" data-i18n="validation.not_found">Not found in database.</p>
-                <div><img src='img/ajax-loader.gif' class="loader"></div>
                 <form id="form_login">
-                    <h3 id="info_sign_in">Please sign in</h3>
+                    <h3 id="info_sign_in" data-i18n="validation.plsSignIn">Please sign in</h3>
                     <label for="email" data-i18n="global.email"> Email </label>
                     <input type="email" id="email" name="user[email]" class="required email"/>
                     <label for="password" data-i18n="global.password"> Password </label>
                     <input type="password" id="password" name="user[password]" class="required"/>
-                    <center><button data-theme="e" id="btn_submitLogin" data-inset="true" data-i18n="login_page.login">Log in</button></center>
+                    <center><button  data-theme="e" id="btn_submitLogin" data-inset="true" data-i18n="login_page.login">Log in</button></center>
                 </form>              
             </div>
             <div>
@@ -69,7 +68,6 @@
                 </div>
                 <center><span id="internet" data-i18n="signup_page.internet">Unable to connect to the Internet</span></center>
                 <h2 data-i18n="signup_page.sign_up">Signup</h2>                
-                <img src='img/ajax-loader.gif' class="loader">
                 <form method="post" name="myForm" id="form_signup">                                                   
                     <label for="email" data-i18n="global.email">Email</label>
                     <input type="email" name="user[email]" class="required email" id="signupemail"/>
@@ -116,9 +114,6 @@
                     <div class="ui-block-a"> <button onclick='sendSiteToServerByUser()' type="v" data-theme="e" data-icon="forward" data-i18n="global.send_to_server">Send to server</button> </div>          
                 </div>
             </div>
-            <div>
-                <img src='img/ajax-loader.gif' class="loader">
-            </div>
         </div>
         <!--site-list-->
         <div data-role="page" id="page-site-list">
@@ -143,10 +138,7 @@
                 <h2 class="title"></h2>
                 <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
             </div>
-            <div data-role="content">  
-                <div>
-                    <img src='img/ajax-loader.gif' class="loader">
-                </div>
+            <div data-role="content"> 
                 <form method="post" id="form_create_site" enctype="multipart/form-data">                  
                     <div>
                         <label for="sname" data-i18n="global.name"> Name </label>
@@ -288,9 +280,16 @@
             {{else}}
             <div>
             <label>{{name}}</label>
+            {{#if multiple}}
             <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-            {{#if multiple}} <option>Options</option>
-            {{else}}  <option value="">(no value)</option> {{/if}}
+            <option>Options</option>
+            {{else}}
+            <select id="{{idfield}}" data-role="{{slider}}" data-mini="{{ctrue}}">
+            {{#if slider}} 
+            {{else}}
+            <option value="">(no value)</option>
+            {{/if}}
+            {{/if}}
             {{#config.options}}
             <option value="{{id}}">{{label}}</option>
             {{/config.options}}                   
@@ -325,9 +324,16 @@
             {{else}}
             <div>
             <label>{{name}}</label>
+            {{#if multiple}}
             <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
-            {{#if multiple}} <option>Options</option>\n\
-            {{else}}  <option value="">(no value)</option> {{/if}}
+            <option>Options</option>
+            {{else}}
+            <select id="update_{{idfield}}" data-role="{{slider}}" data-mini="{{ctrue}}">
+            {{#if slider}} 
+            {{else}}
+            <option value="">(no value)</option>
+            {{/if}}
+            {{/if}}
             {{#config.options}}
             <option value="{{id}}" {{selected}}>{{label}}</option>
             {{/config.options}}
