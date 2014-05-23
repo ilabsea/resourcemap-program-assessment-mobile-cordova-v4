@@ -48,8 +48,9 @@ $(function() {
     $(document).delegate('#submitLogin-page', 'pagebeforehide', function() {
         getFieldsCollection();
     });
-    $(document).delegate('#page-site-list', 'pagebeforehide', function() {
+    $(document).delegate('#page-site-list', 'pagebeforehide', function() {       
         getFieldsCollection();
+        
     });
     $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
         var lat = $("#lat").val();

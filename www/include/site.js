@@ -314,7 +314,7 @@ PhotoList = {
     photos: [],
     add: function(photo) {
         PhotoList.remove(photo.id);
-        PhotoList.photos.push(photo);
+        PhotoList.photos.push(photo);       
     },
     remove: function(id) {
         for (var i = 0; i < PhotoList.count(); i++) {
@@ -353,10 +353,9 @@ SiteCamera = {
     takePhoto: function(idField, updated, cameraType) {
         var type ;
         if(cameraType == "camera")
-           type= Camera.PictureSourceType.CAMERA
+           type= Camera.PictureSourceType.CAMERA;
         else
-           type = Camera.PictureSourceType.SAVEDPHOTOALBUM;
-            
+           type = Camera.PictureSourceType.SAVEDPHOTOALBUM;    
         SiteCamera.id = idField;
         SiteCamera.updated = updated;         
         navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, {
@@ -366,11 +365,9 @@ SiteCamera = {
         encodingType: Camera.EncodingType.JPEG
         
         });
-    
-         
     },
     onSuccess: function(imageData) {
-        var imageId = SiteCamera.updated ? "update_img_" + SiteCamera.id : SiteCamera.id;
+        var imageId = SiteCamera.updated == 'update' ? "update_" + SiteCamera.id : SiteCamera.id;
         var image = document.getElementById(imageId);
         var photo = new Photo(SiteCamera.id, imageData, SiteCamera.format);
         image.src = SiteCamera.dataWithMimeType(imageData);
@@ -379,3 +376,15 @@ SiteCamera = {
     onFail: function() {
     }
 };
+
+function openCameraDialog(idField, updated){
+    $('#currentCameraImage').val(idField);
+    $('#currentCameraImageType').val(updated);
+    $.mobile.changePage( "#cameraDialog", { role: "dialog" } );  
+}
+function invokeCamera(cameraType){
+    var idField = $('#currentCameraImage').val();
+    var updated = $('#currentCameraImageType').val();
+    SiteCamera.takePhoto(idField, updated, cameraType);
+    $("#cameraDialog").dialog('close');
+}

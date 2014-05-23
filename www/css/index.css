@@ -149,4 +149,11 @@ h1 {
     top: 130px;
     left: 50px;
 }
+.ui-dialog-contain {
+
+  margin: 10% auto 15px auto;
+  padding: 0;
+  position: relative;
+  top: -15px;
+}
 

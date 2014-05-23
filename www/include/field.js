@@ -32,8 +32,8 @@ function renderFieldsBySite(site) {
                     }
                     else if (item.widgetType === "date") {
                         var val = properties[propertyId];
-                        var date = new Date(val);
-                        item.__value = originalDateFormat(date);
+                        if (val)
+                           item.__value = convertDateWidgetToParam(val);
                     }
                     else
                         item.__value = properties[propertyId];
@@ -79,7 +79,8 @@ function buildField(fieldObj, options) {
     if (widgetType === "phone") {
         widgetType = "tel";
     }
-    var fields = {idfield: id,
+    var fields = {
+        idfield: id,
         name: field.name,
         kind: kind,
         code: field.code,
@@ -96,6 +97,7 @@ function buildField(fieldObj, options) {
         fields.isHierarchy = true;
         fields.displayHierarchy = Hierarchy.generateField(fields.config, "");
     }
+    
     return fields;
 }
 
@@ -114,7 +116,7 @@ function addField(fields) {
         ctrue: fields.ctrue,
         collection_id: cId,
         user_id: getCurrentUser().id
-    };
+    };    
     var field = new Field(fieldParams);
     persistence.add(field);
     persistence.flush();
@@ -143,6 +145,8 @@ function renderFieldByCollectionIdOnline() {
                 console.log("fields : ", fields);
                 field_collections.push(fields);
                 Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
+                   // alert( properties.id);
+                    localStorage.setItem("idfield",properties.id); 
                     if (field === null) {
                         addField(fields);
                     }

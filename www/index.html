@@ -33,7 +33,7 @@
 
         <script src="js/translate.js"></script>
     </head>
-    <body>
+    <body> 
         <!--page-login-->   
         <div data-role="page" id="page-login">
             <div data-role="header" data-theme="e"> 
@@ -204,7 +204,17 @@
                     <button data-theme="e" id="btn_delete-site" data-inline="true" data-inset="true" data-i18n="global.delete">Delete</button></center>
             </div>
         </div>
-       
+        <div data-role="dialog" id="cameraDialog">
+            <div data-role="header" data-theme="a">
+                    <h1>Camera Options</h1>
+            </div>
+            <input type="hidden" id="currentCameraImage"/>
+            <input type="hidden" id="currentCameraImageType"/>
+             <div role="main" class="ui-content">
+                <a data-role="button"  style="background: #2f96b4" onclick="invokeCamera('camera')" >Camera</a>
+                <a data-role="button"  style="background: #2f96b4" onclick="invokeCamera('gallery')">Open gallery</a>
+            </div>
+        </div>  
         <script>
             $(document).on("mobileinit", function() {
                 $.mobile.allowCrossDomainPages = true;
@@ -231,7 +241,7 @@
                 $(".title").html(template(title));
             });
         </script>
-
+        
         <script type="text/x-handlebars-template" id="template-site-list">
             {{name}}
         </script>
@@ -299,16 +309,10 @@
             {{/if}}
             {{else}}    
             {{#if isPhoto}}  
-               <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-               <div  id='property_{{idfield}}_container' class="photo" > 
-                  <div style="float:left; width:95px; height:93px;">
-                    <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'camera')" class="image" src='{{__value}}' id='{{idfield}}' />
-                 </div>
-                 <div style="margin-left:100px;">
-                    <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'camera')" class="camera_icon" src='img/camera.png' alt="camera"  />                 
-                    <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'gallery')" class="camera_icon1" src='img/galleryIcon.png' alt="gallery" />
-                 </div>       
-               </div>
+                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+                <div onclick="openCameraDialog({{idfield}}, 'new')" id='property_{{idfield}}_container' class="photo">
+                <img class="image" src='{{__value}}' id='{{idfield}}'  /> 
+                </div>
             {{else}}
             <div>
             <label for='name'>{{{name}}}</label>
@@ -318,6 +322,7 @@
             {{/if}}
             {{/each}}
         </script>
+        
         <!--site update-->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
             {{#each field_collections}}
@@ -349,20 +354,14 @@
             {{/if}}
             {{else}}    
             {{#if isPhoto}}  
-               <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-               <div  id='property_{{idfield}}_container' class="photo" > 
-                  <div style="float:left; width:95px; height:93px;">
-                   <img onclick="SiteCamera.takePhoto({{idfield}},true, 'camera')" class="image" src='{{__value}}' id='update_img_{{idfield}}' /> 
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div onclick="openCameraDialog({{idfield}}, 'update')" id='property_{{idfield}}_container' class="photo" > 
+                 <img class="image" src='{{__value}}' id='update_{{idfield}}' />
                  </div>
-                 <div style="margin-left:100px;">
-                    <img onclick="SiteCamera.takePhoto({{idfield}}, true, 'camera')" class="camera_icon" src='img/camera.png' alt="camera" />                 
-                    <img onclick="SiteCamera.takePhoto({{idfield}}, true, 'gallery')" class="camera_icon1" src='img/galleryIcon.png' alt="gallery" />
-                 </div>       
-               </div>         
             {{else}}
             <div>
-                <label for='name'>{{{name}}}</label>
-                <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+            <label for='name'>{{{name}}}</label>
+            <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
             </div>
             {{/if}}
             {{/if}}
