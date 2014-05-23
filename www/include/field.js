@@ -145,8 +145,6 @@ function renderFieldByCollectionIdOnline() {
                 console.log("fields : ", fields);
                 field_collections.push(fields);
                 Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
-                   // alert( properties.id);
-                    localStorage.setItem("idfield",properties.id); 
                     if (field === null) {
                         addField(fields);
                     }

@@ -357,23 +357,30 @@ SiteCamera = {
         else
            type = Camera.PictureSourceType.SAVEDPHOTOALBUM;    
         SiteCamera.id = idField;
-        SiteCamera.updated = updated;         
-        navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, {
-        quality: 50,
-        destinationType: Camera.DestinationType.DATA_URL,
-        sourceType: type,
-        encodingType: Camera.EncodingType.JPEG
-        
-        });
+        SiteCamera.updated = updated;  
+        var cameraOptions = {
+            quality: 50,
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: type,
+            encodingType: Camera.EncodingType.JPEG
+
+        };
+        navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail,cameraOptions );
     },
     onSuccess: function(imageData) {
-        var imageId = SiteCamera.updated == 'update' ? "update_" + SiteCamera.id : SiteCamera.id;
+        var imageId = SiteCamera.imageId();
         var image = document.getElementById(imageId);
         var photo = new Photo(SiteCamera.id, imageData, SiteCamera.format);
         image.src = SiteCamera.dataWithMimeType(imageData);
         PhotoList.add(photo);
+        
+    },
+    
+    imageId: function(){
+       return  (SiteCamera.updated === 'update') ? ("update_image_" + SiteCamera.id) : SiteCamera.id;
     },
     onFail: function() {
+        alert("fail");
     }
 };
 
@@ -381,10 +388,10 @@ function openCameraDialog(idField, updated){
     $('#currentCameraImage').val(idField);
     $('#currentCameraImageType').val(updated);
     $.mobile.changePage( "#cameraDialog", { role: "dialog" } );  
+    localStorage['no_update_reload'] = 1;
 }
 function invokeCamera(cameraType){
     var idField = $('#currentCameraImage').val();
     var updated = $('#currentCameraImageType').val();
     SiteCamera.takePhoto(idField, updated, cameraType);
-    $("#cameraDialog").dialog('close');
 }
