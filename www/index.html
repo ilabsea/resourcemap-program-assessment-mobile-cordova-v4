@@ -211,8 +211,8 @@
             <input type="hidden" id="currentCameraImage"/>
             <input type="hidden" id="currentCameraImageType"/>
              <div role="main" class="ui-content">
-                <a data-role="button"  style="background: #2f96b4" onclick="invokeCamera('camera')" >Camera</a>
-                <a data-role="button"  style="background: #2f96b4" onclick="invokeCamera('gallery')">Open gallery</a>
+                <a data-role="button"  style="background: #2f96b4;" onclick="invokeCamera('camera')" >Take Photo</a>
+                <a data-role="button"  style="background: #2f96b4;" onclick="invokeCamera('gallery')">Choose Existing</a>
             </div>
         </div>  
         <script>
@@ -322,7 +322,6 @@
             {{/if}}
             {{/each}}
         </script>
-        
         <!--site update-->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
             {{#each field_collections}}
@@ -387,7 +386,6 @@
         <script src="js/libs/jquery.validate.js"></script>
         <script src="localization/jquery.validation_form.js"></script>   
         <script src="js/form_validation.js"></script>
-
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     </body>
 </html>
