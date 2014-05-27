@@ -45,6 +45,7 @@
                     <center><img src="img/logo.png" alt="Resource Map"/></center>                 
                     <br>     
                 </div>
+                <p id="sign_up_success" class="success" data-i18n="validation.signupsuccess">Sign up successfully.</p>
                 <p id="invalidmail" class="invalid" data-i18n="validation.invalide">Invalid email or password.</p>
                 <p id="noMailInDb" class="invalid" data-i18n="validation.not_found">Not found in database.</p>
                 <form id="form_login">
@@ -204,7 +205,7 @@
                     <button data-theme="e" id="btn_delete-site" data-inline="true" data-inset="true" data-i18n="global.delete">Delete</button></center>
             </div>
         </div>
-       
+
         <script>
             $(document).on("mobileinit", function() {
                 $.mobile.allowCrossDomainPages = true;
@@ -254,7 +255,7 @@
 
         <script id="collection-template" type="text/x-handlebars-template">
             {{#each collectionList}}
-            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='{{linkpagesite}}'> {{name}} <p class='ui-li-aside1 ui-li-count'> {{count}} </p></a></li>
+            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='{{linkpagesite}}'> {{name}} {{#if count}}<p class='ui-li-aside1 ui-li-count'> {{count}} </p>{{/if}}</a></li>
             {{/each}}
         </script>
 
@@ -272,10 +273,10 @@
         <script id="field_collection-template" type="text/x-handlebars-template">
             {{#each field_collections}}
             {{#if config}} 
-              {{#if isHierarchy}} 
-              <label>{{name}}</label>
-              <select id="{{idfield}}">
-              <option value="">(no value)</option>
+            {{#if isHierarchy}} 
+            <label>{{name}}</label>
+            <select id="{{idfield}}">
+            <option value="">(no value)</option>
             {{{displayHierarchy}}}
             </select>
             {{else}}
@@ -299,16 +300,16 @@
             {{/if}}
             {{else}}    
             {{#if isPhoto}}  
-               <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-               <div  id='property_{{idfield}}_container' class="photo" > 
-                  <div style="float:left; width:95px; height:93px;">
-                    <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'camera')" class="image" src='{{__value}}' id='{{idfield}}' />
-                 </div>
-                 <div style="margin-left:100px;">
-                    <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'camera')" class="camera_icon" src='img/camera.png' alt="camera"  />                 
-                    <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'gallery')" class="camera_icon1" src='img/galleryIcon.png' alt="gallery" />
-                 </div>       
-               </div>
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div  id='property_{{idfield}}_container' class="photo" > 
+            <div style="float:left; width:95px; height:93px;">
+            <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'camera')" class="image" src='{{__value}}' id='{{idfield}}' />
+            </div>
+            <div style="margin-left:100px;">
+            <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'camera')" class="camera_icon" src='img/camera.png' alt="camera"  />                 
+            <img onclick="SiteCamera.takePhoto({{idfield}}, false, 'gallery')" class="camera_icon1" src='img/galleryIcon.png' alt="gallery" />
+            </div>       
+            </div>
             {{else}}
             <div>
             <label for='name'>{{{name}}}</label>
@@ -325,8 +326,8 @@
             {{#if isHierarchy}} 
             <label>{{name}}</label>
             <select id="update_{{idfield}}">
-                <option value="">(no value)</option>
-                {{{displayHierarchy}}}
+            <option value="">(no value)</option>
+            {{{displayHierarchy}}}
             </select>
             {{else}}
             <div>
@@ -349,20 +350,20 @@
             {{/if}}
             {{else}}    
             {{#if isPhoto}}  
-               <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-               <div  id='property_{{idfield}}_container' class="photo" > 
-                  <div style="float:left; width:95px; height:93px;">
-                   <img onclick="SiteCamera.takePhoto({{idfield}},true, 'camera')" class="image" src='{{__value}}' id='update_img_{{idfield}}' /> 
-                 </div>
-                 <div style="margin-left:100px;">
-                    <img onclick="SiteCamera.takePhoto({{idfield}}, true, 'camera')" class="camera_icon" src='img/camera.png' alt="camera" />                 
-                    <img onclick="SiteCamera.takePhoto({{idfield}}, true, 'gallery')" class="camera_icon1" src='img/galleryIcon.png' alt="gallery" />
-                 </div>       
-               </div>         
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div  id='property_{{idfield}}_container' class="photo" > 
+            <div style="float:left; width:95px; height:93px;">
+            <img onclick="SiteCamera.takePhoto({{idfield}},true, 'camera')" class="image" src='{{__value}}' id='update_img_{{idfield}}' /> 
+            </div>
+            <div style="margin-left:100px;">
+            <img onclick="SiteCamera.takePhoto({{idfield}}, true, 'camera')" class="camera_icon" src='img/camera.png' alt="camera" />                 
+            <img onclick="SiteCamera.takePhoto({{idfield}}, true, 'gallery')" class="camera_icon1" src='img/galleryIcon.png' alt="gallery" />
+            </div>       
+            </div>         
             {{else}}
             <div>
-                <label for='name'>{{{name}}}</label>
-                <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+            <label for='name'>{{{name}}}</label>
+            <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
             </div>
             {{/if}}
             {{/if}}
@@ -373,9 +374,9 @@
             <select style="width:100%;" data-theme="g" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
             {{#each langs}} 
             {{#if selected}}
-                <option value="{{value}}" selected >{{text}}</option>   
+            <option value="{{value}}" selected >{{text}}</option>   
             {{else}}
-                <option value="{{value}}" >{{text}}</option> 
+            <option value="{{value}}" >{{text}}</option> 
             {{/if}}                  
             {{/each}}  
             </select>

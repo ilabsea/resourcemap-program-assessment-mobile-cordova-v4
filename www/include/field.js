@@ -32,8 +32,8 @@ function renderFieldsBySite(site) {
                     }
                     else if (item.widgetType === "date") {
                         var val = properties[propertyId];
-                        var date = new Date(val);
-                        item.__value = originalDateFormat(date);
+                        if (val)
+                            item.__value = convertDateWidgetToParam(val);
                     }
                     else
                         item.__value = properties[propertyId];

@@ -50,7 +50,7 @@
         "date_validate":"Please enter a valid date."  ,
         "invalide":"Invalid email or password.",
         "not_found":"Not found in database.",
-        "plsSignIn":"Please sign in."
+        "plsSignIn":"Please sign in.",
+        "signupsuccess": "Sign up successfully."
     }
-
 }

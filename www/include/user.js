@@ -15,14 +15,14 @@ function validateLogin() {
     if (!isOnline()) {
         User.all().filter('email', "=", email).one(null, function(user) {
             if (user === null) {
-                $('#noMailInDb').show();
+                $('#noMailInDb').show().delay(5000).fadeOut();;
             }
             if (user.password() === psw) {
                 setCurrentUser(user);
                 location.href = "#submitLogin-page";
             }
             else {
-                $('#invalidmail').slideDown();
+                $('#invalidmail').show().delay(5000).fadeOut();;
             }
             $('#noMailInDb').hide();
             $('#invalidmail').hide();
@@ -49,19 +49,20 @@ function signUp() {
             success: function() {
                 hideSpinner();
                 $("#exitemail").hide();
-                alert(i18n.t("signup_page.alert"));
+                $("#sign_up_success").show().delay(5000).fadeOut();
                 location.href = "#page-login";
                 $('#form_signup')[0].reset();
             },
             error: function() {
                 hideSpinner();
-                $('#exitemail').show();
+                $('#exitemail').show().delay(5000).fadeOut();;
+                $("#sign_up_success").hide();
                 location.href = "#page-signup";
             }
         });
     }
     else
-        $("#passmatch").slideDown();
+        $("#passmatch").show().delay(5000).fadeOut();;
 }
 
 function authoriseUser(email, psw) {
@@ -94,7 +95,7 @@ function authoriseUser(email, psw) {
         },
         error: function() {
             hideSpinner();
-            $('#invalidmail').show();
+            $('#invalidmail').show().delay(5000).fadeOut();;
         }
     });
 }

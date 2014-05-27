@@ -13,8 +13,11 @@ function convertDateWidgetToParam(format) {
         var items = format.split("-");
         return items[1] + "/" + items[2] + "/" + items[0];
     }
-    else { //unsported
-        return format;
+    else if(format.indexOf("/") !== -1) { //native HTML5 date
+        var items = format.split("/");
+        return items[2] + "-" + items[0] + "-" + items[1];
+    }else{
+        return format;//unsported
     }
 }
 
@@ -100,7 +103,7 @@ function updateSiteBySiteId() {
                         properties[idfield] = "";
                     else {
                         for (var i = 0; i < PhotoList.getPhotos().length; i++) {
-                            if (PhotoList.getPhotos()[i].id === idfield) {
+                            if (PhotoList.getPhotos()[i].id == idfield) {
                                 var fileName = PhotoList.getPhotos()[i].name();
                                 properties[idfield] = fileName;
                                 files[fileName] = PhotoList.getPhotos()[i].data;
@@ -136,7 +139,6 @@ function updateLatLngBySiteId(sId) {
         site.lat($("#updatelolat").val());
         site.lng($("#updatelolng").val());
         persistence.flush();
-        location.href = "#page-update-site";
     });
 }
 
@@ -165,7 +167,7 @@ function sendSiteToServer(key, id) {
         });
     }
     else
-        alert("No internet found.");
+        alert("No internet connection.");
 }
 
 function submitSiteServer(sites) {
@@ -224,7 +226,7 @@ function buildDataForSite() {
                     properties[each_field] = "";
                 else {
                     for (var p = 0; p < lPhotoList; p++) {
-                        if (PhotoList.getPhotos()[p].id === each_field) {
+                        if (PhotoList.getPhotos()[p].id == each_field) {
                             var fileName = PhotoList.getPhotos()[p].name();
                             properties[each_field] = fileName;
                             files[fileName] = PhotoList.getPhotos()[p].data;
@@ -364,10 +366,7 @@ SiteCamera = {
         destinationType: Camera.DestinationType.DATA_URL,
         sourceType: type,
         encodingType: Camera.EncodingType.JPEG
-        
         });
-    
-         
     },
     onSuccess: function(imageData) {
         var imageId = SiteCamera.updated ? "update_img_" + SiteCamera.id : SiteCamera.id;
