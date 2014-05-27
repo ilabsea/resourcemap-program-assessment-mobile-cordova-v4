@@ -13,7 +13,6 @@
 
         <script src="js/libs/jquery-1.11.0.min.js"></script>
         <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
-
         <script src="js/libs/i18next.js"></script>
 
         <script src="js/lib/persistence.js"></script>
@@ -160,8 +159,8 @@
         <!-- view map -->
         <div data-role="page" id="page-map">
             <div data-role="header" data-theme="e" >
-                <a id="btn_back_create_site" href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
-                <a id="btn_back_update_site" href="#page-update-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left">Back</a>
+                <a id="btn_back_create_site" href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
+                <a id="btn_back_update_site" href="#page-update-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
                 <h1 data-i18n="map_page.map">Map</h1>
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
             </div>
@@ -206,14 +205,15 @@
             </div>
         </div>
         <div data-role="dialog" id="cameraDialog">
-            <div data-role="header" data-theme="a">
-                <h1>Camera Options</h1>
+            <div data-role="header" data-theme="e">
+                <h1 data-i18n="dialog.option">Photo Options</h1>
             </div>
             <input type="hidden" id="currentCameraImage"/>
             <input type="hidden" id="currentCameraImageType"/>
             <div role="main" class="ui-content">
-                <a data-role="button"  style="background: #2f96b4;" onclick="invokeCamera('camera')" >Take Photo</a>
-                <a data-role="button"  style="background: #2f96b4;" onclick="invokeCamera('gallery')">Choose Existing</a>
+                <a data-role="button" data-i18n="dialog.take" onclick="invokeCamera('camera')" >Take Photo</a>
+                <a data-role="button" data-i18n="dialog.choose" onclick="invokeCamera('gallery')">Choose Existing</a>
+                <center><a onclick="closeDialog()" style="background: #009bb7; color: #FFFFFF;" data-role="button" data-inline="true" data-inset="true" data-i18n="global.cancel">Cancel</a></center>
             </div>
         </div>  
         <script>

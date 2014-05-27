@@ -2,3 +2,9 @@ org.apache.cordova.device
 org.apache.cordova.camera
 org.apache.cordova.network-information
 https://github.com/brodysoft/Cordova-SQLitePlugin
+
+
+
+
+
+

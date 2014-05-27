@@ -63,17 +63,21 @@ $(function() {
         var currentUser = getCurrentUser();
         sendSiteToServer("user_id", currentUser.id);
     });
+    
     $(document).delegate('#page-update-site', 'pagebeforeshow', function() {
-        if (localStorage['no_update_reload'] == 1)
-            localStorage['no_update_reload'] = '';
-        else
-            renderUpdateSiteForm();
+           requireReload(renderUpdateSiteForm);
     });
-
+    
+    function requireReload(callback){
+         if(localStorage['no_update_reload'] != undefined)
+          localStorage.removeItem('no_update_reload');
+        else{
+            callback();
+        }
+    }
+    
     $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
-        if (localStorage['no_update_reload'] == 1)
-            localStorage['no_update_reload'] == '';
-        else {
+        requireReload(function(){
             var lat = $("#lat").val();
             var lng = $("#lng").val();
             if (lat == "" && lng == "") {
@@ -86,7 +90,7 @@ $(function() {
                     $("#mark_lng").val(lng);
                 });
             }
-        }
+        });
     });
 
     $(document).delegate('#btn_submitUpdateSite', 'click', function() {
