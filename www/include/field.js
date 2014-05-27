@@ -79,7 +79,8 @@ function buildField(fieldObj, options) {
     if (widgetType === "phone") {
         widgetType = "tel";
     }
-    var fields = {idfield: id,
+    var fields = {
+        idfield: id,
         name: field.name,
         kind: kind,
         code: field.code,
@@ -96,6 +97,7 @@ function buildField(fieldObj, options) {
         fields.isHierarchy = true;
         fields.displayHierarchy = Hierarchy.generateField(fields.config, "");
     }
+    
     return fields;
 }
 
@@ -114,7 +116,7 @@ function addField(fields) {
         ctrue: fields.ctrue,
         collection_id: cId,
         user_id: getCurrentUser().id
-    };
+    };    
     var field = new Field(fieldParams);
     persistence.add(field);
     persistence.flush();

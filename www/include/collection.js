@@ -32,7 +32,7 @@ function getCollectionByUserIdOffline() {
                     name: collection.name(),
                     count: count,
                     linkpagesite: linkpagesite
-                }
+                };
                 collectionData.collectionList.push(item);
                 if (i === collections.length)
                     displayCollectionList(collectionData);
@@ -73,7 +73,7 @@ function getCollectionByUserIdOnline() {
                         name: name,
                         count: count,
                         linkpagesite: linkpagesite
-                    }
+                    };
                     collectionData.collectionList.push(item);
                     if (key === response.length - 1) {
                         displayCollectionList(collectionData);
