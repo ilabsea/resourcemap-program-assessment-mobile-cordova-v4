@@ -21,8 +21,10 @@ function getCollectionByUserIdOffline() {
             Site.all().filter('collection_id', "=", collection.idcollection()).count(null, function(l) {
                 count = l;
                 var linkpagesite;
-                if (count === 0)
+                if (count === 0){
+                    count = "";
                     linkpagesite = "#page-create-site";
+                }
                 else
                     linkpagesite = "#page-site-list";
                 i++;
@@ -61,8 +63,10 @@ function getCollectionByUserIdOnline() {
                 Site.all().filter('collection_id', "=", idcollection).count(null, function(l) {
                     count = l;
                     var linkpagesite;
-                    if (count == 0)
+                    if (count == 0){
+                        count = "";
                         linkpagesite = "#page-create-site";
+                    }
                     else
                         linkpagesite = "#page-site-list";
                     var item = {idcollection: idcollection,

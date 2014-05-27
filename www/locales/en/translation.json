@@ -56,7 +56,9 @@
     "dialog":{
         "option":"Photo Options",
         "take":"Take Photo",
-        "choose":"Choose Existing" 
-    }
+        "choose":"Choose Existing" ,
+        "plsSignIn":"Please sign in.",
+        "signupsuccess": "Sign up successfully."
 
+    }
 }

@@ -44,6 +44,7 @@
                     <center><img src="img/logo.png" alt="Resource Map"/></center>                 
                     <br>     
                 </div>
+                <p id="sign_up_success" class="success" data-i18n="validation.signupsuccess">Sign up successfully.</p>
                 <p id="invalidmail" class="invalid" data-i18n="validation.invalide">Invalid email or password.</p>
                 <p id="noMailInDb" class="invalid" data-i18n="validation.not_found">Not found in database.</p>
                 <form id="form_login">
@@ -264,7 +265,7 @@
 
         <script id="collection-template" type="text/x-handlebars-template">
             {{#each collectionList}}
-            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='{{linkpagesite}}'> {{name}} <p class='ui-li-aside1 ui-li-count'> {{count}} </p></a></li>
+            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='{{linkpagesite}}'> {{name}} {{#if count}}<p class='ui-li-aside1 ui-li-count'> {{count}} </p>{{/if}}</a></li>
             {{/each}}
         </script>
 

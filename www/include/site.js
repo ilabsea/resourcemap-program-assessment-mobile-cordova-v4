@@ -13,8 +13,11 @@ function convertDateWidgetToParam(format) {
         var items = format.split("-");
         return items[1] + "/" + items[2] + "/" + items[0];
     }
-    else { //unsported
-        return format;
+    else if(format.indexOf("/") !== -1) { //native HTML5 date
+        var items = format.split("/");
+        return items[2] + "-" + items[0] + "-" + items[1];
+    }else{
+        return format;//unsported
     }
 }
 
@@ -136,7 +139,6 @@ function updateLatLngBySiteId(sId) {
         site.lat($("#updatelolat").val());
         site.lng($("#updatelolng").val());
         persistence.flush();
-        location.href = "#page-update-site";
     });
 }
 
@@ -399,3 +401,4 @@ function invokeCamera(cameraType) {
 function closeDialog(){
     $('#cameraDialog').dialog('close');
 }
+

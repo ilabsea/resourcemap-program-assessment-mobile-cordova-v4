@@ -34,7 +34,7 @@ function renderFieldsBySite(site) {
                     else if (item.widgetType === "date") {
                         var val = properties[propertyId];
                         if (val)
-                           item.__value = convertDateWidgetToParam(val);
+                            item.__value = convertDateWidgetToParam(val);
                     }
                     else
                         item.__value = properties[propertyId];
