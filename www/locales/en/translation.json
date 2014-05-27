@@ -51,6 +51,12 @@
         "invalide":"Invalid email or password.",
         "not_found":"Not found in database.",
         "plsSignIn":"Please sign in."
+    },
+    
+    "dialog":{
+        "option":"Photo Options",
+        "take":"Take Photo",
+        "choose":"Choose Existing" 
     }
 
 }

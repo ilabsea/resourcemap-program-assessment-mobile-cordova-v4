@@ -4,6 +4,7 @@ function renderFieldsBySite(site) {
         fields.forEach(function(field) {
             var item = buildField(field, {fromServer: false});
             var properties = site.properties();
+            console.log("properties: ",properties);
             var files = site.files();
             for (propertyId in properties) {
                 if (parseInt(item["idfield"]) === parseInt(propertyId)) {
@@ -49,6 +50,7 @@ function renderFieldsBySite(site) {
 }
 
 function buildField(fieldObj, options) {
+   
     options = options || {};
     var field = {};
     var id = null;
@@ -97,7 +99,6 @@ function buildField(fieldObj, options) {
         fields.isHierarchy = true;
         fields.displayHierarchy = Hierarchy.generateField(fields.config, "");
     }
-    
     return fields;
 }
 

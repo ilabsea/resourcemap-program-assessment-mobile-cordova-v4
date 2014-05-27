@@ -65,34 +65,36 @@ $(function() {
         var currentUser = getCurrentUser();
         sendSiteToServer("user_id", currentUser.id);
     });
+    
     $(document).delegate('#page-update-site', 'pagebeforeshow', function() {
-        
-        if(localStorage['no_update_reload'] == 1)
-            localStorage['no_update_reload'] = '';
-        else
-            renderUpdateSiteForm();
-        
-        
+
+           requireReload(renderUpdateSiteForm);
+
     });
     
-    $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
-        if(localStorage['no_update_reload'] == 1)
-            localStorage['no_update_reload'] == '';
+    function requireReload(callback){
+         if(localStorage['no_update_reload'] != undefined)
+          localStorage.removeItem('no_update_reload');
         else{
-            alert("creat");
-        var lat = $("#lat").val();
-        var lng = $("#lng").val();
-        if (lat == "" && lng == "") {
-            navigator.geolocation.getCurrentPosition(function(pos) {
-                var lat = pos.coords.latitude;
-                var lng = pos.coords.longitude;
-                $("#lat").val(lat);
-                $("#lng").val(lng);
-                $("#mark_lat").val(lat);
-                $("#mark_lng").val(lng);
-            });
+            callback();
         }
-        }
+    }
+    
+    $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
+        requireReload(function(){
+            var lat = $("#lat").val();
+            var lng = $("#lng").val();
+            if (lat == "" && lng == "") {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    var lat = pos.coords.latitude;
+                    var lng = pos.coords.longitude;
+                    $("#lat").val(lat);
+                    $("#lng").val(lng);
+                    $("#mark_lat").val(lat);
+                    $("#mark_lng").val(lng);
+                });
+            }
+        })
     });
     
     $(document).delegate('#btn_submitUpdateSite', 'click', function() {

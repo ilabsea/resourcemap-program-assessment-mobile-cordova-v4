@@ -100,7 +100,7 @@ function updateSiteBySiteId() {
                         properties[idfield] = "";
                     else {
                         for (var i = 0; i < PhotoList.getPhotos().length; i++) {
-                            if (PhotoList.getPhotos()[i].id === idfield) {
+                            if (PhotoList.getPhotos()[i].id == idfield) {
                                 var fileName = PhotoList.getPhotos()[i].name();
                                 properties[idfield] = fileName;
                                 files[fileName] = PhotoList.getPhotos()[i].data;
@@ -165,7 +165,7 @@ function sendSiteToServer(key, id) {
         });
     }
     else
-        alert("No internet found.");
+        alert("No internet connection.");
 }
 
 function submitSiteServer(sites) {
@@ -218,13 +218,13 @@ function buildDataForSite() {
         for (var i = 0; i < storedFieldId.length; i++) {
             var each_field = (storedFieldId[i]);
             $field = $('#' + (each_field));
-            if ($field.length >0 && $field[0].tagName.toLowerCase() === 'img') {
+            if ($field.length > 0 && $field[0].tagName.toLowerCase() == 'img') {
                 var lPhotoList = PhotoList.getPhotos().length;
                 if (lPhotoList == 0)
                     properties[each_field] = "";
                 else {
                     for (var p = 0; p < lPhotoList; p++) {
-                        if (PhotoList.getPhotos()[p].id === each_field) {
+                        if (PhotoList.getPhotos()[p].id == each_field) {
                             var fileName = PhotoList.getPhotos()[p].name();
                             properties[each_field] = fileName;
                             files[fileName] = PhotoList.getPhotos()[p].data;
@@ -233,14 +233,14 @@ function buildDataForSite() {
                     }
                 }
             }
-            else if ($field.length>0 && $field[0].getAttribute("type") === 'date') {
+            else if ($field.length > 0 && $field[0].getAttribute("type") === 'date') {
                 var date = $field.val();
                 if (date) {
                     date = convertDateWidgetToParam(date);
                     properties["" + each_field + ""] = date;
                 }
             } else {
-                var data = $field.val();              
+                var data = $field.val();
                 if (data == null)
                     data = "";
                 properties[each_field] = data;
@@ -290,7 +290,7 @@ function addSiteOnline(data, callback) {
         crossDomain: true,
         datatype: 'json',
         success: callback,
-        error: function(error){
+        error: function(error) {
             hideSpinner();
             alert("Please resend the data.");
         }
@@ -314,7 +314,7 @@ PhotoList = {
     photos: [],
     add: function(photo) {
         PhotoList.remove(photo.id);
-        PhotoList.photos.push(photo);       
+        PhotoList.photos.push(photo);
     },
     remove: function(id) {
         for (var i = 0; i < PhotoList.count(); i++) {
@@ -351,21 +351,22 @@ SiteCamera = {
         return 'data:image/jpeg;base64,' + data;
     },
     takePhoto: function(idField, updated, cameraType) {
-        var type ;
-        if(cameraType == "camera")
-           type= Camera.PictureSourceType.CAMERA;
-        else
-           type = Camera.PictureSourceType.SAVEDPHOTOALBUM;    
+        var type;
+        if (cameraType == "camera") {
+            type = Camera.PictureSourceType.CAMERA;
+        }
+        else {
+            type = Camera.PictureSourceType.SAVEDPHOTOALBUM;
+        }
         SiteCamera.id = idField;
-        SiteCamera.updated = updated;  
+        SiteCamera.updated = updated;
         var cameraOptions = {
             quality: 50,
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: type,
             encodingType: Camera.EncodingType.JPEG
-
         };
-        navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail,cameraOptions );
+        navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, cameraOptions);
     },
     onSuccess: function(imageData) {
         var imageId = SiteCamera.imageId();
@@ -373,25 +374,28 @@ SiteCamera = {
         var photo = new Photo(SiteCamera.id, imageData, SiteCamera.format);
         image.src = SiteCamera.dataWithMimeType(imageData);
         PhotoList.add(photo);
-        
+
     },
-    
-    imageId: function(){
-       return  (SiteCamera.updated === 'update') ? ("update_image_" + SiteCamera.id) : SiteCamera.id;
+    imageId: function() {
+        return  (SiteCamera.updated == 'update') ? ("update_image_" + SiteCamera.id) : SiteCamera.id;
     },
-    onFail: function() {
-        alert("fail");
+    onFail: function() {    
     }
 };
 
-function openCameraDialog(idField, updated){
+function openCameraDialog(idField, updated) {
     $('#currentCameraImage').val(idField);
     $('#currentCameraImageType').val(updated);
-    $.mobile.changePage( "#cameraDialog", { role: "dialog" } );  
+    $.mobile.changePage("#cameraDialog", {role: "dialog"});
     localStorage['no_update_reload'] = 1;
+
 }
-function invokeCamera(cameraType){
+function invokeCamera(cameraType) {
     var idField = $('#currentCameraImage').val();
     var updated = $('#currentCameraImageType').val();
     SiteCamera.takePhoto(idField, updated, cameraType);
+    closeDialog();
+}
+function closeDialog(){
+    $('#cameraDialog').dialog('close');
 }
