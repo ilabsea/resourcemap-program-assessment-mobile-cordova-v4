@@ -97,7 +97,7 @@ function buildField(fieldObj, options) {
         fields.isHierarchy = true;
         fields.displayHierarchy = Hierarchy.generateField(fields.config, "");
     }
-    
+
     return fields;
 }
 
@@ -116,7 +116,7 @@ function addField(fields) {
         ctrue: fields.ctrue,
         collection_id: cId,
         user_id: getCurrentUser().id
-    };    
+    };
     var field = new Field(fieldParams);
     persistence.add(field);
     persistence.flush();
@@ -151,9 +151,7 @@ function renderFieldByCollectionIdOnline() {
                 });
             });
             localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
-            var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
-            $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
-            $('#div_field_collection').trigger("create");
+            displayFieldRender(field_collections);
         },
         error: function(error) {
             console.log("erro:  " + error);
@@ -171,13 +169,17 @@ function renderFieldByCollectionIdOffline() {
             field_collections.push(item);
         });
         localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
-        var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
-        $('#div_field_collection').html(fieldTemplate({field_collections: field_collections}));
-        $('#div_field_collection').trigger("create");
+        displayFieldRender(field_collections);
     });
 }
 
 function queryFieldByCollectionIdOffline(callback) {
     var cId = localStorage.getItem("cId");
     Field.all().filter('collection_id', '=', cId).list(callback);
+}
+
+function displayFieldRender(data) {
+    var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
+    $('#div_field_collection').html(fieldTemplate({field_collections: data}));
+    $('#div_field_collection').trigger("create");
 }

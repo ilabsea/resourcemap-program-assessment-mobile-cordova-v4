@@ -1,5 +1,4 @@
 function addCollection(idcollection, name, description) {
-
     var collectionParams = {
         idcollection: idcollection,
         name: name,
@@ -21,7 +20,7 @@ function getCollectionByUserIdOffline() {
             Site.all().filter('collection_id', "=", collection.idcollection()).count(null, function(l) {
                 count = l;
                 var linkpagesite;
-                if (count === 0){
+                if (count == 0){
                     count = "";
                     linkpagesite = "#page-create-site";
                 }

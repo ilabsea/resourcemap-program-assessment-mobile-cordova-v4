@@ -207,11 +207,11 @@
         </div>
         <div data-role="dialog" id="cameraDialog">
             <div data-role="header" data-theme="a">
-                    <h1>Camera Options</h1>
+                <h1>Camera Options</h1>
             </div>
             <input type="hidden" id="currentCameraImage"/>
             <input type="hidden" id="currentCameraImageType"/>
-             <div role="main" class="ui-content">
+            <div role="main" class="ui-content">
                 <a data-role="button"  style="background: #2f96b4;" onclick="invokeCamera('camera')" >Take Photo</a>
                 <a data-role="button"  style="background: #2f96b4;" onclick="invokeCamera('gallery')">Choose Existing</a>
             </div>
@@ -242,7 +242,7 @@
                 $(".title").html(template(title));
             });
         </script>
-        
+
         <script type="text/x-handlebars-template" id="template-site-list">
             {{name}}
         </script>
@@ -310,10 +310,10 @@
             {{/if}}
             {{else}}    
             {{#if isPhoto}}  
-                <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-                <div onclick="openCameraDialog({{idfield}}, 'new')" id='property_{{idfield}}_container' class="photo">
-                <img class="image" src='{{__value}}' id='{{idfield}}'  /> 
-                </div>
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div onclick="openCameraDialog({{idfield}}, 'new')" id='property_{{idfield}}_container' class="photo">
+            <img class="image" src='{{__value}}' id='{{idfield}}'  /> 
+            </div>
             {{else}}
             <div>
             <label for='name'>{{{name}}}</label>
@@ -356,8 +356,8 @@
             {{#if isPhoto}}  
             <span style='display:inline; margin-top:10px'>{{{name}}}</span>
             <div onclick="openCameraDialog({{idfield}}, 'update')" id='property_{{idfield}}_container' class="photo" > 
-                 <img class="image" src='{{__value}}' id='update_image_{{idfield}}' />
-                 </div>
+            <img class="image" src='{{__value}}' id='update_image_{{idfield}}' />
+            </div>
             {{else}}
             <div>
             <label for='name'>{{{name}}}</label>
@@ -388,5 +388,6 @@
         <script src="localization/jquery.validation_form.js"></script>   
         <script src="js/form_validation.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script src="js/googleMap.js" type="text/javascript"></script>
     </body>
 </html>
