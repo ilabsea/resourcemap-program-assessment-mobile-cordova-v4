@@ -1,10 +1,6 @@
 function connectionDB(dbName, size) {
     if (window.openDatabase || window.sqlitePlugin) {
         persistence.store.websql.config(persistence, dbName, 'database', size);
-        if (window.sqlitePlugin)
-            App.log("Db Engine is Sqlite");
-        else
-            App.log("Db engine is Websql");
     }
     else
         alert("Your device must support a database connection");
