@@ -12,15 +12,15 @@ function addCollection(idcollection, name, description) {
 
 function getCollectionByUserIdOffline() {
     var currentUser = getCurrentUser();
+    var collectionData = [];
     Collection.all().filter('user_id', '=', currentUser.id).list(null, function(collections) {
-        var collectionData = {collectionList: []};
         var i = 0;
         collections.forEach(function(collection) {
             var count = 0;
             Site.all().filter('collection_id', "=", collection.idcollection()).count(null, function(l) {
                 count = l;
                 var linkpagesite;
-                if (count == 0){
+                if (count == 0) {
                     count = "";
                     linkpagesite = "#page-create-site";
                 }
@@ -32,12 +32,15 @@ function getCollectionByUserIdOffline() {
                     count: count,
                     linkpagesite: linkpagesite
                 };
-                collectionData.collectionList.push(item);
+                collectionData.push(item);
                 if (i === collections.length)
                     displayCollectionList(collectionData);
             });
         });
     });
+    if (collectionData == "") {
+        displayCollectionList(collectionData);
+    }
 }
 function getCollectionByUserIdOnline() {
     $.ajax({
@@ -53,7 +56,7 @@ function getCollectionByUserIdOnline() {
                     persistence.flush();
                 });
             });
-            var collectionData = {collectionList: []};
+            var collectionData = [];
             $.each(response, function(key, data) {
                 var idcollection = data.id;
                 var name = data.name;
@@ -62,7 +65,7 @@ function getCollectionByUserIdOnline() {
                 Site.all().filter('collection_id', "=", idcollection).count(null, function(l) {
                     count = l;
                     var linkpagesite;
-                    if (count == 0){
+                    if (count == 0) {
                         count = "";
                         linkpagesite = "#page-create-site";
                     }
@@ -73,8 +76,9 @@ function getCollectionByUserIdOnline() {
                         count: count,
                         linkpagesite: linkpagesite
                     };
-                    collectionData.collectionList.push(item);
+                    collectionData.push(item);
                     if (key === response.length - 1) {
+                        console.log("Her", collectionData);
                         displayCollectionList(collectionData);
                     }
                 });
@@ -83,6 +87,9 @@ function getCollectionByUserIdOnline() {
                         addCollection(idcollection, name, description);
                 });
             });
+            if (collectionData == "") {
+                displayCollectionList(collectionData);
+            }
         }
     });
 }
@@ -97,6 +104,6 @@ function getCollection() {
 
 function displayCollectionList(collectionData) {
     var collectionTemplate = Handlebars.compile($("#collection-template").html());
-    $('#collection-list').html(collectionTemplate(collectionData));
+    $('#collection-list').html(collectionTemplate({collectionList: collectionData}));
     $('#collection-list').listview("refresh");
 }

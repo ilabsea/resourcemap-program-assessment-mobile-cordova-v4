@@ -160,8 +160,8 @@ function renderFieldByCollectionIdOnline() {
 }
 
 function renderFieldByCollectionIdOffline() {
+    var field_collections = [];
     queryFieldByCollectionIdOffline(function(fields) {
-        var field_collections = [];
         var field_id_arr = new Array();
         fields.forEach(function(field) {
             field_id_arr.push(field.idfield());
@@ -171,6 +171,8 @@ function renderFieldByCollectionIdOffline() {
         localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
         displayFieldRender(field_collections);
     });
+    if(field_collections == "")
+        displayFieldRender(field_collections);
 }
 
 function queryFieldByCollectionIdOffline(callback) {
