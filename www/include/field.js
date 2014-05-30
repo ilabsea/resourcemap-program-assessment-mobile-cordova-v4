@@ -4,7 +4,6 @@ function renderFieldsBySite(site) {
         fields.forEach(function(field) {
             var item = buildField(field, {fromServer: false});
             var properties = site.properties();
-            console.log("properties: ",properties);
             var files = site.files();
             for (propertyId in properties) {
                 if (parseInt(item["idfield"]) === parseInt(propertyId)) {
@@ -16,14 +15,12 @@ function renderFieldsBySite(site) {
                     else if (item.widgetType === "select_many" || item.widgetType === "select_one") {
                         item.__value = properties[propertyId];
                         for (var k = 0; k < item.config.options.length; k++) {
+                            item.config.options[k]["selected"] = "";
                             for (var j = 0; j < item.__value.length; j++) {
                                 if (item.config.options[k].id == item.__value[j]) {
+                                    selected = "selected";
                                     item.config.options[k]["selected"] = "selected";
-                                } else {
-                                    if (j === item.__value.length) {
-                                        item.config.options[k]["selected"] = "";
-                                    }
-                                }
+                                } 
                             }
                         }
                     }
@@ -43,10 +40,8 @@ function renderFieldsBySite(site) {
                 }
             }
         });
-        var fieldTemplate = Handlebars.compile($("#update_field_collection-template").html());
-        $('#div_update_field_collection').html(fieldTemplate({field_collections: field_collections}));
-        $('#div_update_field_collection').trigger("create");
-    });
+        displayFieldUpdateTemplate(field_collections);
+    });       
 }
 
 function buildField(fieldObj, options) {
@@ -142,7 +137,6 @@ function renderFieldByCollectionIdOnline() {
             $.each(response, function(key, properties) {
                 field_id_arr.push(properties.id);
                 var fields = buildField(properties, {fromServer: true});
-                console.log("fields : ", fields);
                 field_collections.push(fields);
                 Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
                     if (field === null) {
@@ -171,7 +165,7 @@ function renderFieldByCollectionIdOffline() {
         localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
         displayFieldRender(field_collections);
     });
-    if(field_collections == "")
+    if (field_collections == "")
         displayFieldRender(field_collections);
 }
 
@@ -184,4 +178,10 @@ function displayFieldRender(data) {
     var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
     $('#div_field_collection').html(fieldTemplate({field_collections: data}));
     $('#div_field_collection').trigger("create");
+}
+
+function displayFieldUpdateTemplate(data) {
+    var fieldTemplate = Handlebars.compile($("#update_field_collection-template").html());
+    $('#div_update_field_collection').html(fieldTemplate({field_collections: data}));
+    $('#div_update_field_collection').trigger("create");
 }
