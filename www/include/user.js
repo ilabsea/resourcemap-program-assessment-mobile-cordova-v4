@@ -49,15 +49,15 @@ function signUp() {
             success: function() {
                 hideSpinner();
                 $("#exitemail").hide();
-                $("#sign_up_success").show().delay(5000).fadeOut();
+                $("#sign_up_success").show().delay(4000).fadeOut();
                 location.href = "#page-login";
                 $('#form_signup')[0].reset();
             },
             error: function() {
                 hideSpinner();
-                $('#exitemail').show().delay(5000).fadeOut();;
+                $('#exitemail').show().delay(4000).fadeOut();;
                 $("#sign_up_success").hide();
-                location.href = "#page-signup";
+                location.href = "#page-signup"; 
             }
         });
     }

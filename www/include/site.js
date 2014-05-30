@@ -9,14 +9,24 @@ function dateToParam(date) {
 }
 
 function convertDateWidgetToParam(format) {
+    alert("ffffff"+format);
+    var d;
     if (format.indexOf("-") !== -1) { //native HTML5 date
         var items = format.split("-");
-        return items[1] + "/" + items[2] + "/" + items[0];
+        alert("if items"+items);
+        d = items[1] + "/" + items[2] + "/" + items[0];
+        alert("if d"+d);
+        return d;
     }
     else if(format.indexOf("/") !== -1) { //native HTML5 date
         var items = format.split("/");
-        return items[2] + "-" + items[0] + "-" + items[1];
-    }else{
+        alert("else if: "+ items);
+        d = items[2] + "-" + items[0] + "-" + items[1];
+        alert("else if: "+d);
+        return d;
+    }
+    else{
+        alert("format: "+format);
         return format;//unsported
     }
 }

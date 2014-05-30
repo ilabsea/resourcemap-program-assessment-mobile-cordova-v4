@@ -32,13 +32,4 @@ $(document).ready(function() {
         debug: true,
         success: "valid"
     });
-//    $("#form_create_site").validate({
-//        rules: {
-//            field: {
-//                required: true,
-//                number: true
-//            }
-//        }
-//    });
-
 });
