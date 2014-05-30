@@ -129,10 +129,10 @@ function updateSiteBySiteId() {
                 else {
                     var nodeId = "#update_" + item["idfield"];
                     var value = $(nodeId).val();
+                    if(value == null) value ="";
                     properties[item["idfield"]] = value;
                 }
             });
-            console.log(properties);
             site.properties(properties);
             site.files(files);
             persistence.flush();
