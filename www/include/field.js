@@ -8,6 +8,7 @@ function renderFieldsBySite(site) {
             for (propertyId in properties) {
                 if (parseInt(item["idfield"]) === parseInt(propertyId)) {
                     if (item.widgetType === "photo") {
+                        item.__value = "";
                         var imageId = properties[propertyId];
                         var imageData = files[imageId];
                         item.__value = SiteCamera.dataWithMimeType(imageData);

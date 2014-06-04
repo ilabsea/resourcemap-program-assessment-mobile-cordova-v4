@@ -12,16 +12,15 @@ function convertDateWidgetToParam(format) {
     var d;
     if (format.indexOf("-") !== -1) { //native HTML5 date
         var items = format.split("-");
-        d = items[1] + "/" + items[2] + "/" + items[0];  
+        d = items[1] + "/" + items[2] + "/" + items[0];
         return d;
     }
-    else if(format.indexOf("/") !== -1) { //native HTML5 date
+    else if (format.indexOf("/") !== -1) { //native HTML5 date
         var items = format.split("/");
-        d = items[1] + "-" + items[2] + "-" + items[0];   
+        d = items[2] + "-" + items[0] + "-" + items[1];
         return d;
     }
-    else{
-        alert("else"+format);
+    else {
         return format;//unsported
     }
 }
@@ -120,14 +119,17 @@ function updateSiteBySiteId() {
                 else if (item.widgetType === "date") {
                     var nodeId = "#update_" + item["idfield"];
                     var value = $(nodeId).val();
-                    value = new Date(value);
-                    value = dateToParam(value);
+                    if(value != ""){
+                        value = new Date(value);
+                        value = dateToParam(value);
+                    }
                     properties[item["idfield"]] = value;
                 }
                 else {
                     var nodeId = "#update_" + item["idfield"];
                     var value = $(nodeId).val();
-                    if(value == null) value ="";
+                    if (value == null)
+                        value = "";
                     properties[item["idfield"]] = value;
                 }
             });
@@ -240,13 +242,12 @@ function buildDataForSite() {
                     }
                 }
             }
-            else if ($field.length > 0 && $field[0].getAttribute("type") === 'date') {
+            else if ($field.length > 0 && $field[0].getAttribute("type") == 'date') {
                 var date = $field.val();
                 if (date) {
-                    date = convertDateWidgetToParam(date); 
-                    properties["" + each_field + ""] = date;
+                    date = convertDateWidgetToParam(date);
                 }
-               
+                     properties["" + each_field + ""] = date;
             } else {
                 var data = $field.val();
                 if (data == null)
@@ -387,7 +388,7 @@ SiteCamera = {
     imageId: function() {
         return  (SiteCamera.updated == 'update') ? ("update_image_" + SiteCamera.id) : SiteCamera.id;
     },
-    onFail: function() {    
+    onFail: function() {
     }
 };
 
@@ -404,7 +405,7 @@ function invokeCamera(cameraType) {
     SiteCamera.takePhoto(idField, updated, cameraType);
     closeDialog();
 }
-function closeDialog(){
+function closeDialog() {
     $('#cameraDialog').dialog('close');
 }
 
