@@ -12,14 +12,12 @@ function convertDateWidgetToParam(format) {
     var d;
     if (format.indexOf("-") !== -1) { //native HTML5 date
         var items = format.split("-");
-        d = items[1] + "/" + items[2] + "/" + items[0];
-        alert("if d"+d);
+        d = items[1] + "/" + items[2] + "/" + items[0];  
         return d;
     }
     else if(format.indexOf("/") !== -1) { //native HTML5 date
         var items = format.split("/");
-        d = items[2] + "-" + items[0] + "-" + items[1];
-        alert("else if "+ d);
+        d = items[1] + "-" + items[2] + "-" + items[0];   
         return d;
     }
     else{
@@ -245,9 +243,10 @@ function buildDataForSite() {
             else if ($field.length > 0 && $field[0].getAttribute("type") === 'date') {
                 var date = $field.val();
                 if (date) {
-                    date = convertDateWidgetToParam(date);
+                    date = convertDateWidgetToParam(date); 
                     properties["" + each_field + ""] = date;
                 }
+               
             } else {
                 var data = $field.val();
                 if (data == null)
