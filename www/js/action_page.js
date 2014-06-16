@@ -26,6 +26,19 @@ $(function() {
         var sId = $(this).attr("data-id");
         localStorage.setItem("sId", sId);
     });
+    $(document).delegate('#page-site-online li', 'click', function() {
+        var sId = $(this).attr("data-id");
+        localStorage.setItem("sId", sId);
+    });
+    $(document).delegate('#page-site-online', 'pageshow', function() {
+        getSiteByCollectionIdFromServer();
+    });
+    $(document).delegate('#page-update-site-online', 'pagebeforeshow', function() {
+        renderUpdateSiteFormFromServer();
+    });
+    $(document).delegate('#btn_submitUpdateSite_online', 'click', function() {
+        updateSiteBySiteIdFromServer();
+    });
     $(document).delegate('#btn_delete-site', 'click', function() {
         var sId = localStorage.getItem("sId");
         deleteSiteBySiteId(sId);
@@ -46,9 +59,6 @@ $(function() {
         logout();
     });
     $(document).delegate('#submitLogin-page', 'pagebeforehide', function() {
-        getFieldsCollection();
-    });
-    $(document).delegate('#page-site-list', 'pagebeforehide', function() {
         getFieldsCollection();
     });
     $(document).delegate('#create-icon-map', 'click', function() {

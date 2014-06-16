@@ -28,7 +28,12 @@
         <script src="include/db_connection.js"></script>
         <script src="include/site.js"></script>
         <script src="include/field.js"></script>
-        <script src="include/hierarchy.js" type="text/javascript"></script>
+
+        <script src="model/collectionModel.js" type="text/javascript"></script>
+        <script src="model/fieldModel.js" type="text/javascript"></script>
+        <script src="model/hierarchyModel.js" type="text/javascript"></script>
+        <script src="model/siteModel.js" type="text/javascript"></script>
+        <script src="model/userModel.js" type="text/javascript"></script>
 
         <script src="js/translate.js"></script>
     </head>
@@ -60,6 +65,7 @@
                 <center><a href="#page-signup" data-i18n="login_page.creat_new_accotun">Create new account</a></center>
             </div>
         </div>
+
         <!-- Create new account-->
         <div data-role="page" id="page-signup">
             <div data-role="content">
@@ -79,11 +85,12 @@
                     <p id="passmatch" data-i18n="signup_page.pwd_not_match">Password doesn't match confirmation</p>
                     <label for="num" data-i18n="signup_page.phone_number">Phone number<br><i>(+855XXXXXXXXX)</i></label>
                     <input type="number" name="tel" id="tel"/>
-                   <button data-theme="e" data-inset="true" data-i18n="global.save">Save</button>               
+                    <button data-theme="e" data-inset="true" data-i18n="global.save">Save</button>               
                 </form>   
                 <center><a href="#page-login" data-i18n="signup_page.already_have_accont"> Already have an account </a></center>
             </div>  
         </div>
+
         <!-- Login Success -->
         <div data-role="page" id="submitLogin-page">
             <div data-role="header" data-theme="e">
@@ -98,6 +105,7 @@
                 </div>
             </div>
         </div>
+
         <!--page-list-view-site-offline-->
         <div data-role="page" id="page-list-view-site">
             <div data-role="header" data-theme="e">
@@ -113,22 +121,51 @@
                 </div>
             </div>
         </div>
-        <!--site-list-->
+        <!--site-list-offline-->
         <div data-role="page" id="page-site-list">
             <div data-role="header" data-theme="e">
                 <a href="#submitLogin-page" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
                 <h2 class="title"></h2>
                 <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
             </div>
-            <div data-role="content" id="sitelist">
+            <div data-role="content">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#" class="ui-btn-active ui-state-persist">Offline</a></li>
+                        <li><a href="#page-site-online">Online</a></li>
+                    </ul>
+                </div>
                 <ul data-role='listview' id="site-list" data-inset="true">
                 </ul>        
                 <div class="ui-grid-a">
                     <div class="ui-block-a"> <button data-theme="e" id="btn_sendToServer" data-icon="forward" data-i18n="global.send_to_server">Send to server</button></div>
-                    <div class="ui-block-b"> <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add">Add new site</a></div>	   
+                    <div class="ui-block-b"> <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add" onclick="getFieldsCollection();">Add new site</a></div>	   
                 </div>
             </div>
         </div>
+
+        <!--site-list-online-->
+        <div data-role="page" id="page-site-online">
+            <div data-role="header" data-theme="e">
+                <a href="#submitLogin-page" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
+                <h2 class="title"></h2>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
+            </div>
+            <div data-role="content">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#page-site-list">Offline</a></li>
+                        <li><a href="#" class="ui-btn-active ui-state-persist">Online</a></li>
+                    </ul>
+                </div>
+                <ul data-role='listview' id="site-list-online" data-inset="true">
+                </ul>        
+                <div>
+                    <div> <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add" onclick="getFieldsCollection();">Add new site</a></div>	   
+                </div>
+            </div>
+        </div>
+
         <!--page-create-site-->
         <div data-role="page" id="page-create-site">
             <div data-role="header" data-theme="e">
@@ -154,6 +191,7 @@
                 </form>                  
             </div> 
         </div>
+
         <!-- view map -->
         <div data-role="page" id="page-map">
             <div data-role="header" data-theme="e" >
@@ -172,12 +210,14 @@
                 <div id="map_canvas"></div>
             </div>
         </div>
-        <!-- update site within a collection -->
+
+        <!-- update site within a collection in local database-->
         <div data-role="page" id="page-update-site">
             <div data-role="header" data-theme="e">
                 <a href="#page-site-list" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
                 <h1 id="site-title"> </h1>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right"​ data-i18n="global.logout">Logout</button>                     </div>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
+            </div>
             <div data-role="content">
                 <form  method="post" id="form_update_site">
                     <div id="div-site-update-name">
@@ -191,6 +231,25 @@
                 </div>
             </div>
         </div>
+
+        <!-- update site within a collection in server database-->
+        <div data-role="page" id="page-update-site-online">
+            <div data-role="header" data-theme="e">
+                <a href="#page-site-online" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
+                <h1 id="site-title-online"> </h1>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
+            </div>
+            <div data-role="content">
+                <form id="form_update_site_online">
+                    <div id="div-site-update-name-online">
+                    </div>
+                    <div id="div_update_field_collection_online"> 
+                    </div>
+                </form>  
+                <div><button data-theme="e" id="btn_submitUpdateSite_online"  data-i18n="global.update">Update</button></div>
+            </div>
+        </div>
+
         <!-- delete site within a collection -->
         <div data-dom-cache="false" data-role="page" id="confirm_delete_site">
             <div data-role="header" data-theme="e">
@@ -214,6 +273,8 @@
                 <center><a onclick="closeDialog()" style="background: #009bb7; color: #FFFFFF;" data-role="button" data-inline="true" data-inset="true" data-i18n="global.cancel">Cancel</a></center>
             </div>
         </div>  
+
+        <!--Cross domain for mobile-->
         <script>
             $(document).on("mobileinit", function() {
                 $.mobile.allowCrossDomainPages = true;
@@ -221,16 +282,24 @@
             });
         </script>
 
+        <!--view site in local database-->
         <script id="site-template" type="text/x-handlebars-template">
             {{#each siteList}}
             <li data-id='{{id}}' data-name='{{name}}'><a href='#page-update-site'> {{name}} <p class='ui-li-aside' style='color:blue'> {{date}} </p></a></li>
             {{/each}}
         </script>
 
+        <!--view site in server database-->
+        <script id="site-online-template" type="text/x-handlebars-template">
+            {{#each siteOnlineList}}
+            <li data-id='{{id}}' data-name='{{name}}'><a href='#page-update-site-online'> {{name}} <p class='ui-li-aside' style='color:blue'> {{date}} </p></a></li>
+            {{/each}}
+        </script>
+
+        <!--Title Name of each Collection-->
         <script type="text/x-handlebars-template" id="template">
             {{name}}
         </script>
-
         <script type="text/javascript">
             $(document).delegate('#submitLogin-page li', 'click', function() {
                 var cName = $(this).attr("data-name");
@@ -241,10 +310,10 @@
             });
         </script>
 
+        <!--Title Name of each site for update (store in local database)-->
         <script type="text/x-handlebars-template" id="template-site-list">
             {{name}}
         </script>
-
         <script type="text/javascript">
             $(document).delegate('#page-site-list li', 'click', function() {
                 var sName = $(this).attr("data-name");
@@ -255,18 +324,35 @@
             });
         </script>
 
+        <!--Title Name of each site for update in server-->
+        <script type="text/x-handlebars-template" id="template-site-online">
+            {{name}}
+        </script>
+        <script type="text/javascript">
+            $(document).delegate('#page-site-online li', 'click', function() {
+                var sName = $(this).attr("data-name");
+                localStorage.setItem('siteName', sName);
+                var title = {name: sName};
+                var template = Handlebars.compile($("#template-site-online").html());
+                $("#site-title-online").html(template(title));
+            });
+        </script>
+
+        <!--view site in local database for all collection-->
         <script id="siteoffline-template" type="text/x-handlebars-template">
             {{#each siteofflineList}}
             <li data-id='{{id}}' data-name='{{name}}'><a href='#page-update-site'> {{name}} <p class='ui-li-desc'> {{collectionName}} </p><p class='ui-li-aside' style='color:blue'> {{date}} </p></a></li>
             {{/each}}
         </script>
 
+        <!--view collection list-->
         <script id="collection-template" type="text/x-handlebars-template">
             {{#each collectionList}}
             <li data-id='{{idcollection}}' data-name='{{name}}'><a href='{{linkpagesite}}'> {{name}} {{#if count}}<p class='ui-li-aside1 ui-li-count'> {{count}} </p>{{/if}}</a></li>
             {{/each}}
         </script>
 
+        <!--update site in local database for name lat and lng-->
         <script id="site-update-template" type="text/x-handlebars-template">
             <label for="updatesitename"> Name </label>
             <input type="text" name="updatesitename" id="updatesitename" class="required" value='{{name}}'/><br><br>
@@ -277,7 +363,18 @@
             <input type="number" name="updatelolng" id="updatelolng" class="required" value='{{lng}}'/>
         </script>
 
-        <!--field collection-->
+        <!--update site in server database for name lat and lng-->
+        <script id="site-update-online-template" type="text/x-handlebars-template">
+            <label for="updatesitename_online"> Name </label>
+            <input type="text" name="updatesitename_online" id="updatesitename_online" class="required" value='{{name}}'/><br><br>
+            <div><a href="#page-map"><img src="img/map.png" alt="map icon" width="50" height="50" id="update_icon_map"/></a></div>
+            <label for="updatelolat_online"> Location'Lat </label>
+            <input type="number" name="updatelolat_online" id="updatelolat_online" class="required" value='{{lat}}'/>
+            <label for="updatelolng_online"> Location'Lng </label>
+            <input type="number" name="updatelolng_online" id="updatelolng_online" class="required" value='{{lng}}'/>
+        </script>
+
+        <!--field collection in create page-->
         <script id="field_collection-template" type="text/x-handlebars-template">
             {{#each field_collections}}
             {{#if config}} 
@@ -321,7 +418,8 @@
             {{/if}}
             {{/each}}
         </script>
-        <!--site update-->
+
+        <!--field collection update in page update site (sites are in local database) -->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
             {{#each field_collections}}
             {{#if config}} 
@@ -366,6 +464,51 @@
             {{/each}}
         </script>
 
+        <!--field collection update in page update site (sites are in server database) -->
+        <script id="update_field_collection-online-template" type="text/x-handlebars-template">
+            {{#each field_collections}}
+            {{#if config}} 
+            {{#if isHierarchy}} 
+            <label>{{name}}</label>
+            <select id="update_online_{{idfield}}">
+            <option value="">(no value)</option>
+            {{{displayHierarchy}}}
+            </select>
+            {{else}}
+            <div>
+            <label>{{name}}</label>
+            {{#if multiple}}
+            <select id="update_online_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+            <option>Options</option>
+            {{else}}
+            <select id="update_online_{{idfield}}" data-role="{{slider}}" data-mini="{{ctrue}}">
+            {{#if slider}} 
+            {{else}}
+            <option value="">(no value)</option>
+            {{/if}}
+            {{/if}}
+            {{#config.options}}
+            <option value="{{id}}" {{selected}}>{{label}}</option>
+            {{/config.options}}
+            </select>
+            </div>
+            {{/if}}
+            {{else}}    
+            {{#if isPhoto}}  
+            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <div onclick="openCameraDialog({{idfield}}, 'update')" id='property_{{idfield}}_container' class="photo" > 
+            <img class="image" src='{{__value}}' id='update_image_{{idfield}}' />
+            </div>
+            {{else}}
+            <div>
+            <label for='name'>{{{name}}}</label>
+            <input type="{{widgetType}}" id="update_online_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+            </div>
+            {{/if}}
+            {{/if}}
+            {{/each}}
+        </script>
+
         <script id="language-template" type="text/x-handlebars-template">
             <select style="width:100%;" data-theme="g" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
             {{#each langs}} 
@@ -377,14 +520,16 @@
             {{/each}}  
             </select>
         </script>
-        <script src="include/test.js"></script>
-        <script src="cordova.js"></script>  
+
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
+
         <script src="js/action_page.js"></script>
+
         <script src="js/libs/jquery.validate.js"></script>
         <script src="localization/jquery.validation_form.js"></script>   
         <script src="js/form_validation.js"></script>
+
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <script src="js/googleMap.js" type="text/javascript"></script>
     </body>

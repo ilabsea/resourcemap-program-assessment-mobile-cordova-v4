@@ -15,14 +15,14 @@ function validateLogin() {
     if (!isOnline()) {
         User.all().filter('email', "=", email).one(null, function(user) {
             if (user === null) {
-                $('#noMailInDb').show().delay(5000).fadeOut();;
+                $('#noMailInDb').show().delay(5000).fadeOut();
             }
             if (user.password() === psw) {
                 setCurrentUser(user);
                 location.href = "#submitLogin-page";
             }
             else {
-                $('#invalidmail').show().delay(5000).fadeOut();;
+                $('#invalidmail').show().delay(5000).fadeOut();
             }
             $('#noMailInDb').hide();
             $('#invalidmail').hide();
@@ -40,66 +40,46 @@ function signUp() {
     var data = {user: {email: email, password: password, password_confirmation: password_confirmation}};
     if (password === password_confirmation) {
         $("#passmatch").hide();
-        showSpinner();
-        $.ajax({
-            url: App.URL_SIGNUP,
-            type: "POST",
-            crossDomain: true,
-            data: data,
-            success: function() {
-                hideSpinner();
-                $("#exitemail").hide();
-                $("#sign_up_success").show().delay(4000).fadeOut();
-                location.href = "#page-login";
-                $('#form_signup')[0].reset();
-            },
-            error: function() {
-                hideSpinner();
-                $('#exitemail').show().delay(4000).fadeOut();;
-                $("#sign_up_success").hide();
-                location.href = "#page-signup"; 
-            }
+        ViewBinding.setBusy(true);
+        UserModel.create(App.URL_SIGNUP, data, function() {
+            $("#exitemail").hide();
+            $("#sign_up_success").show().delay(4000).fadeOut();
+            location.href = "#page-login";
+            $('#form_signup')[0].reset();
+        }, function() {
+            $('#exitemail').show().delay(4000).fadeOut();
+            $("#sign_up_success").hide();
+            location.href = "#page-signup";
         });
     }
     else
-        $("#passmatch").show().delay(5000).fadeOut();;
+        $("#passmatch").show().delay(5000).fadeOut();
 }
 
 function authoriseUser(email, psw) {
-    data = {user: {email: email, password: psw}};
+    var data = {user: {email: email, password: psw}};
     $('#invalidmail').hide();
-    showSpinner();
-    $.ajax({
-        type: "post",
-        data: data,
-        url: App.AUTH_URL,
-        dataType: "json",
-        crossDomain: true,
-        success: function(response) {
-            setAuthToken(response.auth_token);
-            hideSpinner();
-            User.all().filter('email', "=", email).one(null, function(user) {
-                if (user === null) {
-                    var currentUser = addUser(email, psw);
-                    setCurrentUser(currentUser);
+    ViewBinding.setBusy(true);
+    UserModel.create(App.AUTH_URL, data, function(response) {
+        setAuthToken(response.auth_token);
+        User.all().filter('email', "=", email).one(null, function(user) {
+            if (user === null) {
+                var currentUser = addUser(email, psw);
+                setCurrentUser(currentUser);
+            }
+            else {
+                if (user.password() !== psw) {
+                    user.password(psw);
+                    persistence.flush();
                 }
-                else {
-                    if (user.password() !== psw) {
-                        user.password(psw);
-                        persistence.flush();
-                    }
-                    setCurrentUser(user);
-                }
-                location.href = "#submitLogin-page";
-            });
-        },
-        error: function() {
-            hideSpinner();
-            $('#invalidmail').show().delay(5000).fadeOut();;
-        }
+                setCurrentUser(user);
+            }
+            location.href = "#submitLogin-page";
+        });
+    }, function() {
+        $('#invalidmail').show().delay(5000).fadeOut();
     });
 }
-
 
 function setCurrentUser(user) {
     hideSpinner();
@@ -120,7 +100,6 @@ function setAuthToken(auth_token) {
 
 function getAuthToken() {
     var authToken = localStorage.getItem("authToken");
-    console.log("auth: " + authToken);
     return authToken;
 }
 
@@ -145,19 +124,8 @@ function logout() {
     if (!isOnline()) {
         resetState();
     } else {
-        $.ajax({
-            type: "post",
-            url: App.URL_LOGOUT + getAuthToken(),
-            dataType: "json",
-            crossDomain: true,
-            success: function() {
-                resetState();
-            },
-            error: function() {
-                resetState();
-            }
-        });
-    }
+        UserModel.create(App.URL_LOGOUT+ getAuthToken(), "", resetState(), resetState())
+        }
     $('#form_login').each(function() {
         this.reset();
     });

@@ -21,7 +21,7 @@ function renderFieldsBySite(site) {
                                 if (item.config.options[k].id == item.__value[j]) {
                                     selected = "selected";
                                     item.config.options[k]["selected"] = "selected";
-                                } 
+                                }
                             }
                         }
                     }
@@ -42,7 +42,48 @@ function renderFieldsBySite(site) {
             }
         });
         displayFieldUpdateTemplate(field_collections);
-    });       
+    });
+}
+
+function renderFieldsBySiteFromServer(site) {
+    FieldModel.fetch(function(response) {
+        var field_collections = [];
+        $.each(response, function(key, properties) {
+            var item = buildField(properties, {fromServer: true});
+            var p = site.properties;
+            for (propertyCode in p) {
+                if (item.code === propertyCode) {
+                    if (item.widgetType === "select_many" || item.widgetType === "select_one") {
+                        item.__value = p[propertyCode];
+                        for (var k = 0; k < item.config.options.length; k++) {
+                            item.config.options[k]["selected"] = "";
+                            for (var j = 0; j < item.__value.length; j++) {
+                                if (item.config.options[k].id == item.__value[j]) {
+                                    selected = "selected";
+                                    item.config.options[k]["selected"] = "selected";
+                                }
+                            }
+                        }
+                    }
+                    else if (item.widgetType === "hierarchy") {
+                        item.__value = p[propertyCode];
+                        item.displayHierarchy = Hierarchy.generateField(item.config, item.__value);
+                    }
+                    else if (item.widgetType === "date") {
+                        var val = p[propertyCode];
+                        if (val)
+                            item.__value = convertDateWidgetToParam(val);
+                    }
+                    else
+                        item.__value = p[propertyCode];
+                    break;
+                }
+            }
+            field_collections.push(item);
+            displayFieldUpdateOnlineTemplate(field_collections);
+        });
+        displayFieldUpdateOnlineTemplate(field_collections);
+    });
 }
 
 function buildField(fieldObj, options) {
@@ -126,31 +167,21 @@ function getFieldsCollection() {
 }
 
 function renderFieldByCollectionIdOnline() {
-    var cId = localStorage.getItem("cId");
-    $.ajax({
-        url: App.URL_FIELD + cId + "/fields?auth_token=" + getAuthToken(),
-        type: "get",
-        crossDomain: true,
-        datatype: 'json',
-        success: function(response) {
-            var field_id_arr = new Array();
-            var field_collections = [];
-            $.each(response, function(key, properties) {
-                field_id_arr.push(properties.id);
-                var fields = buildField(properties, {fromServer: true});
-                field_collections.push(fields);
-                Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
-                    if (field === null) {
-                        addField(fields);
-                    }
-                });
+    FieldModel.fetch(function(response) {
+        var field_id_arr = new Array();
+        var field_collections = [];
+        $.each(response, function(key, properties) {
+            field_id_arr.push(properties.id);
+            var fields = buildField(properties, {fromServer: true});
+            field_collections.push(fields);
+            Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
+                if (field === null) {
+                    addField(fields);
+                }
             });
-            localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
-            displayFieldRender(field_collections);
-        },
-        error: function(error) {
-            console.log("erro:  " + error);
-        }
+        });
+        localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
+        displayFieldRender(field_collections);
     });
 }
 
@@ -185,4 +216,10 @@ function displayFieldUpdateTemplate(data) {
     var fieldTemplate = Handlebars.compile($("#update_field_collection-template").html());
     $('#div_update_field_collection').html(fieldTemplate({field_collections: data}));
     $('#div_update_field_collection').trigger("create");
+}
+
+function displayFieldUpdateOnlineTemplate(data) {
+    var fieldTemplate = Handlebars.compile($("#update_field_collection-online-template").html());
+    $('#div_update_field_collection_online').html(fieldTemplate({field_collections: data}));
+    $('#div_update_field_collection_online').trigger("create");
 }

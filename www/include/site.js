@@ -51,6 +51,33 @@ function getSiteByCollectionId(id) {
     });
 }
 
+function getSiteByCollectionIdFromServer() {
+    SiteModel.fetch(function(response) {
+        var siteOnlineData = [];
+        $.each(response["sites"], function(key, data) {
+            var date = data.created_at;
+            date = new Date(date);
+            date = dateToParam(date);
+            var item = {id: data.id,
+                name: data.name,
+                lat: data.lat,
+                lng: data.lng
+            };
+            siteOnlineData.push(item);
+            if (key === response["total"] - 1) {
+                displaySiteByCollectionIdFromServer(siteOnlineData);
+            }
+        });
+        displaySiteByCollectionIdFromServer(siteOnlineData);
+    });
+}
+
+function displaySiteByCollectionIdFromServer(siteOnlineData) {
+    var siteOnlineTemplate = Handlebars.compile($("#site-online-template").html());
+    $('#site-list-online').html(siteOnlineTemplate({siteOnlineList: siteOnlineData}));
+    $('#site-list-online').listview("refresh");
+}
+
 function countSiteByUserId(id) {
     Site.all().filter('user_id', '=', id).count(null, function(count) {
         if (count == 0) {
@@ -89,6 +116,16 @@ function renderUpdateSiteForm() {
     });
 }
 
+function renderUpdateSiteFormFromServer() {
+    SiteModel.fetchOne(function(response) {
+        var siteOnlineUpdateData = {name: response.name, lat: response.lat, lng: response.long};
+        var siteOnlineUpdateTemplate = Handlebars.compile($("#site-update-online-template").html());
+        $('#div-site-update-name-online').html(siteOnlineUpdateTemplate(siteOnlineUpdateData));
+        $('#div-site-update-name-online').trigger("create");
+        renderFieldsBySiteFromServer(response);
+    });
+}
+
 function updateSiteBySiteId() {
     var id = localStorage.getItem("sId");
     Site.all().filter('id', "=", id).one(function(site) {
@@ -119,7 +156,7 @@ function updateSiteBySiteId() {
                 else if (item.widgetType === "date") {
                     var nodeId = "#update_" + item["idfield"];
                     var value = $(nodeId).val();
-                    if(value != ""){
+                    if (value != "") {
                         value = new Date(value);
                         value = dateToParam(value);
                     }
@@ -137,6 +174,45 @@ function updateSiteBySiteId() {
             site.files(files);
             persistence.flush();
             location.href = "index.html#page-site-list";
+        });
+    });
+}
+
+function updateSiteBySiteIdFromServer() {
+    var data;
+    FieldModel.fetch(function(field) {
+        var properties = {};
+        $.each(field, function(key, field) {
+            var item = buildField(field, {fromServer: true});
+            if (item.widgetType === "date") {
+                var nodeId = "#update_online_" + item["idfield"];
+                var value = $(nodeId).val();
+                if (value != "") {
+                    value = convertDateWidgetToParam(value);
+//                    value = dateToParam(value);
+                }
+                properties[item["idfield"]] = value;
+            }
+            else {
+                var nodeId = "#update_online_" + item["idfield"];
+                var value = $(nodeId).val();
+                if (value == null)
+                    value = "";
+                properties[item["idfield"]] = value;
+            }
+        });
+        data = {
+            "_method": "put",
+            "auth_token": getAuthToken(),
+            "name": $("#updatesitename_online").val(),
+            "lat": $("#updatelolat_online").val(),
+            "lng": $("#updatelolng_online").val(),
+            "properties": properties
+        };
+        SiteModel.update(data, function(response) {
+            location.href = "#page-site-online";
+        }, function() {
+            alert("fail delete");
         });
     });
 }
@@ -179,7 +255,7 @@ function sendSiteToServer(key, id) {
 
 function submitSiteServer(sites) {
     var site = sites[0];
-    showSpinner();
+    ViewBinding.setBusy(true);
     var data = {site: {
             collection_id: site.collection_id(),
             name: site.name(),
@@ -189,29 +265,19 @@ function submitSiteServer(sites) {
             files: site.files()
         }
     };
-    $.ajax({
-        url: App.END_POINT + "/v1/collections/" + site.collection_id() + "/sites?auth_token=" + getAuthToken(),
-        type: "POST",
-        data: data,
-        crossDomain: true,
-        datatype: 'json',
-        success: function() {
-            persistence.remove(site);
-            persistence.flush();
-            hideSpinner();
-            $('#sendToServer').show();
-            sites.splice(0, 1);
-            if (sites.length === 0) {
-                window.location.href = "#submitLogin-page";
-            }
-            else
-                submitSiteServer(sites);
-        },
-        error: function(error) {
-            hideSpinner();
-            $("#info_sign_in").show();
-            location.href = "#page-login";
+    SiteModel.create(data["site"], function() {
+        persistence.remove(site);
+        persistence.flush();
+        $('#sendToServer').show();
+        sites.splice(0, 1);
+        if (sites.length === 0) {
+            window.location.href = "#submitLogin-page";
         }
+        else
+            submitSiteServer(sites);
+    }, function() {
+        $("#info_sign_in").show();
+        location.href = "#page-login";
     });
 }
 
@@ -247,7 +313,7 @@ function buildDataForSite() {
                 if (date) {
                     date = convertDateWidgetToParam(date);
                 }
-                     properties["" + each_field + ""] = date;
+                properties["" + each_field + ""] = date;
             } else {
                 var data = $field.val();
                 if (data == null)
@@ -289,20 +355,9 @@ function resetSiteFormOffline() {
 }
 
 function addSiteOnline(data, callback) {
-    var cId = localStorage.getItem("cId");
-    var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + getAuthToken();
-    showSpinner();
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: {site: data},
-        crossDomain: true,
-        datatype: 'json',
-        success: callback,
-        error: function(error) {
-            hideSpinner();
-            alert("Please resend the data.");
-        }
+    ViewBinding.setBusy(true);
+    SiteModel.create(data, callback, function() {
+        ViewBinding.setAlert("Please send data again.");
     });
 }
 

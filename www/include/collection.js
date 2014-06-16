@@ -43,53 +43,46 @@ function getCollectionByUserIdOffline() {
     }
 }
 function getCollectionByUserIdOnline() {
-    $.ajax({
-        type: "get",
-        url: App.LIST_COLLECTION + getAuthToken(),
-        dataType: "json",
-        crossDomain: true,
-        success: function(response) {
-            var currentUser = getCurrentUser();
-            Collection.all().filter('user_id', '=', currentUser.id).list(function(collections) {
-                collections.forEach(function(collection) {
-                    persistence.remove(collection);
-                    persistence.flush();
-                });
+    CollectionModel.fetch(function(response) {
+        var currentUser = getCurrentUser();
+        Collection.all().filter('user_id', '=', currentUser.id).list(function(collections) {
+            collections.forEach(function(collection) {
+                persistence.remove(collection);
+                persistence.flush();
             });
-            var collectionData = [];
-            $.each(response, function(key, data) {
-                var idcollection = data.id;
-                var name = data.name;
-                var description = data.description;
-                var count = 0;
-                Site.all().filter('collection_id', "=", idcollection).count(null, function(l) {
-                    count = l;
-                    var linkpagesite;
-                    if (count == 0) {
-                        count = "";
-                        linkpagesite = "#page-create-site";
-                    }
-                    else
-                        linkpagesite = "#page-site-list";
-                    var item = {idcollection: idcollection,
-                        name: name,
-                        count: count,
-                        linkpagesite: linkpagesite
-                    };
-                    collectionData.push(item);
-                    if (key === response.length - 1) {
-                        console.log("Her", collectionData);
-                        displayCollectionList(collectionData);
-                    }
-                });
-                Collection.all().filter('idcollection', "=", idcollection).one(null, function(collection) {
-                    if (collection === null)
-                        addCollection(idcollection, name, description);
-                });
+        });
+        var collectionData = [];
+        $.each(response, function(key, data) {
+            var idcollection = data.id;
+            var name = data.name;
+            var description = data.description;
+            var count = 0;
+            Site.all().filter('collection_id', "=", idcollection).count(null, function(l) {
+                count = l;
+                var linkpagesite;
+                if (count == 0) {
+                    count = "";
+                    linkpagesite = "#page-create-site";
+                }
+                else
+                    linkpagesite = "#page-site-list";
+                var item = {idcollection: idcollection,
+                    name: name,
+                    count: count,
+                    linkpagesite: linkpagesite
+                };
+                collectionData.push(item);
+                if (key === response.length - 1) {
+                    displayCollectionList(collectionData);
+                }
             });
-            if (collectionData == "") {
-                displayCollectionList(collectionData);
-            }
+            Collection.all().filter('idcollection', "=", idcollection).one(null, function(collection) {
+                if (collection === null)
+                    addCollection(idcollection, name, description);
+            });
+        });
+        if (collectionData == "") {
+            displayCollectionList(collectionData);
         }
     });
 }
