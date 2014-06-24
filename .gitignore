@@ -2,3 +2,5 @@
 /platforms/*
 /nbproject/*
 *DS_Store*
+/plugins/android.json
+/plugins/ios.json
