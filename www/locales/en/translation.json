@@ -13,7 +13,11 @@
         "delete": "Delete",
         "cancel": "Cancel",
         "site": "Sites",
-        "add": "Add new site"
+        "add": "Add new site",
+        "viewAll": "View all",
+        "viewOffline": "View offline",
+        "viewOnline": "View online",
+        "menu": "Menu"
     },
     "login_page": {
         "login": "Login",
@@ -60,5 +64,9 @@
         "plsSignIn":"Please sign in.",
         "signupsuccess": "Sign up successfully."
 
+    },
+    "nav":{
+        "online": "Online",
+        "offline": "Offline"
     }
 }

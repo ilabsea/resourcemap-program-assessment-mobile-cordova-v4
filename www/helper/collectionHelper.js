@@ -35,7 +35,7 @@ function dataCollection(collection, currentUser, count, fromServer) {
 
   if (count == 0) {
     item.displayCount = "";
-    item.linkpagesite = "#page-create-site";
+    item.linkpagesite = "#page-site-list";
   } else {
     item.displayCount = count;
     item.linkpagesite = "#page-site-list";

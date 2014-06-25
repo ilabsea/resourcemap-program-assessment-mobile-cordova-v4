@@ -17,8 +17,9 @@ $(function() {
     localStorage.setItem("cId", cId);
   });
   $(document).delegate('#page-site-list', 'pagebeforeshow', function() {
-    cId = localStorage.getItem("cId");
-    getSiteByCollectionId(cId);
+    var cId = localStorage.getItem("cId");
+    countSiteByCollectionId(cId);
+    SiteList.menu();
   });
   $(document).delegate('#page-site-list', 'pageshow', function() {
     $("#site-list").listview("refresh");
@@ -26,16 +27,6 @@ $(function() {
   $(document).delegate('#page-site-list li', 'click', function() {
     var sId = $(this).attr("data-id");
     localStorage.setItem("sId", sId);
-  });
-  $(document).delegate('#page-site-online li', 'click', function() {
-    var sId = $(this).attr("data-id");
-    localStorage.setItem("sId", sId);
-  });
-  $(document).delegate('#page-site-online', 'pagebeforeshow', function() {
-    App.emptyHTML();
-  });
-  $(document).delegate('#page-site-online', 'pageshow', function() {
-    getSiteByCollectionIdFromServer();
   });
   $(document).delegate('#page-update-site-online', 'pagebeforeshow', function() {
     requireReload(renderUpdateSiteFormFromServer);
@@ -61,9 +52,6 @@ $(function() {
   });
   $(document).delegate('#logout', 'click', function() {
     logout();
-  });
-  $(document).delegate('#submitLogin-page', 'pagebeforehide', function() {
-    getFieldsCollection();
   });
   $(document).delegate('#create-icon-map', 'click', function() {
     $("#btn_back_create_site").show();

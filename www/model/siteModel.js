@@ -83,3 +83,26 @@ ViewBinding = {
       alert(this.__msg);
   }
 };
+
+SiteList = {
+  menu: function() {
+    App.emptyHTML();
+    var value = $('#site-list-menu').val();
+    $("#btn_sendToServer").hide();
+    switch (value) {
+      case "1":
+        displayAllSites();
+        break;
+      case "2":
+        getSiteByCollectionId();
+        $("#btn_sendToServer").show();
+        break;
+      case "3":
+        getSiteByCollectionIdFromServer();
+        break;
+      case "4":
+        logout();
+        $("#site-list-menu").get(0).selectedIndex = 0;
+    }
+  }
+};

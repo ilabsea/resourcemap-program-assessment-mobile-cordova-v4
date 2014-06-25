@@ -25,6 +25,5 @@ Translation = {
   },
   translateLang: function(ele) {
     Translation.setLang($('#' + ele).val());
-
   }
 };

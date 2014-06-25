@@ -1,4 +1,5 @@
-function getSiteByCollectionId(id) {
+function getSiteByCollectionId() {
+  var id = localStorage.getItem("cId");
   Site.all().filter('collection_id', "=", id).list(null, function(sites) {
     var siteData = {siteList: []};
     sites.forEach(function(site) {
@@ -9,6 +10,11 @@ function getSiteByCollectionId(id) {
     $('#site-list').html(siteTemplate(siteData));
     $('#site-list').listview("refresh");
   });
+}
+
+function displayAllSites() {
+  getSiteByCollectionId();
+  getSiteByCollectionIdFromServer();
 }
 
 function getSiteByCollectionIdFromServer() {
@@ -22,7 +28,8 @@ function getSiteByCollectionIdFromServer() {
       var item = {id: data.id,
         name: data.name,
         lat: data.lat,
-        lng: data.lng
+        lng: data.lng,
+        date: date
       };
       siteOnlineData.push(item);
       if (key === response["total"] - 1) {
@@ -108,8 +115,8 @@ function updateSiteBySiteIdFromServer() {
         "files": propertiesFile.files
       }
     };
-    SiteModel.update(data, function(response) {
-      location.href = "#page-site-online";
+    SiteModel.update(data, function() {
+      location.href = "#page-site-list";
     }, function() {
       alert("Please reupdate your site.");
     });
@@ -176,10 +183,10 @@ function submitSiteServer(sites) {
 function  addSiteToServer() {
   var data = buildDataForSite();
   if (isOnline()) {
-    addSiteOnline(data, resetSiteFormOnline);
+    addSiteOnline(data, resetSiteForm);
   }
   else {
-    addSiteOffline(data, resetSiteFormOffline);
+    addSiteOffline(data, resetSiteForm);
   }
 }
 

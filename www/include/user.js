@@ -74,7 +74,7 @@ function logout() {
   if (!isOnline()) {
     resetState();
   } else {
-    UserModel.create(App.URL_LOGOUT + getAuthToken(), "", resetState(), resetState());
+    UserModel.create(App.URL_LOGOUT + getAuthToken(), "" , resetState(), resetState());
   }
   $('#form_login').each(function() {
     this.reset();

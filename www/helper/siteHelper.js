@@ -54,6 +54,18 @@ function countSiteByUserId(id) {
   });
 }
 
+function countSiteByCollectionId(id) {
+  Site.all().filter('collection_id', '=', id).count(null, function(count) {
+    if (count == 0) {
+      $("#site-list-menu option[value='2']").attr("disabled", true);
+      $("#site-list-menu").get(0).selectedIndex = 0;
+      $("#site-list-menu").change();
+    } else {
+      $("#site-list-menu option[value='2']").removeAttr('disabled');
+    }
+  });
+}
+
 function buildDataForSite() {
   var cId = localStorage.getItem("cId");
   var sname = $('#sitename').val();
@@ -143,15 +155,9 @@ function updateFieldValueBySiteId(propertiesFile, field, idHTMLForUpdate, fromSe
   return pf;
 }
 
-function resetSiteFormOnline() {
-  hideSpinner();
+function resetSiteForm() {
   PhotoList.clear();
-  location.href = "#submitLogin-page";
-}
-
-function resetSiteFormOffline() {
-  PhotoList.clear();
-  window.location.href = "#page-site-list";
+  location.href = "#page-site-list";
   $('#form_create_site ')[0].reset();
 }
 
