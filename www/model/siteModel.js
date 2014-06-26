@@ -102,7 +102,7 @@ SiteList = {
         break;
       case "4":
         logout();
-        $("#site-list-menu").get(0).selectedIndex = 0;
+        $("#site-list-menu").val("1");
     }
   }
 };

@@ -57,12 +57,13 @@ function countSiteByUserId(id) {
 function countSiteByCollectionId(id) {
   Site.all().filter('collection_id', '=', id).count(null, function(count) {
     if (count == 0) {
-      $("#site-list-menu option[value='2']").attr("disabled", true);
-      $("#site-list-menu").get(0).selectedIndex = 0;
+      $("#site-list-menu option[value='2']").attr('disabled', true);
+      $("#site-list-menu").selectedIndex = 0;
       $("#site-list-menu").change();
     } else {
       $("#site-list-menu option[value='2']").removeAttr('disabled');
     }
+    $("#site-list-menu").selectmenu("refresh", true);
   });
 }
 
