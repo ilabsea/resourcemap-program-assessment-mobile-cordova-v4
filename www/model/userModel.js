@@ -3,11 +3,17 @@ UserModel = {
     $.ajax({
       url: url,
       type: "POST",
-      crossDomain: true,
       data: attr,
       success: successCallback,
-      error: errorCallback,
+      error: errorCallback
+    });
+  },
+  delete: function(callback) {
+    $.ajax({
+      url: App.URL_LOGOUT + getAuthToken(),
+      type: "POST",
       complete: function() {
+        callback();
         ViewBinding.setBusy(false);
       }
     });

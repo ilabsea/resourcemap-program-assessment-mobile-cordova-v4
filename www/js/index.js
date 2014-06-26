@@ -17,6 +17,7 @@ END_POINT = "http://resmap-stg-ilab.instedd.org/api",
               console.log(obj);
           },
           initialize: function() {
+            this.setUp();
             this.bindEvents();
           },
           resetDb: function() {
@@ -36,5 +37,13 @@ END_POINT = "http://resmap-stg-ilab.instedd.org/api",
           },
           emptyHTML: function() {
             $(".clearPreviousDisplay").html("");
+          },
+          setUp: function() {
+            $.ajaxSetup({
+              crossDomain: true,
+              complete: function() {
+                ViewBinding.setBusy(false);
+              }
+            });
           }
         };

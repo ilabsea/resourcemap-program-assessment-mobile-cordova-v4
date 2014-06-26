@@ -71,12 +71,15 @@ function authoriseUser(email, psw) {
 }
 
 function logout() {
+  $('#form_login')[0].reset();
   if (!isOnline()) {
     resetState();
-  } else {
-    UserModel.create(App.URL_LOGOUT + getAuthToken(), "" , resetState(), resetState());
+    redirectTo("#page-login");
   }
-  $('#form_login').each(function() {
-    this.reset();
-  });
+  else {
+    UserModel.delete(function() {
+      resetState();
+      redirectTo("#page-login");
+    });
+  }
 }

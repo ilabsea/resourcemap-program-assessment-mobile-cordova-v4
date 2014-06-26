@@ -19,7 +19,7 @@ $(function() {
   $(document).delegate('#page-site-list', 'pagebeforeshow', function() {
     var cId = localStorage.getItem("cId");
     countSiteByCollectionId(cId);
-    SiteList.menu();
+    displayAllSites();
   });
   $(document).delegate('#page-site-list', 'pageshow', function() {
     $("#site-list").listview("refresh");
@@ -128,7 +128,12 @@ function showSpinner() {
     html: ""
   });
 }
+
 function hideSpinner() {
   $.mobile.loading('hide');
   $.mobile.activePage.removeClass("ui-disabled");
+}
+
+function redirectTo(url){
+  $.mobile.changePage(url);
 }

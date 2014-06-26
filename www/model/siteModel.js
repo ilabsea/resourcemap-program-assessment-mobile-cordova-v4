@@ -11,20 +11,15 @@ SiteModel = {
       url: url,
       type: "POST",
       data: {site: attr},
-      crossDomain: true,
       datatype: 'json',
       success: successCallback,
-      error: errorCallback,
-      complete: function() {
-        ViewBinding.setBusy(false);
-      }
+      error: errorCallback
     });
   },
   fetch: function(collectionID, successCallback) {
     $.ajax({
       url: App.END_POINT + "/v1/collections/" + collectionID + "/sites.json?auth_token=" + getAuthToken(),
       type: "GET",
-      crossDomain: true,
       datatype: 'json',
       success: successCallback,
       error: function(error) {
@@ -39,14 +34,10 @@ SiteModel = {
       url: App.END_POINT + "/v1/collections/" + cId + "/sites/" + sId + ".json",
       data: {"auth_token": getAuthToken()},
       type: "GET",
-      crossDomain: true,
       datatype: 'json',
       success: successCallback,
       error: function(error) {
         console.log("Retriving sites from server : ", error);
-      },
-      complete: function() {
-        ViewBinding.setBusy(false);
       }
     });
   },
@@ -59,10 +50,7 @@ SiteModel = {
       url: App.END_POINT + "/v1/collections/" + cId + "/sites/" + sId,
       dataType: "json",
       success: successCallback,
-      error: errorCallback,
-      complete: function() {
-        ViewBinding.setBusy(false);
-      }
+      error: errorCallback
     });
   }
 };
@@ -102,7 +90,6 @@ SiteList = {
         break;
       case "4":
         logout();
-        $("#site-list-menu").val("1");
     }
   }
 };

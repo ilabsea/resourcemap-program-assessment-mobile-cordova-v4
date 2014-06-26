@@ -34,8 +34,6 @@ function getAuthToken() {
 function resetState() {
   localStorage.clear();
   sessionStorage.clear();
-  window.location.href = "#page-login";
-  return localStorage.getItem("authToken");
 }
 
 function storeToken() {
