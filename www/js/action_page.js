@@ -17,9 +17,11 @@ $(function() {
     localStorage.setItem("cId", cId);
   });
   $(document).delegate('#page-site-list', 'pagebeforeshow', function() {
+    $("#btn_sendToServer").hide();
     var cId = localStorage.getItem("cId");
     countSiteByCollectionId(cId);
     displayAllSites();
+    $("#site-list-menu").get(0).selectedIndex = 0;
   });
   $(document).delegate('#page-site-list', 'pageshow', function() {
     $("#site-list").listview("refresh");
