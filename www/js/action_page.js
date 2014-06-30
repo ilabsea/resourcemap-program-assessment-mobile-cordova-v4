@@ -134,6 +134,6 @@ function hideSpinner() {
   $.mobile.activePage.removeClass("ui-disabled");
 }
 
-function redirectTo(url){
+function redirectTo(url) {
   $.mobile.changePage(url);
 }
