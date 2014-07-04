@@ -1028,7 +1028,7 @@ html .ui-bar-a .ui-btn:active,
 html .ui-body-a .ui-btn:active,
 html body .ui-group-theme-a .ui-btn:active,
 html head + body .ui-btn.ui-btn-a:active {
-	background-color: 			#e8e8e8 /*{a-bdown-background-color}*/;
+	background-color: 			#444444 /*{a-bdown-background-color}*/;
 	border-color:	 		#ddd /*{a-bdown-border}*/;
 	color: 					#333 /*{a-bdown-color}*/;
 	text-shadow: 0 /*{a-bdown-shadow-x}*/ 1px /*{a-bdown-shadow-y}*/ 0 /*{a-bdown-shadow-radius}*/ #f3f3f3 /*{a-bdown-shadow-color}*/;
