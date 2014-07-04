@@ -96,17 +96,16 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 .photo {
-  cursor: pointer;
-  width: 100px;
-  height: 100px;
-  margin: 15px 0;
-  background-image: url(../img/picture-icon.png);
-  background-repeat: no-repeat;
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    background-image: url(../img/picture-icon.png);
+    background-repeat: no-repeat;
 }
 .image {
-  width: 75px; 
-  height: 75px;
-  display: block;
+    width: 50px; 
+    height: 50px;
+    display: none;
 }
 .camera_icon{
     width: 40px;
@@ -120,17 +119,17 @@ h1 {
     height: 40px;
     float: left;
     margin-top: 30;
-    
+
 }
 #div-language {
-  float: right; 
-  margin-right:0.5em; 
+    float: right; 
+    margin-right:0.5em; 
 }
 
 #div-language .ui-select{
-  margin-bottom: 0.25em;
-  margin-top: 0.25em;
-  
+    margin-bottom: 0.25em;
+    margin-top: 0.25em;
+
 }
 #popUpDiv{
     z-index: 100;
@@ -149,10 +148,14 @@ h1 {
     left: 50px;
 }
 .ui-dialog-contain {
-
-  margin: 10% auto 15px auto;
-  padding: 0;
-  position: relative;
-  top: -15px;
+    margin: 10% auto 15px auto;
+    padding: 0;
+    position: relative;
+    top: -15px;
 }
-
+.date{
+    background: url("../img/calendar.png") !important;
+    background-position: 99.50% center !important;
+    background-repeat: no-repeat !important;
+    margin-right: 31px !important;
+}

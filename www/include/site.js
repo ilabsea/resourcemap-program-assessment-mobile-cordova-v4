@@ -174,7 +174,7 @@ function sendSiteToServer(key, id) {
         });
     }
     else
-        alert("No internet connection.");
+        alert(i18n.t("global.no_internet_connection."));
 }
 
 function submitSiteServer(sites) {
@@ -301,7 +301,7 @@ function addSiteOnline(data, callback) {
         success: callback,
         error: function(error) {
             hideSpinner();
-            alert("Please resend the data.");
+            alert(i18n.t("global.please_resend_data."));
         }
     });
 }
