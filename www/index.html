@@ -5,14 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
         <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
         <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
-        <link href="css/libs/Bootstrap.css" rel="stylesheet" type="text/css"/>    
         <link rel="stylesheet" type="text/css" href="css/font_style.css"/>
+        <link href="css/libs/jquery.mobile-1.4.2.css" rel="stylesheet" type="text/css"/>
+        <link href="css/libs/jquery.mobile.icons.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/libs/jqm1.4.2.css" rel="stylesheet" type="text/css"/>
 
         <script src="js/libs/jquery-1.11.0.min.js"></script>
-        <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
+        <script src="js/libs/jquery.mobile-1.4.2.js" type="text/javascript"></script>
         <script src="js/libs/i18next.js"></script>
 
         <script src="js/lib/persistence.js"></script>
@@ -34,8 +35,8 @@
     </head>
     <body> 
         <!--page-login-->   
-        <div data-role="page" id="page-login">
-            <div data-role="header" data-theme="e"> 
+        <div data-role="page" id="page-login" data-theme="b">
+            <div data-role="header"> 
                 <div id="div-language" style=""> </div>
                 <div style="clear: both"></div>
             </div> 
@@ -47,13 +48,13 @@
                 <p id="sign_up_success" class="success" data-i18n="validation.signupsuccess">Sign up successfully.</p>
                 <p id="invalidmail" class="invalid" data-i18n="validation.invalide">Invalid email or password.</p>
                 <p id="noMailInDb" class="invalid" data-i18n="validation.not_found">Not found in database.</p>
+                <h3 id="info_sign_in" data-i18n="validation.plsSignIn">Please sign in</h3>
                 <form id="form_login">
-                    <h3 id="info_sign_in" data-i18n="validation.plsSignIn">Please sign in</h3>
                     <label for="email" data-i18n="global.email"> Email </label>
                     <input type="email" id="email" name="user[email]" class="required email"/>
                     <label for="password" data-i18n="global.password"> Password </label>
                     <input type="password" id="password" name="user[password]" class="required"/>
-                    <center><button  data-theme="e" id="btn_submitLogin" data-inset="true" data-i18n="login_page.login">Log in</button></center>
+                    <button class="ui-shadow ui-btn ui-corner-all" id="btn_submitLogin" data-i18n="login_page.login">Log in</button>
                 </form>              
             </div>
             <div>
@@ -61,7 +62,7 @@
             </div>
         </div>
         <!-- Create new account-->
-        <div data-role="page" id="page-signup">
+        <div data-role="page" id="page-signup" data-theme="b">
             <div data-role="content">
                 <div>
                     <center><img src="img/logo.png" alt="Resource Map"></center>
@@ -79,62 +80,62 @@
                     <p id="passmatch" data-i18n="signup_page.pwd_not_match">Password doesn't match confirmation</p>
                     <label for="num" data-i18n="signup_page.phone_number">Phone number<br><i>(+855XXXXXXXXX)</i></label>
                     <input type="number" name="tel" id="tel"/>
-                   <button data-theme="e" data-inset="true" data-i18n="global.save">Save</button>               
+                    <button data-inset="true" data-i18n="global.save">Save</button>               
                 </form>   
                 <center><a href="#page-login" data-i18n="signup_page.already_have_accont"> Already have an account </a></center>
             </div>  
         </div>
         <!-- Login Success -->
-        <div data-role="page" id="submitLogin-page">
-            <div data-role="header" data-theme="e">
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
-                <h2 data-i18n="collection_page.collection">Collections</h2>
+        <div data-role="page" id="submitLogin-page" data-theme="b">
+            <div data-role="header" >
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Sign out</button>
+                <h2 data-i18n="collection_page.collection">My Collections</h2>
             </div>
             <div data-role="content">
-                <ul data-role='listview' id="collection-list" data-inset="true">
+                <ul data-role='listview' id="collection-list" data-inset="true" data-theme="c">
                 </ul>
                 <div>
-                    <a id="btn_viewOfflineSite" data-role="button" data-theme="e" href="#page-list-view-site" data-inset="true" data-i18n="collection_page.view_offline_site">View offline sites</a>
+                    <a id="btn_viewOfflineSite" data-role="button" href="#page-list-view-site" data-inset="true" data-i18n="collection_page.view_offline_site">View offline sites</a>
                 </div>
             </div>
         </div>
         <!--page-list-view-site-offline-->
-        <div data-role="page" id="page-list-view-site">
-            <div data-role="header" data-theme="e">
-                <a href="#submitLogin-page" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
+        <div data-role="page" id="page-list-view-site" data-theme="b">
+            <div data-role="header">
+                <a href="#submitLogin-page" data-theme="a"  data-role="button" data-theme="c" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
                 <h1 data-i18n="global.site">Sites</h1>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>   
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Sign out</button>
             </div>
             <div data-role="content" id="sitelistview">
-                <ul id="offlinesite-list" data-role="listview" data-inset="true"> 
+                <ul id="offlinesite-list" data-role="listview" data-inset="true" data-theme="c"> 
                 </ul> 
-                <div class="ui-grid-solo">
-                    <div class="ui-block-a"> <button onclick='sendSiteToServerByUser()' type="v" data-theme="e" data-icon="forward" data-i18n="global.send_to_server">Send to server</button> </div>          
+                <div class="ui-grid-solo" data-theme="c">
+                    <div class="ui-block-a"> <button onclick='sendSiteToServerByUser()' data-icon="forward" data-i18n="global.send_to_server">Send to server</button> </div>          
                 </div>
             </div>
         </div>
         <!--site-list-->
-        <div data-role="page" id="page-site-list">
-            <div data-role="header" data-theme="e">
+        <div data-role="page" id="page-site-list" data-theme="b">
+            <div data-role="header" >
                 <a href="#submitLogin-page" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
                 <h2 class="title"></h2>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Sign out</button>
             </div>
-            <div data-role="content" id="sitelist">
-                <ul data-role='listview' id="site-list" data-inset="true">
+            <div data-role="content" id="sitelist" >
+                <ul data-role='listview' id="site-list" data-inset="true" data-theme="c">
                 </ul>        
-                <div class="ui-grid-a">
-                    <div class="ui-block-a"> <button data-theme="e" id="btn_sendToServer" data-icon="forward" data-i18n="global.send_to_server">Send to server</button></div>
-                    <div class="ui-block-b"> <a data-role="button" data-theme="e" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add">Add new site</a></div>	   
+                <div class="ui-grid-a" data-theme="b">
+                    <div class="ui-block-a"> <button id="btn_sendToServer" data-icon="forward" data-i18n="global.send_to_server">Send to server</button></div>
+                    <div class="ui-block-b"> <a data-role="button" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add">Add new site</a></div>	   
                 </div>
             </div>
         </div>
         <!--page-create-site-->
-        <div data-role="page" id="page-create-site">
-            <div data-role="header" data-theme="e">
-                <a data-role="button" data-theme="a" href="#submitLogin-page" data-icon="back" class="ui-btn-left" data-i18n="global.back" id="back">Back</a>
+        <div data-role="page" id="page-create-site" data-theme="b">
+            <div data-role="header">
+                <a data-role="button" data-theme="a" href="#submitLogin-page" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back" id="back">Back</a>
                 <h2 class="title"></h2>
-                <button data-theme="a" id="logout" data-inline="true" data-icon="arrow-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
+                <button data-theme="a" id="logout" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Sign out</button>
             </div>
             <div data-role="content"> 
                 <form method="post" id="form_create_site" enctype="multipart/form-data">                  
@@ -150,17 +151,17 @@
                         <input type="number" name="lng" id="lng" class="required"/>
                     </div>  
                     <div id="div_field_collection"></div> 
-                    <button id="btn_submitAddSite" data-theme="e"  data-inset="true" data-i18n="global.save">Save</button>
-                </form>                  
+                    <button id="btn_submitAddSite" data-inset="true" data-i18n="global.save_site">Save Site</button>
+                </form> 
             </div> 
         </div>
         <!-- view map -->
-        <div data-role="page" id="page-map">
-            <div data-role="header" data-theme="e" >
+        <div data-role="page" id="page-map" data-theme="b" >
+            <div data-role="header">
                 <a id="btn_back_create_site" href="#page-create-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
                 <a id="btn_back_update_site" href="#page-update-site" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
                 <h1 data-i18n="map_page.map">Map</h1>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Logout</button>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Sign out</button>
             </div>
             <div data-role="content" id="content_map">
                 <div id="latlng_canvas">
@@ -173,45 +174,46 @@
             </div>
         </div>
         <!-- update site within a collection -->
-        <div data-role="page" id="page-update-site">
-            <div data-role="header" data-theme="e">
+        <div data-role="page" id="page-update-site" data-theme="b">
+            <div data-role="header">
                 <a href="#page-site-list" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
                 <h1 id="site-title"> </h1>
-                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right"​ data-i18n="global.logout">Logout</button>                     </div>
+                <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Sign out</button>
+            </div>
             <div data-role="content">
                 <form  method="post" id="form_update_site">
-                    <div id="div-site-update-name">
+                    <div id="div-site-update-name"></div>
+                    <div id="div_update_field_collection"></div>
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a"><button id="btn_submitUpdateSite" data-i18n="global.update">Update</button></div>
+                        <div class="ui-block-b"><a data-role="button" href="#confirm_delete_site" data-rel="dialog" data-i18n="global.delete">Delete</a></div>	   
                     </div>
-                    <div id="div_update_field_collection"> 
-                    </div>
-                </form>                  
-                <div class="ui-grid-a">
-                    <div class="ui-block-a"><button data-theme="e" id="btn_submitUpdateSite"  data-i18n="global.update">Update</button></div>
-                    <div class="ui-block-b">  <a data-role="button" data-theme="e" href="#confirm_delete_site" data-rel="dialog" data-i18n="global.delete">Delete</a></div>	   
-                </div>
+                </form> 
             </div>
+
         </div>
         <!-- delete site within a collection -->
-        <div data-dom-cache="false" data-role="page" id="confirm_delete_site">
-            <div data-role="header" data-theme="e">
+        <div data-dom-cache="false" data-role="page" id="confirm_delete_site" data-theme="b">
+            <div data-role="header">
                 <h1 data-i18n="update_site_page.delete_site"> Delete the site</h1>
             </div>
             <div data-role="content">
                 <h3 data-i18n="update_site_page.alert_delete"> Are you sure you want to delete the site? </h3>
-                <center><a data-role="button" data-theme="e" href="#page-update-site" data-inline="true" data-inset="true" data-i18n="global.cancel">Cancel</a>
-                    <button data-theme="e" id="btn_delete-site" data-inline="true" data-inset="true" data-i18n="global.delete">Delete</button></center>
+                <center><a data-role="button" href="#page-update-site" data-inline="true" data-inset="true" data-i18n="global.cancel">Cancel</a>
+                    <button id="btn_delete-site" data-inline="true" data-inset="true" data-i18n="global.delete">Delete</button></center>
             </div>
         </div>
-        <div data-role="dialog" id="cameraDialog">
-            <div data-role="header" data-theme="e">
+
+        <div data-role="dialog" id="cameraDialog" data-theme="b">
+            <div data-role="header">
                 <h1 data-i18n="dialog.option">Photo Options</h1>
             </div>
             <input type="hidden" id="currentCameraImage"/>
             <input type="hidden" id="currentCameraImageType"/>
-            <div role="main" class="ui-content">
+            <div data-role="content"> 
                 <a data-role="button" data-i18n="dialog.take" onclick="invokeCamera('camera')" >Take Photo</a>
                 <a data-role="button" data-i18n="dialog.choose" onclick="invokeCamera('gallery')">Choose Existing</a>
-                <center><a onclick="closeDialog()" style="background: #009bb7; color: #FFFFFF;" data-role="button" data-inline="true" data-inset="true" data-i18n="global.cancel">Cancel</a></center>
+                <center><a onclick="closeDialog()" data-theme="a" data-role="button" data-inline="true" data-inset="true" data-i18n="global.cancel">Cancel</a></center>
             </div>
         </div>  
         <script>
@@ -263,7 +265,7 @@
 
         <script id="collection-template" type="text/x-handlebars-template">
             {{#each collectionList}}
-            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='{{linkpagesite}}'> {{name}} {{#if count}}<p class='ui-li-aside1 ui-li-count'> {{count}} </p>{{/if}}</a></li>
+            <li data-id='{{idcollection}}' data-name='{{name}}'><a href='{{linkpagesite}}'> {{name}} {{#if count}}<p class='ui-li-aside ui-li-count'> {{count}} </p>{{/if}}</a></li>
             {{/each}}
         </script>
 
@@ -283,7 +285,7 @@
             {{#if config}} 
             {{#if isHierarchy}} 
             <label>{{name}}</label>
-            <select id="{{idfield}}">
+            <select id="{{idfield}}" data-theme="a" data-native-menu="false">
             <option value="">(no value)</option>
             {{{displayHierarchy}}}
             </select>
@@ -291,10 +293,10 @@
             <div>
             <label>{{name}}</label>
             {{#if multiple}}
-            <select id="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+            <select id="{{idfield}}" data-theme="a" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
             <option>Options</option>
             {{else}}
-            <select id="{{idfield}}" data-role="{{slider}}" data-mini="{{ctrue}}">
+            <select id="{{idfield}}" data-theme="a" data-native-menu="false" data-role="{{slider}}" data-mini="{{ctrue}}">
             {{#if slider}} 
             {{else}}
             <option value="">(no value)</option>
@@ -308,26 +310,31 @@
             {{/if}}
             {{else}}    
             {{#if isPhoto}}  
-            <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+            <label>{{{name}}}</label>
             <div onclick="openCameraDialog({{idfield}}, 'new')" id='property_{{idfield}}_container' class="photo">
             <img class="image" src='{{__value}}' id='{{idfield}}'  /> 
             </div>
             {{else}}
             <div>
             <label for='name'>{{{name}}}</label>
-            <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"/ >  
+            {{#ifCond widgetType "date"}}
+            <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}" class="date"/>
+            {{else}}
+            <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"/>
+            {{/ifCond}}
             </div>
             {{/if}}
             {{/if}}
             {{/each}}
         </script>
+
         <!--site update-->
         <script id="update_field_collection-template" type="text/x-handlebars-template">
             {{#each field_collections}}
             {{#if config}} 
             {{#if isHierarchy}} 
             <label>{{name}}</label>
-            <select id="update_{{idfield}}">
+            <select id="update_{{idfield}}" data-native-menu="false" data-theme="a">
             <option value="">(no value)</option>
             {{{displayHierarchy}}}
             </select>
@@ -335,10 +342,10 @@
             <div>
             <label>{{name}}</label>
             {{#if multiple}}
-            <select id="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+            <select id="update_{{idfield}}" data-theme="a" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
             <option>Options</option>
             {{else}}
-            <select id="update_{{idfield}}" data-role="{{slider}}" data-mini="{{ctrue}}">
+            <select id="update_{{idfield}}" data-theme="a" data-native-menu="false" data-role="{{slider}}" data-mini="{{ctrue}}">
             {{#if slider}} 
             {{else}}
             <option value="">(no value)</option>
@@ -367,17 +374,16 @@
         </script>
 
         <script id="language-template" type="text/x-handlebars-template">
-            <select style="width:100%;" data-theme="g" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
+            <select style="width:100%;" data-native-menu="false"  data-theme="a" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
             {{#each langs}} 
             {{#if selected}}
-            <option value="{{value}}" selected >{{text}}</option>   
+            <option value="{{value}}" selected>{{text}}</option>   
             {{else}}
-            <option value="{{value}}" >{{text}}</option> 
+            <option value="{{value}}">{{text}}</option> 
             {{/if}}                  
             {{/each}}  
             </select>
         </script>
-        <script src="include/test.js"></script>
         <script src="cordova.js"></script>  
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/libs/handlebars-1.0.rc.1.js"></script>
@@ -385,7 +391,8 @@
         <script src="js/libs/jquery.validate.js"></script>
         <script src="localization/jquery.validation_form.js"></script>   
         <script src="js/form_validation.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <script src="js/googleMap.js" type="text/javascript"></script>
+        <script src="js/google_maps_api.js" type="text/javascript"></script>
+        <script src="js/handlebarhelper.js" type="text/javascript"></script>
     </body>
 </html>

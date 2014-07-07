@@ -19,9 +19,6 @@ $(function() {
         cId = localStorage.getItem("cId");
         getSiteByCollectionId(cId);
     });
-    $(document).delegate('#page-site-list', 'pageshow', function() {
-        $("#site-list").listview("refresh");
-    });
     $(document).delegate('#page-site-list li', 'click', function() {
         var sId = $(this).attr("data-id");
         localStorage.setItem("sId", sId);
@@ -36,7 +33,6 @@ $(function() {
     });
     $(document).delegate('#page-list-view-site', 'pageshow', function() {
         $("#offlinesite-list").show();
-        $("#offlinesite-list").listview("refresh");
     });
     $(document).delegate('#page-list-view-site li', 'click', function() {
         var sId = $(this).attr("data-id");
@@ -115,9 +111,9 @@ $(function() {
 function showSpinner() {
     $.mobile.activePage.addClass("ui-disabled");
     $.mobile.loading('show', {
-        text: "Please wait...",
+        text: i18n.t("global.ajax-loader"),
         textVisible: true,
-        theme: "a",
+        theme: "b",
         html: ""
     });
 }

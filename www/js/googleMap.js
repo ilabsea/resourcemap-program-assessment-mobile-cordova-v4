@@ -35,7 +35,7 @@ var mapObject = {
     loadMap: function() {
         var $content = $("#map_canvas");
         var mapCanvas = $content[0];
-        $content.height(screen.height - 200);
+        $content.height(screen.height - 800);
 
         var options = {
             zoom: 15,
