@@ -1,4 +1,4 @@
-END_POINT = "http://resmap-stg-ilab.instedd.orgapi",
+END_POINT = "http://resourcemap-sea.instedd.org/api",
         window.App = {
           DB_SIZE: 5 * 1024 * 1024,
           DB_NAME: 'resourcemap_db',
