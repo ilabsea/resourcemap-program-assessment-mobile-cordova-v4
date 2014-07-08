@@ -25,18 +25,7 @@ function createTables() {
   });
 
   Field = persistence.define('fields', {
-//    idfield: "INT",
-//    kind: "TEXT",
-//    name: "TEXT",
-//    code: "TEXT",
-//    multiple: "TEXT",
-//    isPhoto: "INT",
-//    widgetType: "TEXT",
     collection_id: "INT",
-//    config: "JSON",
-//    slider: "TEXT",
-//    ctrue: "TEXT",
-//    isHierarchy: "INT",
     user_id: "INT",
     name_wrapper: "TEXT",
     id_wrapper: "TEXT",

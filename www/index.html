@@ -356,7 +356,9 @@
     <!--field collection in create page-->
     <script id="field_collection-template" type="text/x-handlebars-template">
       {{#each field_collections}}
-      {{#each field_collections.fields}}
+      <h5>{{name_wrapper}}</h5>
+      <div class="ui-corner-all ui-controlgroup ui-controlgroup-vertical" style="margin-left:10px">
+      {{#each fields}}
       {{#if config}} 
       {{#if isHierarchy}} 
       <label>{{name}}</label>
@@ -401,6 +403,7 @@
       {{/if}}
       {{/if}}
       {{/each}}
+      </div>
       {{/each}}
     </script>
 

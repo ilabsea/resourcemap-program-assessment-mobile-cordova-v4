@@ -60,7 +60,7 @@ function buildField(fieldObj, options) {
     options = options || {};
     var field = {};
     var id = null;
-    var fieldsBuild = {};
+    var fieldsBuild = [];
     var fieldsWrapper = {
         name_wrapper: fieldObj.name,
         id_wrapper: fieldObj.id,
@@ -96,7 +96,7 @@ function buildField(fieldObj, options) {
         if (widgetType === "phone") {
             widgetType = "tel";
         }
-        fieldsWrapper["fields"][key] = {
+        fieldsWrapper.fields.push({
             idfield: id,
             name: fields.name,
             kind: kind,
@@ -107,7 +107,7 @@ function buildField(fieldObj, options) {
             config: config,
             slider: slider,
             ctrue: ctrue
-        };
+        });
         if (widgetType === "hierarchy") {
             fieldsWrapper.fields.isHierarchy = true;
             fieldsWrapper.displayHierarchy = Hierarchy.generateField(fieldsWrapper.fields.config, "");
@@ -120,18 +120,11 @@ function buildField(fieldObj, options) {
 function addField(fields) {
     cId = localStorage.getItem("cId");
     var fieldParams = {
-        idfield: fields.idfield,
-        kind: fields.kind,
-        name: fields.name,
-        code: fields.code,
-        config: fields.config,
-        multiple: fields.multiple,
-        isPhoto: fields.isPhoto,
-        widgetType: fields.widgetType,
-        slider: fields.slider,
-        ctrue: fields.ctrue,
         collection_id: cId,
-        user_id: getCurrentUser().id
+        user_id: getCurrentUser().id,
+        name_wrapper: fields.name_wrapper,
+        id_wrapper: fields.id_wrapper,
+        fields: fields.fields
     };
     var field = new Field(fieldParams);
     persistence.add(field);
@@ -141,6 +134,25 @@ function addField(fields) {
 function queryFieldByCollectionIdOffline(callback) {
     var cId = localStorage.getItem("cId");
     Field.all().filter('collection_id', '=', cId).list(callback);
+}
+
+function synFieldForCurrentCollection(newFields) {
+    queryFieldByCollectionIdOffline(function(field){
+        removeFieldsInLocalDB(collections);
+        addFieldsToLocalDB(newCollections);
+    })
+    var cId = localStorage.getItem("cId");
+    Field.all().filter('collection_id', "=", newFields.id_wrapper).one(null, function(field) {
+                console.log("field", fields);
+                if (field === null) {
+                    addField(fields);
+                }
+            });
+    var currentCollection = getCurrentUser();
+    Collection.all().filter('user_id', '=', currentUser.id).list(function(collections) {
+        removeCollectionsToLocalDB(collections);
+        addCollectionsToLocalDB(newCollections);
+    });
 }
 
 function displayFieldRender(data) {
