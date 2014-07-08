@@ -1,58 +1,27 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.0.min.css">
-        <script src="js/libs/jquery-1.11.0.min.js"></script>
-        <script src="js/libs/jquery.mobile-1.4.0.min.js"></script>
-        <script type="text/javascript">
-//            function getD() {
-//                $.ajax({
-//                    data: {
-//                        "site": {
-//                            "name": "Test123",
-//                            "lat": 11.530756,
-//                            "lng": 104.93042,
-//                            "properties": {
-//                                "1060": "1", "1061": ["2" , "3", "4"]
-//                            }
-//                        }
-//                    },
-//                    type: "post",
-//                    url: "http://resmap-stg-ilab.instedd.org/api/v1/collections/230/sites?auth_token=qyxzV5vkzcqR5gaz1DEx",
-//                    dataType: "json",
-//                    success: function(response) {
-//                        console.log(response);
-//                        alert("success delete");
-//                    },
-//                    error: function() {
-//                        alert("fail delete");
-//                    }
-//                });
-//            }
-            function getfield() {
-                $.ajax({
-                    data: {
-                        "_method": "put",
-                        "auth_token": "yPXNaMamiWHGyBVVV4f7",
-                        "name": "updateTest1",
-                        "lat": 11.530756,
-                        "lng": 104.93042,
-                        "properties": {"1101": 0}
-                    },
-                    type: "post",
-                    url: "http://resmap-stg-ilab.instedd.org/api/collections/247/sites/60522",
-                    dataType: "json",
-                    success: function(response) {
-                        console.log(response);
-                    },
-                    error: function() {
-                        alert("fail update");
-                    }
-                });
-            }
-        </script>
-    </head>
-    <body>
-        <button onclick="getfield()">Field</button>
-        <!--<button onclick="getD()">testing</button>-->
-    </body>
+  <head>
+    <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.2.css">
+    <script src="js/libs/jquery-1.11.0.min.js"></script>
+    <script src="js/libs/jquery.mobile-1.4.2.js"></script>
+    <script type="text/javascript">
+      function getfield() {
+        $.ajax({
+          type: "get",
+          data: {"auth_token": "qEooyBT5vy13zepyvJ7D"},
+          crossDomain: true,
+          url: "http://192.168.1.92:3000/api/v1/collections/232/fields",
+          dataType: "json",
+          success: function(response) {
+            console.log("response : ", response);
+          },
+          error: function() {
+            alert("test");
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="getfield()">Field</button>
+  </body>
 </html>

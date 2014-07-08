@@ -5,7 +5,7 @@
         "save": "Save",
         "lat": "Location'Lat",
         "lng": "Location'lng",
-        "logout": "Logout",
+        "logout": "Sign out",
         "back": "Back",
         "send_to_server": "Send to server",
         "name": "Name",
@@ -17,7 +17,11 @@
         "viewAll": "View all",
         "viewOffline": "View offline",
         "viewOnline": "View online",
-        "menu": "Menu"
+        "menu": "Menu",
+        "save_site": "Save Site",
+        "ajax-loader": "Please wait ...",
+        "no_internet_connection": "No internet connection.",
+        "please_resend_data": "Please resend the data."
     },
     "login_page": {
         "login": "Login",
@@ -36,7 +40,7 @@
     },
     "collection_page": {
         "view_offline_site": "View offline site",
-        "collection": "Collections"
+        "collection": "My Collections"
     },
     "map_page": {
         "map": "Map"
