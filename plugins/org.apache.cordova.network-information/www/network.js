@@ -16,12 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var exec = require('cordova/exec'),
-    cordova = require('cordova'),
-    channel = require('cordova/channel'),
-    utils = require('cordova/utils');
+        cordova = require('cordova'),
+        channel = require('cordova/channel'),
+        utils = require('cordova/utils');
 
 // Link the onLine property with the Cordova-supplied network info.
 // This works because we clobber the naviagtor object with our own
@@ -58,7 +58,7 @@ channel.onCordovaReady.subscribe(function() {
         me.type = info;
         if (info === "none") {
             // set a timer if still offline at the end of timer send the offline event
-            timerId = setTimeout(function(){
+            timerId = setTimeout(function() {
                 cordova.fireDocumentEvent("offline");
                 timerId = null;
             }, timeout);
@@ -76,14 +76,14 @@ channel.onCordovaReady.subscribe(function() {
             channel.onCordovaConnectionReady.fire();
         }
     },
-    function (e) {
-        // If we can't get the network info we should still tell Cordova
-        // to fire the deviceready event.
-        if (channel.onCordovaConnectionReady.state !== 2) {
-            channel.onCordovaConnectionReady.fire();
-        }
-        console.log("Error initializing Network Connection: " + e);
-    });
+            function(e) {
+                // If we can't get the network info we should still tell Cordova
+                // to fire the deviceready event.
+                if (channel.onCordovaConnectionReady.state !== 2) {
+                    channel.onCordovaConnectionReady.fire();
+                }
+                console.log("Error initializing Network Connection: " + e);
+            });
 });
 
 module.exports = me;

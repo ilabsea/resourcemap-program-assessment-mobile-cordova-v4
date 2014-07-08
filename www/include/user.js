@@ -15,14 +15,16 @@ function validateLogin() {
     if (!isOnline()) {
         User.all().filter('email', "=", email).one(null, function(user) {
             if (user === null) {
-                $('#noMailInDb').show().delay(5000).fadeOut();;
+                $('#noMailInDb').show().delay(5000).fadeOut();
+                ;
             }
             if (user.password() === psw) {
                 setCurrentUser(user);
                 location.href = "#submitLogin-page";
             }
             else {
-                $('#invalidmail').show().delay(5000).fadeOut();;
+                $('#invalidmail').show().delay(5000).fadeOut();
+                ;
             }
             $('#noMailInDb').hide();
             $('#invalidmail').hide();
@@ -55,14 +57,16 @@ function signUp() {
             },
             error: function() {
                 hideSpinner();
-                $('#exitemail').show().delay(4000).fadeOut();;
+                $('#exitemail').show().delay(4000).fadeOut();
+                ;
                 $("#sign_up_success").hide();
-                location.href = "#page-signup"; 
+                location.href = "#page-signup";
             }
         });
     }
     else
-        $("#passmatch").show().delay(5000).fadeOut();;
+        $("#passmatch").show().delay(5000).fadeOut();
+    ;
 }
 
 function authoriseUser(email, psw) {
@@ -95,7 +99,8 @@ function authoriseUser(email, psw) {
         },
         error: function() {
             hideSpinner();
-            $('#invalidmail').show().delay(5000).fadeOut();;
+            $('#invalidmail').show().delay(5000).fadeOut();
+            ;
         }
     });
 }

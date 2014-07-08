@@ -21,7 +21,7 @@ function renderFieldsBySite(site) {
                                 if (item.config.options[k].id == item.__value[j]) {
                                     selected = "selected";
                                     item.config.options[k]["selected"] = "selected";
-                                } 
+                                }
                             }
                         }
                     }
@@ -42,7 +42,7 @@ function renderFieldsBySite(site) {
             }
         });
         displayFieldUpdateTemplate(field_collections);
-    });       
+    });
 }
 
 function buildField(fieldObj, options) {

@@ -17,15 +17,14 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 
 var cordova = require('cordova');
 var utils = require('cordova/utils');
 
 module.exports = {
-
-    getDeviceInfo:function(win,fail,args) {
+    getDeviceInfo: function(win, fail, args) {
 
         // deviceId aka uuid, stored in Windows.Storage.ApplicationData.current.localSettings.values.deviceId
         var deviceId;
@@ -39,8 +38,8 @@ module.exports = {
             deviceId = localSettings.values.deviceId = utils.createUUID();
         }
 
-        setTimeout(function () {
-            win({ platform: "windows8", version: "8", uuid: deviceId, cordova: '0.0.0', model: window.clientInformation.platform });
+        setTimeout(function() {
+            win({platform: "windows8", version: "8", uuid: deviceId, cordova: '0.0.0', model: window.clientInformation.platform});
         }, 0);
     }
 

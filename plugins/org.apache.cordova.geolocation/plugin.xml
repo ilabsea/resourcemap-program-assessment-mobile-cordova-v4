@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-xmlns:rim="http://www.blackberry.com/ns/widgets"
-xmlns:android="http://schemas.android.com/apk/res/android"
-           id="org.apache.cordova.geolocation"
-      version="0.3.6">
+        xmlns:rim="http://www.blackberry.com/ns/widgets"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="org.apache.cordova.geolocation"
+        version="0.3.6">
 
     <name>Geolocation</name>
     <description>Cordova Geolocation Plugin</description>
@@ -34,8 +34,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Geolocation">
-	            <param name="android-package" value="org.apache.cordova.geolocation.GeoBroker"/>
-	        </feature>
+                <param name="android-package" value="org.apache.cordova.geolocation.GeoBroker"/>
+            </feature>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/*">
@@ -50,7 +50,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
     </platform>
 
-     <!-- amazon-fireos -->
+    <!-- amazon-fireos -->
     <platform name="amazon-fireos">
 
         <js-module src="www/Coordinates.js" name="Coordinates">
@@ -71,8 +71,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Geolocation">
-	            <param name="android-package" value="org.apache.cordova.geolocation.GeoBroker"/>
-	        </feature>
+                <param name="android-package" value="org.apache.cordova.geolocation.GeoBroker"/>
+            </feature>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/*">
@@ -107,12 +107,12 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         </js-module>
 
         <config-file target="config.xml" parent="/*">
-	        <feature name="Geolocation">
-	            <param name="ios-package" value="CDVLocation"/>
-	        </feature>
+            <feature name="Geolocation">
+                <param name="ios-package" value="CDVLocation"/>
+            </feature>
         </config-file>
         <header-file src="src/ios/CDVLocation.h" />
-	    <source-file src="src/ios/CDVLocation.m" />
+        <source-file src="src/ios/CDVLocation.m" />
     </platform>
 
     <!-- blackberry10 -->
@@ -143,7 +143,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         </config-file>
 
         <config-file target="www/config.xml" parent="/widget/rim:permissions">
-          <rim:permit>read_geolocation</rim:permit>
+            <rim:permit>read_geolocation</rim:permit>
         </config-file>
 
     </platform>
@@ -204,7 +204,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             <clobbers target="PositionError" />
         </js-module>
         <js-module src="src/windows8/GeolocationProxy.js" name="GeolocationProxy">
-          <merges target="" />
+            <merges target="" />
         </js-module>
     </platform>
 

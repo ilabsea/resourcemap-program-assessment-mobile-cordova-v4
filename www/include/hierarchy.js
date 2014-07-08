@@ -23,10 +23,10 @@ Hierarchy = {
     },
     renderItemOption: function(record, nbSpace) {
         var label = this.generateSpace(nbSpace) + record.name;
-        if(record.id == this._value)
+        if (record.id == this._value)
             return "<option value='" + record.id + "' selected>" + label + "</option>";
-        else 
-            return "<option value='" + record.id + "'>" + label + "</option>"; 
+        else
+            return "<option value='" + record.id + "'>" + label + "</option>";
 
     },
     generateSpace: function(nbSpace) {
