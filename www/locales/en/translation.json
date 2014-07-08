@@ -21,7 +21,8 @@
         "save_site": "Save Site",
         "ajax-loader": "Please wait ...",
         "no_internet_connection": "No internet connection.",
-        "please_resend_data": "Please resend the data."
+        "please_resend_data": "Please resend the data.",
+        "please_reupdate_your_site":"Please reupdate your site."
     },
     "login_page": {
         "login": "Login",

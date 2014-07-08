@@ -148,8 +148,7 @@ function showSpinner() {
 
 function hideSpinner() {
     $.mobile.loading('hide');
-    if($.mobile.activePage)
-        $.mobile.activePage.removeClass('ui-disabled');
+    $.mobile.activePage.removeClass('ui-disabled');
 }
 
 function redirectTo(url) {

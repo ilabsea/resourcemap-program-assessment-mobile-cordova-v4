@@ -98,30 +98,29 @@ function updateSiteBySiteId() {
 
 function updateSiteBySiteIdFromServer() {
     var data;
-    FieldModel.fetch(
-            function(field) {
-                var propertiesFile = {properties: {}, files: {}};
-                $.each(field, function(key, field) {
-                    propertiesFile = updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
-                });
-                ViewBinding.setBusy(true);
-                data = {
-                    "_method": "put",
-                    "auth_token": getAuthToken(),
-                    "site": {
-                        "name": $("#updatesitename_online").val(),
-                        "lat": $("#updatelolat_online").val(),
-                        "lng": $("#updatelolng_online").val(),
-                        "properties": propertiesFile.properties,
-                        "files": propertiesFile.files
-                    }
-                };
-                SiteModel.update(data, function() {
-                    location.href = "#page-site-list";
-                }, function() {
-                    alert("Please reupdate your site.");
-                });
-            });
+    FieldModel.fetch(function(field) {
+        var propertiesFile = {properties: {}, files: {}};
+        $.each(field, function(key, field) {
+            propertiesFile = updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
+        });
+        ViewBinding.setBusy(true);
+        data = {
+            "_method": "put",
+            "auth_token": getAuthToken(),
+            "site": {
+                "name": $("#updatesitename_online").val(),
+                "lat": $("#updatelolat_online").val(),
+                "lng": $("#updatelolng_online").val(),
+                "properties": propertiesFile.properties,
+                "files": propertiesFile.files
+            }
+        };
+        SiteModel.update(data, function() {
+            location.href = "#page-site-list";
+        }, function() {
+            alert(i18n.t("global.please_reupdate_your_site"));
+        });
+    });
 }
 
 function deleteSiteBySiteId(sId) {
@@ -150,7 +149,7 @@ function sendSiteToServer(key, id) {
         });
     }
     else
-        alert(i18n.t("global.no_internet_connection."));
+        alert(i18n.t("global.no_internet_connection"));
 }
 
 function submitSiteServer(sites) {
