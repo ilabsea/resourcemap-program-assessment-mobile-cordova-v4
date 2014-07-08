@@ -17,14 +17,14 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var Camera = require('./Camera');
 
 /**
  * Encapsulates options for iOS Popover image picker
  */
-var CameraPopoverOptions = function(x,y,width,height,arrowDir){
+var CameraPopoverOptions = function(x, y, width, height, arrowDir) {
     // information of rectangle that popover should be anchored to
     this.x = x || 0;
     this.y = y || 32;

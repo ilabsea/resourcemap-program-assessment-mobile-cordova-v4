@@ -1,7 +1,7 @@
 module('Lawnchair construction/destruction', {
-    setup:function() {
+    setup: function() {
     },
-    teardown:function() {
+    teardown: function() {
     }
 });
 
@@ -11,22 +11,22 @@ test('ctor requires callbacks in each form', function() {
 
     // raise exception if no ctor callback is supplied
     try {
-        var lc2 = new Lawnchair();    
-    } catch(e) {
+        var lc2 = new Lawnchair();
+    } catch (e) {
         ok(true, 'exception raised if no callback supplied to init');
     }
     try {
         var lc3 = new Lawnchair({}, {});
-    } catch(e) {
+    } catch (e) {
         ok(true, 'exception raised if no callback supplied to init, but two args are present');
     }
     try {
         var lc3 = new Lawnchair({});
-    } catch(e) {
+    } catch (e) {
         ok(true, 'exception raised if no callback supplied to init, but one arg is present');
     }
 
-    var lc = new Lawnchair({name:store.name}, function(ref) {
+    var lc = new Lawnchair({name: store.name}, function(ref) {
         ok(true, 'should call passed in callback when using obj+function ctor form')
         equals(this, ref, "lawnchair callback scoped to lawnchair instance")
         equals(ref, this, "lawnchair passes self into callback too")
@@ -35,37 +35,39 @@ test('ctor requires callbacks in each form', function() {
 });
 
 /** NOTE: may cause a failure due to difference in SQLitePlugin database initialization.
-test('independent data stores', function() {
-
-    var store1 = new Lawnchair({name: "store1"}, function() {});
-
-    store1 .save({key: 'apple', quantity: 3}, function() {
-
-        var store2 = new Lawnchair({name: "store2"}, function() {});
-
-        store1.all(function(r) {
-            equals(r.length, 1);
-        });
-
-        store2.all(function(r) {
-            equals(r.length, 0);
-        });
-
-    })
-
-
-})
-**/
+ test('independent data stores', function() {
+ 
+ var store1 = new Lawnchair({name: "store1"}, function() {});
+ 
+ store1 .save({key: 'apple', quantity: 3}, function() {
+ 
+ var store2 = new Lawnchair({name: "store2"}, function() {});
+ 
+ store1.all(function(r) {
+ equals(r.length, 1);
+ });
+ 
+ store2.all(function(r) {
+ equals(r.length, 0);
+ });
+ 
+ })
+ 
+ 
+ })
+ **/
 
 module('all()', {
-    setup:function() {
+    setup: function() {
         QUnit.stop();
 
         // I like to make all my variables globals. Starting a new trend.
-        me = {name:'brian', age:30};
-        store.nuke(function() { QUnit.start(); });
+        me = {name: 'brian', age: 30};
+        store.nuke(function() {
+            QUnit.start();
+        });
     },
-    teardown:function() {
+    teardown: function() {
         me = null;
     }
 })
@@ -74,7 +76,9 @@ test('chainable', function() {
     QUnit.stop();
     QUnit.expect(1);
 
-    same(store.all(function(r) { QUnit.start(); }), store, 'should be chainable (return itself)');
+    same(store.all(function(r) {
+        QUnit.start();
+    }), store, 'should be chainable (return itself)');
 })
 
 test('full callback syntax', function() {
@@ -88,7 +92,7 @@ test('full callback syntax', function() {
         same(this, store, '"this" should be scoped to the lawnchair object inside callback');
         QUnit.start();
     });
-}) 
+})
 
 test('adding, nuking and size tests', function() {
     QUnit.stop();
@@ -100,14 +104,14 @@ test('adding, nuking and size tests', function() {
             store.nuke(function() {
                 store.all(function(r) {
                     equals(r.length, 0, 'parameter should have length 0 after nuking');
-                    QUnit.start();                    
+                    QUnit.start();
                 });
             });
         });
     });
 })
 
-test( 'shorthand callback syntax', function() {
+test('shorthand callback syntax', function() {
     QUnit.stop();
     QUnit.expect(2);
 
@@ -125,40 +129,42 @@ test( 'shorthand callback syntax', function() {
 })
 
 /** TBD issue with Android:
-test('scoped variable in shorthand callback', function() {
-    QUnit.expect(1);
-    QUnit.stop();
-
-    // FIXME fkn qunit being weird here... expect(1)
-    var tmp = new Lawnchair({name:'temps', record:'tmp'}, function() {
-		this.nuke(function() {
-			this.save({a:1}, function() {
-				this.each('ok(tmp, "this.record is passed to each callback"); QUnit.start()')
-			})
-		})
-    })
-})
-**/
+ test('scoped variable in shorthand callback', function() {
+ QUnit.expect(1);
+ QUnit.stop();
+ 
+ // FIXME fkn qunit being weird here... expect(1)
+ var tmp = new Lawnchair({name:'temps', record:'tmp'}, function() {
+ this.nuke(function() {
+ this.save({a:1}, function() {
+ this.each('ok(tmp, "this.record is passed to each callback"); QUnit.start()')
+ })
+ })
+ })
+ })
+ **/
 
 module('nuke()', {
-    setup:function() {
-		QUnit.stop();
-        store.nuke(function() { 
-			QUnit.start() 
-		});
+    setup: function() {
+        QUnit.stop();
+        store.nuke(function() {
+            QUnit.start()
+        });
     },
-    teardown:function() {
+    teardown: function() {
     }
 })
 
-test( 'chainable', function() {
+test('chainable', function() {
     QUnit.expect(1);
-	QUnit.stop()
+    QUnit.stop()
 
-    same(store.nuke(function() { QUnit.start() }), store, 'should be chainable');
+    same(store.nuke(function() {
+        QUnit.start()
+    }), store, 'should be chainable');
 })
 
-test( 'full callback syntax', function() {
+test('full callback syntax', function() {
     QUnit.stop();
     QUnit.expect(2);
 
@@ -169,7 +175,7 @@ test( 'full callback syntax', function() {
     });
 })
 
-test( 'shorthand callback syntax', function() {
+test('shorthand callback syntax', function() {
     QUnit.stop();
     QUnit.expect(2);
 
@@ -177,26 +183,30 @@ test( 'shorthand callback syntax', function() {
 })
 
 module('save()', {
-    setup:function() {
+    setup: function() {
         QUnit.stop();
 
         // I like to make all my variables globals. Starting a new trend.
-        me = {name:'brian', age:30};
-        store.nuke(function() { QUnit.start(); });
+        me = {name: 'brian', age: 30};
+        store.nuke(function() {
+            QUnit.start();
+        });
     },
-    teardown:function() {
+    teardown: function() {
         me = null;
     }
 })
 
-test( 'chainable', function() {
+test('chainable', function() {
     QUnit.stop();
     QUnit.expect(1);
 
-    same(store.save(me, function() { QUnit.start(); }), store, 'should be chainable');
+    same(store.save(me, function() {
+        QUnit.start();
+    }), store, 'should be chainable');
 })
 
-test( 'full callback syntax', function() {
+test('full callback syntax', function() {
     QUnit.stop();
     QUnit.expect(2);
 
@@ -207,19 +217,19 @@ test( 'full callback syntax', function() {
     });
 })
 
-test( 'shorthand callback syntax', function() {
+test('shorthand callback syntax', function() {
     QUnit.stop();
     QUnit.expect(2);
 
     store.save(me, 'ok(true, "shorthand syntax callback gets evaled"); same(this, store, "`this` should be scoped to the Lawnchair instance"); QUnit.start();');
 })
 
-test( 'saving objects', function() { 
+test('saving objects', function() {
     QUnit.stop();
     QUnit.expect(1);
 
     store.save(me, function() {
-        store.save({key:"something", value:"else"}, function(r) {
+        store.save({key: "something", value: "else"}, function(r) {
             store.all(function(r) {
                 equals(r.length, 2, 'after saving two keys, num. records should equal to 2');
                 QUnit.start();
@@ -228,7 +238,7 @@ test( 'saving objects', function() {
     })
 })
 
-test( 'save without callback', function() {
+test('save without callback', function() {
 
     QUnit.stop();
     QUnit.expect(1);
@@ -243,83 +253,89 @@ test( 'save without callback', function() {
 });
 
 module('batch()', {
-    setup:function() {
+    setup: function() {
         QUnit.stop();
 
         // I like to make all my variables globals. Starting a new trend.
-        me = {name:'brian', age:30};
-        store.nuke(function() { QUnit.start(); });
+        me = {name: 'brian', age: 30};
+        store.nuke(function() {
+            QUnit.start();
+        });
     },
-    teardown:function() {
+    teardown: function() {
         me = null;
     }
 })
 
-test('batch insertion', function(){
+test('batch insertion', function() {
     QUnit.expect(3);
     QUnit.stop();
 
     ok(store.batch, 'batch implemented');
     equals(store.batch([]), store, 'chainable')
 
-    store.batch([{i:1},{i:2}], function() {
-        store.all(function(r){
+    store.batch([{i: 1}, {i: 2}], function() {
+        store.all(function(r) {
             equals(r.length, 2, 'should be two records from batch insert with array of two objects');
             QUnit.start();
         });
     });
 })
 
-test( 'full callback syntax', function() {
+test('full callback syntax', function() {
     QUnit.stop(1500); // timing changed by batch processing improvements
     QUnit.expect(2);
 
-    store.batch([{j:'k'}], function() {
+    store.batch([{j: 'k'}], function() {
         ok(true, 'callback called with full syntax');
         same(this, store, '"this" should be the LAwnchair instance');
         QUnit.start();
     })
 })
 
-test( 'shorthand callback syntax', function() {
+test('shorthand callback syntax', function() {
     QUnit.stop(1500); // timing changed by batch processing improvements
     QUnit.expect(2);
 
-    store.batch([{o:'k'}], 'ok(true, "shorthand syntax callback gets evaled"); same(this, store, "`this` should be scoped to the Lawnchair instance"); QUnit.start();')
+    store.batch([{o: 'k'}], 'ok(true, "shorthand syntax callback gets evaled"); same(this, store, "`this` should be scoped to the Lawnchair instance"); QUnit.start();')
 })
 
 module('get()', {
-    setup:function() {
+    setup: function() {
         QUnit.stop();
 
         // I like to make all my variables globals. Starting a new trend.
-        me = {name:'brian', age:30};
-        store.nuke(function() { QUnit.start(); });
+        me = {name: 'brian', age: 30};
+        store.nuke(function() {
+            QUnit.start();
+        });
     },
-    teardown:function() {
+    teardown: function() {
         me = null;
     }
 });
 
-test( 'should it be chainable?', function() {
+test('should it be chainable?', function() {
     QUnit.expect(1);
     QUnit.stop();
 
-    equals(store.get('foo', function() { QUnit.start(); }), store, 'get chainable');
+    equals(store.get('foo', function() {
+        QUnit.start();
+    }), store, 'get chainable');
 });
 
 test('get functionality', function() {
     QUnit.expect(4);
     QUnit.stop();
 
-    store.save({key:'xyz', name:'tim'}, function() {
+    store.save({key: 'xyz', name: 'tim'}, function() {
         store.get('xyz', function(r) {
             equals(r.key, 'xyz', 'should return key in loaded object');
             equals(r.name, 'tim', 'should return proper object when calling get with a key');
             store.get('doesntexist', function(s) {
                 ok(true, 'should call callback even for non-existent key');
                 equals(s, null, 'should return null for non-existent key');
-                QUnit.start();                
+                QUnit.start();
             });
         });
     });
@@ -329,22 +345,22 @@ test('get batch functionality', function() {
     QUnit.expect(3);
     QUnit.stop(1500); // timing changed by batch processing improvements
 
-    var t = [{key:'test-get'},{key:'test-get-1'}]
+    var t = [{key: 'test-get'}, {key: 'test-get-1'}]
     store.batch(t, function() {
-        this.get(['test-get','test-get-1'], function(r) {
+        this.get(['test-get', 'test-get-1'], function(r) {
             equals(r[0].key, 'test-get', "get first object");
             equals(r[1].key, 'test-get-1', "get second object");
             equals(r.length, t.length, "should batch get")
             QUnit.start()
         })
-    }) 
+    })
 });
 
-test( 'full callback syntax', function() {
+test('full callback syntax', function() {
     QUnit.stop();
     QUnit.expect(2);
 
-    store.get('somekey', function(r){
+    store.get('somekey', function(r) {
         ok(true, 'callback got called');
         same(this, store, '"this" should be teh Lawnchair instance');
         QUnit.start();
@@ -359,37 +375,39 @@ test('short callback syntax', function() {
 });
 
 module('remove()', {
-    setup:function() {
+    setup: function() {
         QUnit.stop();
 
         // I like to make all my variables globals. Starting a new trend.
-        me = {name:'brian', age:30};
-        store.nuke(function() { QUnit.start(); });
+        me = {name: 'brian', age: 30};
+        store.nuke(function() {
+            QUnit.start();
+        });
     },
-    teardown:function() {
+    teardown: function() {
         me = null;
     }
 });
 
 
-test( 'chainable', function() {
+test('chainable', function() {
     QUnit.expect(1);
     QUnit.stop();
 
-    store.save({key:'me', name:'brian'}, function() {
-        same(store.remove('me', function() { 
-                QUnit.start(); 
-             }), store, 'should be chainable');
-         
+    store.save({key: 'me', name: 'brian'}, function() {
+        same(store.remove('me', function() {
+            QUnit.start();
+        }), store, 'should be chainable');
+
     });
 });
 
-test( 'full callback syntax', function() {
+test('full callback syntax', function() {
     QUnit.stop();
     QUnit.expect(2);
 
-    store.save({key:'somekey', name:'something'}, function() {
-        store.remove('somekey', function(r){
+    store.save({key: 'somekey', name: 'something'}, function() {
+        store.remove('somekey', function(r) {
             ok(true, 'callback got called');
             same(this, store, '"this" should be teh Lawnchair instance');
             QUnit.start();
@@ -401,31 +419,31 @@ test('short callback syntax', function() {
     QUnit.stop();
     QUnit.expect(2);
 
-    store.save({key:'somekey', name:'something'}, function() {
+    store.save({key: 'somekey', name: 'something'}, function() {
         store.remove('somekey', 'ok(true, "shorthand syntax callback gets evaled"); same(this, store, "`this` should be scoped to the Lawnchair instance"); QUnit.start();');
     });
 });
 
 // FIXME need to add tests for batch deletion 
-test( 'remove functionality', function() {
+test('remove functionality', function() {
     QUnit.stop();
     QUnit.expect(2);
 
-    store.save({name:'joni'}, function(r) {
+    store.save({name: 'joni'}, function(r) {
         //store.find("r.name == 'joni'", function(r){
-            store.remove(r, function(r) {
-                store.all(function(all) {
-                    equals(all.length, 0, "should have length 0 after saving, finding, and removing a record using entire object");
-                    store.save({key:'die', name:'dudeman'}, function(r) {
-                        store.remove('die', function(r){
-                            store.all(function(rec) {
-                                equals(rec.length, 0, "should have length 0 after saving and removing by string key");
-                                QUnit.start();
-                            });
+        store.remove(r, function(r) {
+            store.all(function(all) {
+                equals(all.length, 0, "should have length 0 after saving, finding, and removing a record using entire object");
+                store.save({key: 'die', name: 'dudeman'}, function(r) {
+                    store.remove('die', function(r) {
+                        store.all(function(rec) {
+                            equals(rec.length, 0, "should have length 0 after saving and removing by string key");
+                            QUnit.start();
                         });
                     });
                 });
             });
+        });
         //});
     });
-}); 
+});

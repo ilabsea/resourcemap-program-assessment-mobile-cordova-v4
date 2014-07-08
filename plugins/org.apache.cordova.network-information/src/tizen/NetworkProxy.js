@@ -34,7 +34,7 @@ module.exports = {
         }
 
         function wifiSuccessCB(wifi) {
-            if ((wifi.status === "ON")  && (wifi.ipAddress.length !== 0)) {
+            if ((wifi.status === "ON") && (wifi.ipAddress.length !== 0)) {
                 cncType = Connection.WIFI;
             }
             connectionCB();

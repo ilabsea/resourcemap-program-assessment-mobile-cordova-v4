@@ -17,13 +17,13 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var argscheck = require('cordova/argscheck'),
-    utils = require('cordova/utils'),
-    exec = require('cordova/exec'),
-    PositionError = require('./PositionError'),
-    Position = require('./Position');
+        utils = require('cordova/utils'),
+        exec = require('cordova/exec'),
+        PositionError = require('./PositionError'),
+        Position = require('./Position');
 
 var timers = {};   // list of timers in use
 
@@ -60,29 +60,29 @@ function createTimeout(errorCallback, timeout) {
         clearTimeout(t);
         t = null;
         errorCallback({
-            code:PositionError.TIMEOUT,
-            message:"Position retrieval timed out."
+            code: PositionError.TIMEOUT,
+            message: "Position retrieval timed out."
         });
     }, timeout);
     return t;
 }
 
 var geolocation = {
-    lastPosition:null, // reference to last known (cached) position returned
+    lastPosition: null, // reference to last known (cached) position returned
     /**
-   * Asynchronously acquires the current position.
-   *
-   * @param {Function} successCallback    The function to call when the position data is available
-   * @param {Function} errorCallback      The function to call when there is an error getting the heading position. (OPTIONAL)
-   * @param {PositionOptions} options     The options for getting the position data. (OPTIONAL)
-   */
-    getCurrentPosition:function(successCallback, errorCallback, options) {
+     * Asynchronously acquires the current position.
+     *
+     * @param {Function} successCallback    The function to call when the position data is available
+     * @param {Function} errorCallback      The function to call when there is an error getting the heading position. (OPTIONAL)
+     * @param {PositionOptions} options     The options for getting the position data. (OPTIONAL)
+     */
+    getCurrentPosition: function(successCallback, errorCallback, options) {
         argscheck.checkArgs('fFO', 'geolocation.getCurrentPosition', arguments);
         options = parseParameters(options);
 
         // Timer var that will fire an error callback if no position is retrieved from native
         // before the "timeout" param provided expires
-        var timeoutTimer = {timer:null};
+        var timeoutTimer = {timer: null};
 
         var win = function(p) {
             clearTimeout(timeoutTimer.timer);
@@ -93,17 +93,17 @@ var geolocation = {
                 return;
             }
             var pos = new Position(
-                {
-                    latitude:p.latitude,
-                    longitude:p.longitude,
-                    altitude:p.altitude,
-                    accuracy:p.accuracy,
-                    heading:p.heading,
-                    velocity:p.velocity,
-                    altitudeAccuracy:p.altitudeAccuracy
-                },
-                (p.timestamp === undefined ? new Date() : ((p.timestamp instanceof Date) ? p.timestamp : new Date(p.timestamp)))
-            );
+                    {
+                        latitude: p.latitude,
+                        longitude: p.longitude,
+                        altitude: p.altitude,
+                        accuracy: p.accuracy,
+                        heading: p.heading,
+                        velocity: p.velocity,
+                        altitudeAccuracy: p.altitudeAccuracy
+                    },
+            (p.timestamp === undefined ? new Date() : ((p.timestamp instanceof Date) ? p.timestamp : new Date(p.timestamp)))
+                    );
             geolocation.lastPosition = pos;
             successCallback(pos);
         };
@@ -120,13 +120,13 @@ var geolocation = {
         // fire the success callback with the cached position.
         if (geolocation.lastPosition && options.maximumAge && (((new Date()).getTime() - geolocation.lastPosition.timestamp.getTime()) <= options.maximumAge)) {
             successCallback(geolocation.lastPosition);
-        // If the cached position check failed and the timeout was set to 0, error out with a TIMEOUT error object.
+            // If the cached position check failed and the timeout was set to 0, error out with a TIMEOUT error object.
         } else if (options.timeout === 0) {
             fail({
-                code:PositionError.TIMEOUT,
-                message:"timeout value in PositionOptions set to 0 and no cached Position object available, or cached Position object's age exceeds provided PositionOptions' maximumAge parameter."
+                code: PositionError.TIMEOUT,
+                message: "timeout value in PositionOptions set to 0 and no cached Position object available, or cached Position object's age exceeds provided PositionOptions' maximumAge parameter."
             });
-        // Otherwise we have to call into native to retrieve a position.
+            // Otherwise we have to call into native to retrieve a position.
         } else {
             if (options.timeout !== Infinity) {
                 // If the timeout value was not set to Infinity (default), then
@@ -152,7 +152,7 @@ var geolocation = {
      * @param {PositionOptions} options     The options for getting the location data such as frequency. (OPTIONAL)
      * @return String                       The watch id that must be passed to #clearWatch to stop watching.
      */
-    watchPosition:function(successCallback, errorCallback, options) {
+    watchPosition: function(successCallback, errorCallback, options) {
         argscheck.checkArgs('fFO', 'geolocation.getCurrentPosition', arguments);
         options = parseParameters(options);
 
@@ -175,17 +175,17 @@ var geolocation = {
                 timers[id].timer = createTimeout(fail, options.timeout);
             }
             var pos = new Position(
-                {
-                    latitude:p.latitude,
-                    longitude:p.longitude,
-                    altitude:p.altitude,
-                    accuracy:p.accuracy,
-                    heading:p.heading,
-                    velocity:p.velocity,
-                    altitudeAccuracy:p.altitudeAccuracy
-                },
-                (p.timestamp === undefined ? new Date() : ((p.timestamp instanceof Date) ? p.timestamp : new Date(p.timestamp)))
-            );
+                    {
+                        latitude: p.latitude,
+                        longitude: p.longitude,
+                        altitude: p.altitude,
+                        accuracy: p.accuracy,
+                        heading: p.heading,
+                        velocity: p.velocity,
+                        altitudeAccuracy: p.altitudeAccuracy
+                    },
+            (p.timestamp === undefined ? new Date() : ((p.timestamp instanceof Date) ? p.timestamp : new Date(p.timestamp)))
+                    );
             geolocation.lastPosition = pos;
             successCallback(pos);
         };
@@ -199,7 +199,7 @@ var geolocation = {
      *
      * @param {String} id       The ID of the watch returned from #watchPosition
      */
-    clearWatch:function(id) {
+    clearWatch: function(id) {
         if (id && timers[id] !== undefined) {
             clearTimeout(timers[id].timer);
             timers[id].timer = false;

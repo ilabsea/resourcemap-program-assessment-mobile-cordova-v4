@@ -17,13 +17,13 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var argscheck = require('cordova/argscheck'),
-    exec = require('cordova/exec'),
-    Camera = require('./Camera');
-    // XXX: commented out
-    //CameraPopoverHandle = require('./CameraPopoverHandle');
+        exec = require('cordova/exec'),
+        Camera = require('./Camera');
+// XXX: commented out
+//CameraPopoverHandle = require('./CameraPopoverHandle');
 
 var cameraExport = {};
 
@@ -35,7 +35,7 @@ for (var key in Camera) {
 /**
  * Gets a picture from source defined by "options.sourceType", and returns the
  * image as defined by the "options.destinationType" option.
-
+ 
  * The defaults are sourceType=CAMERA and destinationType=FILE_URI.
  *
  * @param {Function} successCallback
@@ -61,7 +61,7 @@ cameraExport.getPicture = function(successCallback, errorCallback, options) {
     var cameraDirection = getValue(options.cameraDirection, Camera.Direction.BACK);
 
     var args = [quality, destinationType, sourceType, targetWidth, targetHeight, encodingType,
-                mediaType, allowEdit, correctOrientation, saveToPhotoAlbum, popoverOptions, cameraDirection];
+        mediaType, allowEdit, correctOrientation, saveToPhotoAlbum, popoverOptions, cameraDirection];
 
     exec(successCallback, errorCallback, "Camera", "takePicture", args);
     // XXX: commented out

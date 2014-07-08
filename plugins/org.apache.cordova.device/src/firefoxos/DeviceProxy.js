@@ -17,14 +17,14 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var firefoxos = require('cordova/platform');
 var cordova = require('cordova');
 
 module.exports = {
     getDeviceInfo: function(success, error) {
-        setTimeout(function () {
+        setTimeout(function() {
             success({
                 cordova: firefoxos.cordovaVersion,
                 platform: 'firefoxos',

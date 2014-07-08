@@ -119,7 +119,7 @@ function updateSiteBySiteId() {
                 else if (item.widgetType === "date") {
                     var nodeId = "#update_" + item["idfield"];
                     var value = $(nodeId).val();
-                    if(value != ""){
+                    if (value != "") {
                         value = new Date(value);
                         value = dateToParam(value);
                     }
@@ -247,7 +247,7 @@ function buildDataForSite() {
                 if (date) {
                     date = convertDateWidgetToParam(date);
                 }
-                     properties["" + each_field + ""] = date;
+                properties["" + each_field + ""] = date;
             } else {
                 var data = $field.val();
                 if (data == null)

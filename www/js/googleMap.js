@@ -12,7 +12,7 @@ var mapObject = {
     setMarker: function() {
         var latlng = this.getLatLng();
         _self = this;
-        if (this.marker){
+        if (this.marker) {
             this.marker.setPosition(latlng);
         }
         else {

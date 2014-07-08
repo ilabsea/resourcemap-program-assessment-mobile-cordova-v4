@@ -31,148 +31,148 @@
 var sys = require('sys');
 
 function log(o) {
-  sys.print(sys.inspect(o) + "\n");
+    sys.print(sys.inspect(o) + "\n");
 }
 
 function jsonToEntityVal(value, type) {
-  if(type) {
-    switch(type) {
-    case 'DATE': 
-      if (value > 1000000000000) {
-        // it's in milliseconds
-        return new Date(value); 
-      } else {
-        return new Date(value * 1000); 
-      }
-      break;
-    default:
-      return value;
+    if (type) {
+        switch (type) {
+            case 'DATE':
+                if (value > 1000000000000) {
+                    // it's in milliseconds
+                    return new Date(value);
+                } else {
+                    return new Date(value * 1000);
+                }
+                break;
+            default:
+                return value;
+        }
+    } else {
+        return value;
     }
-  } else {
-    return value;
-  }
 }
 
 function getEpoch(date) {
-  return date.getTime(); //Math.round(date.getTime()/1000);
+    return date.getTime(); //Math.round(date.getTime()/1000);
 }
 
 function entityValToJson(value, type) {
-  if(type) {
-    switch(type) {
-    case 'DATE': 
-      return Math.round(date.getTime() / 1000);
-      break;
-    default:
-      return value;
+    if (type) {
+        switch (type) {
+            case 'DATE':
+                return Math.round(date.getTime() / 1000);
+                break;
+            default:
+                return value;
+        }
+    } else {
+        return value;
     }
-  } else {
-    return value;
-  }
 }
 
 
 exports.pushUpdates = function(session, tx, Entity, since, callback) {
-  var queryCollection;
-  if(typeof(Entity) == "function"){
-    queryCollection = Entity.all(session);
-  }else if(typeof(Entity) == "object"){
-    queryCollection = Entity;
-  }
-  queryCollection.filter("_lastChange", ">", since).list(tx, function(items) {
-      var results = [];
-      var meta = Entity.meta;
-      var fieldSpec = meta.fields;
-      for(var i = 0; i < items.length; i++) {
-        var itemData = items[i]._data;
-        var item = {id: items[i].id};
-        for(var p in fieldSpec) {
-          if(fieldSpec.hasOwnProperty(p)) {
-            item[p] = entityValToJson(itemData[p], fieldSpec[p]);
-          }
-        }
-        for(var p in meta.hasOne) {
-          if(meta.hasOne.hasOwnProperty(p)) {
-            item[p] = entityValToJson(itemData[p]);
-          }
-        }
-        results.push(item);
-      }
-      if(since>0){
-        session.sync.RemovedObject.all(session).filter("entity", "=", meta.name).filter("date", ">", since).list(tx, function(items) {
-            for(var i = 0; i < items.length; i++) {
-              results.push({id: items[i].id, _removed: true});
+    var queryCollection;
+    if (typeof (Entity) == "function") {
+        queryCollection = Entity.all(session);
+    } else if (typeof (Entity) == "object") {
+        queryCollection = Entity;
+    }
+    queryCollection.filter("_lastChange", ">", since).list(tx, function(items) {
+        var results = [];
+        var meta = Entity.meta;
+        var fieldSpec = meta.fields;
+        for (var i = 0; i < items.length; i++) {
+            var itemData = items[i]._data;
+            var item = {id: items[i].id};
+            for (var p in fieldSpec) {
+                if (fieldSpec.hasOwnProperty(p)) {
+                    item[p] = entityValToJson(itemData[p], fieldSpec[p]);
+                }
             }
+            for (var p in meta.hasOne) {
+                if (meta.hasOne.hasOwnProperty(p)) {
+                    item[p] = entityValToJson(itemData[p]);
+                }
+            }
+            results.push(item);
+        }
+        if (since > 0) {
+            session.sync.RemovedObject.all(session).filter("entity", "=", meta.name).filter("date", ">", since).list(tx, function(items) {
+                for (var i = 0; i < items.length; i++) {
+                    results.push({id: items[i].id, _removed: true});
+                }
+                callback({now: getEpoch(new Date()), updates: results});
+            });
+        } else {
             callback({now: getEpoch(new Date()), updates: results});
-          });
-      }else{
-          callback({now: getEpoch(new Date()), updates: results});
-      }
+        }
     });
 };
 
 exports.receiveUpdates = function(session, tx, Entity, updates, callback) {
-  var allIds = [];
-  var updateLookup = {};
-  var now = getEpoch(new Date());
-  var removedIds = [];
-  for(var i = 0; i < updates.length; i++) {
-    if(updates[i]._removed) { // removed
-      removedIds.push(updates[i].id);
-    } else {
-      allIds.push(updates[i].id);
-      updateLookup[updates[i].id] = updates[i];
+    var allIds = [];
+    var updateLookup = {};
+    var now = getEpoch(new Date());
+    var removedIds = [];
+    for (var i = 0; i < updates.length; i++) {
+        if (updates[i]._removed) { // removed
+            removedIds.push(updates[i].id);
+        } else {
+            allIds.push(updates[i].id);
+            updateLookup[updates[i].id] = updates[i];
+        }
     }
-  }
-  Entity.all(session).filter("id", "in", removedIds).destroyAll(function() {
-      removedIds.forEach(function(id) {
-          session.add(new session.sync.RemovedObject({objectId: id, entity: Entity.meta.name, date: now}));
+    Entity.all(session).filter("id", "in", removedIds).destroyAll(function() {
+        removedIds.forEach(function(id) {
+            session.add(new session.sync.RemovedObject({objectId: id, entity: Entity.meta.name, date: now}));
         });
-      Entity.all(session).filter("id", "in", allIds).list(tx, function(existingItems) {
-          var fieldSpec = Entity.meta.fields;
+        Entity.all(session).filter("id", "in", allIds).list(tx, function(existingItems) {
+            var fieldSpec = Entity.meta.fields;
 
-          for(var i = 0; i < existingItems.length; i++) {
-            var existingItem = existingItems[i];
-            var updateItem = updateLookup[existingItem.id];
-            for(var p in updateItem) {
-              if(updateItem.hasOwnProperty(p)) {
-                if(updateItem[p] !== existingItem._data[p]) {
-                  existingItem[p] = jsonToEntityVal(updateItem[p], fieldSpec[p]);
-                  existingItem._lastChange = now;
+            for (var i = 0; i < existingItems.length; i++) {
+                var existingItem = existingItems[i];
+                var updateItem = updateLookup[existingItem.id];
+                for (var p in updateItem) {
+                    if (updateItem.hasOwnProperty(p)) {
+                        if (updateItem[p] !== existingItem._data[p]) {
+                            existingItem[p] = jsonToEntityVal(updateItem[p], fieldSpec[p]);
+                            existingItem._lastChange = now;
+                        }
+                    }
                 }
-              }
+                delete updateLookup[existingItem.id];
             }
-            delete updateLookup[existingItem.id];
-          }
-          // All new items
-          for(var id in updateLookup) {
-            if(updateLookup.hasOwnProperty(id)) {
-              var update = updateLookup[id];
-              delete update.id;
-              var newItem = new Entity(session);
-              newItem.id = id;
-              for(var p in update) {
-                if(update.hasOwnProperty(p)) {
-                  newItem[p] = jsonToEntityVal(update[p], fieldSpec[p]);
+            // All new items
+            for (var id in updateLookup) {
+                if (updateLookup.hasOwnProperty(id)) {
+                    var update = updateLookup[id];
+                    delete update.id;
+                    var newItem = new Entity(session);
+                    newItem.id = id;
+                    for (var p in update) {
+                        if (update.hasOwnProperty(p)) {
+                            newItem[p] = jsonToEntityVal(update[p], fieldSpec[p]);
+                        }
+                    }
+                    newItem._lastChange = now;
+                    session.add(newItem);
                 }
-              }
-              newItem._lastChange = now;
-              session.add(newItem);
             }
-          }
-          session.flush(tx, function() {
-              callback({status: 'ok', now: now});
+            session.flush(tx, function() {
+                callback({status: 'ok', now: now});
             });
         });
     });
 };
 
 exports.config = function(persistence) {
-  persistence.sync = persistence.sync || {};
-  persistence.sync.RemovedObject = persistence.define('_SyncRemovedObject', {
-      entity: "VARCHAR(255)",
-      objectId: "VARCHAR(32)",
-      date: "BIGINT"
+    persistence.sync = persistence.sync || {};
+    persistence.sync.RemovedObject = persistence.define('_SyncRemovedObject', {
+        entity: "VARCHAR(255)",
+        objectId: "VARCHAR(32)",
+        date: "BIGINT"
     });
 
     persistence.entityDecoratorHooks.push(function(Entity) {
@@ -180,10 +180,10 @@ exports.config = function(persistence) {
          * Declares an entity to be tracked for changes
          */
         Entity.enableSync = function() {
-          Entity.meta.enableSync = true;
-          Entity.meta.fields['_lastChange'] = 'BIGINT';
+            Entity.meta.enableSync = true;
+            Entity.meta.fields['_lastChange'] = 'BIGINT';
         };
-      });
+    });
 
     /**
      * Resets _lastChange property if the object has dirty project (i.e. the object has changed)
@@ -191,33 +191,33 @@ exports.config = function(persistence) {
     persistence.flushHooks.push(function(session, tx, callback) {
         var queries = [];
         for (var id in session.getTrackedObjects()) {
-          if (session.getTrackedObjects().hasOwnProperty(id)) {
-            var obj = session.getTrackedObjects()[id];
-            var meta = persistence.getEntityMeta()[obj._type];
-            if(meta.enableSync) {
-              var isDirty = obj._new;
-              var lastChangeIsDirty = false;
-              for ( var p in obj._dirtyProperties) {
-                if (obj._dirtyProperties.hasOwnProperty(p)) {
-                  isDirty = true;
+            if (session.getTrackedObjects().hasOwnProperty(id)) {
+                var obj = session.getTrackedObjects()[id];
+                var meta = persistence.getEntityMeta()[obj._type];
+                if (meta.enableSync) {
+                    var isDirty = obj._new;
+                    var lastChangeIsDirty = false;
+                    for (var p in obj._dirtyProperties) {
+                        if (obj._dirtyProperties.hasOwnProperty(p)) {
+                            isDirty = true;
+                        }
+                        if (p === '_lastChange') {
+                            lastChangeIsDirty = true;
+                        }
+                    }
+                    if (isDirty && !lastChangeIsDirty) {
+                        // Only set _lastChange if it has not been set manually (during a sync)
+                        obj._lastChange = getEpoch(new Date());
+                    }
                 }
-                if(p === '_lastChange') {
-                  lastChangeIsDirty = true;
-                }
-              }
-              if(isDirty && !lastChangeIsDirty) {
-                // Only set _lastChange if it has not been set manually (during a sync)
-                obj._lastChange = getEpoch(new Date());
-              }
             }
-          }
         }
         session.objectsRemoved.forEach(function(rec) {
             var meta = session.getMeta(rec.entity);
-            if(meta.enableSync) {
-              session.add(new persistence.sync.RemovedObject({entity: rec.entity, objectId: rec.id, date: getEpoch(new Date())}));
+            if (meta.enableSync) {
+                session.add(new persistence.sync.RemovedObject({entity: rec.entity, objectId: rec.id, date: getEpoch(new Date())}));
             }
-          });
+        });
         callback();
-      });
-  };
+    });
+};

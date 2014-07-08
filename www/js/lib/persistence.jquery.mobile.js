@@ -24,14 +24,14 @@
  */
 
 if (!window.persistence.jquery) {
-  throw new Error("persistence.jquery.js should be loaded before persistence.jquery.mobile.js");
+    throw new Error("persistence.jquery.js should be loaded before persistence.jquery.mobile.js");
 }
 
 persistence.jquery.mobile = {};
 
-(function($){   
+(function($) {
     var $pjqm = persistence.jquery.mobile;
-    
+
     if (window.openDatabase) {
         $pjqm.pageEntityName = "Page";
         $pjqm.imageEntityName = "Image";
@@ -42,8 +42,8 @@ persistence.jquery.mobile = {};
 
         function expand(docPath, srcPath) {
             var basePath = (/\/$/.test(location.pathname) || (location.pathname == "")) ?
-                location.pathname :
-                location.pathname.substring(0, location.pathname.lastIndexOf("/"));
+                    location.pathname :
+                    location.pathname.substring(0, location.pathname.lastIndexOf("/"));
             if (/^\.\.\//.test(srcPath)) {
                 // relative path with upward directory traversal
                 var count = 1, splits = docPath.split("/");
@@ -52,8 +52,8 @@ persistence.jquery.mobile = {};
                     count++;
                 }
                 return basePath + ((count >= splits.length) ?
-                    srcPath :
-                    splits.slice(0, splits.length-count).join("/") + "/" + srcPath);
+                        srcPath :
+                        splits.slice(0, splits.length - count).join("/") + "/" + srcPath);
             } else if (/^\//.test(srcPath)) {
                 // absolute path
                 return srcPath;
@@ -81,28 +81,30 @@ persistence.jquery.mobile = {};
 
         var parseUriOptions = {
             strictMode: false,
-            key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
-            q:   {
-                name:   "queryKey",
+            key: ["source", "protocol", "authority", "userInfo", "user", "password", "host", "port", "relative", "path", "directory", "file", "query", "anchor"],
+            q: {
+                name: "queryKey",
                 parser: /(?:^|&)([^&=]*)=?([^&]*)/g
             },
             parser: {
                 strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
-                loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+                loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
             }
         };
 
-        function parseUri (str) {
-            var o   = parseUriOptions,
-                m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
-                uri = {},
-                i   = 14;
+        function parseUri(str) {
+            var o = parseUriOptions,
+                    m = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+                    uri = {},
+                    i = 14;
 
-            while (i--) uri[o.key[i]] = m[i] || "";
+            while (i--)
+                uri[o.key[i]] = m[i] || "";
 
             uri[o.q.name] = {};
-            uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
-                if ($1) uri[o.q.name][$1] = $2;
+            uri[o.key[12]].replace(o.q.parser, function($0, $1, $2) {
+                if ($1)
+                    uri[o.q.name][$1] = $2;
             });
 
             return uri;
@@ -111,7 +113,7 @@ persistence.jquery.mobile = {};
         function getImageType(parsedUri) {
             if (parsedUri.queryKey.type) {
                 return parsedUri.queryKey.type;
-            }  else {
+            } else {
                 return (/\.png$/i.test(parsedUri.path)) ? "png" : "jpeg";
             }
         }
@@ -126,7 +128,7 @@ persistence.jquery.mobile = {};
 
                     var persistFormData = function() {
                         var obj = {};
-                        settings.data.replace(/(?:^|&)([^&=]*)=?([^&]*)/g, function ( $0, $1, $2 ) {
+                        settings.data.replace(/(?:^|&)([^&=]*)=?([^&]*)/g, function($0, $1, $2) {
                             if ($1) {
                                 obj[$1] = $2;
                             }
@@ -170,7 +172,7 @@ persistence.jquery.mobile = {};
                                     countOuter++;
                                     if (persistence.isDefined($pjqm.imageEntityName)) {
                                         var Img = persistence.define($pjqm.imageEntityName);
-                                        Img.findBy($pjqm.pathField, expand(settings.url, $2), function(image){
+                                        Img.findBy($pjqm.pathField, expand(settings.url, $2), function(image) {
                                             countInner++;
                                             if (image) {
                                                 var imgTagStr = $1 + image[$pjqm.dataField]() + $3;
@@ -194,7 +196,8 @@ persistence.jquery.mobile = {};
                                     settings.success(inStr);
                                 } else if (!persistence.isDefined($pjqm.imageEntityName)) {
                                     settings.success(outStr);
-                                };
+                                }
+                                ;
                             }
                         } else {
                             //
@@ -209,21 +212,21 @@ persistence.jquery.mobile = {};
                                         var Page = persistence.define($pjqm.pageEntityName);
                                         if (persistence.isDefined($pjqm.imageEntityName)) {
                                             var Img = persistence.define($pjqm.imageEntityName), count = 0;
-                                            $("#"+settings.url.replace(/\//g,"\\/").replace(/\./g,"\\.")+" img").each(function(i, img){
+                                            $("#" + settings.url.replace(/\//g, "\\/").replace(/\./g, "\\.") + " img").each(function(i, img) {
                                                 crawlImages = true;
                                                 count++;
                                                 $(img).load(function() {
-                                                  var obj = {}, parsedImgSrc = parseUri(img.src);
-                                                  obj[$pjqm.pathField] = parsedImgSrc.path;
-                                                  obj[$pjqm.dataField] = base64Image(img, getImageType(parsedImgSrc));
-                                                  entities.push(new Img(obj));
+                                                    var obj = {}, parsedImgSrc = parseUri(img.src);
+                                                    obj[$pjqm.pathField] = parsedImgSrc.path;
+                                                    obj[$pjqm.dataField] = base64Image(img, getImageType(parsedImgSrc));
+                                                    entities.push(new Img(obj));
 
-                                                  if (crawlImages && (--count == 0)) {
-                                                      for (var j=0; j<entities.length; j++) {
-                                                          persistence.add(entities[j]);
-                                                      }
-                                                      persistence.flush();
-                                                  }
+                                                    if (crawlImages && (--count == 0)) {
+                                                        for (var j = 0; j < entities.length; j++) {
+                                                            persistence.add(entities[j]);
+                                                        }
+                                                        persistence.flush();
+                                                    }
                                                 });
                                                 $(img).error(function() {
                                                     crawlImages = false;
