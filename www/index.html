@@ -147,7 +147,7 @@
         </div> 
       </div>
       <div data-role="content" id="sitelist">
-        <div> <a data-role="button" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add" onclick="getFieldsCollection();">Add new site</a></div>	   
+        <div> <a data-role="button" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add">Add new site</a></div>	   
         <div class="scrollable">
           <ul class="clearPreviousDisplay" data-role='listview' id="site-list" data-inset="true" data-theme="c">
           </ul> 
@@ -356,6 +356,7 @@
     <!--field collection in create page-->
     <script id="field_collection-template" type="text/x-handlebars-template">
       {{#each field_collections}}
+      {{#each field_collections.fields}}
       {{#if config}} 
       {{#if isHierarchy}} 
       <label>{{name}}</label>
@@ -399,6 +400,7 @@
       </div>
       {{/if}}
       {{/if}}
+      {{/each}}
       {{/each}}
     </script>
 
@@ -501,15 +503,15 @@
     </script>
 
     <script id="language-template" type="text/x-handlebars-template">
-    <select style="width:100%;" data-native-menu="false"  data-theme="a" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
-    {{#each langs}} 
-    {{#if selected}}
-    <option value="{{value}}" selected>{{text}}</option>   
-    {{else}}
-    <option value="{{value}}">{{text}}</option> 
-    {{/if}}                  
-    {{/each}}  
-    </select>
+      <select style="width:100%;" data-native-menu="false"  data-theme="a" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
+      {{#each langs}} 
+      {{#if selected}}
+      <option value="{{value}}" selected>{{text}}</option>   
+      {{else}}
+      <option value="{{value}}">{{text}}</option> 
+      {{/if}}                  
+      {{/each}}  
+      </select>
     </script>
     <script src="cordova.js"></script>  
 

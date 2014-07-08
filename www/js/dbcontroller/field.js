@@ -33,15 +33,17 @@ function renderFieldByCollectionIdOnline() {
     var field_id_arr = new Array();
     var field_collections = [];
     $.each(response, function(key, properties) {
-      field_id_arr.push(properties.id);
+      field_id_arr.push(properties.fields.id);
       var fields = buildField(properties, {fromServer: true});
       field_collections.push(fields);
+      console.log("fields dfjs", fields);
       Field.all().filter('idfield', "=", properties.id).one(null, function(field) {
         if (field === null) {
           addField(fields);
         }
       });
     });
+    console.log(field_collections);
     localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
     displayFieldRender(field_collections);
   });

@@ -34,7 +34,11 @@ $(function() {
         var sId = $(this).attr("data-id");
         localStorage.setItem("sId", sId);
     });
-
+    
+    $(document).delegate('#btn_create_site', 'click', function() {
+        getFieldsCollection();
+    });
+    
     $(document).delegate('#page-update-site-online', 'pageshow', function() {
         requireReload(renderUpdateSiteFormFromServer);
     });
