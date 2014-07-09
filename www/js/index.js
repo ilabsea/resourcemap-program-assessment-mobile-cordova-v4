@@ -11,7 +11,7 @@ URL = "http://192.168.1.92:3000/",
             URL_LOGOUT: END_POINT + "/users/sign_out.json?auth_token=",
             URL_FIELDNOV: END_POINT + "/collections/",
             URL_SITE: END_POINT + "/v1/collections/",
-            URL_FIELD:  END_POINT + "/collections/",
+            URL_FIELD:  END_POINT + "/v1/collections/",
             DEBUG: true,
             userId: "",
             log: function(obj) {

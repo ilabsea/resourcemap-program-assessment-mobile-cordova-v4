@@ -410,6 +410,9 @@
     <!--field collection update in page update site (sites are in local database) -->
     <script id="update_field_collection-template" type="text/x-handlebars-template">
       {{#each field_collections}}
+      <h5>{{name_wrapper}}</h5>
+      <div class="ui-corner-all ui-controlgroup ui-controlgroup-vertical" style="margin-left:10px">
+      {{#each fields}}
       {{#if config}} 
       {{#if isHierarchy}} 
       <label>{{name}}</label>
@@ -454,11 +457,16 @@
       {{/if}}
       {{/if}}
       {{/each}}
+      </div>
+      {{/each}}
     </script>
 
     <!--field collection update in page update site (sites are in server database) -->
     <script id="update_field_collection-online-template" type="text/x-handlebars-template">
       {{#each field_collections}}
+      <h5>{{name_wrapper}}</h5>
+      <div class="ui-corner-all ui-controlgroup ui-controlgroup-vertical" style="margin-left:10px">
+      {{#each fields}}
       {{#if config}} 
       {{#if isHierarchy}} 
       <label>{{name}}</label>
@@ -502,6 +510,8 @@
       </div>
       {{/if}}
       {{/if}}
+      {{/each}}
+      </div>
       {{/each}}
     </script>
 

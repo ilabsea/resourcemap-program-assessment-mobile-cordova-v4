@@ -2,80 +2,113 @@ function imagePath(imgFileName) {
     return App.IMG_PATH + imgFileName;
 }
 
-function buildFieldsCollection(propertiesServer, site, fromServer) {
-    var item = buildField(propertiesServer, {fromServer: fromServer});
+function buildFieldsCollection(layers, site, fromServer) {
+    var field_collections = [];
+    $.each(layers, function(key, layer) {
+        var item = buildFieldsLayer(layer, site, fromServer);
+        field_collections.push(item);
+    });
+    return field_collections;
+}
+
+function buildFieldsLayer(layer, site, fromServer) {
     if (fromServer)
-        var p = site.properties;
-    else {
-        var p = site.properties();
-        var files = site.files();
-    }
+        var itemLayer = buildField(layer, {fromServer: fromServer});
+    else
+        var itemLayer = buildField(layer._data, {fromServer: fromServer});
+    
+    var items = itemLayer.fields;
+    var p = getSiteProperties(site, fromServer);
+
     for (propertyCode in p) {
-        if (item.code === propertyCode || parseInt(item["idfield"]) === parseInt(propertyCode)) {
-            if (item.widgetType === "photo") {
-                item.__value = "";
-                if (fromServer)
-                    item.__value = imagePath(p[propertyCode]);
-                else {
-                    var imageId = p[propertyCode];
-                    var imageData = files[imageId];
-                    item.__value = SiteCamera.dataWithMimeType(imageData);
+        $.each(items, function(i, item) {
+            var propertyValue = p[propertyCode];
+            setFieldsValue(item, propertyCode, propertyValue, site, fromServer);
+        });
+    }
+    return itemLayer;
+}
+
+function getSiteProperties(site, fromServer) {
+    if (fromServer)
+        return site.properties;
+    else
+        return site.properties();
+}
+
+function setFieldSelectValue(item, value) {
+    item.__value = value;
+    for (var k = 0; k < item.config.options.length; k++) {
+        item.config.options[k]["selected"] = "";
+        if (item.__value == true || item.__value == false) {
+            if (item.config.options[k].id == item.__value) {
+                item.config.options[k]["selected"] = "selected";
+            }
+        } else {
+            for (var j = 0; j < item.__value.length; j++) {
+                if (item.config.options[k].id == item.__value[j]) {
+                    item.config.options[k]["selected"] = "selected";
                 }
             }
-            else if (item.widgetType === "select_many" || item.widgetType === "select_one") {
-                item.__value = p[propertyCode];
-                for (var k = 0; k < item.config.options.length; k++) {
-                    item.config.options[k]["selected"] = "";
-                    if (item.__value == true || item.__value == false) {
-                        if (item.config.options[k].id == item.__value) {
-                            item.config.options[k]["selected"] = "selected";
-                        }
-                    } else {
-                        for (var j = 0; j < item.__value.length; j++) {
-                            if (item.config.options[k].id == item.__value[j]) {
-                                item.config.options[k]["selected"] = "selected";
-                            }
-                        }
-                    }
-                }
-            }
-            else if (item.widgetType === "hierarchy") {
-                item.__value = p[propertyCode];
-                item.displayHierarchy = Hierarchy.generateField(item.config, item.__value);
-            }
-            else if (item.widgetType === "date") {
-                var val = p[propertyCode];
-                if (val)
-                    item.__value = convertDateWidgetToParam(val);
-            }
-            else
-                item.__value = p[propertyCode];
-            break;
         }
     }
-    return item;
+}
+
+function setFieldPhotoValue(item, value, site, fromServer) {
+    if (fromServer)
+        item.__value = imagePath(value);
+    else {
+        var files = site.files();
+        var imageId = value;
+        var imageData = files[imageId];
+        item.__value = SiteCamera.dataWithMimeType(imageData);
+    }
+}
+
+function setFieldHierarchyValue(item, value) {
+    item.__value = value;
+    item.displayHierarchy = Hierarchy.generateField(item.config, item.__value);
+}
+
+function setFieldsValue(item, propertyCode, pValue, site, fromServer) {
+    if (item.code === propertyCode || parseInt(item["idfield"]) === parseInt(propertyCode)) {
+        if (item.widgetType === "photo")
+            setFieldPhotoValue(item, pValue, site, fromServer);
+        else if (item.widgetType === "select_many" || item.widgetType === "select_one")
+            setFieldSelectValue(item, pValue);
+        else if (item.widgetType === "hierarchy") {
+            setFieldHierarchyValue(item, pValue);
+        }
+        else if (item.widgetType === "date" && pValue)
+            item.__value = convertDateWidgetToParam(pValue);
+        else
+            item.__value = pValue;
+    }
 }
 
 function buildField(fieldObj, options) {
     options = options || {};
-    var field = {};
     var id = null;
     var fieldsBuild = [];
     var fieldsWrapper = {
-        name_wrapper: fieldObj.name,
-        id_wrapper: fieldObj.id,
         cId: localStorage.getItem("cId"),
         userId: getCurrentUser().id,
         fields: fieldsBuild
     };
+    if (options["fromServer"]) {
+        fieldsWrapper.name_wrapper = fieldObj.name;
+        fieldsWrapper.id_wrapper = fieldObj.id;
+    }
+    else {
+        fieldsWrapper.name_wrapper = fieldObj.name_wrapper;
+        fieldsWrapper.id_wrapper = fieldObj.id_wrapper;
+    }
     $.each(fieldObj.fields, function(key, fields) {
         if (options["fromServer"]) {
-            field = fieldObj;
             id = fields.id;
         }
         else {
-            field = fieldObj._data;
-            id = fields.idfield();
+            id = fields.idfield;
         }
         var kind = fields.kind;
         var widgetType = kind;
@@ -117,42 +150,38 @@ function buildField(fieldObj, options) {
     return fieldsWrapper;
 }
 
-function addField(fields) {
-    cId = localStorage.getItem("cId");
-    var fieldParams = {
-        collection_id: cId,
-        user_id: getCurrentUser().id,
-        name_wrapper: fields.name_wrapper,
-        id_wrapper: fields.id_wrapper,
-        fields: fields.fields
-    };
-    var field = new Field(fieldParams);
-    persistence.add(field);
-    persistence.flush();
-}
-
 function queryFieldByCollectionIdOffline(callback) {
     var cId = localStorage.getItem("cId");
     Field.all().filter('collection_id', '=', cId).list(callback);
 }
 
 function synFieldForCurrentCollection(newFields) {
-    queryFieldByCollectionIdOffline(function(field){
-        removeFieldsInLocalDB(collections);
-        addFieldsToLocalDB(newCollections);
-    })
-    var cId = localStorage.getItem("cId");
-    Field.all().filter('collection_id', "=", newFields.id_wrapper).one(null, function(field) {
-                console.log("field", fields);
-                if (field === null) {
-                    addField(fields);
-                }
-            });
-    var currentCollection = getCurrentUser();
-    Collection.all().filter('user_id', '=', currentUser.id).list(function(collections) {
-        removeCollectionsToLocalDB(collections);
-        addCollectionsToLocalDB(newCollections);
+    queryFieldByCollectionIdOffline(function(fields) {
+        removeFieldsInLocalDB(fields);
+        addFieldsToLocalDB(newFields);
     });
+}
+
+function removeFieldsInLocalDB(fields) {
+    fields.forEach(function(field) {
+        persistence.remove(field);
+    });
+    persistence.flush();
+}
+
+function addFieldsToLocalDB(fields) {
+    $.each(fields, function(index, field) {
+        var fieldParams = {
+            collection_id: field.cId,
+            user_id: field.user_id,
+            name_wrapper: field.name_wrapper,
+            id_wrapper: field.id_wrapper,
+            fields: field.fields
+        };
+        var fieldObj = new Field(fieldParams);
+        persistence.add(fieldObj);
+    });
+    persistence.flush();
 }
 
 function displayFieldRender(data) {
