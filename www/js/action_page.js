@@ -34,12 +34,12 @@ $(function() {
         var sId = $(this).attr("data-id");
         localStorage.setItem("sId", sId);
     });
-    
+
     $(document).delegate('#btn_create_site', 'click', function() {
         getFieldsCollection();
     });
-    
-    $(document).delegate('#page-update-site-online', 'pageshow', function() {
+
+    $(document).delegate('#page-site-list #site-list-online li', 'click', function() {
         requireReload(renderUpdateSiteFormFromServer);
     });
 
@@ -87,7 +87,7 @@ $(function() {
         sendSiteToServer("user_id", currentUser.id);
     });
 
-    $(document).delegate('#page-update-site', 'pagebeforeshow', function() {
+    $(document).delegate('#page-site-list #site-list li', 'click', function() {
         requireReload(renderUpdateSiteForm);
     });
 
@@ -152,7 +152,8 @@ function showSpinner() {
 
 function hideSpinner() {
     $.mobile.loading('hide');
-    $.mobile.activePage.removeClass('ui-disabled');
+    if ($.mobile.activePage)
+        $.mobile.activePage.removeClass('ui-disabled');
 }
 
 function redirectTo(url) {

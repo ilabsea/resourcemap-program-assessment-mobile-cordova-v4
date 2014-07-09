@@ -1,5 +1,5 @@
-URL = "http://192.168.1.92:3000/",
-        END_POINT = URL + "api",
+URL = "http://resmap-stg-ilab.instedd.org/",
+END_POINT = URL + "api",
         window.App = {
             DB_SIZE: 5 * 1024 * 1024,
             DB_NAME: 'resourcemap_db',
@@ -11,7 +11,6 @@ URL = "http://192.168.1.92:3000/",
             URL_LOGOUT: END_POINT + "/users/sign_out.json?auth_token=",
             URL_FIELD: END_POINT + "/collections/",
             URL_SITE: END_POINT + "/v1/collections/",
-            URL_FIELDV1:  END_POINT + "/v1/collections/",
             DEBUG: true,
             userId: "",
             log: function(obj) {
