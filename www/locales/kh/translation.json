@@ -14,10 +14,15 @@
         "cancel": "បោះបង់",
         "site": "តំបន់",
         "add": "បន្ថែមតំបន់ថ្មី",
+        "viewAll": "មើលទាំងអស់",
+        "viewOffline": "មើលក្រៅបណ្ដាញ",
+        "viewOnline": "មើលលើបណ្តាញ",
+        "menu": "ម៉ឺនុយ",
         "save_site": "រក្សាទុកតំបន់",
         "ajax-loader": "សូមរង់ចាំ...",
         "no_internet_connection": "មិនមានការតភ្ជាប់អ៊ីធឺណិត។",
-        "please_resend_data": "សូមផ្ញើទិន្នន័យម្ដងទៀត។"
+        "please_resend_data": "សូមផ្ញើទិន្នន័យម្ដងទៀត។",
+        "please_reupdate_your_site":"សូមផ្ញើតំបន់បណ្ដាញរបស់អ្នកឡើងវិញ។"
     },
     "login_page": {
         "login": "ការចូល",
@@ -60,5 +65,9 @@
         "choose": "ជ្រើសរើសរូបថតដែលមានស្រាប់",
         "plsSignIn": "សូមចូល",
         "signupsuccess": "ចុះឈ្មោះដោយជោគជ័យ"
+    },
+    "nav": {
+        "online": "អនឡាញ",
+        "offline": "ក្រៅបណ្តាញ"
     }
 }

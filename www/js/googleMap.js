@@ -53,6 +53,8 @@ var mapObject = {
             var lng = point.lng();
             $("#updatelolat").val(lat);
             $("#updatelolng").val(lng);
+            $("#updatelolat_online").val(lat);
+            $("#updatelolng_online").val(lng);
             $("#lat").val(lat);
             $("#lng").val(lng);
             $("#mark_lat").val(lat);

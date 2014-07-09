@@ -1060,7 +1060,7 @@ html body div.ui-slider-track.ui-body-a .ui-btn-active {
     background-color: 		#eeeeee /*{a-active-background-color}*/;
     border-color:	 		#3388cc /*{a-active-border}*/;
     color: 					#333333 /*{a-active-color}*/;
-    text-shadow: 0 /*{a-active-shadow-x}*/ 1px /*{a-active-shadow-y}*/ 0 /*{a-active-shadow-radius}*/ #fff /*{a-active-shadow-color}*/;
+    text-shadow: 0 /*{a-active-shadow-x}*/ 1px /*{a-active-shadow-y}*/ 0 /*{a-active-shadow-radius}*/ #005599 /*{a-active-shadow-color}*/;
 }
 /* Active radio button icon */
 .ui-page-theme-a .ui-radio-on:after,

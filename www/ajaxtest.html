@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="css/libs/jquery.mobile-1.4.2.css">
+    <script src="js/libs/jquery-1.11.0.min.js"></script>
+    <script src="js/libs/jquery.mobile-1.4.2.js"></script>
+    <script type="text/javascript">
+      function getfield() {
+        $.ajax({
+          type: "get",
+          data: {"auth_token": "Vy8EWoWaKCxVXXt8ZChF"},
+          crossDomain: true,
+          url: "http://192.168.1.92:3000/api/v1/collections/8/fields",
+          dataType: "json",
+          success: function(response) {
+            console.log("response : ", response);
+          },
+          error: function() {
+            alert("test");
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="getfield()">Field</button>
+  </body>
+</html>
