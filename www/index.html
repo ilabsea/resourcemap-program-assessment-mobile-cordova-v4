@@ -382,7 +382,7 @@
       {{#if isPhoto}}  
       <label>{{{name}}}</label>
       <div onclick="openCameraDialog({{idfield}}, 'new')" id='property_{{idfield}}_container' class="photo">
-      <img width="70" src='{{__value}}' id='{{idfield}}'  /> 
+      <img class="image" src='{{__value}}' id='{{idfield}}'  /> 
       </div>
       {{else}}
       <div>
@@ -431,7 +431,7 @@
       {{#if isPhoto}}  
       <span style='display:inline; margin-top:10px'>{{{name}}}</span>
       <div onclick="openCameraDialog({{idfield}}, 'update')" id='property_{{idfield}}_container' class="photo" > 
-      <img width="70" src='{{__value}}' id='update_image_{{idfield}}' />
+      <img class="image" src='{{__value}}' id='update_image_{{idfield}}' />
       </div>
       {{else}}
       <div>
@@ -480,7 +480,7 @@
       {{#if isPhoto}}  
       <span style='display:inline; margin-top:10px'>{{{name}}}</span>
       <div onclick="openCameraDialog({{idfield}}, 'update')" id='property_{{idfield}}_container' class="photo" > 
-      <img width="70" src='{{__value}}' id='update_image_{{idfield}}' />
+      <img class="image" src='{{__value}}' id='update_image_{{idfield}}' />
       </div>
       {{else}}
       <div>
