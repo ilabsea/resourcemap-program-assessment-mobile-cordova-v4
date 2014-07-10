@@ -78,7 +78,6 @@ function renderUpdateSiteFormFromServer() {
 }
 
 function updateSiteBySiteId() {
-    ViewBinding.setBusy(true);
     var id = localStorage.getItem("sId");
     Site.all().filter('id', "=", id).one(function(site) {
         site.name($("#updatesitename").val());
@@ -99,12 +98,12 @@ function updateSiteBySiteId() {
 
 function updateSiteBySiteIdFromServer() {
     var data;
+    ViewBinding.setBusy(true);
     FieldModel.fetch(function(field) {
         var propertiesFile = {properties: {}, files: {}};
         $.each(field, function(key, field) {
             propertiesFile = updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
         });
-        ViewBinding.setBusy(true);
         data = {
             "_method": "put",
             "auth_token": getAuthToken(),

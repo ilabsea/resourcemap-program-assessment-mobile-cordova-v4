@@ -7,7 +7,7 @@ FieldModel = {
             datatype: 'json',
             success: successCallback,
             error: function(error) {
-                console.log("erro:  " + error);
+                console.log( "error", error);
             }
         });
     }
