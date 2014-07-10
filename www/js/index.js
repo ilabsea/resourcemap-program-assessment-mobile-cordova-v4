@@ -1,4 +1,4 @@
-URL = "http://192.168.1.92:3000/",
+URL = "http://localhost:3001/",
         END_POINT = URL + "api",
         window.App = {
             DB_SIZE: 5 * 1024 * 1024,
