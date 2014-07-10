@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 /*global Windows:true */
 
@@ -25,8 +25,7 @@ var cordova = require('cordova');
 var Connection = require('./Connection');
 
 module.exports = {
-
-    getConnectionInfo:function(win,fail,args)
+    getConnectionInfo: function(win, fail, args)
     {
         console.log("NetworkStatusProxy::getConnectionInfo");
         var winNetConn = Windows.Networking.Connectivity;
@@ -39,7 +38,7 @@ module.exports = {
         var connectionType;
 
         var profile = Windows.Networking.Connectivity.NetworkInformation.getInternetConnectionProfile();
-        if(profile) {
+        if (profile) {
             var conLevel = profile.getNetworkConnectivityLevel();
             var interfaceType = profile.networkAdapter.ianaInterfaceType;
 
@@ -56,8 +55,8 @@ module.exports = {
                         break;
                     case 243: // (3GPP WWAN) // Fallthrough is intentional
                     case 244: // (3GPP2 WWAN)
-                         connectionType = Connection.CELL_3G;
-                         break;
+                        connectionType = Connection.CELL_3G;
+                        break;
                     default:
                         connectionType = Connection.UNKNOWN;
                         break;
@@ -73,15 +72,15 @@ module.exports = {
         //Connection.CELL_4G  'Cell 4G connection';
         //Connection.NONE     'No network connection';
 
-        setTimeout(function () {
+        setTimeout(function() {
             if (connectionType) {
                 win(connectionType);
             } else {
                 win(Connection.NONE);
             }
-        },0);
+        }, 0);
     }
 
 };
 
-require("cordova/exec/proxy").add("NetworkStatus",module.exports);
+require("cordova/windows8/commandProxy").add("NetworkStatus", module.exports);

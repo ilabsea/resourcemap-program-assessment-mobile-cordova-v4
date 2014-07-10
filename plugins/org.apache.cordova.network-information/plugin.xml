@@ -101,8 +101,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <header-file src="src/ios/CDVConnection.h" />
         <source-file src="src/ios/CDVConnection.m" />
         <header-file src="src/ios/CDVReachability.h" />
-	    <source-file src="src/ios/CDVReachability.m" />
-	    <framework src="SystemConfiguration.framework" weak="true" />
+        <source-file src="src/ios/CDVReachability.m" />
+        <framework src="SystemConfiguration.framework" weak="true" />
     </platform>
 
     <!-- blackberry10 -->

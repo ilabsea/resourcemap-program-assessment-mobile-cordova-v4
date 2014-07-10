@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var exec = require('cordova/exec');
 
@@ -26,7 +26,7 @@ var exec = require('cordova/exec');
  */
 var CameraPopoverHandle = function() {
     this.setPosition = function(popoverOptions) {
-        var args = [ popoverOptions ];
+        var args = [popoverOptions];
         exec(null, null, "Camera", "repositionPopover", args);
     };
 };

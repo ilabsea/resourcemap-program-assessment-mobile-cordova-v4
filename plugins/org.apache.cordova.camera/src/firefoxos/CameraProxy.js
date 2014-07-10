@@ -27,7 +27,8 @@ function takePicture(success, error, opts) {
         }
     });
 
-    pick.onerror = error || function() {};
+    pick.onerror = error || function() {
+    };
 
     pick.onsuccess = function() {
         // image is returned as Blob in this.result.blob
@@ -45,7 +46,8 @@ function takePicture(success, error, opts) {
 
 module.exports = {
     takePicture: takePicture,
-    cleanup: function(){}
+    cleanup: function() {
+    }
 };
 
 require("cordova/firefoxos/commandProxy").add("Camera", module.exports);

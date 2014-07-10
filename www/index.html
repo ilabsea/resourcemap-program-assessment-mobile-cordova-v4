@@ -148,22 +148,18 @@
       </div>
       <div data-role="content" id="sitelist">
         <div> <a data-role="button" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add">Add new site</a></div>	   
-        <div class="scrollable">
-          <ul class="clearPreviousDisplay" data-role='listview' id="site-list" data-inset="true" data-theme="c">
-          </ul> 
-          <div> 
-            <button id="btn_sendToServer" data-icon="forward" data-i18n="global.send_to_server">Send to server</button>
-          </div>
-          <ul class="clearPreviousDisplay" data-role='listview' id="site-list-online" data-inset="true" data-theme="c">
-          </ul> 
-        </div>
+        <ul class="clearPreviousDisplay" data-role='listview' id="site-list" data-inset="true" data-theme="c">
+        </ul> 
+        <button id="btn_sendToServer" data-icon="forward" data-i18n="global.send_to_server">Send to server</button>
+        <ul class="clearPreviousDisplay" data-role='listview' id="site-list-online" data-inset="true" data-theme="c">
+        </ul>
       </div>
     </div>
 
     <!--page-create-site-->
     <div data-role="page" id="page-create-site" data-theme="b">
       <div data-role="header">
-        <a data-role="button" data-theme="a" href="#submitLogin-page" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back" id="back">Back</a>
+        <a data-role="button" data-theme="a" href="#page-site-list" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back" id="back">Back</a>
         <h2 class="title"></h2>
         <button data-theme="a" id="logout" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Sign out</button>
       </div>
@@ -217,11 +213,11 @@
         <form  method="post" id="form_update_site">
           <div id="div-site-update-name"></div>
           <div class="clearPreviousDisplay" id="div_update_field_collection"> </div>
-          <div class="ui-grid-a">
-            <div class="ui-block-a"><button id="btn_submitUpdateSite" data-i18n="global.update">Update</button></div>
-            <div class="ui-block-b"><a data-role="button" href="#confirm_delete_site" data-rel="dialog" data-i18n="global.delete">Delete</a></div>	   
-          </div>
         </form> 
+        <div class="ui-grid-a">
+          <div class="ui-block-a"><button id="btn_submitUpdateSite" data-i18n="global.update">Update</button></div>
+          <div class="ui-block-b"><a data-role="button" href="#confirm_delete_site" data-rel="dialog" data-i18n="global.delete">Delete</a></div>	   
+        </div>
       </div>
     </div>
 
@@ -236,8 +232,8 @@
         <form id="form_update_site_online">
           <div id="div-site-update-name-online"> </div>
           <div class="clearPreviousDisplay" id="div_update_field_collection_online"></div>
-          <div><button id="btn_submitUpdateSite_online"  data-i18n="global.update">Update</button></div>
         </form>
+        <div><button id="btn_submitUpdateSite_online"  data-i18n="global.update">Update</button></div>
       </div>
     </div>
 
@@ -389,7 +385,7 @@
       {{#if isPhoto}}  
       <label>{{{name}}}</label>
       <div onclick="openCameraDialog({{idfield}}, 'new')" id='property_{{idfield}}_container' class="photo">
-      <img class="image" src='{{__value}}' id='{{idfield}}'  /> 
+      <img width="60" src='{{__value}}' id='{{idfield}}'  /> 
       </div>
       {{else}}
       <div>
@@ -443,7 +439,7 @@
       {{#if isPhoto}}  
       <span style='display:inline; margin-top:10px'>{{{name}}}</span>
       <div onclick="openCameraDialog({{idfield}}, 'update')" id='property_{{idfield}}_container' class="photo" > 
-      <img class="image" src='{{__value}}' id='update_image_{{idfield}}' />
+      <img width="70" src='{{__value}}' id='update_image_{{idfield}}' />
       </div>
       {{else}}
       <div>
@@ -497,7 +493,7 @@
       {{#if isPhoto}}  
       <span style='display:inline; margin-top:10px'>{{{name}}}</span>
       <div onclick="openCameraDialog({{idfield}}, 'update')" id='property_{{idfield}}_container' class="photo" > 
-      <img class="image" src='{{__value}}' id='update_image_{{idfield}}' />
+      <img width="70" src='{{__value}}' id='update_image_{{idfield}}' />
       </div>
       {{else}}
       <div>

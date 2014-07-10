@@ -78,6 +78,7 @@ function renderUpdateSiteFormFromServer() {
 }
 
 function updateSiteBySiteId() {
+    ViewBinding.setBusy(true);
     var id = localStorage.getItem("sId");
     Site.all().filter('id', "=", id).one(function(site) {
         site.name($("#updatesitename").val());

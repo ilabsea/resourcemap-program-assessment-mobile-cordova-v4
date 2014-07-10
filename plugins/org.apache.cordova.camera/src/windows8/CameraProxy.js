@@ -17,20 +17,19 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 /*global Windows:true, URL:true */
 
 
 
 var cordova = require('cordova'),
-    Camera = require('./Camera'),
-    FileEntry = require('org.apache.cordova.file.FileEntry'),
-    FileError = require('org.apache.cordova.file.FileError'),
-    FileReader = require('org.apache.cordova.file.FileReader');
+        Camera = require('./Camera'),
+        FileEntry = require('org.apache.cordova.file.FileEntry'),
+        FileError = require('org.apache.cordova.file.FileError'),
+        FileReader = require('org.apache.cordova.file.FileReader');
 
 module.exports = {
-
     // args will contain :
     //  ...  it is an array, so be careful
     // 0 quality:50,
@@ -45,7 +44,7 @@ module.exports = {
     // 9 saveToPhotoAlbum:false,
     // 10 popoverOptions:null
 
-    takePicture: function (successCallback, errorCallback, args) {
+    takePicture: function(successCallback, errorCallback, args) {
         var encodingType = args[5];
         var targetWidth = args[3];
         var targetHeight = args[4];
@@ -57,12 +56,12 @@ module.exports = {
         var pkg = Windows.ApplicationModel.Package.current;
         var packageId = pkg.installedLocation;
 
-        var fail = function (fileError) {
+        var fail = function(fileError) {
             errorCallback("FileError, code:" + fileError.code);
         };
 
         // resize method :)
-        var resizeImage = function (file) {
+        var resizeImage = function(file) {
             var tempPhotoFileName = "";
             if (encodingType == Camera.EncodingType.PNG) {
                 tempPhotoFileName = "camera_cordova_temp_return.png";
@@ -70,16 +69,16 @@ module.exports = {
                 tempPhotoFileName = "camera_cordova_temp_return.jpg";
             }
             var imgObj = new Image();
-            var success = function (fileEntry) {
-                var successCB = function (filePhoto) {
+            var success = function(fileEntry) {
+                var successCB = function(filePhoto) {
                     var fileType = file.contentType,
-                        reader = new FileReader();
-                    reader.onloadend = function () {
+                            reader = new FileReader();
+                    reader.onloadend = function() {
                         var image = new Image();
                         image.src = reader.result;
-                        image.onload = function () {
+                        image.onload = function() {
                             var imageWidth = targetWidth,
-                                imageHeight = targetHeight;
+                                    imageHeight = targetHeight;
                             var canvas = document.createElement('canvas');
 
                             canvas.width = imageWidth;
@@ -93,18 +92,18 @@ module.exports = {
                             var _stream = _blob.msDetachStream();
 
                             var storageFolder = Windows.Storage.ApplicationData.current.localFolder;
-                            storageFolder.createFileAsync(tempPhotoFileName, Windows.Storage.CreationCollisionOption.generateUniqueName).done(function (file) {
-                                file.openAsync(Windows.Storage.FileAccessMode.readWrite).done(function (fileStream) {
-                                    Windows.Storage.Streams.RandomAccessStream.copyAndCloseAsync(_stream, fileStream).done(function () {
+                            storageFolder.createFileAsync(tempPhotoFileName, Windows.Storage.CreationCollisionOption.generateUniqueName).done(function(file) {
+                                file.openAsync(Windows.Storage.FileAccessMode.readWrite).done(function(fileStream) {
+                                    Windows.Storage.Streams.RandomAccessStream.copyAndCloseAsync(_stream, fileStream).done(function() {
                                         var _imageUrl = URL.createObjectURL(file);
                                         successCallback(_imageUrl);
-                                    }, function () {
+                                    }, function() {
                                         errorCallback("Resize picture error.");
                                     });
-                                }, function () {
+                                }, function() {
                                     errorCallback("Resize picture error.");
                                 });
-                            }, function () {
+                            }, function() {
                                 errorCallback("Resize picture error.");
                             });
 
@@ -114,37 +113,37 @@ module.exports = {
                     reader.readAsDataURL(filePhoto);
                 };
 
-                var failCB = function () {
+                var failCB = function() {
                     errorCallback("File not found.");
                 };
                 fileEntry.file(successCB, failCB);
             };
 
             var storageFolder = Windows.Storage.ApplicationData.current.localFolder;
-            file.copyAsync(storageFolder, file.name, Windows.Storage.NameCollisionOption.replaceExisting).then(function (storageFile) {
+            file.copyAsync(storageFolder, file.name, Windows.Storage.NameCollisionOption.replaceExisting).then(function(storageFile) {
                 success(new FileEntry(storageFile.name, storageFile.path));
-            }, function () {
+            }, function() {
                 fail(FileError.INVALID_MODIFICATION_ERR);
-            }, function () {
+            }, function() {
                 errorCallback("Folder not access.");
             });
 
         };
 
         // because of asynchronous method, so let the successCallback be called in it.
-        var resizeImageBase64 = function (file) {
+        var resizeImageBase64 = function(file) {
             var imgObj = new Image();
-            var success = function (fileEntry) {
-                var successCB = function (filePhoto) {
+            var success = function(fileEntry) {
+                var successCB = function(filePhoto) {
                     var fileType = file.contentType,
-                        reader = new FileReader();
-                    reader.onloadend = function () {
+                            reader = new FileReader();
+                    reader.onloadend = function() {
                         var image = new Image();
                         image.src = reader.result;
 
-                        image.onload = function () {
+                        image.onload = function() {
                             var imageWidth = targetWidth,
-                                imageHeight = targetHeight;
+                                    imageHeight = targetHeight;
                             var canvas = document.createElement('canvas');
 
                             canvas.width = imageWidth;
@@ -166,18 +165,18 @@ module.exports = {
                     reader.readAsDataURL(filePhoto);
 
                 };
-                var failCB = function () {
+                var failCB = function() {
                     errorCallback("File not found.");
                 };
                 fileEntry.file(successCB, failCB);
             };
 
             var storageFolder = Windows.Storage.ApplicationData.current.localFolder;
-            file.copyAsync(storageFolder, file.name, Windows.Storage.NameCollisionOption.replaceExisting).then(function (storageFile) {
+            file.copyAsync(storageFolder, file.name, Windows.Storage.NameCollisionOption.replaceExisting).then(function(storageFile) {
                 success(new FileEntry(storageFile.name, "ms-appdata:///local/" + storageFile.name));
-            }, function () {
+            }, function() {
                 fail(FileError.INVALID_MODIFICATION_ERR);
-            }, function () {
+            }, function() {
                 errorCallback("Folder not access.");
             });
 
@@ -197,7 +196,7 @@ module.exports = {
                 fileOpenPicker.fileTypeFilter.replaceAll(["*"]);
             }
 
-            fileOpenPicker.pickSingleFileAsync().then(function (file) {
+            fileOpenPicker.pickSingleFileAsync().then(function(file) {
                 if (file) {
                     if (destinationType == Camera.DestinationType.FILE_URI) {
                         if (targetHeight > 0 && targetWidth > 0) {
@@ -206,11 +205,11 @@ module.exports = {
                         else {
 
                             var storageFolder = Windows.Storage.ApplicationData.current.localFolder;
-                            file.copyAsync(storageFolder, file.name, Windows.Storage.NameCollisionOption.replaceExisting).then(function (storageFile) {
+                            file.copyAsync(storageFolder, file.name, Windows.Storage.NameCollisionOption.replaceExisting).then(function(storageFile) {
                                 successCallback(URL.createObjectURL(storageFile));
-                            }, function () {
+                            }, function() {
                                 fail(FileError.INVALID_MODIFICATION_ERR);
-                            }, function () {
+                            }, function() {
                                 errorCallback("Folder not access.");
                             });
 
@@ -220,7 +219,7 @@ module.exports = {
                         if (targetHeight > 0 && targetWidth > 0) {
                             resizeImageBase64(file);
                         } else {
-                            Windows.Storage.FileIO.readBufferAsync(file).done(function (buffer) {
+                            Windows.Storage.FileIO.readBufferAsync(file).done(function(buffer) {
                                 var strBase64 = Windows.Security.Cryptography.CryptographicBuffer.encodeToBase64String(buffer);
                                 successCallback(strBase64);
                             });
@@ -231,7 +230,7 @@ module.exports = {
                 } else {
                     errorCallback("User didn't choose a file.");
                 }
-            }, function () {
+            }, function() {
                 errorCallback("User didn't choose a file.");
             });
         }
@@ -270,21 +269,21 @@ module.exports = {
                 cameraCaptureUI.photoSettings.maxResolution = Windows.Media.Capture.CameraCaptureUIMaxPhotoResolution.highestAvailable;
             }
 
-            cameraCaptureUI.captureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.photo).then(function (picture) {
+            cameraCaptureUI.captureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.photo).then(function(picture) {
                 if (picture) {
                     // save to photo album successCallback
-                    var success = function (fileEntry) {
+                    var success = function(fileEntry) {
                         if (destinationType == Camera.DestinationType.FILE_URI) {
                             if (targetHeight > 0 && targetWidth > 0) {
                                 resizeImage(picture);
                             } else {
 
                                 var storageFolder = Windows.Storage.ApplicationData.current.localFolder;
-                                picture.copyAsync(storageFolder, picture.name, Windows.Storage.NameCollisionOption.replaceExisting).then(function (storageFile) {
+                                picture.copyAsync(storageFolder, picture.name, Windows.Storage.NameCollisionOption.replaceExisting).then(function(storageFile) {
                                     successCallback("ms-appdata:///local/" + storageFile.name);
-                                }, function () {
+                                }, function() {
                                     fail(FileError.INVALID_MODIFICATION_ERR);
-                                }, function () {
+                                }, function() {
                                     errorCallback("Folder not access.");
                                 });
                             }
@@ -292,7 +291,7 @@ module.exports = {
                             if (targetHeight > 0 && targetWidth > 0) {
                                 resizeImageBase64(picture);
                             } else {
-                                Windows.Storage.FileIO.readBufferAsync(picture).done(function (buffer) {
+                                Windows.Storage.FileIO.readBufferAsync(picture).done(function(buffer) {
                                     var strBase64 = Windows.Security.Cryptography.CryptographicBuffer.encodeToBase64String(buffer);
                                     successCallback(strBase64);
                                 });
@@ -300,16 +299,16 @@ module.exports = {
                         }
                     };
                     // save to photo album errorCallback
-                    var fail = function () {
+                    var fail = function() {
                         //errorCallback("FileError, code:" + fileError.code);
                         errorCallback("Save fail.");
                     };
 
                     if (saveToPhotoAlbum) {
-                        Windows.Storage.StorageFile.getFileFromPathAsync(picture.path).then(function (storageFile) {
-                            storageFile.copyAsync(Windows.Storage.KnownFolders.picturesLibrary, picture.name, Windows.Storage.NameCollisionOption.generateUniqueName).then(function (storageFile) {
+                        Windows.Storage.StorageFile.getFileFromPathAsync(picture.path).then(function(storageFile) {
+                            storageFile.copyAsync(Windows.Storage.KnownFolders.picturesLibrary, picture.name, Windows.Storage.NameCollisionOption.generateUniqueName).then(function(storageFile) {
                                 success(storageFile);
-                            }, function () {
+                            }, function() {
                                 fail();
                             });
                         });
@@ -322,11 +321,11 @@ module.exports = {
                             } else {
 
                                 var storageFolder = Windows.Storage.ApplicationData.current.localFolder;
-                                picture.copyAsync(storageFolder, picture.name, Windows.Storage.NameCollisionOption.replaceExisting).then(function (storageFile) {
+                                picture.copyAsync(storageFolder, picture.name, Windows.Storage.NameCollisionOption.replaceExisting).then(function(storageFile) {
                                     successCallback("ms-appdata:///local/" + storageFile.name);
-                                }, function () {
+                                }, function() {
                                     fail(FileError.INVALID_MODIFICATION_ERR);
-                                }, function () {
+                                }, function() {
                                     errorCallback("Folder not access.");
                                 });
                             }
@@ -334,7 +333,7 @@ module.exports = {
                             if (targetHeight > 0 && targetWidth > 0) {
                                 resizeImageBase64(picture);
                             } else {
-                                Windows.Storage.FileIO.readBufferAsync(picture).done(function (buffer) {
+                                Windows.Storage.FileIO.readBufferAsync(picture).done(function(buffer) {
                                     var strBase64 = Windows.Security.Cryptography.CryptographicBuffer.encodeToBase64String(buffer);
                                     successCallback(strBase64);
                                 });
@@ -344,11 +343,11 @@ module.exports = {
                 } else {
                     errorCallback("User didn't capture a photo.");
                 }
-            }, function () {
+            }, function() {
                 errorCallback("Fail to capture a photo.");
             });
         }
     }
 };
 
-require("cordova/windows8/commandProxy").add("Camera",module.exports);
+require("cordova/windows8/commandProxy").add("Camera", module.exports);

@@ -39,7 +39,7 @@ $(function() {
         getFieldsCollection();
     });
 
-    $(document).delegate('#page-update-site-online', 'pageshow', function() {
+    $(document).delegate('#page-site-list #site-list-online li', 'click', function() {
         requireReload(renderUpdateSiteFormFromServer);
     });
 
@@ -87,7 +87,7 @@ $(function() {
         sendSiteToServer("user_id", currentUser.id);
     });
 
-    $(document).delegate('#page-update-site', 'pagebeforeshow', function() {
+    $(document).delegate('#page-site-list #site-list li', 'click', function() {
         requireReload(renderUpdateSiteForm);
     });
 
