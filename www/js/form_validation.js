@@ -21,23 +21,23 @@ $(document).ready(function() {
         }
     });
     $('#form_create_site').validate({
-        rules: {
-            things: {
-                required: true
-            }
-        },
         errorPlacement: function(error, element) {
-//            error.insertAfter($(element).parent());
-//console.log($("select"))
             if ($('img.photoPreview', this).attr('src') != '' && $(".image").attr('require') == "required") {
                 $(".photo").css({"border": "1px solid red"});
             }
         },
         submitHandler: function() {
-            if ($('img.photoPreview', this).attr('src') == '') {
-                $(".photo").css({"border": ""});
+            if ($(".image").attr('require') == "required") {
+                if ($('img.photoPreview', this).attr('src') == '') {
+                    $(".photo").css({"border": ""});
+                    addSiteToServer();
+                } else {
+                    $(".photo").css({"border": "1px solid red"});
+                }
+            } else {
                 addSiteToServer();
             }
+
         }
     });
     jQuery.validator.setDefaults({

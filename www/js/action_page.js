@@ -29,17 +29,14 @@ $(function() {
         $("#site-list").listview("refresh");
     });
 
-    $(document).delegate('#page-site-list li', 'click', function() {
-        var sId = $(this).attr("data-id");
-        localStorage.setItem("sId", sId);
-    });
-
     $(document).delegate('#btn_create_site', 'click', function() {
         getFieldsCollection();
         $('#form_create_site')[0].reset();
     });
 
     $(document).delegate('#page-site-list #site-list-online li', 'click', function() {
+        var sId = $(this).attr("data-id");
+        localStorage.setItem("sId", sId);
         requireReload(renderUpdateSiteFormFromServer);
     });
 
@@ -88,6 +85,8 @@ $(function() {
     });
 
     $(document).delegate('#page-site-list #site-list li', 'click', function() {
+        var sId = $(this).attr("data-id");
+        localStorage.setItem("sId", sId);
         requireReload(renderUpdateSiteForm);
     });
 

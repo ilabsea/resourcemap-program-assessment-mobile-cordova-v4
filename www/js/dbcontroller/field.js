@@ -6,7 +6,6 @@ function renderFieldsBySite(site) {
 }
 
 function renderFieldsBySiteFromServer(site) {
-    ViewBinding.setBusy(true);
     FieldModel.fetch(function(layers) {
         var field_collections= buildFieldsCollection(layers, site, true);
         displayFieldUpdateOnlineTemplate(field_collections);
