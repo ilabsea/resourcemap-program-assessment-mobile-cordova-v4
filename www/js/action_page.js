@@ -10,7 +10,6 @@ $(function() {
         getCollection();
         var currentUser = getCurrentUser();
         countSiteByUserId(currentUser.id);
-        $('#form_create_site')[0].reset();
     });
 
     $(document).delegate('#submitLogin-page li', 'click', function() {
@@ -37,6 +36,7 @@ $(function() {
 
     $(document).delegate('#btn_create_site', 'click', function() {
         getFieldsCollection();
+        $('#form_create_site')[0].reset();
     });
 
     $(document).delegate('#page-site-list #site-list-online li', 'click', function() {

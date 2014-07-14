@@ -358,7 +358,7 @@
       {{#if config}} 
       {{#if isHierarchy}} 
       <label>{{name}}</label>
-      <select id="{{idfield}}" data-theme="a" data-native-menu="false">
+      <select id="{{idfield}}" data-theme="a" data-native-menu="false" {{required}} >
       <option value="">(no value)</option>
       {{{displayHierarchy}}}
       </select>
@@ -366,10 +366,10 @@
       <div>
       <label>{{name}}</label>
       {{#if multiple}}
-      <select id="{{idfield}}" data-theme="a" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
+      <select id="{{idfield}}" data-theme="a" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}" {{required}} >
       <option>Options</option>
       {{else}}
-      <select id="{{idfield}}" data-theme="a" data-native-menu="false" data-role="{{slider}}" data-mini="{{ctrue}}">
+      <select id="{{idfield}}" data-theme="a" data-native-menu="false" data-role="{{slider}}" data-mini="{{ctrue}}" {{required}} >
       {{#if slider}} 
       {{else}}
       <option value="">(no value)</option>
@@ -385,15 +385,16 @@
       {{#if isPhoto}}  
       <label>{{{name}}}</label>
       <div onclick="openCameraDialog({{idfield}}, 'new')" id='property_{{idfield}}_container' class="photo">
-      <img class="image" src='{{__value}}' id='{{idfield}}'  /> 
+      <img class="image" src='{{__value}}' id='{{idfield}}' require='{{required}}' /> 
+      <label for="img" id="img_required"> This field is required. </label>
       </div>
       {{else}}
       <div>
       <label for='name'>{{{name}}}</label>
       {{#ifCond widgetType "date"}}
-      <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}" class="date"/>
+      <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}" class="date" {{required}}/>
       {{else}}
-      <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}"/>
+      <input type="{{widgetType}}" id="{{idfield}}" value ="{{__value}}" name="{{name}}" {{required}}/>
       {{/ifCond}}
       </div>
       {{/if}}

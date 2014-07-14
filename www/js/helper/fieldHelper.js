@@ -115,6 +115,8 @@ function buildField(fieldObj, options) {
         var config = fields.config;
         var slider = "";
         var ctrue = "";
+        var is_required = "";
+        var is_mandatory = fields.is_mandatory ;
         if (widgetType === "numeric") {
             widgetType = "number";
             config = "";
@@ -129,6 +131,8 @@ function buildField(fieldObj, options) {
         if (widgetType === "phone") {
             widgetType = "tel";
         }
+        if(is_mandatory)
+            is_required = "required";
         fieldsWrapper.fields.push({
             idfield: id,
             name: fields.name,
@@ -139,14 +143,16 @@ function buildField(fieldObj, options) {
             widgetType: widgetType,
             config: config,
             slider: slider,
-            ctrue: ctrue
+            ctrue: ctrue,
+            is_mandatory: is_mandatory,
+            required: is_required
         });
         if (widgetType === "hierarchy") {
             fieldsWrapper.fields.isHierarchy = true;
             fieldsWrapper.displayHierarchy = Hierarchy.generateField(fieldsWrapper.fields.config, "");
         }
     });
-
+    console.log("fieldsWrapper: ", fieldsWrapper);
     return fieldsWrapper;
 }
 
