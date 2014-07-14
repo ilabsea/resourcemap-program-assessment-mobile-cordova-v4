@@ -10,7 +10,6 @@ function renderFieldsBySite(site) {
 }
 
 function renderFieldsBySiteFromServer(site) {
-  ViewBinding.setBusy(true);
   FieldModel.fetch(function(response) {
     var field_collections = [];
     $.each(response, function(key, properties) {

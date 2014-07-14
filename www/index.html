@@ -55,8 +55,7 @@
       </div> 
       <div data-role="content">                
         <div>
-          <center><img src="img/logo.png" alt="Resource Map"/></center>                 
-          <br>     
+          <center><img src="img/logo.png" alt="Resource Map"/></center>   
         </div>
         <p id="sign_up_success" class="success" data-i18n="validation.signupsuccess">Sign up successfully.</p>
         <p id="invalidmail" class="invalid" data-i18n="validation.invalide">Invalid email or password.</p>
@@ -168,7 +167,7 @@
           <div>
             <label for="sname" data-i18n="global.name"> Name </label>
             <input type="text" name="sitename" id="sitename" class="required"/>
-          </div>
+          </div><br>
           <a href="#page-map"><img id="create-icon-map" src="img/map.png" alt="map icon" width="50" height="50"></a>
           <div>
             <label for="lolat" data-i18n="global.lat"> Location'Lat </label>
@@ -330,7 +329,7 @@
     <!--update site in local database for name lat and lng-->
     <script id="site-update-template" type="text/x-handlebars-template">
       <label for="updatesitename"> Name </label>
-      <input type="text" name="updatesitename" id="updatesitename" class="required" value='{{name}}'/><br><br>
+      <input type="text" name="updatesitename" id="updatesitename" class="required" value='{{name}}'/><br>
       <div><a href="#page-map"><img src="img/map.png" alt="map icon" width="50" height="50" id="update_icon_map"/></a></div>
       <label for="updatelolat"> Location'Lat </label>
       <input type="number" name="updatelolat" id="updatelolat" class="required" value='{{lat}}'/>
@@ -341,7 +340,7 @@
     <!--update site in server database for name lat and lng-->
     <script id="site-update-online-template" type="text/x-handlebars-template">
       <label for="updatesitename_online"> Name </label>
-      <input type="text" name="updatesitename_online" id="updatesitename_online" class="required" value='{{name}}'/><br><br>
+      <input type="text" name="updatesitename_online" id="updatesitename_online" class="required" value='{{name}}'/><br>
       <div><a href="#page-map"><img src="img/map.png" alt="map icon" width="50" height="50" id="update_icon_map_online"/></a></div>
       <label for="updatelolat_online"> Location'Lat </label>
       <input type="number" name="updatelolat_online" id="updatelolat_online" class="required" value='{{lat}}'/>
@@ -380,7 +379,7 @@
       {{/if}}
       {{else}}    
       {{#if isPhoto}}  
-      <label>{{{name}}}</label>
+      <label>{{name}}</label>
       <div onclick="openCameraDialog({{idfield}}, 'new')" id='property_{{idfield}}_container' class="photo">
       <img class="image" src='{{__value}}' id='{{idfield}}'  /> 
       </div>

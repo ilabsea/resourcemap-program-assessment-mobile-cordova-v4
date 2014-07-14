@@ -38,6 +38,9 @@ SiteModel = {
       success: successCallback,
       error: function(error) {
         console.log("Retriving sites from server : ", error);
+      },
+      complete:function(){
+          ViewBinding.setBusy(true);
       }
     });
   },

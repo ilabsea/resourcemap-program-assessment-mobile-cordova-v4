@@ -13,7 +13,6 @@ function buildFieldsCollection(propertiesServer, site, fromServer) {
   for (propertyCode in p) {
     if (item.code === propertyCode || parseInt(item["idfield"]) === parseInt(propertyCode)) {
       if (item.widgetType === "photo") {
-        item.__value = "";
         if (fromServer)
           item.__value = imagePath(p[propertyCode]);
         else {
@@ -21,6 +20,7 @@ function buildFieldsCollection(propertiesServer, site, fromServer) {
           var imageData = files[imageId];
           item.__value = SiteCamera.dataWithMimeType(imageData);
         }
+        console.log("item photo ", item);
       }
       else if (item.widgetType === "select_many" || item.widgetType === "select_one") {
         item.__value = p[propertyCode];

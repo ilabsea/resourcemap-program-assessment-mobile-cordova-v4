@@ -68,6 +68,7 @@ function renderUpdateSiteForm() {
 }
 
 function renderUpdateSiteFormFromServer() {
+    ViewBinding.setBusy(true);
     SiteModel.fetchOne(function(response) {
         var siteOnlineUpdateData = {name: response.name, lat: response.lat, lng: response.long};
         var siteOnlineUpdateTemplate = Handlebars.compile($("#site-update-online-template").html());
@@ -98,12 +99,12 @@ function updateSiteBySiteId() {
 
 function updateSiteBySiteIdFromServer() {
     var data;
+    ViewBinding.setBusy(true);
     FieldModel.fetch(function(field) {
         var propertiesFile = {properties: {}, files: {}};
         $.each(field, function(key, field) {
             propertiesFile = updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
         });
-        ViewBinding.setBusy(true);
         data = {
             "_method": "put",
             "auth_token": getAuthToken(),
@@ -116,7 +117,7 @@ function updateSiteBySiteIdFromServer() {
             }
         };
         SiteModel.update(data, function() {
-            location.href = "#page-site-list";
+            redirectTo("#page-site-list");
         }, function() {
             alert(i18n.t("global.please_reupdate_your_site"));
         });
