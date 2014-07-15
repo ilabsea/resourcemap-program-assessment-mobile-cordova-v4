@@ -152,7 +152,6 @@ function buildField(fieldObj, options) {
             fieldsWrapper.displayHierarchy = Hierarchy.generateField(fieldsWrapper.fields.config, "");
         }
     });
-    console.log("fieldsWrapper: ", fieldsWrapper);
     return fieldsWrapper;
 }
 

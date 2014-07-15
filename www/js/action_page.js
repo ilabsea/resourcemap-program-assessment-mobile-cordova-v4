@@ -18,14 +18,12 @@ $(function() {
     });
 
     $(document).delegate('#page-site-list', 'pagebeforeshow', function() {
+        App.emptyHTML();
         $("#btn_sendToServer").hide();
         var cId = localStorage.getItem("cId");
         countSiteByCollectionId(cId);
         displayAllSites();
         $("#site-list-menu").get(0).selectedIndex = 0;
-    });
-
-    $(document).delegate('#page-site-list', 'pageshow', function() {
         $("#site-list").listview("refresh");
     });
 
@@ -38,10 +36,6 @@ $(function() {
         var sId = $(this).attr("data-id");
         localStorage.setItem("sId", sId);
         requireReload(renderUpdateSiteFormFromServer);
-    });
-
-    $(document).delegate('#btn_submitUpdateSite_online', 'click', function() {
-        updateSiteBySiteIdFromServer();
     });
 
     $(document).delegate('#btn_delete-site', 'click', function() {
@@ -114,10 +108,6 @@ $(function() {
         });
     });
 
-    $(document).delegate('#btn_submitUpdateSite', 'click', function() {
-        sId = localStorage.getItem("sId");
-        updateSiteBySiteId(sId);
-    });
     $(document).delegate('#update_icon_map', 'click', function() {
         $("#btn_back_create_site").hide();
         $("#btn_back_update_site_online").hide();

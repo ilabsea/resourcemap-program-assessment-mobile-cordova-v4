@@ -147,10 +147,10 @@
       </div>
       <div data-role="content" id="sitelist">
         <div> <a data-role="button" id="btn_create_site" href="#page-create-site"  data-icon="plus" data-i18n="global.add">Add new site</a></div>	   
-        <ul data-role='listview' id="site-list" data-inset="true" data-theme="c">
+        <ul class="clearPreviousDisplay" data-role='listview' id="site-list" data-inset="true" data-theme="c">
         </ul> 
         <button id="btn_sendToServer" data-icon="forward" data-i18n="global.send_to_server">Send to server</button>
-        <ul data-role='listview' id="site-list-online" data-inset="true" data-theme="c">
+        <ul class="clearPreviousDisplay" data-role='listview' id="site-list-online" data-inset="true" data-theme="c">
         </ul>
       </div>
     </div>
@@ -212,11 +212,11 @@
         <form  method="post" id="form_update_site">
           <div id="div-site-update-name"></div>
           <div class="clearPreviousDisplay" id="div_update_field_collection"> </div>
+          <div class="ui-grid-a">
+            <div class="ui-block-a"><button id="btn_submitUpdateSite" data-i18n="global.update">Update</button></div>
+            <div class="ui-block-b"><a data-role="button" href="#confirm_delete_site" data-rel="dialog" data-i18n="global.delete">Delete</a></div>	   
+          </div>
         </form> 
-        <div class="ui-grid-a">
-          <div class="ui-block-a"><button id="btn_submitUpdateSite" data-i18n="global.update">Update</button></div>
-          <div class="ui-block-b"><a data-role="button" href="#confirm_delete_site" data-rel="dialog" data-i18n="global.delete">Delete</a></div>	   
-        </div>
       </div>
     </div>
 
@@ -231,8 +231,8 @@
         <form id="form_update_site_online">
           <div id="div-site-update-name-online"> </div>
           <div class="clearPreviousDisplay" id="div_update_field_collection_online"></div>
+          <div><button id="btn_submitUpdateSite_online"  data-i18n="global.update">Update</button></div>
         </form>
-        <div><button id="btn_submitUpdateSite_online"  data-i18n="global.update">Update</button></div>
       </div>
     </div>
 
@@ -357,18 +357,17 @@
       {{#if config}} 
       {{#if isHierarchy}} 
       <label>{{name}}</label>
-      <select id="{{idfield}}" data-theme="a" data-native-menu="false" {{required}} >
+      <select id="{{idfield}}" data-theme="a" name="{{idfield}}" data-native-menu="false" {{required}} onchange="validateToRemoveStyle(this)" >
       <option value="">(no value)</option>
       {{{displayHierarchy}}}
       </select>
       {{else}}
       <div>
       <label>{{name}}</label>
+      <select id="{{idfield}}" data-theme="a" name="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}" {{required}} onchange="validateToRemoveStyle(this)" >
       {{#if multiple}}
-      <select id="{{idfield}}" data-theme="a" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}" {{required}} >
       <option>Options</option>
       {{else}}
-      <select id="{{idfield}}" data-theme="a" data-native-menu="false" data-role="{{slider}}" data-mini="{{ctrue}}" {{required}} >
       {{#if slider}} 
       {{else}}
       <option value="">(no value)</option>
@@ -412,18 +411,17 @@
       {{#if config}} 
       {{#if isHierarchy}} 
       <label>{{name}}</label>
-      <select id="update_{{idfield}}" data-native-menu="false" data-theme="a">
+      <select id="update_{{idfield}}" name="update_{{idfield}}" data-native-menu="false" data-theme="a" {{required}} onchange="validateToRemoveStyle(this)" >
       <option value="">(no value)</option>
       {{{displayHierarchy}}}
       </select>
       {{else}}
       <div>
       <label>{{name}}</label>
+      <select id="update_{{idfield}}" data-theme="a" name="update_{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}" {{required}} onchange="validateToRemoveStyle(this)" >
       {{#if multiple}}
-      <select id="update_{{idfield}}" data-theme="a" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
       <option>Options</option>
       {{else}}
-      <select id="update_{{idfield}}" data-theme="a" data-native-menu="false" data-role="{{slider}}" data-mini="{{ctrue}}">
       {{#if slider}} 
       {{else}}
       <option value="">(no value)</option>
@@ -439,15 +437,15 @@
       {{#if isPhoto}}  
       <span style='display:inline; margin-top:10px'>{{{name}}}</span>
       <div onclick="openCameraDialog({{idfield}}, 'update')" id='property_{{idfield}}_container' class="photo" > 
-      <img class="image" src='{{__value}}' id='update_image_{{idfield}}' />
+      <img class="image" src='{{__value}}' id='update_image_{{idfield}}' require='{{required}}' />
       </div>
       {{else}}
       <div>
       <label for='name'>{{{name}}}</label>
       {{#ifCond widgetType "date"}}
-      <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}" class="date" >  
+      <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}" class="date" {{required}} >  
       {{else}}
-      <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+      <input type="{{widgetType}}" id="update_{{idfield}}" value ="{{__value}}" name="{{name}}" {{required}} >  
       {{/ifCond}}
       </div>
       {{/if}}
@@ -466,18 +464,17 @@
       {{#if config}} 
       {{#if isHierarchy}} 
       <label>{{name}}</label>
-      <select id="update_online_{{idfield}}" data-native-menu="false" data-theme="a">
+      <select id="update_online_{{idfield}}" name="update_online_{{idfield}}" data-native-menu="false" data-theme="a" {{required}} onchange="validateToRemoveStyle(this)">
       <option value="">(no value)</option>
       {{{displayHierarchy}}}
       </select>
       {{else}}
       <div>
       <label>{{name}}</label>
+      <select id="update_online_{{idfield}}" name="update_online_{{idfield}}" data-theme="a" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}" {{required}} onchange="validateToRemoveStyle(this)">
       {{#if multiple}}
-      <select id="update_online_{{idfield}}" data-theme="a" data-native-menu="false"  {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}">
       <option>Options</option>
       {{else}}
-      <select id="update_online_{{idfield}}" data-theme="a" data-native-menu="false" data-role="{{slider}}" data-mini="{{ctrue}}">
       {{#if slider}} 
       {{else}}
       <option value="">(no value)</option>
@@ -493,15 +490,15 @@
       {{#if isPhoto}}  
       <span style='display:inline; margin-top:10px'>{{{name}}}</span>
       <div onclick="openCameraDialog({{idfield}}, 'update')" id='property_{{idfield}}_container' class="photo" > 
-      <img class="image" src='{{__value}}' id='update_image_{{idfield}}' />
+      <img class="image" src='{{__value}}' id='update_image_{{idfield}}' require='{{required}}' />
       </div>
       {{else}}
       <div>
       <label for='name'>{{{name}}}</label>
       {{#ifCond widgetType "date"}}
-      <input type="{{widgetType}}" id="update_online_{{idfield}}" value ="{{__value}}" name="{{name}}" class="date" >  
+      <input type="{{widgetType}}" id="update_online_{{idfield}}" value ="{{__value}}" name="{{name}}" class="date" {{required}} >  
       {{else}}
-      <input type="{{widgetType}}" id="update_online_{{idfield}}" value ="{{__value}}" name="{{name}}"  >  
+      <input type="{{widgetType}}" id="update_online_{{idfield}}" value ="{{__value}}" name="{{name}}" {{required}} >  
       {{/ifCond}}
       </div>
       {{/if}}
