@@ -56,6 +56,9 @@ $(function() {
     $(document).delegate('#page-list-view-site li', 'click', function() {
         var sId = $(this).attr("data-id");
         localStorage.setItem("sId", sId);
+        $("#btn_back_site_list_all").show();
+        $("#btn_back_site_list").hide();
+        requireReload(renderUpdateSiteForm);
     });
 
     $(document).delegate('#logout', 'click', function() {
@@ -81,6 +84,8 @@ $(function() {
     $(document).delegate('#page-site-list #site-list li', 'click', function() {
         var sId = $(this).attr("data-id");
         localStorage.setItem("sId", sId);
+        $("#btn_back_site_list_all").hide();
+        $("#btn_back_site_list").show();
         requireReload(renderUpdateSiteForm);
     });
 
