@@ -18,8 +18,8 @@ URL = "http://192.168.1.127:3000/",
                     console.log(obj);
             },
             initialize: function() {
-                this.setUp();
                 this.bindEvents();
+                this.setUp();
             },
             resetDb: function() {
                 persistence.reset();
@@ -41,7 +41,6 @@ URL = "http://192.168.1.127:3000/",
             },
             setUp: function() {
                 $.ajaxSetup({
-                    crossDomain: true,
                     complete: function() {
                         ViewBinding.setBusy(false);
                     }

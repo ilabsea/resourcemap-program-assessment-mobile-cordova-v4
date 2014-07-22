@@ -9,6 +9,7 @@
     <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="css/font_style.css"/>
     <link href="css/libs/jquery.mobile-1.4.2.css" rel="stylesheet" type="text/css"/>
+    
     <link href="css/libs/jqm1.4.2.css" rel="stylesheet" type="text/css"/>
     <link href="css/libs/jquery.mobile.icons.min.css" rel="stylesheet" type="text/css"/>
 
@@ -359,6 +360,7 @@
       {{#if isHierarchy}} 
       <label>{{name}}</label>
       <select id="{{idfield}}" data-theme="a" name="{{idfield}}" data-native-menu="false" {{required}} onchange="validateToRemoveStyle(this)" >
+      <option>Option</option>
       <option value="">(no value)</option>
       {{{displayHierarchy}}}
       </select>
@@ -371,6 +373,7 @@
       {{else}}
       {{#if slider}} 
       {{else}}
+      <option>Option</option>
       <option value="">(no value)</option>
       {{/if}}
       {{/if}}
@@ -413,6 +416,7 @@
       {{#if isHierarchy}} 
       <label>{{name}}</label>
       <select id="update_{{idfield}}" name="update_{{idfield}}" data-native-menu="false" data-theme="a" {{required}} onchange="validateToRemoveStyle(this)" >
+      <option>Option</option>
       <option value="">(no value)</option>
       {{{displayHierarchy}}}
       </select>
@@ -425,6 +429,7 @@
       {{else}}
       {{#if slider}} 
       {{else}}
+      <option>Option</option>
       <option value="">(no value)</option>
       {{/if}}
       {{/if}}
@@ -466,6 +471,7 @@
       {{#if isHierarchy}} 
       <label>{{name}}</label>
       <select id="update_online_{{idfield}}" name="update_online_{{idfield}}" data-native-menu="false" data-theme="a" {{required}} onchange="validateToRemoveStyle(this)">
+      <option>Option</option>
       <option value="">(no value)</option>
       {{{displayHierarchy}}}
       </select>
@@ -478,6 +484,7 @@
       {{else}}
       {{#if slider}} 
       {{else}}
+      <option>Option</option>
       <option value="">(no value)</option>
       {{/if}}
       {{/if}}

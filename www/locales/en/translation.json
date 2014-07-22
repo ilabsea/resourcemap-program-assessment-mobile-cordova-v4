@@ -37,7 +37,7 @@
         "pwd_not_match": "Password doesn't match confirmation",
         "exit_email": "Email have been already",
         "internet": "Unable to connect to the Internet",
-        "alert":"Sign up successful"
+        "alert": "Sign up successful"
     },
     "collection_page": {
         "view_offline_site": "View offline site",
@@ -62,14 +62,11 @@
         "plsSignIn":"Please sign in.",
         "required":"This field is required."
     },
-    
     "dialog":{
         "option":"Photo Options",
         "take":"Take Photo",
         "choose":"Choose Existing" ,
-        "plsSignIn":"Please sign in.",
         "signupsuccess": "Sign up successfully."
-
     },
     "nav":{
         "online": "Online",

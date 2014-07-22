@@ -24,12 +24,12 @@
  */
 
 if (!window.jQuery) {
-  throw new Error("jQuery should be loaded before persistence.jquery.js");
+    throw new Error("jQuery should be loaded before persistence.jquery.js");
 }
 
 if (!window.persistence) {
-  throw new Error("persistence.js should be loaded before persistence.jquery.js");
-} 
+    throw new Error("persistence.js should be loaded before persistence.jquery.js");
+}
 
 persistence.jquery = {};
 
@@ -51,7 +51,8 @@ persistence.defineProp = function(scope, field, setterCallback, getterCallback) 
  * crossbrowser implementation for entity-property setter
  */
 persistence.set = function(scope, fieldName, value) {
-    if (persistence.isImmutable(fieldName)) throw new Error("immutable field: "+fieldName);
+    if (persistence.isImmutable(fieldName))
+        throw new Error("immutable field: " + fieldName);
     scope[fieldName](value);
     return scope;
 };
@@ -65,7 +66,7 @@ persistence.get = function(arg1, arg2) {
 };
 
 
-(function($){
+(function($) {
     var originalDataMethod = $.fn.data;
 
     $.fn.data = function(name, data) {

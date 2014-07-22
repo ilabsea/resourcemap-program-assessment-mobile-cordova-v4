@@ -63,7 +63,6 @@ module.exports = {
                     uuid: uuid,
                     cordova: "dev"
                 };
-
         result.ok(info);
     }
 };
