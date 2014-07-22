@@ -142,7 +142,7 @@ $(function() {
 function showSpinner() {
     $.mobile.activePage.addClass("ui-disabled");
     $.mobile.loading('show', {
-        text: i18n.t("global.ajax-loader"),
+        text: i18n.t('global.ajax-loader'),
         textVisible: true,
         theme: "b",
         html: ""

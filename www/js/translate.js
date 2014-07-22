@@ -4,7 +4,7 @@ Translation = {
     i18n.init({lng: currentLang}, function() {
       $(document.body).i18n();
     });
-    jqueryValidationForm = jquery_validation[currentLang]
+    jqueryValidationForm = jquery_validation[currentLang];
     $.extend($.validator.messages, jqueryValidationForm);
   },
   getLang: function() {

@@ -17,13 +17,13 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
+*/
 
 var argscheck = require('cordova/argscheck'),
-        channel = require('cordova/channel'),
-        utils = require('cordova/utils'),
-        exec = require('cordova/exec'),
-        cordova = require('cordova');
+    channel = require('cordova/channel'),
+    utils = require('cordova/utils'),
+    exec = require('cordova/exec'),
+    cordova = require('cordova');
 
 channel.createSticky('onCordovaInfoReady');
 // Tell cordova channel to wait on the CordovaInfoReady event
@@ -56,7 +56,7 @@ function Device() {
             me.cordova = buildLabel;
             me.model = info.model;
             channel.onCordovaInfoReady.fire();
-        }, function(e) {
+        },function(e) {
             me.available = false;
             utils.alert("[ERROR] Error initializing Cordova: " + e);
         });
