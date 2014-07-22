@@ -18,8 +18,8 @@ END_POINT = URL + "api",
                     console.log(obj);
             },
             initialize: function() {
-                this.setUp();
                 this.bindEvents();
+                this.setUp();
             },
             resetDb: function() {
                 persistence.reset();
@@ -41,7 +41,6 @@ END_POINT = URL + "api",
             },
             setUp: function() {
                 $.ajaxSetup({
-                    crossDomain: true,
                     complete: function() {
                         ViewBinding.setBusy(false);
                     }

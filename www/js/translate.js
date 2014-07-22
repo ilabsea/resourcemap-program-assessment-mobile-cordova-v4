@@ -1,9 +1,7 @@
 Translation = {
     setLang: function(currentLang) {
-        alert("Lang : " + currentLang);
         localStorage['currentLang'] = currentLang;
-        i18n.init({ lng: currentLang }, function() {
-            alert("init");
+        i18n.init({lng: currentLang}, function() {
             $(document.body).i18n();
         });
         jqueryValidationForm = jquery_validation[currentLang];

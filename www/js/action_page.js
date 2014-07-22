@@ -97,6 +97,7 @@ $(function() {
             callback();
         }
     }
+
     $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
         requireReload(function() {
             var lat = $("#lat").val();

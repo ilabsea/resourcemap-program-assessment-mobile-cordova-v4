@@ -9,6 +9,7 @@
     <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="css/font_style.css"/>
     <link href="css/libs/jquery.mobile-1.4.2.css" rel="stylesheet" type="text/css"/>
+    
     <link href="css/libs/jqm1.4.2.css" rel="stylesheet" type="text/css"/>
     <link href="css/libs/jquery.mobile.icons.min.css" rel="stylesheet" type="text/css"/>
 
@@ -502,7 +503,7 @@
     </script>
 
     <script id="language-template" type="text/x-handlebars-template">
-      <select style="width:100%;" data-native-menu="false"  data-theme="a" id="lang-switcher" onchange="alert(1);Translation.translateLang('lang-switcher')"> 
+      <select style="width:100%;" data-native-menu="false"  data-theme="a" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
       {{#each langs}} 
       {{#if selected}}
       <option value="{{value}}" selected>{{text}}</option>   

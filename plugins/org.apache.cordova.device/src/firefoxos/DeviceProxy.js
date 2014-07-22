@@ -18,8 +18,7 @@
  * under the License.
  *
  */
-//example UA String for Firefox OS 
-//Mozilla/5.0 (Mobile; rv:26.0) Gecko/26.0 Firefox/26.0
+
 var firefoxos = require('cordova/platform');
 var cordova = require('cordova');
 
@@ -64,8 +63,8 @@ function getModel() {
     return (null);
 }
 module.exports = {
-    getDeviceInfo: function (success, error) {
-        setTimeout(function () {
+    getDeviceInfo: function(success, error) {
+        setTimeout(function() {
             success({
                 cordova: firefoxos.cordovaVersion,
                 platform: 'firefoxos',

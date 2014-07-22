@@ -37,7 +37,7 @@
         "pwd_not_match": "Password doesn't match confirmation",
         "exit_email": "Email have been already",
         "internet": "Unable to connect to the Internet",
-        "alert":"Sign up successful"
+        "alert": "Sign up successful"
     },
     "collection_page": {
         "view_offline_site": "View offline site",
@@ -52,20 +52,19 @@
         "delete_site": "Delete the site",
         "alert_delete": "Are you sure you want to delete the site?"
     },
-    "validation":{
-       "email_format":"Please enter a valid email address.",
-        "number_format":"Please enter a valid number.",
-        "empty_validate":"This field is required.",
-        "date_validate":"Please enter a valid date."  ,
-        "invalide":"Invalid email or password.",
-        "not_found":"Not found in database.",
-        "plsSignIn":"Please sign in."
+    "validation": {
+        "email_format": "Please enter a valid email address.",
+        "number_format": "Please enter a valid number.",
+        "empty_validate": "This field is required.",
+        "date_validate": "Please enter a valid date.",
+        "invalide": "Invalid email or password.",
+        "not_found": "Not found in database.",
+        "plsSignIn": "Please sign in."
     },
     "dialog":{
         "option":"Photo Options",
         "take":"Take Photo",
         "choose":"Choose Existing" ,
-        "plsSignIn":"Please sign in.",
         "signupsuccess": "Sign up successfully."
     },
     "nav":{
