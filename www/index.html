@@ -502,7 +502,7 @@
     </script>
 
     <script id="language-template" type="text/x-handlebars-template">
-      <select style="width:100%;" data-native-menu="false"  data-theme="a" id="lang-switcher" onchange="Translation.translateLang('lang-switcher')"> 
+      <select style="width:100%;" data-native-menu="false"  data-theme="a" id="lang-switcher" onchange="alert(1);Translation.translateLang('lang-switcher')"> 
       {{#each langs}} 
       {{#if selected}}
       <option value="{{value}}" selected>{{text}}</option>   
