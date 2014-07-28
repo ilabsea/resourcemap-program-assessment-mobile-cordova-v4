@@ -1,8 +1,11 @@
 $(document).ready(function() {
 
     $('#form_login').validate({
-        errorPlacement: function(error, element) {
-            error.insertAfter($(element).parent());
+        focusInvalid: false,
+        errorPlacement: function() {
+        },
+        invalidHandler: function() {
+            $('#validation_email_psd').show().delay(4000).fadeOut();
         },
         submitHandler: function() {
             validateLogin();
@@ -10,8 +13,8 @@ $(document).ready(function() {
     });
 
     $('#form_signup').validate({
-        errorPlacement: function(error, element) {
-            error.insertAfter($(element).parent());
+        focusInvalid: false,
+        errorPlacement: function() {
         },
         submitHandler: function() {
             if (isOnline()) {
@@ -20,10 +23,14 @@ $(document).ready(function() {
             }
             else
                 $("#internet").show();
+        },
+        invalidHandler: function(event, validator) {
+            $('#validation_email_psd_confirm').show().delay(4000).fadeOut();
         }
     });
 
     $('#form_create_site').validate({
+        focusInvalid: false,
         errorPlacement: function(error, element) {
             if ($('.image').attr('src') == '' && $(".image").attr('require') == "required") {
                 $(".photo").css({"border": "1px solid red"});
@@ -32,7 +39,10 @@ $(document).ready(function() {
                 $(element).parent().css({"border": "2px solid red",
                     "border-radius": "16px"});
             }
-            console.log(element);
+        },
+        invalidHandler: function() {
+            $('#validation_create-site').show().delay(4000).fadeOut();
+            $("#validation_create-site").focus();
         },
         submitHandler: function() {
             if ($(".image").attr('require') == "required") {
@@ -49,6 +59,7 @@ $(document).ready(function() {
     });
 
     $('#form_update_site').validate({
+        focusInvalid: false,
         errorPlacement: function(error, element) {
             if ($('.image').attr('src') == '' && $(".image").attr('require') == "required") {
                 $(".photo").css({"border": "1px solid red"});
@@ -57,6 +68,10 @@ $(document).ready(function() {
                 $(element).parent().css({"border": "2px solid red",
                     "border-radius": "16px"});
             }
+        },
+        invalidHandler: function() {
+            $('#validation_update-site').show().delay(4000).fadeOut();
+            $("#validation_update-site").focus();
         },
         submitHandler: function() {
             var sId = localStorage.getItem("sId");
@@ -74,6 +89,7 @@ $(document).ready(function() {
     });
 
     $('#form_update_site_online').validate({
+        focusInvalid: false,
         errorPlacement: function(error, element) {
             if ($('.image').attr('src') == '' && $(".image").attr('require') == "required") {
                 $(".photo").css({"border": "1px solid red"});
@@ -82,6 +98,10 @@ $(document).ready(function() {
                 $(element).parent().css({"border": "2px solid red",
                     "border-radius": "16px"});
             }
+        },
+        invalidHandler: function() {
+            $('#validation_update-site-online').show().delay(4000).fadeOut();
+            $("#validation_update-site-online").focus();
         },
         submitHandler: function() {
             if ($(".image").attr('require') == "required") {
@@ -105,7 +125,6 @@ $(document).ready(function() {
 });
 
 function validateToRemoveStyle(element) {
-    console.log("value :", element.value);
     if (element.value != '') {
         $(element).parent().css({"border": "1px solid #f3f3f3",
             "border-radius": "16px"});
@@ -114,5 +133,4 @@ function validateToRemoveStyle(element) {
         $(element).parent().css({"border": "2px solid red",
             "border-radius": "16px"});
     }
-//        ($(element).parent()).removeAttr("style");
 }
