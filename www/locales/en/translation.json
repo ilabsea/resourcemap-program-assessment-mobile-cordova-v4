@@ -60,7 +60,9 @@
         "invalide":"Invalid email or password.",
         "not_found":"Not found in database.",
         "plsSignIn":"Please sign in.",
-        "required":"This field is required."
+        "required":"This field is required.",
+        "emailPsd": "Please enter your email and password.",
+        "emailPsdConfirm": "Please enter all required fields."
     },
     "dialog":{
         "option":"Photo Options",
