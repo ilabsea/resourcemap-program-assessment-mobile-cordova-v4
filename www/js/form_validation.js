@@ -35,6 +35,9 @@ $(document).ready(function() {
             if ($('.image').attr('src') == '' && $(".image").attr('require') == "required") {
                 $(".photo").css({"border": "1px solid red"});
             }
+            else{
+                $(".photo").css({"border": "1px solid #f3f3f3"});
+            }
             if (($(element).parent()).is(".ui-select")) {
                 $(element).parent().css({"border": "2px solid red",
                     "border-radius": "16px"});
@@ -47,7 +50,7 @@ $(document).ready(function() {
         submitHandler: function() {
             if ($(".image").attr('require') == "required") {
                 if ($('.image').attr('src') != '') {
-                    $(".photo").css({"border": ""});
+                    $(".photo").css({"border": "1px solid #f3f3f3"});
                     addSiteToServer();
                 } else {
                     $(".photo").css({"border": "1px solid red"});
@@ -77,7 +80,7 @@ $(document).ready(function() {
             var sId = localStorage.getItem("sId");
             if ($(".image").attr('require') == "required") {
                 if ($('.image').attr('src') != '') {
-                    $(".photo").css({"border": ""});
+                    $(".photo").css({"border": "1px solid #f3f3f3"});
                     updateSiteBySiteId(sId);
                 } else {
                     $(".photo").css({"border": "1px solid red"});
@@ -93,6 +96,8 @@ $(document).ready(function() {
         errorPlacement: function(error, element) {
             if ($('.image').attr('src') == '' && $(".image").attr('require') == "required") {
                 $(".photo").css({"border": "1px solid red"});
+            }else{
+                $(".photo").css({"border": "1px solid #f3f3f3"});
             }
             if (($(element).parent()).is(".ui-select")) {
                 $(element).parent().css({"border": "2px solid red",
@@ -106,7 +111,7 @@ $(document).ready(function() {
         submitHandler: function() {
             if ($(".image").attr('require') == "required") {
                 if ($('.image').attr('src') != '') {
-                    $(".photo").css({"border": ""});
+                    $(".photo").css({"border": "1px solid #f3f3f3"});
                     updateSiteBySiteIdFromServer();
                 } else {
                     $(".photo").css({"border": "1px solid red"});
