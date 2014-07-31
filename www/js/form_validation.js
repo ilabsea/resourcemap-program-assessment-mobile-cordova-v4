@@ -5,7 +5,7 @@ $(document).ready(function() {
         errorPlacement: function() {
         },
         invalidHandler: function() {
-            $('#validation_email_psd').show().delay(4000).fadeOut();
+            showValidateMessage('#validation_email_psd');
         },
         submitHandler: function() {
             validateLogin();
@@ -25,27 +25,21 @@ $(document).ready(function() {
                 $("#internet").show();
         },
         invalidHandler: function(event, validator) {
-            $('#validation_email_psd_confirm').show().delay(4000).fadeOut();
+            showValidateMessage('#validation_email_psd_confirm');
         }
     });
 
     $('#form_create_site').validate({
         focusInvalid: false,
         errorPlacement: function(error, element) {
-            if ($('.image').attr('src') == '' && $(".image").attr('require') == "required") {
-                $(".photo").css({"border": "1px solid red"});
-            }
-            else{
-                $(".photo").css({"border": "1px solid #f3f3f3"});
-            }
+            validateImage();
             if (($(element).parent()).is(".ui-select")) {
-                $(element).parent().css({"border": "2px solid red",
+                $(element).parent().css({"border": "1px solid red",
                     "border-radius": "16px"});
             }
         },
         invalidHandler: function() {
-            $('#validation_create-site').show().delay(4000).fadeOut();
-            $("#validation_create-site").focus();
+            showValidateMessage('#validation_create-site');
         },
         submitHandler: function() {
             if ($(".image").attr('require') == "required") {
@@ -54,6 +48,7 @@ $(document).ready(function() {
                     addSiteToServer();
                 } else {
                     $(".photo").css({"border": "1px solid red"});
+                    showValidateMessage('#validation_create-site');
                 }
             } else {
                 addSiteToServer();
@@ -64,17 +59,14 @@ $(document).ready(function() {
     $('#form_update_site').validate({
         focusInvalid: false,
         errorPlacement: function(error, element) {
-            if ($('.image').attr('src') == '' && $(".image").attr('require') == "required") {
-                $(".photo").css({"border": "1px solid red"});
-            }
+            validateImage();
             if (($(element).parent()).is(".ui-select")) {
-                $(element).parent().css({"border": "2px solid red",
+                $(element).parent().css({"border": "1px solid red",
                     "border-radius": "16px"});
             }
         },
         invalidHandler: function() {
-            $('#validation_update-site').show().delay(4000).fadeOut();
-            $("#validation_update-site").focus();
+            showValidateMessage('#validation_update-site');
         },
         submitHandler: function() {
             var sId = localStorage.getItem("sId");
@@ -84,6 +76,7 @@ $(document).ready(function() {
                     updateSiteBySiteId(sId);
                 } else {
                     $(".photo").css({"border": "1px solid red"});
+                    showValidateMessage('#validation_update-site');
                 }
             } else {
                 updateSiteBySiteId(sId);
@@ -94,19 +87,14 @@ $(document).ready(function() {
     $('#form_update_site_online').validate({
         focusInvalid: false,
         errorPlacement: function(error, element) {
-            if ($('.image').attr('src') == '' && $(".image").attr('require') == "required") {
-                $(".photo").css({"border": "1px solid red"});
-            }else{
-                $(".photo").css({"border": "1px solid #f3f3f3"});
-            }
+            validateImage();
             if (($(element).parent()).is(".ui-select")) {
-                $(element).parent().css({"border": "2px solid red",
+                $(element).parent().css({"border": "1px solid red",
                     "border-radius": "16px"});
             }
         },
         invalidHandler: function() {
-            $('#validation_update-site-online').show().delay(4000).fadeOut();
-            $("#validation_update-site-online").focus();
+            showValidateMessage('#validation_update-site-online');
         },
         submitHandler: function() {
             if ($(".image").attr('require') == "required") {
@@ -115,6 +103,7 @@ $(document).ready(function() {
                     updateSiteBySiteIdFromServer();
                 } else {
                     $(".photo").css({"border": "1px solid red"});
+                    showValidateMessage('#validation_update-site-online');
                 }
             } else {
                 updateSiteBySiteIdFromServer();
@@ -130,12 +119,25 @@ $(document).ready(function() {
 });
 
 function validateToRemoveStyle(element) {
-    if (element.value != '') {
-        $(element).parent().css({"border": "1px solid #f3f3f3",
+    if (element.required && element.value == "") {
+        $(element).parent().css({"border": "1px solid red",
             "border-radius": "16px"});
     }
     else {
-        $(element).parent().css({"border": "2px solid red",
+        $(element).parent().css({"border": "1px solid #f3f3f3",
             "border-radius": "16px"});
     }
+}
+
+function validateImage() {
+    if ($('.image').attr('src') == '' && $(".image").attr('require') == "required") {
+        $(".photo").css({"border": "1px solid red"});
+    } else {
+        $(".photo").css({"border": "1px solid #f3f3f3"});
+    }
+}
+
+function showValidateMessage(id) {
+    $(id).show().delay(4000).fadeOut();
+    $(id).focus();
 }

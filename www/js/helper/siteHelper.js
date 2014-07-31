@@ -123,7 +123,7 @@ function updateFieldValueBySiteId(propertiesFile, field, idHTMLForUpdate, fromSe
         var itemLayer = buildField(field, {fromServer: fromServer});
     else
         var itemLayer = buildField(field._data, {fromServer: fromServer});
-    
+
     var items = itemLayer.fields;
     $.each(items, function(i, item) {
         if (item.isPhoto) {
@@ -232,7 +232,8 @@ SiteCamera = {
         var photo = new Photo(SiteCamera.id, imageData, SiteCamera.format);
         image.src = SiteCamera.dataWithMimeType(imageData);
         PhotoList.add(photo);
-
+        
+        validateImage();
     },
     imageId: function() {
         return  (SiteCamera.updated == 'update') ? ("update_image_" + SiteCamera.id) : SiteCamera.id;

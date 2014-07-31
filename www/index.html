@@ -285,7 +285,7 @@
     <!--view site in local database-->
     <script id="site-template" type="text/x-handlebars-template">
       {{#each siteList}}
-      <li data-id='{{id}}' data-name='{{name}}'><a href='#page-update-site'> {{name}} <p class='ui-li-desc'> Offline </p> <p class='ui-li-aside' style='color:blue'> {{date}} </p></a></li>
+      <li data-id='{{id}}' data-name='{{name}}'><a href='#page-update-site'> {{name}} <p class='ui-li-desc' style="color:#044062; font-weight: 580"> Offline </p> <p class='ui-li-aside' style='color:blue'> {{date}} </p></a></li>
       {{/each}}
     </script>
 
@@ -363,8 +363,8 @@
     <!--field collection in create page-->
     <script id="field_collection-template" type="text/x-handlebars-template">
       {{#each field_collections}}
-      <h5>{{name_wrapper}}</h5>
-      <div class="ui-corner-all ui-controlgroup ui-controlgroup-vertical" style="margin-left:10px">
+      <div data-role="collapsible" data-inset="true" data-theme="a" data-collapsed="false">
+      <h3>{{name_wrapper}}</h3>
       {{#each fields}}
       {{#if config}} 
       {{#if isHierarchy}} 
@@ -396,7 +396,7 @@
       {{else}}    
       {{#if isPhoto}}  
       <label>{{name}}</label>
-      <div onclick="openCameraDialog({{idfield}}, 'new')" id='property_{{idfield}}_container' class="photo">
+      <div onclick="openCameraDialog({{idfield}}, 'new');" id='property_{{idfield}}_container' class="photo">
       <img class="image" src='{{__value}}' id='{{idfield}}' require='{{required}}' /> 
       <label for="img" id="img_required"> This field is required. </label>
       </div>
@@ -419,8 +419,8 @@
     <!--field collection update in page update site (sites are in local database) -->
     <script id="update_field_collection-template" type="text/x-handlebars-template">
       {{#each field_collections}}
-      <h5>{{name_wrapper}}</h5>
-      <div class="ui-corner-all ui-controlgroup ui-controlgroup-vertical" style="margin-left:10px">
+      <div data-role="collapsible" data-inset="true" data-theme="a" data-collapsed="false">
+      <h3>{{name_wrapper}}</h3>
       {{#each fields}}
       {{#if config}} 
       {{#if isHierarchy}} 
@@ -474,8 +474,8 @@
     <!--field collection update in page update site (sites are in server database) -->
     <script id="update_field_collection-online-template" type="text/x-handlebars-template">
       {{#each field_collections}}
-      <h5>{{name_wrapper}}</h5>
-      <div class="ui-corner-all ui-controlgroup ui-controlgroup-vertical" style="margin-left:10px">
+      <div data-role="collapsible" data-inset="true" data-theme="a" data-collapsed="false">
+      <h3>{{name_wrapper}}</h3>
       {{#each fields}}
       {{#if config}} 
       {{#if isHierarchy}} 
