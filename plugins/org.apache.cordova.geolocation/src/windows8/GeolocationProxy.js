@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-        var PositionError = require('./PositionError'),
-        ids = {},
-        loc;
+var PositionError = require('./PositionError'),
+    ids = {},
+    loc;
 
 function ensureLocator() {
     if (loc == null)
@@ -50,38 +50,38 @@ function createErrorCode() {
 }
 
 module.exports = {
-    getLocation: function(success, fail, args, env) {
+    getLocation: function (success, fail, args, env) {
         ensureLocator();
         if (loc != null)
         {
             var highAccuracy = args[0],
-                    maxAge = args[1];
+                maxAge = args[1];
 
             loc.desiredAccuracy = highAccuracy ?
-                    Windows.Devices.Geolocation.PositionAccuracy.high :
-                    Windows.Devices.Geolocation.PositionAccuracy.default;
+                Windows.Devices.Geolocation.PositionAccuracy.high :
+                Windows.Devices.Geolocation.PositionAccuracy.default;
 
             loc.reportInterval = maxAge ? maxAge : 0;
 
             loc.getGeopositionAsync().then(
-                    function(pos) {
-                        success({
-                            latitude: pos.coordinate.latitude,
-                            longitude: pos.coordinate.longitude,
-                            altitude: pos.coordinate.altitude,
-                            accuracy: pos.coordinate.accuracy,
-                            heading: pos.coordinate.heading,
-                            velocity: pos.coordinate.speed,
-                            altitudeAccuracy: pos.coordinate.altitudeAccuracy,
-                            timestamp: pos.coordinate.timestamp
-                        });
-                    },
-                    function(err) {
-                        fail({
-                            code: createErrorCode(),
-                            message: err.message
-                        });
-                    }
+                function (pos) {
+                    success({
+                        latitude: pos.coordinate.latitude,
+                        longitude: pos.coordinate.longitude,
+                        altitude: pos.coordinate.altitude,
+                        accuracy: pos.coordinate.accuracy,
+                        heading: pos.coordinate.heading,
+                        velocity: pos.coordinate.speed,
+                        altitudeAccuracy: pos.coordinate.altitudeAccuracy,
+                        timestamp: pos.coordinate.timestamp
+                    });
+                },
+                function (err) {
+                    fail({
+                        code: createErrorCode(),
+                        message: err.message
+                    });
+                }
             );
         }
         else
@@ -92,45 +92,48 @@ module.exports = {
             });
         }
     },
-    addWatch: function(success, fail, args, env) {
+
+    addWatch: function (success, fail, args, env) {
         ensureLocator();
         var clientId = args[0],
-                highAccuracy = args[1],
-                onPositionChanged = function(e) {
-                    success({
-                        latitude: e.position.coordinate.latitude,
-                        longitude: e.position.coordinate.longitude,
-                        altitude: e.position.coordinate.altitude,
-                        accuracy: e.position.coordinate.accuracy,
-                        heading: e.position.coordinate.heading,
-                        velocity: e.position.coordinate.speed,
-                        altitudeAccuracy: e.position.coordinate.altitudeAccuracy,
-                        timestamp: e.position.coordinate.timestamp
-                    });
-                },
-                onStatusChanged = function(e) {
-                    switch (e.status) {
-                        case Windows.Devices.Geolocation.PositionStatus.noData:
-                        case Windows.Devices.Geolocation.PositionStatus.notAvailable:
-                            fail({
-                                code: PositionError.POSITION_UNAVAILABLE,
-                                message: "Data from location services is currently unavailable or you do not have the required location services present on your system."
-                            });
-                            break;
+            highAccuracy = args[1],
 
-                        case Windows.Devices.Geolocation.PositionStatus.disabled:
-                            fail({
-                                code: PositionError.PERMISSION_DENIED,
-                                message: "Your location is currently turned off."
-                            });
-                            break;
+            onPositionChanged = function (e) {
+                success({
+                    latitude: e.position.coordinate.latitude,
+                    longitude: e.position.coordinate.longitude,
+                    altitude: e.position.coordinate.altitude,
+                    accuracy: e.position.coordinate.accuracy,
+                    heading: e.position.coordinate.heading,
+                    velocity: e.position.coordinate.speed,
+                    altitudeAccuracy: e.position.coordinate.altitudeAccuracy,
+                    timestamp: e.position.coordinate.timestamp
+                });
+            },
 
-                        case Windows.Devices.Geolocation.PositionStatus.initializing:
-                        case Windows.Devices.Geolocation.PositionStatus.ready:
-                        default:
-                            break;
-                    }
-                };
+            onStatusChanged = function (e) {
+                switch (e.status) {
+                    case Windows.Devices.Geolocation.PositionStatus.noData:
+                    case Windows.Devices.Geolocation.PositionStatus.notAvailable:
+                        fail({
+                            code: PositionError.POSITION_UNAVAILABLE,
+                            message: "Data from location services is currently unavailable or you do not have the required location services present on your system."
+                        });
+                        break;
+
+                    case Windows.Devices.Geolocation.PositionStatus.disabled:
+                        fail({
+                            code: PositionError.PERMISSION_DENIED,
+                            message: "Your location is currently turned off."
+                        });
+                        break;
+
+                    case Windows.Devices.Geolocation.PositionStatus.initializing:
+                    case Windows.Devices.Geolocation.PositionStatus.ready:
+                    default:
+                        break;
+                }
+            };
 
         loc.desiredAccuracy = highAccuracy ?
                 Windows.Devices.Geolocation.PositionAccuracy.high :
@@ -139,11 +142,12 @@ module.exports = {
         loc.addEventListener("positionchanged", onPositionChanged);
         loc.addEventListener("statuschanged", onStatusChanged);
 
-        ids[clientId] = {pos: onPositionChanged, status: onStatusChanged};
+        ids[clientId] = { pos: onPositionChanged, status: onStatusChanged };
     },
-    clearWatch: function(success, fail, args, env) {
+
+    clearWatch: function (success, fail, args, env) {
         var clientId = args[0],
-                callbacks = ids[clientId];
+            callbacks = ids[clientId];
 
         if (callbacks) {
             loc.removeEventListener("positionchanged", callbacks.pos);
@@ -156,4 +160,4 @@ module.exports = {
     }
 };
 
-require("cordova/windows8/commandProxy").add("Geolocation", module.exports);
+require("cordova/exec/proxy").add("Geolocation", module.exports);

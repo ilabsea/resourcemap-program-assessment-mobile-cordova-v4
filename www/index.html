@@ -369,7 +369,7 @@
       {{#if config}} 
       {{#if isHierarchy}} 
       <label>{{name}}</label>
-      <select id="{{idfield}}" data-theme="a" name="{{idfield}}" data-native-menu="false" {{required}} onchange="validateToRemoveStyle(this)" >
+      <select id="{{idfield}}" data-theme="a" name="{{idfield}}" data-native-menu="false" {{required}} onchange="validateToRemoveStyle(this)">
       <option value="">Option</option>
       <option value="">(no value)</option>
       {{{displayHierarchy}}}
@@ -377,7 +377,7 @@
       {{else}}
       <div>
       <label>{{name}}</label>
-      <select id="{{idfield}}" data-theme="a" name="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}" {{required}} onchange="validateToRemoveStyle(this)" >
+      <select id="{{idfield}}" data-theme="a" name="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}" {{required}} onchange="validateToRemoveStyle(this)">
       {{#if multiple}}
       <option>Options</option>
       {{else}}
