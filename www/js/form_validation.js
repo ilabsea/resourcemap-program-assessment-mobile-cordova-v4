@@ -105,13 +105,12 @@ $(document).ready(function() {
 });
 
 function validateToRemoveStyle(element) {
+    var $parent = $(element).closest(".ui-select");
     if (element.required && element.value == "") {
-        $(element).parent().removeClass('valid');
-        $(element).parent().addClass('error');
+        $parent.removeClass('valid').addClass('error');
     }
     else {
-        $(element).parent().removeClass('error');
-        $(element).parent().addClass('valid');
+        $parent.removeClass('error').addClass('valid');
     }
 }
 
