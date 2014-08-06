@@ -11,7 +11,6 @@ $(document).ready(function() {
             validateLogin();
         }
     });
-
     $('#form_signup').validate({
         focusInvalid: false,
         errorPlacement: function() {
@@ -28,15 +27,11 @@ $(document).ready(function() {
             showValidateMessage('#validation_email_psd_confirm');
         }
     });
-
     $('#form_create_site').validate({
         focusInvalid: false,
         errorPlacement: function(error, element) {
             validateImage();
-            if (($(element).parent()).is(".ui-select")) {
-                $(element).parent().css({"border": "1px solid red",
-                    "border-radius": "16px"});
-            }
+            addClassError(element);
         },
         invalidHandler: function() {
             showValidateMessage('#validation_create-site');
@@ -55,15 +50,11 @@ $(document).ready(function() {
             }
         }
     });
-
     $('#form_update_site').validate({
         focusInvalid: false,
         errorPlacement: function(error, element) {
             validateImage();
-            if (($(element).parent()).is(".ui-select")) {
-                $(element).parent().css({"border": "1px solid red",
-                    "border-radius": "16px"});
-            }
+            addClassError(element);
         },
         invalidHandler: function() {
             showValidateMessage('#validation_update-site');
@@ -83,15 +74,11 @@ $(document).ready(function() {
             }
         }
     });
-
     $('#form_update_site_online').validate({
         focusInvalid: false,
         errorPlacement: function(error, element) {
             validateImage();
-            if (($(element).parent()).is(".ui-select")) {
-                $(element).parent().css({"border": "1px solid red",
-                    "border-radius": "16px"});
-            }
+            addClassError(element);
         },
         invalidHandler: function() {
             showValidateMessage('#validation_update-site-online');
@@ -110,7 +97,6 @@ $(document).ready(function() {
             }
         }
     });
-
     jQuery.validator.setDefaults({
         debug: true,
         success: "valid",
@@ -120,12 +106,12 @@ $(document).ready(function() {
 
 function validateToRemoveStyle(element) {
     if (element.required && element.value == "") {
-        $(element).parent().css({"border": "1px solid red",
-            "border-radius": "16px"});
+        $(element).parent().removeClass('valid');
+        $(element).parent().addClass('error');
     }
     else {
-        $(element).parent().css({"border": "1px solid #f3f3f3",
-            "border-radius": "16px"});
+        $(element).parent().removeClass('error');
+        $(element).parent().addClass('valid');
     }
 }
 
@@ -140,4 +126,9 @@ function validateImage() {
 function showValidateMessage(id) {
     $(id).show().delay(4000).fadeOut();
     $(id).focus();
+}
+
+function addClassError(element) {
+    var $parent = $(element).closest('.ui-select');
+    $parent.addClass("error");
 }

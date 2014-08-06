@@ -13,8 +13,9 @@ input.error {
     border: 1px solid red !important;
 }
 
-input.error {
+.ui-select.error {
     border: 1px solid red !important;
+    border-radius: 16px;
 }
 
 @media screen and (orientation: portrait){

@@ -3,13 +3,13 @@
     <title>Resource Map</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
     <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="css/font_style.css"/>
+    
     <link href="css/libs/jquery.mobile-1.4.2.css" rel="stylesheet" type="text/css"/>
-
     <link href="css/libs/jqm1.4.2.css" rel="stylesheet" type="text/css"/>
     <link href="css/libs/jquery.mobile.icons.min.css" rel="stylesheet" type="text/css"/>
 
@@ -369,7 +369,7 @@
       {{#if config}} 
       {{#if isHierarchy}} 
       <label>{{name}}</label>
-      <select id="{{idfield}}" data-theme="a" name="{{idfield}}" data-native-menu="false" {{required}} onchange="validateToRemoveStyle(this)">
+      <select id="{{idfield}}" data-theme="a" name="{{idfield}}" data-native-menu="false" {{required}} class="validateSelectFields">
       <option value="">Option</option>
       <option value="">(no value)</option>
       {{{displayHierarchy}}}
@@ -377,7 +377,7 @@
       {{else}}
       <div>
       <label>{{name}}</label>
-      <select id="{{idfield}}" data-theme="a" name="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}" {{required}} onchange="validateToRemoveStyle(this)">
+      <select id="{{idfield}}" data-theme="a" name="{{idfield}}" data-native-menu="false" {{multiple}} data-role="{{slider}}" data-mini="{{ctrue}}" {{required}} class="validateSelectFields">
       {{#if multiple}}
       <option>Options</option>
       {{else}}
