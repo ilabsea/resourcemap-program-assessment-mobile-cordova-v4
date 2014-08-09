@@ -18,6 +18,11 @@ input.error {
     border-radius: 16px;
 }
 
+.ui-select.valid {
+    border: 1px solid #f3f3f3 !important;
+    border-radius: 16px;
+}
+
 @media screen and (orientation: portrait){
     label.error { margin-left: 0; display: block; }
 }

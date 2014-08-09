@@ -18,7 +18,6 @@ $(function() {
     });
 
     $(document).delegate('#page-site-list', 'pagebeforeshow', function() {
-        App.emptyHTML();
         $("#btn_sendToServer").hide();
         var cId = localStorage.getItem("cId");
         countSiteByCollectionId(cId);

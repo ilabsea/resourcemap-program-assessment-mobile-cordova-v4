@@ -92,6 +92,8 @@ function updateSiteBySiteId() {
             site.properties(propertiesFile.properties);
             site.files(propertiesFile.files);
             persistence.flush();
+            resetSiteForm();
+            clearFilePathStorage("filePath");
             location.href = "index.html#page-site-list";
         });
     });
@@ -117,6 +119,7 @@ function updateSiteBySiteIdFromServer() {
             }
         };
         SiteModel.update(data, function() {
+            console.log("data: ", data);
             redirectTo("#page-site-list");
         }, function() {
             alert(i18n.t("global.please_reupdate_your_site"));

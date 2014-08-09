@@ -117,51 +117,6 @@ function buildDataForSite() {
     return data;
 }
 
-function updateFieldValueBySiteId(propertiesFile, field, idHTMLForUpdate, fromServer) {
-    var pf = propertiesFile;
-    if (fromServer)
-        var itemLayer = buildField(field, {fromServer: fromServer});
-    else
-        var itemLayer = buildField(field._data, {fromServer: fromServer});
-
-    var items = itemLayer.fields;
-    $.each(items, function(i, item) {
-        if (item.isPhoto) {
-            var idfield = item["idfield"];
-            var lPhotoList = PhotoList.getPhotos().length;
-            if (lPhotoList == 0)
-                propertiesFile.properties[idfield] = "";
-            else {
-                for (var i = 0; i < PhotoList.getPhotos().length; i++) {
-                    if (PhotoList.getPhotos()[i].id == idfield) {
-                        var fileName = PhotoList.getPhotos()[i].name();
-                        propertiesFile.properties[idfield] = fileName;
-                        propertiesFile.files[fileName] = PhotoList.getPhotos()[i].data;
-                        break;
-                    }
-                }
-            }
-        }
-        else if (item.widgetType === "date") {
-            var nodeId = idHTMLForUpdate + item["idfield"];
-            var value = $(nodeId).val();
-            if (value != "") {
-                value = new Date(value);
-                value = dateToParam(value);
-            }
-            propertiesFile.properties[item["idfield"]] = value;
-        }
-        else {
-            var nodeId = idHTMLForUpdate + item["idfield"];
-            var value = $(nodeId).val();
-            if (value == null)
-                value = "";
-            propertiesFile.properties[item["idfield"]] = value;
-        }
-    });
-    return pf;
-}
-
 function resetSiteForm() {
     PhotoList.clear();
     location.href = "#page-site-list";

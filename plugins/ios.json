@@ -67,11 +67,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
+                            "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -89,10 +89,10 @@
         "org.apache.cordova.device": {
             "PACKAGE_NAME": "org.instedd.resourcemap"
         },
-        "org.apache.cordova.network-information": {
+        "org.apache.cordova.geolocation": {
             "PACKAGE_NAME": "org.instedd.resourcemap"
         },
-        "org.apache.cordova.geolocation": {
+        "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "org.instedd.resourcemap"
         }
     },
