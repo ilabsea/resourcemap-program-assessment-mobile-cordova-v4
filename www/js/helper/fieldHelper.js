@@ -177,13 +177,11 @@ function updateFieldValueBySiteId(propertiesFile, field, idHTMLForUpdate, fromSe
             var sId = localStorage.getItem("sId");
             
             if (fromServer) {
-                alert("it is from server");
                 var filePath = localStorage.getItem("filePath");
                 propertiesFile.properties[idfield] = filePath;
             }
             for (var i = 0; i < lPhotoList; i++) {
                 if (PhotoList.getPhotos()[i].id == idfield && PhotoList.getPhotos()[i].sId == sId) {
-                    alert("no");
                     var fileName = PhotoList.getPhotos()[i].name();
                     propertiesFile.properties[idfield] = fileName;
                     propertiesFile.files[fileName] = PhotoList.getPhotos()[i].data;
