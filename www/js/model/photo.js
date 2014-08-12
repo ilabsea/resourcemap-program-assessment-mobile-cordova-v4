@@ -39,7 +39,7 @@ SiteCamera = {
     dataWithMimeType: function(data) {
         return 'data:image/jpeg;base64,' + data;
     },
-    takePhoto: function(sId, idField, updated, cameraType) {
+    takePhoto: function(idField, updated, cameraType) {
         var type;
         if (cameraType == "camera") {
             type = Camera.PictureSourceType.CAMERA;
@@ -47,7 +47,6 @@ SiteCamera = {
         else {
             type = Camera.PictureSourceType.SAVEDPHOTOALBUM;
         }
-        SiteCamera.sId = sId;
         SiteCamera.id = idField;
         SiteCamera.updated = updated;
         var cameraOptions = {
@@ -59,9 +58,10 @@ SiteCamera = {
         navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, cameraOptions);
     },
     onSuccess: function(imageData) {
+        var sId = localStorage.getItem("sId");
         var imageId = SiteCamera.imageId();
         var image = document.getElementById(imageId);
-        var photo = new Photo(SiteCamera.sId, SiteCamera.id, imageData, SiteCamera.format);
+        var photo = new Photo(sId, SiteCamera.id, imageData, SiteCamera.format);
         image.src = SiteCamera.dataWithMimeType(imageData);
 
         PhotoList.add(photo);
@@ -90,10 +90,9 @@ function openCameraDialog(idField, updated) {
 }
 
 function invokeCamera(cameraType) {
-    var sId = localStorage.getItem("sId");
     var idField = $('#currentCameraImage').val();
     var updated = $('#currentCameraImageType').val();
-    SiteCamera.takePhoto(sId, idField, updated, cameraType);
+    SiteCamera.takePhoto(idField, updated, cameraType);
     closeDialog();
 }
 

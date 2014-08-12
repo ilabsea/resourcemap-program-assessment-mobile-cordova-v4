@@ -28,6 +28,7 @@ function buildFieldsLayer(layer, site, fromServer) {
         $.each(items, function(i, item) {
             var propertyValue = p[propertyCode];
             setFieldsValue(item, propertyCode, propertyValue, site, fromServer);
+            console.log("propertyValue: ", propertyValue);
         });
     }
     return itemLayer;
@@ -45,13 +46,13 @@ function setFieldSelectValue(item, value) {
     for (var k = 0; k < item.config.options.length; k++) {
         item.config.options[k]["selected"] = "";
         if (item.__value == true || item.__value == false) {
-            if (item.config.options[k].id == item.__value) {
+            if (item.config.options[k].id == item.__value || item.config.options[k].code == item.__value[j]) {
                 item.config.options[k]["selected"] = "selected";
             }
         } else {
             for (var j = 0; j < item.__value.length; j++) {
-                if (item.config.options[k].id == item.__value[j]) {
-                    item.config.options[k]["selected"] = "selected";
+                if (item.config.options[k].id == item.__value[j] || item.config.options[k].code == item.__value[j]) {
+                    item.config.options[k - 1]["selected"] = "selected";
                 }
             }
         }
@@ -152,7 +153,7 @@ function buildField(fieldObj, options) {
             ctrue: ctrue,
             is_mandatory: is_mandatory,
             required: is_required,
-            isHierarchy : (kind === "hierarchy" ? true : false),
+            isHierarchy: (kind === "hierarchy" ? true : false),
             displayHierarchy: (kind === "hierarchy" ? Hierarchy.generateField(fields.config, "") : "")
         });
     });
@@ -176,7 +177,10 @@ function updateFieldValueBySiteId(propertiesFile, field, idHTMLForUpdate, fromSe
 
             if (fromServer) {
                 var filePath = localStorage.getItem("filePath");
-                propertiesFile.properties[idfield] = filePath;
+                if (filePath == null)
+                    propertiesFile.properties[idfield] = "";
+                else
+                    propertiesFile.properties[idfield] = filePath;
             }
             for (var i = 0; i < lPhotoList; i++) {
                 if (PhotoList.getPhotos()[i].id == idfield && PhotoList.getPhotos()[i].sId == sId) {

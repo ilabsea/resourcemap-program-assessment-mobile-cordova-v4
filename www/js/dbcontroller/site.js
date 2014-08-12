@@ -92,6 +92,7 @@ function updateSiteBySiteId() {
             site.properties(propertiesFile.properties);
             site.files(propertiesFile.files);
             persistence.flush();
+            clearFilePathStorage("filePath");
             location.href = "index.html#page-site-list";
         });
     });
@@ -118,7 +119,7 @@ function updateSiteBySiteIdFromServer() {
         };
         SiteModel.update(data, function() {
             clearFilePathStorage("filePath");
-
+            
             var sId = localStorage.getItem("sId");
             $.each(data.site.properties, function(key, idField) {
                 PhotoList.remove(sId, key);
