@@ -28,6 +28,7 @@ function renderFieldByCollectionIdOnline() {
                 field_id_arr.push(fieldsInside.id);
             });
             var fields = buildField(properties, {fromServer: true});
+            
             field_collections.push(fields);
         });
         localStorage["field_id_arr"] = JSON.stringify(field_id_arr);

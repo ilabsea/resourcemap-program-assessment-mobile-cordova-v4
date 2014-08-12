@@ -151,12 +151,10 @@ function buildField(fieldObj, options) {
             slider: slider,
             ctrue: ctrue,
             is_mandatory: is_mandatory,
-            required: is_required
+            required: is_required,
+            isHierarchy : (kind === "hierarchy" ? true : false),
+            displayHierarchy: (kind === "hierarchy" ? Hierarchy.generateField(fields.config, "") : "")
         });
-        if (widgetType === "hierarchy") {
-            fieldsWrapper.fields.isHierarchy = true;
-            fieldsWrapper.displayHierarchy = Hierarchy.generateField(fieldsWrapper.fields.config, "");
-        }
     });
     return fieldsWrapper;
 }
@@ -175,7 +173,7 @@ function updateFieldValueBySiteId(propertiesFile, field, idHTMLForUpdate, fromSe
             var idfield = item["idfield"];
             var lPhotoList = PhotoList.getPhotos().length;
             var sId = localStorage.getItem("sId");
-            
+
             if (fromServer) {
                 var filePath = localStorage.getItem("filePath");
                 propertiesFile.properties[idfield] = filePath;
