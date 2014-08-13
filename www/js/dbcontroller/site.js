@@ -92,7 +92,8 @@ function updateSiteBySiteId() {
             site.properties(propertiesFile.properties);
             site.files(propertiesFile.files);
             persistence.flush();
-            clearFilePathStorage("filePath");
+            clearFilePathStorage("fileDataOffline");
+            clearFilePathStorage("fileNameOffline");
             location.href = "index.html#page-site-list";
         });
     });

@@ -28,7 +28,6 @@ function buildFieldsLayer(layer, site, fromServer) {
         $.each(items, function(i, item) {
             var propertyValue = p[propertyCode];
             setFieldsValue(item, propertyCode, propertyValue, site, fromServer);
-            console.log("propertyValue: ", propertyValue);
         });
     }
     return itemLayer;
@@ -68,7 +67,13 @@ function setFieldPhotoValue(item, value, site, fromServer) {
         var files = site.files();
         var imageId = value;
         var imageData = files[imageId];
-        item.__value = SiteCamera.dataWithMimeType(imageData);
+        if (imageData == null) {
+            item.__value = "";
+        } else {
+            item.__value = SiteCamera.dataWithMimeType(imageData);
+            localStorage.setItem("fileNameOffline", imageId);
+            localStorage.setItem("fileDataOffline", imageData);
+        }
     }
 }
 
@@ -162,10 +167,11 @@ function buildField(fieldObj, options) {
 
 function updateFieldValueBySiteId(propertiesFile, field, idHTMLForUpdate, fromServer) {
     var pf = propertiesFile;
+    var itemLayer;
     if (fromServer)
-        var itemLayer = buildField(field, {fromServer: fromServer});
+        itemLayer = buildField(field, {fromServer: fromServer});
     else
-        var itemLayer = buildField(field._data, {fromServer: fromServer});
+        itemLayer = buildField(field._data, {fromServer: fromServer});
 
     var items = itemLayer.fields;
 
@@ -181,6 +187,17 @@ function updateFieldValueBySiteId(propertiesFile, field, idHTMLForUpdate, fromSe
                     propertiesFile.properties[idfield] = "";
                 else
                     propertiesFile.properties[idfield] = filePath;
+            } else {
+                var fileDataOffline = localStorage.getItem("fileDataOffline");
+                var fileNameOffline = localStorage.getItem("fileNameOffline");
+                if (fileDataOffline == null || fileNameOffline == null) {
+                    propertiesFile.properties[idfield] = "";
+                }
+                else {
+                    fileName = fileNameOffline;
+                    propertiesFile.properties[idfield] = fileName;
+                    propertiesFile.files[fileName] = fileDataOffline;
+                }
             }
             for (var i = 0; i < lPhotoList; i++) {
                 if (PhotoList.getPhotos()[i].id == idfield && PhotoList.getPhotos()[i].sId == sId) {
