@@ -3,6 +3,7 @@ function imagePath(imgFileName) {
 }
 
 function clearFilePathStorage(key) {
+    alert("clear me");
     localStorage.removeItem(key);
 }
 
@@ -188,13 +189,13 @@ function updateFieldValueBySiteId(propertiesFile, field, idHTMLForUpdate, fromSe
                 else
                     propertiesFile.properties[idfield] = filePath;
             } else {
-                var fileDataOffline = localStorage.getItem("fileDataOffline");
-                var fileNameOffline = localStorage.getItem("fileNameOffline");
-                if (fileDataOffline == null || fileNameOffline == null) {
+                var fileData = localStorage.getItem("fileDataOffline");
+                var fileName = localStorage.getItem("fileNameOffline");
+                if (fileData == null || fileName == null) {
                     propertiesFile.properties[idfield] = "";
                 }
                 else {
-                    fileName = fileNameOffline;
+                    var fileName = fileNameOffline;
                     propertiesFile.properties[idfield] = fileName;
                     propertiesFile.files[fileName] = fileDataOffline;
                 }
