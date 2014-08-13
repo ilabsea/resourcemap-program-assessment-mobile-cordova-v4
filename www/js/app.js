@@ -1,0 +1,61 @@
+URL = "http://resmap-stg-ilab.instedd.org/";
+END_POINT = URL + "api";
+window.App = {
+    DB_SIZE: 5 * 1024 * 1024,
+    DB_NAME: 'resourcemap_db',
+    END_POINT: END_POINT,
+    IMG_PATH: URL + "photo_field/",
+    AUTH_URL: END_POINT + "/users/sign_in.json",
+    LIST_COLLECTION: END_POINT + "/collections?auth_token=",
+    URL_SIGNUP: END_POINT + "/users.json",
+    URL_LOGOUT: END_POINT + "/users/sign_out.json?auth_token=",
+    URL_FIELD: END_POINT + "/v1/collections/",
+    URL_SITE: END_POINT + "/v1/collections/",
+    DEBUG: true,
+    userId: "",
+    log: function(obj) {
+        if (App.DEBUG)
+            console.log(obj);
+    },
+    initialize: function() {
+        this.bindEvents();
+        this.setUp();
+    },
+    resetDb: function() {
+        persistence.reset();
+        persistence.schemaSync();
+    },
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+    },
+    onDeviceReady: function() {
+        App.receivedEvent('deviceready');
+        connectionDB(App.DB_NAME, App.DB_SIZE);
+        createTables();
+    },
+    receivedEvent: function(id) {
+        console.log('Received Event: ' + id);
+    },
+    emptyHTML: function() {
+        $(".clearPreviousDisplay").html("");
+    },
+    setUp: function() {
+        $.ajaxSetup({
+            complete: function() {
+                ViewBinding.setBusy(false);
+            }
+        });
+    },
+    processTemplate: function(templateURL, templateData, callback) {
+        var path = "js/template/" + templateURL;
+        $.ajax({
+            url: path,
+            cache: true,
+            success: function(responseText) {
+                var template = Handlebars.compile(responseText);
+                var content = template(templateData);
+                callback(content);
+            }
+        });
+    }
+};

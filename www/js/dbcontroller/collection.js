@@ -27,7 +27,7 @@ function getCollectionByUserIdOnline() {
                 collectionData.push(item);
 
                 if (key === response.length - 1) {
-                    displayCollectionList(collectionData);
+                    displayCollectionList({collectionList: collectionData});
                     synCollectionForCurrentUser(collectionData);
                 }
             });

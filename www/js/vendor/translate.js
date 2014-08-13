@@ -19,11 +19,15 @@ Translation = {
                 break;
             }
         }
-        var languageTemplate = Handlebars.compile($("#language-template").html());
-        $('#div-language').html(languageTemplate({langs: langs}));
-        $('#div-language').trigger("create");
+        Translation.displayTemplate({langs: langs});
     },
     translateLang: function(ele) {
         Translation.setLang($('#' + ele).val());
+    },
+    displayTemplate: function(language) {
+        App.processTemplate("language/menu.html", language, function(content) {
+            $('#div-language').html(content);
+            $('#div-language').trigger("create");
+        });
     }
 };

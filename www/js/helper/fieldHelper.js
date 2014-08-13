@@ -264,20 +264,23 @@ function addFieldsToLocalDB(fields) {
     persistence.flush();
 }
 
-function displayFieldRender(data) {
-    var fieldTemplate = Handlebars.compile($("#field_collection-template").html());
-    $('#div_field_collection').html(fieldTemplate({field_collections: data}));
-    $('#div_field_collection').trigger("create");
+function displayFieldRender(fieldData) {
+    App.processTemplate("field/add.html", fieldData, function(content) {
+        $('#div_field_collection').html(content);
+        $('#div_field_collection').trigger("create");
+    });
 }
 
 function displayFieldUpdateTemplate(data) {
-    var fieldTemplate = Handlebars.compile($("#update_field_collection-template").html());
-    $('#div_update_field_collection').html(fieldTemplate({field_collections: data}));
-    $('#div_update_field_collection').trigger("create");
+    App.processTemplate("field/updateOnline.html", data, function(content) {
+        $('#div_update_field_collection').html(content);
+        $('#div_update_field_collection').trigger("create");
+    });
 }
 
 function displayFieldUpdateOnlineTemplate(data) {
-    var fieldTemplate = Handlebars.compile($("#update_field_collection-online-template").html());
-    $('#div_update_field_collection_online').html(fieldTemplate({field_collections: data}));
-    $('#div_update_field_collection_online').trigger("create");
+    App.processTemplate("field/updateOnline.html", data, function(content) {
+        $('#div_update_field_collection_online').html(content);
+        $('#div_update_field_collection_online').trigger("create");
+    });
 }

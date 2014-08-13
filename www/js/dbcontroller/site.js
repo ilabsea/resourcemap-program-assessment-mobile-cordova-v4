@@ -1,14 +1,12 @@
 function getSiteByCollectionId() {
     var id = localStorage.getItem("cId");
     Site.all().filter('collection_id', "=", id).list(null, function(sites) {
-        var siteData = {siteList: []};
+        var siteData = [];
         sites.forEach(function(site) {
             var fullDate = dateToParam(site.created_at());
-            siteData.siteList.push({id: site.id, name: site.name(), date: fullDate});
+            siteData.push({id: site.id, name: site.name(), date: fullDate});
         });
-        var siteTemplate = Handlebars.compile($("#site-template").html());
-        $('#site-list').html(siteTemplate(siteData));
-        $('#site-list').listview("refresh");
+        displaySiteByCollectionId({siteOfflineList: siteData});
     });
 }
 
@@ -33,7 +31,7 @@ function getSiteByCollectionIdFromServer() {
             };
             siteOnlineData.push(item);
             if (key === response["total"] - 1) {
-                displaySiteByCollectionIdFromServer(siteOnlineData);
+                displaySiteByCollectionIdFromServer({siteOnlineList: siteOnlineData});
             }
         });
     });
@@ -60,9 +58,7 @@ function renderUpdateSiteForm() {
     var id = localStorage.getItem("sId");
     Site.all().filter('id', "=", id).one(function(site) {
         var siteUpdateData = {name: site.name(), lat: site.lat(), lng: site.lng()};
-        var siteUpdateTemplate = Handlebars.compile($("#site-update-template").html());
-        $('#div-site-update-name').html(siteUpdateTemplate(siteUpdateData));
-        $('#div-site-update-name').trigger("create");
+        displayUpdateSiteLatLng(siteUpdateData);
         renderFieldsBySite(site);
     });
 }
@@ -71,9 +67,7 @@ function renderUpdateSiteFormFromServer() {
     ViewBinding.setBusy(true);
     SiteModel.fetchOne(function(response) {
         var siteOnlineUpdateData = {name: response.name, lat: response.lat, lng: response.long};
-        var siteOnlineUpdateTemplate = Handlebars.compile($("#site-update-online-template").html());
-        $('#div-site-update-name-online').html(siteOnlineUpdateTemplate(siteOnlineUpdateData));
-        $('#div-site-update-name-online').trigger("create");
+        displayUpdateSiteLatLngFromServer(siteOnlineUpdateData);
         renderFieldsBySiteFromServer(response);
     });
 }
@@ -120,7 +114,7 @@ function updateSiteBySiteIdFromServer() {
         };
         SiteModel.update(data, function() {
             clearFilePathStorage("filePath");
-            
+
             var sId = localStorage.getItem("sId");
             $.each(data.site.properties, function(key, idField) {
                 PhotoList.remove(sId, key);

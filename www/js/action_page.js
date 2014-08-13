@@ -15,6 +15,11 @@ $(function() {
     $(document).delegate('#submitLogin-page li', 'click', function() {
         var cId = $(this).attr("data-id");
         localStorage.setItem("cId", cId);
+        
+        var cName = $(this).attr("data-name");
+        localStorage.setItem('collectionName', cName);
+        
+        displayCollectionName({name : cName});
     });
 
     $(document).delegate('#page-site-list', 'pagebeforeshow', function() {

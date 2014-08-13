@@ -1,14 +1,14 @@
 function renderFieldsBySite(site) {
     queryFieldByCollectionIdOffline(function(layers) {
         var field_collections= buildFieldsCollection(layers, site, false);
-        displayFieldUpdateTemplate(field_collections);
+        displayFieldUpdateTemplate({field_collections: field_collections});
     });
 }
 
 function renderFieldsBySiteFromServer(site) {
     FieldModel.fetch(function(layers) {
         var field_collections= buildFieldsCollection(layers, site, true);
-        displayFieldUpdateOnlineTemplate(field_collections);
+        displayFieldUpdateOnlineTemplate({field_collections: field_collections});
     });
 }
 
@@ -33,7 +33,7 @@ function renderFieldByCollectionIdOnline() {
         });
         localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
         synFieldForCurrentCollection(field_collections);
-        displayFieldRender(field_collections);
+        displayFieldRender({field_collections: field_collections});
     });
 }
 
@@ -49,6 +49,6 @@ function renderFieldByCollectionIdOffline() {
             field_collections.push(item);
         });
         localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
-        displayFieldRender(field_collections);
+        displayFieldRender({field_collections: field_collections});
     });
 }

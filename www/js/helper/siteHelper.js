@@ -39,9 +39,17 @@ function originalDateFormat(date) {
 }
 
 function displaySiteByCollectionIdFromServer(siteOnlineData) {
-    var siteOnlineTemplate = Handlebars.compile($("#site-online-template").html());
-    $('#site-list-online').html(siteOnlineTemplate({siteOnlineList: siteOnlineData}));
-    $('#site-list-online').listview("refresh");
+    App.processTemplate("site/listOnline.html", siteOnlineData, function(content) {
+        $('#site-list-online').html(content);
+        $('#site-list-online').listview("refresh");
+    });
+}
+
+function displaySiteByCollectionId(siteData) {
+    App.processTemplate("site/listOffline.html", siteData, function(content) {
+        $('#site-list').html(content);
+        $('#site-list').listview("refresh");
+    });
 }
 
 function countSiteByUserId(id) {
@@ -118,4 +126,18 @@ function resetSiteForm() {
     PhotoList.clear();
     location.href = "#page-site-list";
     $('#form_create_site ')[0].reset();
+}
+
+function displayUpdateSiteLatLngFromServer(siteOnlineUpdateData) {
+    App.processTemplate("site/updateOnline.html", siteOnlineUpdateData, function(content) {
+        $('#div-site-update-name-online').html(content);
+        $('#div-site-update-name-online').trigger("create");
+    });
+}
+
+function displayUpdateSiteLatLng(siteUpdateData) {
+    App.processTemplate("site/updateOffline.html", siteUpdateData, function(content) {
+        $('#div-site-update-name').html(content);
+        $('#div-site-update-name').trigger("create");
+    });
 }
