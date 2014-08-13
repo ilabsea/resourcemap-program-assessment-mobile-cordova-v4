@@ -190,14 +190,14 @@ function updateFieldValueBySiteId(propertiesFile, field, idHTMLForUpdate, fromSe
                     propertiesFile.properties[idfield] = filePath;
             } else {
                 var fileData = localStorage.getItem("fileDataOffline");
-                var fileName = localStorage.getItem("fileNameOffline");
-                if (fileData == null || fileName == null) {
+                var fileNameLocal = localStorage.getItem("fileNameOffline");
+                if (fileData == null || fileNameLocal == null) {
                     propertiesFile.properties[idfield] = "";
                 }
                 else {
-                    var fileName = fileNameOffline;
+                    var fileName = fileNameLocal;
                     propertiesFile.properties[idfield] = fileName;
-                    propertiesFile.files[fileName] = fileDataOffline;
+                    propertiesFile.files[fileName] = fileData;
                 }
             }
             for (var i = 0; i < lPhotoList; i++) {
