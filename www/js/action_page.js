@@ -4,7 +4,7 @@ $(function() {
     Translation.setLang(Translation.getLang());
     Translation.renderLang();
 
-    $(document).delegate('#submitLogin-page', 'pagebeforeshow', function() {
+    $(document).delegate('#page-collection-list', 'pagebeforeshow', function() {
         App.emptyHTML();
         $("#info_sign_in").hide();
         getCollection();
@@ -12,7 +12,7 @@ $(function() {
         countSiteByUserId(currentUser.id);
     });
 
-    $(document).delegate('#submitLogin-page li', 'click', function() {
+    $(document).delegate('#page-collection-list li', 'click', function() {
         var cId = $(this).attr("data-id");
         localStorage.setItem("cId", cId);
         
@@ -144,23 +144,3 @@ $(function() {
         mapObject.render();
     });
 });
-
-function showSpinner() {
-    $.mobile.activePage.addClass("ui-disabled");
-    $.mobile.loading('show', {
-        text: i18n.t('global.ajax-loader'),
-        textVisible: true,
-        theme: "b",
-        html: ""
-    });
-}
-
-function hideSpinner() {
-    $.mobile.loading('hide');
-    if ($.mobile.activePage)
-        $.mobile.activePage.removeClass('ui-disabled');
-}
-
-function redirectTo(url) {
-    $.mobile.changePage(url);
-}
