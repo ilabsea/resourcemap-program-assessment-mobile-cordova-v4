@@ -40,7 +40,7 @@ SessionController = {
       }
       if (user.password() === password) {
         SessionController.signIn(user);
-        App.redirect("#page-collection-list");
+        App.redirectTo("#page-collection-list");
       }
       else {
         showElement($('#invalidmail'));

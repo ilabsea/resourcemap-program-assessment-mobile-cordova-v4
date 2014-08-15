@@ -1,4 +1,16 @@
 SiteController = {
+  display: function(element, siteData) {
+    App.Template.process("site/list.html", siteData, function(content) {
+      element.html(content);
+      element.listview("refresh");
+    });
+  },
+  displayUpdateLatLng: function(element, siteUpdateData) {
+    App.Template.process("site/update.html", siteUpdateData, function(content) {
+      element.html(content);
+      element.trigger("create");
+    });
+  },
   add: function() {
     var data = buildDataForSite();
     if (isOnline())
@@ -16,12 +28,6 @@ SiteController = {
     SiteOffline.add(data);
     callback();
   },
-  display: function(element, siteData) {
-    App.Template.process("site/list.html", siteData, function(content) {
-      element.html(content);
-      element.listview("refresh");
-    });
-  },
   getAllByCollectionId: function(cId) {
     SiteController.getByCollectionIdOffline(cId);
     SiteController.getByCollectionIdOnline(cId);
@@ -32,14 +38,14 @@ SiteController = {
       sites.forEach(function(site) {
         var fullDate = dateToParam(site.created_at());
         siteData.push({
-          id: site.id, 
-          name: site.name(), 
-          collectionName: "offline", 
+          id: site.id,
+          name: site.name(),
+          collectionName: "offline",
           date: fullDate,
           link: "#page-update-site"
         });
       });
-      SiteController.display($('#site-list') ,{siteList: siteData});
+      SiteController.display($('#site-list'), {siteList: siteData});
     });
   },
   getByCollectionIdOnline: function(cId) {
@@ -78,89 +84,88 @@ SiteController = {
       });
       SiteController.display($('#offlinesite-list'), {siteList: siteofflineData});
     });
+  },
+  deleteBySiteId: function(sId) {
+    SiteOffline.deleteBySiteId(sId);
+  },
+  updateBySiteIdOffline: function(sId) {
+    SiteOffline.fetchBySiteId(sId, function(site) {
+      site.name($("#updatesitename").val());
+      site.lat($("#updatelolat").val());
+      site.lng($("#updatelolng").val());
+      var cId = App.DataStore.get("cId");
+      FieldOffline.fetchByCollectionId(cId, function(fields) {
+        var propertiesFile = {properties: {}, files: {}};
+        fields.forEach(function(field) {
+          propertiesFile = updateFieldValueBySiteId(propertiesFile, field, "#update_", false);
+        });
+        site.properties(propertiesFile.properties);
+        site.files(propertiesFile.files);
+        persistence.flush();
+        App.DataStore.remove("fileDataOffline");
+        App.DataStore.remove("fileNameOffline");
+        App.redirectTo("index.html#page-site-list");
+      });
+    });
+  },
+  updateBySiteIdOnline: function() {
+    var data;
+    ViewBinding.setBusy(true);
+    FieldModel.fetch(function(fields) {
+      var propertiesFile = {properties: {}, files: {}};
+      $.each(fields, function(key, field) {
+        propertiesFile = updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
+      });
+      data = {
+        "_method": "put",
+        "auth_token": App.Session.getAuthToken(),
+        "site": {
+          "name": $("#updatesitename_online").val(),
+          "lat": $("#updatelolat_online").val(),
+          "lng": $("#updatelolng_online").val(),
+          "properties": propertiesFile.properties,
+          "files": propertiesFile.files
+        }
+      };
+      SiteModel.update(data, function() {
+        App.DataStore.remove("filePath");
+
+        var sId = App.DataStore.get("sId");
+        $.each(data.site.properties, function(key, idField) {
+          PhotoList.remove(sId, key);
+        });
+
+        App.redirectTo("#page-site-list");
+      }, function() {
+        alert(i18n.t("global.please_reupdate_your_site"));
+      });
+    });
+  },
+  renderUpdateSiteFormOffline: function() {
+    var sId = App.DataStore.get("sId");
+    SiteOffline.fetchBySiteId(sId, function(site) {
+      var siteUpdateData = {
+        name: site.name(),
+        lat: site.lat(),
+        lng: site.lng()
+      };
+      SiteController.displayUpdateLatLng($('#div-site-update-name') , siteUpdateData);
+      FieldController.renderUpdateOffline(site);
+    });
+  },
+  renderUpdateSiteFormOnline: function() {
+    ViewBinding.setBusy(true);
+    SiteModel.fetchOne(function(response) {
+      var siteOnlineUpdateData = {
+        name: response.name,
+        lat: response.lat,
+        lng: response.long
+      };
+      SiteController.displayUpdateLatLng($('#div-site-update-name-online') , siteOnlineUpdateData);
+      FieldController.renderUpdateOnline(response);
+    });
   }
 };
-
-function renderUpdateSiteForm() {
-  var id = localStorage.getItem("sId");
-  Site.all().filter('id', "=", id).one(function(site) {
-    var siteUpdateData = {name: site.name(), lat: site.lat(), lng: site.lng()};
-    displayUpdateSiteLatLng(siteUpdateData);
-    renderFieldsBySite(site);
-  });
-}
-
-function renderUpdateSiteFormFromServer() {
-  ViewBinding.setBusy(true);
-  SiteModel.fetchOne(function(response) {
-    var siteOnlineUpdateData = {name: response.name, lat: response.lat, lng: response.long};
-    displayUpdateSiteLatLngFromServer(siteOnlineUpdateData);
-    renderFieldsBySiteFromServer(response);
-  });
-}
-
-function updateSiteBySiteId() {
-  var id = localStorage.getItem("sId");
-  Site.all().filter('id', "=", id).one(function(site) {
-    site.name($("#updatesitename").val());
-    site.lat($("#updatelolat").val());
-    site.lng($("#updatelolng").val());
-    queryFieldByCollectionIdOffline(function(fields) {
-      var propertiesFile = {properties: {}, files: {}};
-      fields.forEach(function(field) {
-        propertiesFile = updateFieldValueBySiteId(propertiesFile, field, "#update_", false);
-      });
-      site.properties(propertiesFile.properties);
-      site.files(propertiesFile.files);
-      persistence.flush();
-      clearFilePathStorage("fileDataOffline");
-      clearFilePathStorage("fileNameOffline");
-      location.href = "index.html#page-site-list";
-    });
-  });
-}
-
-function updateSiteBySiteIdFromServer() {
-  var data;
-  ViewBinding.setBusy(true);
-  FieldModel.fetch(function(fields) {
-    var propertiesFile = {properties: {}, files: {}};
-    $.each(fields, function(key, field) {
-      propertiesFile = updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
-    });
-    data = {
-      "_method": "put",
-      "auth_token": App.Session.getAuthToken(),
-      "site": {
-        "name": $("#updatesitename_online").val(),
-        "lat": $("#updatelolat_online").val(),
-        "lng": $("#updatelolng_online").val(),
-        "properties": propertiesFile.properties,
-        "files": propertiesFile.files
-      }
-    };
-    SiteModel.update(data, function() {
-      clearFilePathStorage("filePath");
-
-      var sId = localStorage.getItem("sId");
-      $.each(data.site.properties, function(key, idField) {
-        PhotoList.remove(sId, key);
-      });
-
-      App.redirectTo("#page-site-list");
-    }, function() {
-      alert(i18n.t("global.please_reupdate_your_site"));
-    });
-  });
-}
-
-function deleteSiteBySiteId(sId) {
-  Site.all().filter('id', "=", sId).one(function(site) {
-    persistence.remove(site);
-    persistence.flush();
-    location.href = "#page-site-list";
-  });
-}
 
 function sendSiteToServerByCollectiion() {
   var cId = localStorage.getItem("cId");

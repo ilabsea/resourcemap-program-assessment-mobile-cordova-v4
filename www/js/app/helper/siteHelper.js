@@ -113,17 +113,3 @@ function resetSiteForm() {
     location.href = "#page-site-list";
     $('#form_create_site ')[0].reset();
 }
-
-function displayUpdateSiteLatLngFromServer(siteOnlineUpdateData) {
-    App.Template.process("site/updateOnline.html", siteOnlineUpdateData, function(content) {
-        $('#div-site-update-name-online').html(content);
-        $('#div-site-update-name-online').trigger("create");
-    });
-}
-
-function displayUpdateSiteLatLng(siteUpdateData) {
-    App.Template.process("site/updateOffline.html", siteUpdateData, function(content) {
-        $('#div-site-update-name').html(content);
-        $('#div-site-update-name').trigger("create");
-    });
-}

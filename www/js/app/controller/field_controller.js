@@ -1,54 +1,67 @@
-function renderFieldsBySite(site) {
-    queryFieldByCollectionIdOffline(function(layers) {
-        var field_collections= buildFieldsCollection(layers, site, false);
-        displayFieldUpdateTemplate({field_collections: field_collections});
+FieldController = {
+  display: function(element, fieldData) {
+    App.Template.process("field/add.html", fieldData, function(content) {
+      element.html(content);
+      element.trigger("create");
     });
-}
-
-function renderFieldsBySiteFromServer(site) {
-    FieldModel.fetch(function(layers) {
-        var field_collections= buildFieldsCollection(layers, site, true);
-        displayFieldUpdateOnlineTemplate({field_collections: field_collections});
-    });
-}
-
-function getFieldsCollection() {
+  },
+  getByCollectionId: function() {
     if (isOnline())
-        renderFieldByCollectionIdOnline();
+      this.renderByCollectionIdOnline();
     else
-        renderFieldByCollectionIdOffline();
-}
-
-function renderFieldByCollectionIdOnline() {
+      this.renderByCollectionIdOffline();
+  },
+  renderByCollectionIdOnline: function() {
     FieldModel.fetch(function(response) {
-        var field_id_arr = new Array();
-        var field_collections = [];
-        $.each(response, function(key, properties) {
-            $.each(properties.fields, function(i, fieldsInside) {
-                field_id_arr.push(fieldsInside.id);
-            });
-            var fields = buildField(properties, {fromServer: true});
-            
-            field_collections.push(fields);
+      var field_id_arr = new Array();
+      var field_collections = [];
+      $.each(response, function(key, properties) {
+        $.each(properties.fields, function(i, fieldsInside) {
+          field_id_arr.push(fieldsInside.id);
         });
-        localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
-        synFieldForCurrentCollection(field_collections);
-        displayFieldRender({field_collections: field_collections});
-    });
-}
+        var fields = buildField(properties, {fromServer: true});
 
-function renderFieldByCollectionIdOffline() {
-    queryFieldByCollectionIdOffline(function(fields) {
-        var field_id_arr = new Array();
-        var field_collections = [];
-        fields.forEach(function(field) {
-            $.each(field.fields(), function(i, fieldsInfield){
-                field_id_arr.push(fieldsInfield.idfield);
-            });
-            var item = buildField(field._data, {fromServer: false});
-            field_collections.push(item);
-        });
-        localStorage["field_id_arr"] = JSON.stringify(field_id_arr);
-        displayFieldRender({field_collections: field_collections});
+        field_collections.push(fields);
+      });
+      App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+      FieldController.synForCurrentCollection(field_collections);
+      this.display($('#div_field_collection'), {field_collections: field_collections});
     });
-}
+  },
+  renderByCollectionIdOffline: function() {
+    var cId = App.DataStore.get("cId");
+    FieldOffline.fetchByCollectionId(cId, function(fields) {
+      var field_id_arr = new Array();
+      var field_collections = [];
+      fields.forEach(function(field) {
+        $.each(field.fields(), function(i, fieldsInfield) {
+          field_id_arr.push(fieldsInfield.idfield);
+        });
+        var item = buildField(field._data, {fromServer: false});
+        field_collections.push(item);
+      });
+      App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+      this.display($('#div_field_collection'), {field_collections: field_collections});
+    });
+  },
+  renderUpdateOffline: function(site) {
+    var cId = App.DataStore.get("cId");
+    FieldOffline.fetchByCollectionId(cId, function(layers) {
+      var field_collections = buildFieldsCollection(layers, site, false);
+      displayFieldUpdateTemplate({field_collections: field_collections});
+    });
+  },
+  renderUpdateOnline: function(site) {
+    FieldModel.fetch(function(layers) {
+      var field_collections = buildFieldsCollection(layers, site, true);
+      displayFieldUpdateOnlineTemplate({field_collections: field_collections});
+    });
+  },
+  synForCurrentCollection: function(newFields) {
+    var cId = App.DataStore.get("cId");
+    FieldOffline.fetchByCollectionId(cId, function(fields) {
+      FieldOffline.remove(fields);
+      FieldOffline.add(newFields);
+    });
+  }
+};

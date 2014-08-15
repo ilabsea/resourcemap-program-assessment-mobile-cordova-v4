@@ -73,17 +73,17 @@ $(document).ready(function() {
       showValidateMessage('#validation_update-site');
     },
     submitHandler: function() {
-      var sId = localStorage.getItem("sId");
+      var sId = App.DataStore.get("sId");
       if ($(".image").attr('require') == "required") {
         if ($('.image').attr('src') != '') {
           $(".photo").css({"border": "1px solid #f3f3f3"});
-          updateSiteBySiteId(sId);
+          SiteController.updateBySiteIdOffline(sId);
         } else {
           $(".photo").css({"border": "1px solid red"});
           showValidateMessage('#validation_update-site');
         }
       } else {
-        updateSiteBySiteId(sId);
+        SiteController.updateBySiteIdOffline(sId);
       }
     }
   });
@@ -101,13 +101,13 @@ $(document).ready(function() {
       if ($(".image").attr('require') == "required") {
         if ($('.image').attr('src') != '') {
           $(".photo").css({"border": "1px solid #f3f3f3"});
-          updateSiteBySiteIdFromServer();
+          SiteController.updateBySiteIdOnline();
         } else {
           $(".photo").css({"border": "1px solid red"});
           showValidateMessage('#validation_update-site-online');
         }
       } else {
-        updateSiteBySiteIdFromServer();
+        SiteController.updateBySiteIdOnline();
       }
     }
   });

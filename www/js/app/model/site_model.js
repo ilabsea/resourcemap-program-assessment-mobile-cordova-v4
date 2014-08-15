@@ -65,11 +65,21 @@ SiteOffline = {
     persistence.add(site);
     persistence.flush();
   },
+  fetchBySiteId: function(sId, callback) {
+    Site.all().filter('id', "=", sId).one(callback);
+  },
   fetchByCollectionId: function(cId, callback) {
     Site.all().filter('collection_id', "=", cId).list(null, callback);
   },
   fetchByUserId: function(userId, callback) {
     Site.all().filter('user_id', '=', userId).list(null, callback);
+  },
+  deleteBySiteId: function(sId) {
+    SiteOffline.fetchBySiteId(sId, function(site) {
+      persistence.remove(site);
+      persistence.flush();
+      App.redirectTo("#page-site-list");
+    });
   },
   countByCollectionId: function(idcollection, callback) {
     Site.all().filter('collection_id', "=", idcollection).count(null, function(count) {
@@ -99,18 +109,19 @@ ViewBinding = {
 SiteList = {
   menu: function() {
     App.emptyHTML();
+    var cId = App.DataStore.get("cId");
     var value = $('#site-list-menu').val();
     $("#btn_sendToServer").hide();
     switch (value) {
       case "1":
-        displayAllSites();
+        SiteController.getAllByCollectionId(cId);
         break;
       case "2":
-        getSiteByCollectionId();
+        SiteController.getByCollectionIdOffline(cId);
         $("#btn_sendToServer").show();
         break;
       case "3":
-        getSiteByCollectionIdFromServer();
+        SiteController.getByCollectionIdOnline(cId);
         break;
       case "4":
         SessionController.logout();
