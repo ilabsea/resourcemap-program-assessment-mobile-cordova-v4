@@ -1,12 +1,7 @@
 SiteModel = {
-  countByCollectionId: function(idcollection, callback) {
-    Site.all().filter('collection_id', "=", idcollection).count(null, function(count) {
-      callback(count);
-    });
-  },
   create: function(attr, successCallback, errorCallback) {
     var cId = attr.collection_id;
-    var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + getAuthToken();
+    var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + App.Session.getAuthToken();
     $.ajax({
       url: url,
       type: "POST",
@@ -18,7 +13,7 @@ SiteModel = {
   },
   fetch: function(collectionID, successCallback) {
     $.ajax({
-      url: App.END_POINT + "/v1/collections/" + collectionID + "/sites.json?auth_token=" + getAuthToken(),
+      url: App.END_POINT + "/v1/collections/" + collectionID + "/sites.json?auth_token=" + App.Session.getAuthToken(),
       type: "GET",
       datatype: 'json',
       success: successCallback,
@@ -32,15 +27,15 @@ SiteModel = {
     var sId = localStorage.getItem("sId");
     $.ajax({
       url: App.END_POINT + "/v1/collections/" + cId + "/sites/" + sId + ".json",
-      data: {"auth_token": getAuthToken()},
+      data: {"auth_token": App.Session.getAuthToken()},
       type: "GET",
       datatype: 'json',
       success: successCallback,
       error: function(error) {
         console.log("Retriving sites from server : ", error);
       },
-      complete:function(){
-          ViewBinding.setBusy(true);
+      complete: function() {
+        ViewBinding.setBusy(true);
       }
     });
   },
@@ -54,6 +49,31 @@ SiteModel = {
       dataType: "json",
       success: successCallback,
       error: errorCallback
+    });
+  }
+};
+
+SiteOffline = {
+  add: function(data) {
+    var collectionName = localStorage.getItem("collectionName");
+    var today = new Date();
+    var siteParams = data;
+    siteParams["created_at"] = today;
+    siteParams["collection_name"] = collectionName;
+    siteParams["user_id"] = SessionController.currentUser().id;
+    var site = new Site(siteParams);
+    persistence.add(site);
+    persistence.flush();
+  },
+  fetchByCollectionId: function(cId, callback) {
+    Site.all().filter('collection_id', "=", cId).list(null, callback);
+  },
+  fetchByUserId: function(userId, callback) {
+    Site.all().filter('user_id', '=', userId).list(null, callback);
+  },
+  countByCollectionId: function(idcollection, callback) {
+    Site.all().filter('collection_id', "=", idcollection).count(null, function(count) {
+      callback(count);
     });
   }
 };
@@ -93,7 +113,7 @@ SiteList = {
         getSiteByCollectionIdFromServer();
         break;
       case "4":
-        logout();
+        SessionController.logout();
     }
   }
 };

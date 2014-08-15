@@ -44,5 +44,23 @@ App = {
         ViewBinding.setBusy(false);
       }
     });
+  },
+  redirectTo: function(url) {
+    $.mobile.changePage(url);
+  },
+  isOnline: function() {
+    var online = false;
+    if (navigator.connection) {
+      online = (navigator.connection.type != Connection.NONE);
+      return online;
+    }
+    online = navigator.onLine;
+    return online;
   }
 };
+
+function kernel(){
+  window.isOnline = App.isOnline;
+}
+
+kernel();

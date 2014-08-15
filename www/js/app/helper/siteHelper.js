@@ -38,20 +38,6 @@ function originalDateFormat(date) {
     return  yyyy + "-" + mm + "-" + dd;
 }
 
-function displaySiteByCollectionIdFromServer(siteOnlineData) {
-    App.Template.process("site/listOnline.html", siteOnlineData, function(content) {
-        $('#site-list-online').html(content);
-        $('#site-list-online').listview("refresh");
-    });
-}
-
-function displaySiteByCollectionId(siteData) {
-    App.Template.process("site/listOffline.html", siteData, function(content) {
-        $('#site-list').html(content);
-        $('#site-list').listview("refresh");
-    });
-}
-
 function countSiteByUserId(id) {
     Site.all().filter('user_id', '=', id).count(null, function(count) {
         if (count == 0) {

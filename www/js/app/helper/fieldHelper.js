@@ -104,7 +104,7 @@ function buildField(fieldObj, options) {
     var fieldsBuild = [];
     var fieldsWrapper = {
         cId: localStorage.getItem("cId"),
-        userId: getCurrentUser().id,
+        userId: SessionController.currentUser().id,
         fields: fieldsBuild
     };
     if (options["fromServer"]) {

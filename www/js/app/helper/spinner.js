@@ -13,3 +13,11 @@ function hideSpinner() {
     if ($.mobile.activePage)
         $.mobile.activePage.removeClass('ui-disabled');
 }
+
+function showElement(element){
+  element.show().delay(4000).fadeOut();
+}
+
+function hideElement(element){
+  element.hide();
+}
