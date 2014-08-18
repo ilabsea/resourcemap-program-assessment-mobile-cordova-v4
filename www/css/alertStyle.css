@@ -65,8 +65,3 @@ input[type="checkbox"]{
     color: orange;
     font-weight: normal;
 }
-
-#site-list-online {width: 100%; /* height:218px; */ overflow-x: hidden; text-align: center; list-style: none; }
-#img_required{
-    display: none;
-}

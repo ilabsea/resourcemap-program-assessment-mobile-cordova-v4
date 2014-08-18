@@ -24,7 +24,7 @@ SiteController = {
       ViewBinding.setAlert("Please send data again.");
     });
   },
-  addOffline: function(data, callback) {
+  addOffline: function(data) {
     SiteOffline.add(data);
     SiteController.resetForm();
   },

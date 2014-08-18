@@ -22,12 +22,12 @@ $(function() {
   });
 
   $(document).delegate('#page-site-list', 'pagebeforeshow', function() {
+    App.emptyHTML();
     $("#btn_sendToServer").hide();
     var cId = App.DataStore.get("cId");
     SiteController.countByCollectionId(cId);
     SiteController.getAllByCollectionId(cId);
     $("#site-list-menu").get(0).selectedIndex = 0;
-    $("#site-list").listview("refresh");
   });
 
   $(document).delegate('#btn_create_site', 'click', function() {
