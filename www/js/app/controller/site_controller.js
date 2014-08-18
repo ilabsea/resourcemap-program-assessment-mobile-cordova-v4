@@ -5,7 +5,7 @@ SiteController = {
       element.listview("refresh");
     });
   },
-  displayUpdateLatLng: function(templateURL , element, siteUpdateData) {
+  displayUpdateLatLng: function(templateURL, element, siteUpdateData) {
     App.Template.process(templateURL, siteUpdateData, function(content) {
       element.html(content);
       element.trigger("create");
@@ -28,11 +28,12 @@ SiteController = {
     SiteOffline.add(data);
     SiteController.resetForm();
   },
-  getAllByCollectionId: function(cId) {
-    SiteController.getByCollectionIdOffline(cId);
-    SiteController.getByCollectionIdOnline(cId);
+  getAllByCollectionId: function() {
+    SiteController.getByCollectionIdOffline();
+    SiteController.getByCollectionIdOnline();
   },
-  getByCollectionIdOffline: function(cId) {
+  getByCollectionIdOffline: function() {
+    var cId = App.DataStore.get("cId");
     SiteOffline.fetchByCollectionId(cId, function(sites) {
       var siteData = [];
       sites.forEach(function(site) {
@@ -48,17 +49,18 @@ SiteController = {
       SiteController.display($('#site-list'), {siteList: siteData});
     });
   },
-  getByCollectionIdOnline: function(cId) {
+  getByCollectionIdOnline: function() {
+    var cId = App.DataStore.get("cId");
     SiteModel.fetch(cId, function(response) {
       var siteOnlineData = [];
+      App.log("response: ", response);
       $.each(response["sites"], function(key, data) {
         var date = data.created_at;
         date = new Date(date);
         date = dateToParam(date);
         var item = {id: data.id,
           name: data.name,
-          lat: data.lat,
-          lng: data.lng,
+          collectionName: "",
           date: date,
           link: "#page-update-site-online"
         };

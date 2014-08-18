@@ -25,7 +25,7 @@ $(function() {
     $("#btn_sendToServer").hide();
     var cId = App.DataStore.get("cId");
     SiteController.countByCollectionId(cId);
-    SiteController.getAllByCollectionId(cId);
+    SiteController.getAllByCollectionId();
     $("#site-list-menu").get(0).selectedIndex = 0;
   });
 
