@@ -1,6 +1,6 @@
 FieldController = {
-  display: function(element, fieldData) {
-    App.Template.process("field/add.html", fieldData, function(content) {
+  display: function(templateURL, element, fieldData) {
+    App.Template.process(templateURL, fieldData, function(content) {
       element.html(content);
       element.trigger("create");
     });
@@ -25,7 +25,7 @@ FieldController = {
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       FieldController.synForCurrentCollection(field_collections);
-      this.display($('#div_field_collection'), {field_collections: field_collections});
+      FieldController.display("field/add.html", $('#div_field_collection'), {field_collections: field_collections});
     });
   },
   renderByCollectionIdOffline: function() {
@@ -41,20 +41,20 @@ FieldController = {
         field_collections.push(item);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
-      this.display($('#div_field_collection'), {field_collections: field_collections});
+      FieldController.display("field/add.html", $('#div_field_collection'), {field_collections: field_collections});
     });
   },
   renderUpdateOffline: function(site) {
     var cId = App.DataStore.get("cId");
     FieldOffline.fetchByCollectionId(cId, function(layers) {
       var field_collections = buildFieldsCollection(layers, site, false);
-      displayFieldUpdateTemplate({field_collections: field_collections});
+      FieldController.display("field/updateOffline.html", $('#div_update_field_collection'), {field_collections: field_collections});
     });
   },
   renderUpdateOnline: function(site) {
     FieldModel.fetch(function(layers) {
       var field_collections = buildFieldsCollection(layers, site, true);
-      displayFieldUpdateOnlineTemplate({field_collections: field_collections});
+      FieldController.display("field/updateOnline.html", $('#div_update_field_collection_online'), {field_collections: field_collections});
     });
   },
   synForCurrentCollection: function(newFields) {

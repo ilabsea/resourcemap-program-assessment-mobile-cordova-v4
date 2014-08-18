@@ -24,11 +24,11 @@
  */
 
 if (!window.jQuery) {
-    throw new Error("jQuery should be loaded before persistence.jquery.js");
+  throw new Error("jQuery should be loaded before persistence.jquery.js");
 }
 
 if (!window.persistence) {
-    throw new Error("persistence.js should be loaded before persistence.jquery.js");
+  throw new Error("persistence.js should be loaded before persistence.jquery.js");
 }
 
 persistence.jquery = {};
@@ -37,66 +37,66 @@ persistence.jquery = {};
  * crossbrowser implementation for entity-property
  */
 persistence.defineProp = function(scope, field, setterCallback, getterCallback) {
-    scope[field] = function(value) {
-        if (value === undefined) {
-            return getterCallback();
-        } else {
-            setterCallback(value);
-            return scope;
-        }
-    };
+  scope[field] = function(value) {
+    if (value === undefined) {
+      return getterCallback();
+    } else {
+      setterCallback(value);
+      return scope;
+    }
+  };
 };
 
 /**
  * crossbrowser implementation for entity-property setter
  */
 persistence.set = function(scope, fieldName, value) {
-    if (persistence.isImmutable(fieldName))
-        throw new Error("immutable field: " + fieldName);
-    scope[fieldName](value);
-    return scope;
+  if (persistence.isImmutable(fieldName))
+    throw new Error("immutable field: " + fieldName);
+  scope[fieldName](value);
+  return scope;
 };
 
 /**
  * crossbrowser implementation for entity-property getter
  */
 persistence.get = function(arg1, arg2) {
-    var val = (arguments.length == 1) ? arg1 : arg1[arg2];
-    return (typeof val === "function") ? val() : val;
+  var val = (arguments.length == 1) ? arg1 : arg1[arg2];
+  return (typeof val === "function") ? val() : val;
 };
 
 
 (function($) {
-    var originalDataMethod = $.fn.data;
+  var originalDataMethod = $.fn.data;
 
-    $.fn.data = function(name, data) {
-        if (this[0] && this[0]._session && (this[0]._session === window.persistence)) {
-            if (data) {
-                this[0][name](data);
-                return this;
-            } else {
-                return this[0][name]();
-            }
-        } else {
-            return originalDataMethod.apply(this, arguments);
-        }
+  $.fn.data = function(name, data) {
+    if (this[0] && this[0]._session && (this[0]._session === window.persistence)) {
+      if (data) {
+        this[0][name](data);
+        return this;
+      } else {
+        return this[0][name]();
+      }
+    } else {
+      return originalDataMethod.apply(this, arguments);
+    }
+  };
+
+  if (persistence.sync) {
+    persistence.sync.getJSON = function(url, success) {
+      $.getJSON(url, null, success);
     };
 
-    if (persistence.sync) {
-        persistence.sync.getJSON = function(url, success) {
-            $.getJSON(url, null, success);
-        };
-
-        persistence.sync.postJSON = function(url, data, success) {
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: data,
-                dataType: 'json',
-                success: function(response) {
-                    success(JSON.parse(response));
-                }
-            });
-        };
-    }
+    persistence.sync.postJSON = function(url, data, success) {
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(response) {
+          success(JSON.parse(response));
+        }
+      });
+    };
+  }
 })(jQuery);

@@ -22,7 +22,7 @@
         "ajax-loader": "Please wait ...",
         "no_internet_connection": "No internet connection.",
         "please_resend_data": "Please resend the data.",
-        "please_reupdate_your_site":"Please reupdate your site."
+        "please_reupdate_your_site": "Please reupdate your site."
     },
     "login_page": {
         "login": "Login",
@@ -61,13 +61,13 @@
         "not_found": "Not found in database.",
         "plsSignIn": "Please sign in."
     },
-    "dialog":{
-        "option":"Photo Options",
-        "take":"Take Photo",
-        "choose":"Choose Existing" ,
+    "dialog": {
+        "option": "Photo Options",
+        "take": "Take Photo",
+        "choose": "Choose Existing",
         "signupsuccess": "Sign up successfully."
     },
-    "nav":{
+    "nav": {
         "online": "Online",
         "offline": "Offline"
     }

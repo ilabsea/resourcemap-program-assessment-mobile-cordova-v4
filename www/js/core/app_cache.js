@@ -6,7 +6,7 @@ App.Cache = {
   set: function(templateURL, content) {
     App.DataStore.set(templateURL, content);
   },
-  clearAll: function(){
+  clearAll: function() {
     App.DataStore.clearAll();
   }
 }

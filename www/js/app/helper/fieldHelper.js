@@ -224,17 +224,3 @@ function updateFieldValueBySiteId(propertiesFile, field, idHTMLForUpdate, fromSe
 
   return pf;
 }
-
-function displayFieldUpdateTemplate(data) {
-  App.Template.process("field/updateOnline.html", data, function(content) {
-    $('#div_update_field_collection').html(content);
-    $('#div_update_field_collection').trigger("create");
-  });
-}
-
-function displayFieldUpdateOnlineTemplate(data) {
-  App.Template.process("field/updateOnline.html", data, function(content) {
-    $('#div_update_field_collection_online').html(content);
-    $('#div_update_field_collection_online').trigger("create");
-  });
-}

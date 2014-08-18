@@ -438,8 +438,8 @@ var handlebars = (function() {
           last_line: this.yylineno + 1,
           first_column: this.yylloc.first_column,
           last_column: lines ?
-                  (lines.length === oldLines.length ? this.yylloc.first_column : 0) + oldLines[oldLines.length - lines.length].length - lines[0].length :
-                  this.yylloc.first_column - len
+              (lines.length === oldLines.length ? this.yylloc.first_column : 0) + oldLines[oldLines.length - lines.length].length - lines[0].length :
+              this.yylloc.first_column - len
         };
 
         if (this.options.ranges) {
@@ -478,11 +478,11 @@ var handlebars = (function() {
           this.done = true;
 
         var token,
-                match,
-                tempMatch,
-                index,
-                col,
-                lines;
+            match,
+            tempMatch,
+            index,
+            col,
+            lines;
         if (!this._more) {
           this.yytext = '';
           this.match = '';
@@ -527,7 +527,7 @@ var handlebars = (function() {
           return this.EOF;
         } else {
           return this.parseError('Lexical error on line ' + (this.yylineno + 1) + '. Unrecognized text.\n' + this.showPosition(),
-                  {text: "", token: null, line: this.yylineno});
+              {text: "", token: null, line: this.yylineno});
         }
       },
       lex: function lex() {
@@ -1026,8 +1026,8 @@ Handlebars.JavaScriptCompiler = function() {
     },
     block: function(block) {
       var mustache = block.mustache,
-              program = block.program,
-              inverse = block.inverse;
+          program = block.program,
+          inverse = block.inverse;
 
       if (program) {
         program = this.compileProgram(program);
@@ -1138,7 +1138,7 @@ Handlebars.JavaScriptCompiler = function() {
     },
     helperMustache: function(mustache, program, inverse) {
       var params = this.setupFullMustacheParams(mustache, program, inverse),
-              name = mustache.id.parts[0];
+          name = mustache.id.parts[0];
 
       if (this.options.knownHelpers[name]) {
         this.opcode('invokeKnownHelper', params.length, name);
@@ -1636,8 +1636,8 @@ Handlebars.JavaScriptCompiler = function() {
       this.register('foundHelper', helper.name);
 
       this.pushStack("foundHelper ? foundHelper.call(" +
-              helper.callParams + ") " + ": helperMissing.call(" +
-              helper.helperMissingParams + ")");
+          helper.callParams + ") " + ": helperMissing.call(" +
+          helper.helperMissingParams + ")");
     },
     // [invokeKnownHelper]
     //
@@ -1732,7 +1732,7 @@ Handlebars.JavaScriptCompiler = function() {
       }
 
       var child = this.environment.children[guid],
-              depths = child.depths.list, depth;
+          depths = child.depths.list, depth;
 
       var programParams = [child.index, child.name, "data"];
 
@@ -1812,10 +1812,10 @@ Handlebars.JavaScriptCompiler = function() {
     },
     quotedString: function(str) {
       return '"' + str
-              .replace(/\\/g, '\\\\')
-              .replace(/"/g, '\\"')
-              .replace(/\n/g, '\\n')
-              .replace(/\r/g, '\\r') + '"';
+          .replace(/\\/g, '\\\\')
+          .replace(/"/g, '\\"')
+          .replace(/\n/g, '\\n')
+          .replace(/\r/g, '\\r') + '"';
     },
     setupHelper: function(paramSize, name) {
       var params = [];
@@ -1879,22 +1879,22 @@ Handlebars.JavaScriptCompiler = function() {
   };
 
   var reservedWords = (
-          "break else new var" +
-          " case finally return void" +
-          " catch for switch while" +
-          " continue function this with" +
-          " default if throw" +
-          " delete in try" +
-          " do instanceof typeof" +
-          " abstract enum int short" +
-          " boolean export interface static" +
-          " byte extends long super" +
-          " char final native synchronized" +
-          " class float package throws" +
-          " const goto private transient" +
-          " debugger implements protected volatile" +
-          " double import public let yield"
-          ).split(" ");
+      "break else new var" +
+      " case finally return void" +
+      " catch for switch while" +
+      " continue function this with" +
+      " default if throw" +
+      " delete in try" +
+      " do instanceof typeof" +
+      " abstract enum int short" +
+      " boolean export interface static" +
+      " byte extends long super" +
+      " char final native synchronized" +
+      " class float package throws" +
+      " const goto private transient" +
+      " debugger implements protected volatile" +
+      " double import public let yield"
+      ).split(" ");
 
   var compilerWords = JavaScriptCompiler.RESERVED_WORDS = {};
 

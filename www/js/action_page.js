@@ -9,7 +9,7 @@ $(function() {
     hideElement($("#info_sign_in"));
     CollectionController.get();
     var currentUser = SessionController.currentUser();
-    countSiteByUserId(currentUser.id);
+    SiteController.countByUserId(currentUser.id);
   });
 
   $(document).delegate('#page-collection-list li', 'click', function() {
@@ -24,7 +24,7 @@ $(function() {
   $(document).delegate('#page-site-list', 'pagebeforeshow', function() {
     $("#btn_sendToServer").hide();
     var cId = localStorage.getItem("cId");
-    countSiteByCollectionId(cId);
+    SiteController.countByCollectionId(cId);
     SiteController.getAllByCollectionId(cId);
     $("#site-list-menu").get(0).selectedIndex = 0;
     $("#site-list").listview("refresh");
@@ -88,12 +88,12 @@ $(function() {
 
   $(document).delegate('#btn_sendToServer', 'click', function() {
     var cId = App.DataStore.get("cId");
-    sendSiteToServer("collection_id", cId);
+    SiteController.submitAllToServerByCollectionId("collection_id", cId);
   });
 
   $(document).delegate('#btn_sendToServerAll', 'click', function() {
     var currentUser = SessionController.currentUser();
-    sendSiteToServer("user_id", currentUser.id);
+    SiteController.submitAllToServerByUserId("user_id", currentUser.id);
   });
 
   $(document).delegate('#page-site-list #site-list li', 'click', function() {

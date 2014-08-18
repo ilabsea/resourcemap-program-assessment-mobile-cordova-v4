@@ -6,7 +6,7 @@ App.DataStore = {
   get: function(key) {
     return localStorage.getItem(key);
   },
-  remove: function(key){
+  remove: function(key) {
     localStorage.removeItem(key);
   },
   clearAll: function() {

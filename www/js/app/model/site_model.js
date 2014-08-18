@@ -85,6 +85,11 @@ SiteOffline = {
     Site.all().filter('collection_id', "=", idcollection).count(null, function(count) {
       callback(count);
     });
+  },
+  countByUserId: function(userId, callback) {
+    Site.all().filter('user_id', "=", userId).count(null, function(count) {
+      callback(count);
+    });
   }
 };
 

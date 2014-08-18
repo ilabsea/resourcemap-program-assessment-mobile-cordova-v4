@@ -59,7 +59,7 @@ App = {
   }
 };
 
-function kernel(){
+function kernel() {
   window.isOnline = App.isOnline;
 }
 

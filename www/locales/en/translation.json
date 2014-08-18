@@ -22,7 +22,7 @@
         "ajax-loader": "Please wait ...",
         "no_internet_connection": "No internet connection.",
         "please_resend_data": "Please resend the data.",
-        "please_reupdate_your_site":"Please reupdate your site."
+        "please_reupdate_your_site": "Please reupdate your site."
     },
     "login_page": {
         "login": "Login",
@@ -52,25 +52,25 @@
         "delete_site": "Delete the site",
         "alert_delete": "Are you sure you want to delete the site?"
     },
-    "validation":{
-       "email_format":"Please enter a valid email address.",
-        "number_format":"Please enter a valid number.",
-        "empty_validate":"This field is required.",
-        "date_validate":"Please enter a valid date."  ,
-        "invalide":"Invalid email or password.",
-        "not_found":"Not found in database.",
-        "plsSignIn":"Please sign in.",
-        "required":"This field is required.",
+    "validation": {
+        "email_format": "Please enter a valid email address.",
+        "number_format": "Please enter a valid number.",
+        "empty_validate": "This field is required.",
+        "date_validate": "Please enter a valid date.",
+        "invalide": "Invalid email or password.",
+        "not_found": "Not found in database.",
+        "plsSignIn": "Please sign in.",
+        "required": "This field is required.",
         "emailPsd": "Please enter your email and password.",
         "emailPsdConfirm": "Please enter all required fields."
     },
-    "dialog":{
-        "option":"Photo Options",
-        "take":"Take Photo",
-        "choose":"Choose Existing" ,
+    "dialog": {
+        "option": "Photo Options",
+        "take": "Take Photo",
+        "choose": "Choose Existing",
         "signupsuccess": "Sign up successfully."
     },
-    "nav":{
+    "nav": {
         "online": "Online",
         "offline": "Offline"
     }

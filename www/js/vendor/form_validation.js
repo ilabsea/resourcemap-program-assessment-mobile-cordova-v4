@@ -13,7 +13,7 @@ $(document).ready(function() {
       SessionController.authUser(email, password);
     }
   });
-  
+
   $('#form_signup').validate({
     focusInvalid: false,
     errorPlacement: function() {
@@ -38,7 +38,7 @@ $(document).ready(function() {
       showValidateMessage('#validation_email_psd_confirm');
     }
   });
-  
+
   $('#form_create_site').validate({
     focusInvalid: false,
     errorPlacement: function(error, element) {
@@ -62,7 +62,7 @@ $(document).ready(function() {
       }
     }
   });
-  
+
   $('#form_update_site').validate({
     focusInvalid: false,
     errorPlacement: function(error, element) {
@@ -87,7 +87,7 @@ $(document).ready(function() {
       }
     }
   });
-  
+
   $('#form_update_site_online').validate({
     focusInvalid: false,
     errorPlacement: function(error, element) {
@@ -111,7 +111,7 @@ $(document).ready(function() {
       }
     }
   });
-  
+
   jQuery.validator.setDefaults({
     debug: true,
     success: "valid",
