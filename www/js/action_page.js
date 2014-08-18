@@ -22,7 +22,6 @@ $(function() {
   });
 
   $(document).delegate('#page-site-list', 'pagebeforeshow', function() {
-    App.emptyHTML();
     $("#btn_sendToServer").hide();
     var cId = App.DataStore.get("cId");
     SiteController.countByCollectionId(cId);
