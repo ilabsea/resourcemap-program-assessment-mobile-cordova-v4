@@ -14,16 +14,16 @@ $(function() {
 
   $(document).delegate('#page-collection-list li', 'click', function() {
     var cId = $(this).attr("data-id");
-    localStorage.setItem("cId", cId);
+    App.DataStore.set("cId", cId);
 
     var cName = $(this).attr("data-name");
-    localStorage.setItem('collectionName', cName);
+    App.DataStore.set("collectionName", cName);
     CollectionController.displayName({name: cName});
   });
 
   $(document).delegate('#page-site-list', 'pagebeforeshow', function() {
     $("#btn_sendToServer").hide();
-    var cId = localStorage.getItem("cId");
+    var cId = App.DataStore.get("cId");
     SiteController.countByCollectionId(cId);
     SiteController.getAllByCollectionId(cId);
     $("#site-list-menu").get(0).selectedIndex = 0;
@@ -37,7 +37,7 @@ $(function() {
 
   $(document).delegate('#page-site-list #site-list-online li', 'click', function() {
     var sId = $(this).attr("data-id");
-    localStorage.setItem("sId", sId);
+    App.DataStore.set("sId", sId);
     requireReload(SiteController.renderUpdateSiteFormOnline);
   });
 
@@ -58,7 +58,7 @@ $(function() {
 
   $(document).delegate('#page-site-list-all li', 'click', function() {
     var sId = $(this).attr("data-id");
-    localStorage.setItem("sId", sId);
+    var sId = App.DataStore.get("sId");
     $("#btn_back_site_list_all").show();
     $("#btn_back_site_list").hide();
     requireReload(SiteController.renderUpdateSiteFormOffline);

@@ -5,8 +5,6 @@ App.Template = {
     var templateText = App.Cache.get(templateURL);
 
     if (templateText != null) {
-      App.log("cached template : " + templateURL);
-      App.log(templateText);
       App.Template._compile(templateText, templateData, callback);
       return;
     }
@@ -15,8 +13,6 @@ App.Template = {
       url: path,
       cache: true,
       success: function(templateText) {
-        App.log("loaded template : " + templateURL);
-        App.log(templateText);
         App.Cache.set(templateURL, templateText);
         App.Template._compile(templateText, templateData, callback);
       }

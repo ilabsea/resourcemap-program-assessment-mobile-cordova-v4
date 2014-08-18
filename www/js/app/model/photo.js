@@ -99,3 +99,7 @@ function invokeCamera(cameraType) {
 function closeDialog() {
   $('#cameraDialog').dialog('close');
 }
+
+function imagePath(imgFileName) {
+  return App.IMG_PATH + imgFileName;
+}

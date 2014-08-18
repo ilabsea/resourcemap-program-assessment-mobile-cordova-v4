@@ -97,7 +97,7 @@ SiteController = {
       FieldOffline.fetchByCollectionId(cId, function(fields) {
         var propertiesFile = {properties: {}, files: {}};
         fields.forEach(function(field) {
-          propertiesFile = updateFieldValueBySiteId(propertiesFile, field, "#update_", false);
+          propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_", false);
         });
         site.properties(propertiesFile.properties);
         site.files(propertiesFile.files);
@@ -114,7 +114,7 @@ SiteController = {
     FieldModel.fetch(function(fields) {
       var propertiesFile = {properties: {}, files: {}};
       $.each(fields, function(key, field) {
-        propertiesFile = updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
+        propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
       });
       data = {
         "_method": "put",
@@ -241,8 +241,8 @@ SiteController = {
     if (field_id_arr != null) {
       var storedFieldId = JSON.parse(field_id_arr);
       for (var i = 0; i < storedFieldId.length; i++) {
-        var each_field = (storedFieldId[i]);
-        $field = $('#' + (each_field));
+        var each_field = storedFieldId[i];
+        $field = $('#' + each_field);
         if ($field.length > 0 && $field[0].tagName.toLowerCase() == 'img') {
           var lPhotoList = PhotoList.getPhotos().length;
           for (var p = 0; p < lPhotoList; p++) {

@@ -1,16 +1,25 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
- <head>
-  <title>TODO supply a title</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- </head>
- <body>
-  <div>TODO write content</div>
- </body>
-</html>
+<label for="updatesitename_online"> Name </label>
+<input type="text" 
+       name="updatesitename_online" 
+       id="updatesitename_online" 
+       class="required" 
+       value='{{name}}'/><br>
+<div>
+ <a href="#page-map">
+  <img src="img/map.png" 
+       alt="map icon" 
+       width="50" 
+       height="50" 
+       id="update_icon_map_online"/></a></div>
+<label for="updatelolat_online"> Location'Lat </label>
+<input type="number" 
+       name="updatelolat_online" 
+       id="updatelolat_online" 
+       class="required" 
+       value='{{lat}}'/>
+<label for="updatelolng_online"> Location'Lng </label>
+<input type="number" 
+       name="updatelolng_online" 
+       id="updatelolng_online" 
+       class="required" 
+       value='{{lng}}'/>

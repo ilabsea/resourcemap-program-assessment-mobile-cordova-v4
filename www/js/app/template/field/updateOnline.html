@@ -12,7 +12,7 @@
          name="update_online_{{idfield}}" 
          data-native-menu="false" 
          data-theme="a" {{required}} 
-         onchange="validateToRemoveStyle(this)">
+         class="validateSelectFields">
   <option value="">Option</option>
   <option value="">(no value)</option>
   {{{displayHierarchy}}}
@@ -28,7 +28,7 @@
           data-role="{{slider}}" 
           data-mini="{{ctrue}}" 
           {{required}} 
-          onchange="validateToRemoveStyle(this)">
+          class="validateSelectFields">
    {{#if multiple}}
    <option>Options</option>
    {{else}}

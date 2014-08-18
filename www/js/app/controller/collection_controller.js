@@ -24,7 +24,7 @@ CollectionController = {
       var asyncTotal = 0;
       collections.forEach(function(collection) {
         SiteOffline.countByCollectionId(collection.idcollection(), function(count) {
-          var item = dataCollection(collection, currentUser, count, false);
+          var item = CollectionController.dataCollection(collection, currentUser, count, false);
           asyncTotal++;
           collectionData.push(item);
 
@@ -40,7 +40,7 @@ CollectionController = {
       var collectionData = [];
       $.each(response, function(key, collection) {
         SiteOffline.countByCollectionId(collection.id, function(count) {
-          var item = dataCollection(collection, currentUser, count, true);
+          var item = CollectionController.dataCollection(collection, currentUser, count, true);
           collectionData.push(item);
 
           if (key === response.length - 1) {
@@ -57,5 +57,24 @@ CollectionController = {
       CollectionOffline.remove(collections);
       CollectionOffline.add(newCollections);
     });
+  },
+  dataCollection: function(collection, currentUser, count, fromServer) {
+    var item = {
+      name: collection.name,
+      description: collection.description,
+      user_id: currentUser.id,
+      linkpagesite: "#page-site-list"
+    };
+    if (fromServer)
+      item.idcollection = collection.id;
+    else
+      item.idcollection = collection.idcollection;
+
+    if (count == 0)
+      item.displayCount = "";
+    else
+      item.displayCount = count;
+
+    return item;
   }
 };

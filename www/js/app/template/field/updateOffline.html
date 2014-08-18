@@ -12,8 +12,9 @@
  <select id="update_{{idfield}}" 
          name="update_{{idfield}}" 
          data-native-menu="false" 
-         data-theme="a" {{required}} 
-         onchange="validateToRemoveStyle(this)" >
+         data-theme="a" 
+         {{required}}
+         class="validateSelectFields">
   <option value="">Option</option>
   <option value="">(no value)</option>
   {{{displayHierarchy}}}
@@ -28,8 +29,8 @@
           {{multiple}} 
           data-role="{{slider}}" 
           data-mini="{{ctrue}}" 
-          {{required}} 
-          onchange="validateToRemoveStyle(this)" >
+          {{required}}  
+          class="validateSelectFields">
    {{#if multiple}}
    <option>Options</option>
    {{else}}

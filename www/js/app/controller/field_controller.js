@@ -19,8 +19,7 @@ FieldController = {
         $.each(properties.fields, function(i, fieldsInside) {
           field_id_arr.push(fieldsInside.id);
         });
-        var fields = buildField(properties, {fromServer: true});
-
+        var fields = FieldHelper.buildField(properties, {fromServer: true});
         field_collections.push(fields);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
@@ -37,7 +36,7 @@ FieldController = {
         $.each(field.fields(), function(i, fieldsInfield) {
           field_id_arr.push(fieldsInfield.idfield);
         });
-        var item = buildField(field._data, {fromServer: false});
+        var item = FieldHelper.buildField(field._data, {fromServer: false});
         field_collections.push(item);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
@@ -47,13 +46,13 @@ FieldController = {
   renderUpdateOffline: function(site) {
     var cId = App.DataStore.get("cId");
     FieldOffline.fetchByCollectionId(cId, function(layers) {
-      var field_collections = buildFieldsCollection(layers, site, false);
+      var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
       FieldController.display("field/updateOffline.html", $('#div_update_field_collection'), {field_collections: field_collections});
     });
   },
   renderUpdateOnline: function(site) {
     FieldModel.fetch(function(layers) {
-      var field_collections = buildFieldsCollection(layers, site, true);
+      var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
       FieldController.display("field/updateOnline.html", $('#div_update_field_collection_online'), {field_collections: field_collections});
     });
   },
@@ -63,5 +62,74 @@ FieldController = {
       FieldOffline.remove(fields);
       FieldOffline.add(newFields);
     });
+  },
+  updateFieldValueBySiteId: function(propertiesFile, field, idHTMLForUpdate, fromServer) {
+    var pf = propertiesFile;
+    var itemLayer;
+    if (fromServer)
+      itemLayer = FieldHelper.buildField(field, {fromServer: fromServer});
+    else
+      itemLayer = FieldHelper.buildField(field._data, {fromServer: fromServer});
+
+    var items = itemLayer.fields;
+
+    $.each(items, function(i, item) {
+      if (item.isPhoto) {
+        FieldController.updateFieldPhotoValue(item, propertiesFile, fromServer);
+      }
+      else if (item.widgetType === "date") {
+        FieldController.updateFieldDateValue(idHTMLForUpdate, item, propertiesFile);
+      }
+      else {
+        var nodeId = idHTMLForUpdate + item["idfield"];
+        var value = $(nodeId).val();
+        if (value == null)
+          value = "";
+        propertiesFile.properties[item["idfield"]] = value;
+      }
+    });
+
+    return pf;
+  },
+  updateFieldPhotoValue: function(item, propertiesFile, fromServer) {
+    var idfield = item["idfield"];
+    var lPhotoList = PhotoList.getPhotos().length;
+    var sId = localStorage.getItem("sId");
+
+    if (fromServer) {
+      var filePath = App.DataStore.get("filePath");
+      if (filePath == null)
+        propertiesFile.properties[idfield] = "";
+      else
+        propertiesFile.properties[idfield] = filePath;
+    } else {
+      var fileData = App.DataStore.get("fileDataOffline");
+      var fileNameLocal = App.DataStore.get("fileNameOffline");
+      if (fileData == null || fileNameLocal == null) {
+        propertiesFile.properties[idfield] = "";
+      }
+      else {
+        var fileName = fileNameLocal;
+        propertiesFile.properties[idfield] = fileName;
+        propertiesFile.files[fileName] = fileData;
+      }
+    }
+    for (var i = 0; i < lPhotoList; i++) {
+      if (PhotoList.getPhotos()[i].id == idfield && PhotoList.getPhotos()[i].sId == sId) {
+        var fileName = PhotoList.getPhotos()[i].name();
+        propertiesFile.properties[idfield] = fileName;
+        propertiesFile.files[fileName] = PhotoList.getPhotos()[i].data;
+        break;
+      }
+    }
+  },
+  updateFieldDateValue: function(idHTMLForUpdate, item, propertiesFile) {
+    var nodeId = idHTMLForUpdate + item["idfield"];
+    var value = $(nodeId).val();
+    if (value != "") {
+      value = new Date(value);
+      value = dateToParam(value);
+    }
+    propertiesFile.properties[item["idfield"]] = value;
   }
 };
