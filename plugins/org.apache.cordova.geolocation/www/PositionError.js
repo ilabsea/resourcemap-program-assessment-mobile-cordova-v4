@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 /**
  * Position error object
@@ -27,8 +27,8 @@
  * @param message
  */
 var PositionError = function(code, message) {
-    this.code = code || null;
-    this.message = message || '';
+  this.code = code || null;
+  this.message = message || '';
 };
 
 PositionError.PERMISSION_DENIED = 1;

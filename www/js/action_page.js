@@ -23,10 +23,12 @@ $(function() {
 
   $(document).delegate('#page-site-list', 'pagebeforeshow', function() {
     $("#btn_sendToServer").hide();
+    App.log("here");
     var cId = App.DataStore.get("cId");
     SiteController.countByCollectionId(cId);
     SiteController.getAllByCollectionId();
     $("#site-list-menu").get(0).selectedIndex = 0;
+    App.log("me");
   });
 
   $(document).delegate('#btn_create_site', 'click', function() {

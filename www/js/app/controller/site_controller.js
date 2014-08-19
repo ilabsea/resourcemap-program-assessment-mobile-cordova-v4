@@ -14,7 +14,7 @@ SiteController = {
   add: function() {
     var data = SiteController.buildDataForSite();
     if (isOnline())
-      SiteController.addOnline(data, SiteController.resetForm());
+      SiteController.addOnline(data, SiteController.resetForm );
     else
       SiteController.addOffline(data);
   },
@@ -30,7 +30,8 @@ SiteController = {
   },
   getAllByCollectionId: function() {
     SiteController.getByCollectionIdOffline();
-    SiteController.getByCollectionIdOnline();
+    if (isOnline())
+      SiteController.getByCollectionIdOnline();
   },
   getByCollectionIdOffline: function() {
     var cId = App.DataStore.get("cId");
@@ -223,11 +224,12 @@ SiteController = {
   },
   countByCollectionId: function(cId) {
     SiteOffline.countByCollectionId(cId, function(count) {
+      var offline = "#site-list-menu option[value='2']";
       if (count == 0) {
-        $("#site-list-menu option[value='2']").attr('disabled', true);
+        $(offline).attr('disabled', true);
         $("#site-list-menu").change();
       } else {
-        $("#site-list-menu option[value='2']").removeAttr('disabled');
+        $(offline).removeAttr('disabled');
       }
       $("#site-list-menu").selectmenu("refresh", true);
     });
@@ -283,7 +285,7 @@ SiteController = {
   },
   resetForm: function() {
     PhotoList.clear();
+    $('#form_create_site')[0].reset();
     App.redirectTo("#page-site-list");
-    $('#form_create_site ')[0].reset();
   }
 };

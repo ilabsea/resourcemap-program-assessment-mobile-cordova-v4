@@ -79,6 +79,7 @@ SessionController = {
     $('#form_login')[0].reset();
     if (!isOnline()) {
       App.Session.resetState();
+      App.redirectTo("#page-login");
     }
     else {
       UserModel.delete(function() {

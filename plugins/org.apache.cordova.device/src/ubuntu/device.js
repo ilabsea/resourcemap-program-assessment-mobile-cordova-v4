@@ -23,12 +23,12 @@ var cordova = require('cordova');
 var exec = require('cordova/exec');
 
 module.exports = {
-    getInfo: function(win, fail, args) {
-        Cordova.exec(function(model, cordova, platform, uuid, version) {
-            win({name: name, model: model, cordova: cordova,
-                platform: platform, uuid: uuid, version: version});
-        }, null, "com.cordova.Device", "getInfo", []);
-    }
+  getInfo: function(win, fail, args) {
+    Cordova.exec(function(model, cordova, platform, uuid, version) {
+      win({name: name, model: model, cordova: cordova,
+        platform: platform, uuid: uuid, version: version});
+    }, null, "com.cordova.Device", "getInfo", []);
+  }
 };
 
 require("cordova/exec/proxy").add("Device", module.exports);
