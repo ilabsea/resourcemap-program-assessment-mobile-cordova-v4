@@ -54,7 +54,6 @@ SiteController = {
     var cId = App.DataStore.get("cId");
     SiteModel.fetch(cId, function(response) {
       var siteOnlineData = [];
-      App.log("response: ", response);
       $.each(response["sites"], function(key, data) {
         var date = data.created_at;
         date = new Date(date);
