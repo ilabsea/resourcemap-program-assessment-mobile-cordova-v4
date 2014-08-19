@@ -65,10 +65,14 @@ $(function() {
 
   $(document).delegate('#btn_back_site_list', 'click', function() {
     App.DataStore.remove("filePath");
+    App.DataStore.remove("fileDataOffline");
+    App.DataStore.remove("fileNameOffline");
   });
 
   $(document).delegate('#btn_back_site_list_all', 'click', function() {
     App.DataStore.remove("filePath");
+    App.DataStore.remove("fileDataOffline");
+    App.DataStore.remove("fileNameOffline");
   });
 
   $(document).delegate('#btn_back_site_list_online', 'click', function() {

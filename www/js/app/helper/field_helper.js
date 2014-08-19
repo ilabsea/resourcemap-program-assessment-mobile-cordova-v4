@@ -89,7 +89,6 @@ FieldHelper = {
         FieldHelper.setFieldsValue(item, propertyCode, propertyValue, site, fromServer);
       });
     }
-    console.log("filed: ", itemLayer);
     return itemLayer;
   },
   setFieldsValue: function(item, propertyCode, pValue, site, fromServer) {
