@@ -9,16 +9,7 @@
  {{#if config}} 
  {{#if isHierarchy}} 
  <label>{{name}}</label>
- <select id="{{idfield}}" 
-         data-theme="a" 
-         name="{{idfield}}" 
-         data-native-menu="false" 
-         {{required}} 
-         class="validateSelectFields">
-  <option value="">Option</option>
-  <option value="">(no value)</option>
-  {{{displayHierarchy}}}
- </select>
+ <div id="{{idfield}}"></div>
  {{else}}
  <div>
   <label>{{name}}</label>

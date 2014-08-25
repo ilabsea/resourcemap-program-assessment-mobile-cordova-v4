@@ -17,12 +17,11 @@ FieldHelper = {
       fieldsWrapper.id_wrapper = fieldObj.id_wrapper;
     }
     $.each(fieldObj.fields, function(key, fields) {
-      if (options["fromServer"]) {
+      if (options["fromServer"])
         id = fields.id;
-      }
-      else {
+      else
         id = fields.idfield;
-      }
+
       var kind = fields.kind;
       var widgetType = kind;
       var config = fields.config;
@@ -41,9 +40,9 @@ FieldHelper = {
         slider = "slider";
         ctrue = "true";
       }
-      if (widgetType === "phone") {
+      if (widgetType === "phone")
         widgetType = "tel";
-      }
+
       if (is_mandatory)
         is_required = "required";
       fieldsWrapper.fields.push({
@@ -54,13 +53,12 @@ FieldHelper = {
         multiple: (kind === "select_many" ? "multiple" : ""),
         isPhoto: (kind === "photo" ? true : false),
         widgetType: widgetType,
-        config: config,
+        config: (kind === "hierarchy" ? Hierarchy.generateField(fields.config, "") : config),
         slider: slider,
         ctrue: ctrue,
         is_mandatory: is_mandatory,
         required: is_required,
-        isHierarchy: (kind === "hierarchy" ? true : false),
-        displayHierarchy: (kind === "hierarchy" ? Hierarchy.generateField(fields.config, "") : "")
+        isHierarchy: (kind === "hierarchy" ? true : false)
       });
     });
     return fieldsWrapper;

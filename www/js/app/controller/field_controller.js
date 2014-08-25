@@ -4,6 +4,19 @@ FieldController = {
       element.html(content);
       element.trigger("create");
     });
+    var data;
+    var id; 
+    $.each(fieldData.field_collections, function(key, properties) {
+      $.each(properties.fields, function(i, fieldsInside) {
+        if (fieldsInside.kind === "hierarchy"){
+          data = fieldsInside.config;
+          id = fieldsInside.idfield;
+        }
+      });
+    });
+    console.log("id : ", id);
+    Hierarchy.renderDisplay("1168", data);
+
   },
   getByCollectionId: function() {
     if (isOnline())
@@ -22,6 +35,15 @@ FieldController = {
         var fields = FieldHelper.buildField(properties, {fromServer: true});
         field_collections.push(fields);
       });
+      $.each(response, function(key, properties) {
+        $.each(properties.fields, function(i, fieldsInside) {
+          field_id_arr.push(fieldsInside.id);
+        });
+        var fields = FieldHelper.buildField(properties, {fromServer: true});
+        field_collections.push(fields);
+      });
+
+
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       FieldController.synForCurrentCollection(field_collections);
       FieldController.display("field/add.html", $('#div_field_collection'), {field_collections: field_collections});

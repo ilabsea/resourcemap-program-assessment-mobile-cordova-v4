@@ -9,31 +9,29 @@ Hierarchy = {
     this._display = "";
     this._value = value;
     this.setData(field);
-    this.processHierarchy(this._data, 0);
-    return this._display;
+    this.processHierarchy(this._data);
+    return this._data;
   },
-  processHierarchy: function(data, nbSpace) {
+  processHierarchy: function(data) {
     for (var i = 0; i < data.length; i++) {
-      this._display += this.renderItemOption(data[i], nbSpace);
-
       if (data[i].sub) {
-        this.processHierarchy(data[i].sub, nbSpace + 3);
+        data[i].children = data[i].sub;
+        delete data[i].sub;
+        this.processHierarchy(data[i].children);
       }
     }
   },
-  renderItemOption: function(record, nbSpace) {
-    var label = this.generateSpace(nbSpace) + record.name;
-    if (record.id == this._value || record.name == this._value)
-      return "<option value='" + record.id + "' selected>" + label + "</option>";
-    else
-      return "<option value='" + record.id + "'>" + label + "</option>";
+  renderDisplay: function(id, data) {
+    var $tree1 = $("#" + id);
 
-  },
-  generateSpace: function(nbSpace) {
-    var totalSpace = "";
-    for (var i = 0; i < nbSpace; i++) {
-      totalSpace += "&nbsp;";
-    }
-    return totalSpace;
+    $tree1.tree({
+      data: data,
+      autoOpen: false,
+      dragAndDrop: false,
+      selectable: true,
+      closedIcon: $('<img src="img/folder.png" width="30" style="vertical-align: middle;">'),
+      openedIcon: $('<img src="img/folder_open.png" width="30" style="vertical-align: middle;">>')
+    });
+    console.log(" $tree1 : ", $tree1);
   }
 };

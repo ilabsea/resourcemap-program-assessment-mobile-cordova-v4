@@ -14,7 +14,7 @@ SiteController = {
   add: function() {
     var data = SiteController.buildDataForSite();
     if (isOnline())
-      SiteController.addOnline(data, SiteController.resetForm );
+      SiteController.addOnline(data, SiteController.resetForm);
     else
       SiteController.addOffline(data);
   },
