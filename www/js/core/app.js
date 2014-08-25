@@ -1,4 +1,4 @@
-URL = "http://resmap-stg-ilab.instedd.org/";
+URL = "http://resourcemap-sea.instedd.org/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
