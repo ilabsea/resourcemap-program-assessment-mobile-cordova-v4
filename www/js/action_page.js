@@ -57,7 +57,7 @@ $(function() {
 
   $(document).delegate('#page-site-list-all li', 'click', function() {
     var sId = $(this).attr("data-id");
-    var sId = App.DataStore.get("sId");
+    App.DataStore.set("sId", sId);
     $("#btn_back_site_list_all").show();
     $("#btn_back_site_list").hide();
     requireReload(SiteController.renderUpdateSiteFormOffline);

@@ -8,15 +8,7 @@
  {{#if config}} 
  {{#if isHierarchy}} 
  <label>{{name}}</label>
- <select id="update_online_{{idfield}}" 
-         name="update_online_{{idfield}}" 
-         data-native-menu="false" 
-         data-theme="a" {{required}} 
-         class="validateSelectFields">
-  <option value="">Option</option>
-  <option value="">(no value)</option>
-  {{{displayHierarchy}}}
- </select>
+ <div id="update_online_{{idfield}}" class="tree"></div>
  {{else}}
  <div>
   <label>{{name}}</label>

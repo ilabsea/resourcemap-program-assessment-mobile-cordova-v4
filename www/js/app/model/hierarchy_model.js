@@ -1,12 +1,11 @@
 Hierarchy = {
-  _display: "",
   _data: [],
   _value: "",
+  _selected: "",
   setData: function(field) {
     this._data = field["hierarchy"];
   },
   generateField: function(field, value) {
-    this._display = "";
     this._value = value;
     this.setData(field);
     this.processHierarchy(this._data);
@@ -14,24 +13,40 @@ Hierarchy = {
   },
   processHierarchy: function(data) {
     for (var i = 0; i < data.length; i++) {
+      this.setSelected(data[i]);
       if (data[i].sub) {
         data[i].children = data[i].sub;
         delete data[i].sub;
         this.processHierarchy(data[i].children);
       }
+      if (data[i].children) {
+        this.processHierarchy(data[i].children);
+      }
     }
   },
-  renderDisplay: function(id, data) {
-    var $tree1 = $("#" + id);
+  setSelected: function(record) {
+    if (record.id == this._value || record.name == this._value) {
+      this._selected = record.id;
+      return this._selected;
+    }
+  },
+  renderDisplay: function(idElement, data) {
+    var $hierarchy = $("#" + idElement);
 
-    $tree1.tree({
+    $hierarchy.tree({
       data: data,
-      autoOpen: false,
+      autoOpen: true,
       dragAndDrop: false,
       selectable: true,
-      closedIcon: $('<img src="img/folder.png" width="30" style="vertical-align: middle;">'),
-      openedIcon: $('<img src="img/folder_open.png" width="30" style="vertical-align: middle;">>')
+      closedIcon: $('<img src="img/folder.png" style="vertical-align: middle;">'),
+      openedIcon: $('<img src="img/folder_open.png" style="vertical-align: middle;">>')
     });
-    console.log(" $tree1 : ", $tree1);
+  },
+  selectedNode: function(idElement) {
+    var $hierarchy = $("#" + idElement);
+    var node = $hierarchy.tree('getNodeById', this._selected);
+    if (this._selected)
+      $hierarchy.tree('selectNode', node);
+    this._selected = "";
   }
 };

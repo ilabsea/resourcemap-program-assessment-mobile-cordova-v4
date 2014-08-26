@@ -1,4 +1,3 @@
-<!--field collection in create page-->
 {{#each field_collections}}
 <div data-role="collapsible" 
      data-inset="true" 
@@ -6,10 +5,10 @@
      data-collapsed="false">
  <h3>{{name_wrapper}}</h3>
  {{#each fields}}
- {{#if config}} 
+ {{#if config}}
  {{#if isHierarchy}} 
  <label>{{name}}</label>
- <div id="{{idfield}}"></div>
+ <div id="{{idfield}}" class="tree"></div>
  {{else}}
  <div>
   <label>{{name}}</label>

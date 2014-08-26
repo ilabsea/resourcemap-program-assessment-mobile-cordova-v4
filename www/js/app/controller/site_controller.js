@@ -165,6 +165,7 @@ SiteController = {
       };
       SiteController.displayUpdateLatLng("site/updateOnline.html", $('#div-site-update-name-online'), siteOnlineUpdateData);
       FieldController.renderUpdateOnline(response);
+      console.log("response : ", response);
     });
   },
   submitAllToServerByCollectionId: function() {
@@ -264,7 +265,15 @@ SiteController = {
             date = convertDateWidgetToParam(date);
           }
           properties["" + each_field + ""] = date;
-        } else {
+        }
+        else if ($field[0].getAttribute("class") === "tree") {
+          var node = $field.tree('getSelectedNode');
+          var data = node.id;
+          if (data == null)
+            data = "";
+          properties[each_field] = data;
+        }
+        else {
           var data = $field.val();
           if (data == null)
             data = "";

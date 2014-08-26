@@ -921,22 +921,28 @@
     };
 
     ElementsRenderer.prototype.createNodeLi = function(node) {
-      var class_string, div, escaped_name, li, li_classes, title_span;
-      li_classes = ['jqtree_common'];
-      if (this.tree_widget.select_node_handler && this.tree_widget.select_node_handler.isNodeSelected(node)) {
-        li_classes.push('jqtree-selected');
-      }
-      class_string = li_classes.join(' ');
+      var button_classes, button_link, div, escaped_name, folder_classes, icon_element, li, title_span;
+      button_classes = this.getButtonClasses(node);
+      folder_classes = this.getFolderClasses(node);
       escaped_name = this.escapeIfNecessary(node.name);
+      if (node.is_open) {
+        icon_element = this.opened_icon_element;
+      } else {
+        icon_element = this.closed_icon_element;
+      }
       li = document.createElement('li');
-      li.className = class_string;
+      li.className = "jqtree_common " + folder_classes;
       div = document.createElement('div');
       div.className = "jqtree-element jqtree_common";
       li.appendChild(div);
+      button_link = document.createElement('a');
+      button_link.className = "jqtree_common " + button_classes;
+      button_link.appendChild(icon_element.cloneNode());
+      div.appendChild(button_link);
       title_span = document.createElement('span');
-      title_span.className = "jqtree-title jqtree_common";
-      title_span.innerHTML = escaped_name;
+      title_span.className = "jqtree_common jqtree-title jqtree-title-folder";
       div.appendChild(title_span);
+      title_span.innerHTML = escaped_name;
       return li;
     };
 
@@ -1093,24 +1099,14 @@
       if (!canSelect()) {
         return;
       }
-      if (this.select_node_handler.isNodeSelected(node)) {
-        if (must_toggle) {
-          this._deselectCurrentNode();
-          this._triggerEvent('tree.select', {
-            node: null,
-            previous_node: node
-          });
-        }
-      } else {
-        deselected_node = this.getSelectedNode();
-        this._deselectCurrentNode();
-        this.addToSelection(node);
-        this._triggerEvent('tree.select', {
-          node: node,
-          deselected_node: deselected_node
-        });
-        openParents();
-      }
+      deselected_node = this.getSelectedNode();
+      this._deselectCurrentNode();
+      this.addToSelection(node);
+      this._triggerEvent('tree.select', {
+        node: node,
+        deselected_node: deselected_node
+      });
+      openParents();
       return saveState();
     };
 
@@ -1600,9 +1596,8 @@
             node: node,
             click_event: e
           });
-          if (!event.isDefaultPrevented()) {
-            return this._selectNode(node, true);
-          }
+          this.toggle(click_target.node, this.options.slide);
+          return this._selectNode(node, true);
         }
       }
     };

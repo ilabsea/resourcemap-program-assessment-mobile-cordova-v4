@@ -55,7 +55,8 @@ ul.jqtree-tree li.jqtree-folder {
 }
 
 ul.jqtree-tree li.jqtree-folder.jqtree-closed {
-    margin-bottom: 1px;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
 }
 
 ul.jqtree-tree .jqtree-toggler.jqtree-closed {
@@ -126,17 +127,25 @@ ul.jqtree-tree span.jqtree-border {
 }
 
 ul.jqtree-tree .jqtree-element {
-    position: relative;
+    /*position: relative;*/
+     margin-left: -0.5em;
+    padding-left: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 
 ul.jqtree-tree li.jqtree-selected > .jqtree-element,
 ul.jqtree-tree li.jqtree-selected > .jqtree-element:hover {
-    background-color: #97BDD6;
-    background: -webkit-gradient(linear, left top, left bottom, from(#BEE0F5), to(#89AFCA));
-    background: -moz-linear-gradient(top, #BEE0F5, #89AFCA);
+    background-color: #396b9e !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#396b9e), to( #89AFCA)) !important;
+    background: -moz-linear-gradient(top, #396b9e, #89AFCA);
     background: -ms-linear-gradient(top, #BEE0F5, #89AFCA);
     background: -o-linear-gradient(top, #BEE0F5, #89AFCA);
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    border-radius: 1em;
+    margin-left: -0.5em;
+    padding-left: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 
 ul.jqtree-tree .jqtree-moving > .jqtree-element .jqtree-title {

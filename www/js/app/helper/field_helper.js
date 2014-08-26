@@ -45,6 +45,7 @@ FieldHelper = {
 
       if (is_mandatory)
         is_required = "required";
+
       fieldsWrapper.fields.push({
         idfield: id,
         name: fields.name,
@@ -53,12 +54,13 @@ FieldHelper = {
         multiple: (kind === "select_many" ? "multiple" : ""),
         isPhoto: (kind === "photo" ? true : false),
         widgetType: widgetType,
-        config: (kind === "hierarchy" ? Hierarchy.generateField(fields.config, "") : config),
+        config: config,
         slider: slider,
         ctrue: ctrue,
         is_mandatory: is_mandatory,
         required: is_required,
-        isHierarchy: (kind === "hierarchy" ? true : false)
+        isHierarchy: (kind === "hierarchy" ? true : false),
+        configHierarchy: (kind === "hierarchy" ? Hierarchy.generateField(fields.config, "") : ""),
       });
     });
     return fieldsWrapper;
@@ -147,6 +149,6 @@ FieldHelper = {
   },
   setFieldHierarchyValue: function(item, value) {
     item.__value = value;
-    item.displayHierarchy = Hierarchy.generateField(item.config, item.__value);
+    item.configHierarchy = Hierarchy.generateField(item.config, item.__value);
   }
 };
