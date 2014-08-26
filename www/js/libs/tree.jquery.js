@@ -1036,7 +1036,7 @@
       nodeClass: Node,
       dataFilter: null,
       keyboardSupport: true,
-      openFolderDelay: 500
+      openFolderDelay: 10
     };
 
     JqTreeWidget.prototype.toggle = function(node, slide) {
@@ -1449,7 +1449,7 @@
     JqTreeWidget.prototype._init = function() {
       JqTreeWidget.__super__._init.call(this);
       this.element = this.$el;
-      this.mouse_delay = 300;
+      this.mouse_delay = 1;
       this.is_initialized = false;
       this.renderer = new ElementsRenderer(this);
       if (typeof SaveStateHandler !== "undefined" && SaveStateHandler !== null) {

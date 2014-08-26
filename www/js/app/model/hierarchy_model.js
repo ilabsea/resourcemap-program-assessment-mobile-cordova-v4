@@ -1,7 +1,7 @@
 Hierarchy = {
   _data: [],
   _value: "",
-  _selected: "",
+  _selected: [],
   setData: function(field) {
     this._data = field["hierarchy"];
   },
@@ -26,7 +26,8 @@ Hierarchy = {
   },
   setSelected: function(record) {
     if (record.id == this._value || record.name == this._value) {
-      this._selected = record.id;
+      this._selected.push(record.id);
+      App.log("selected : ", this._selected);
       return this._selected;
     }
   },
@@ -35,18 +36,20 @@ Hierarchy = {
 
     $hierarchy.tree({
       data: data,
-      autoOpen: true,
+      autoOpen: false,
       dragAndDrop: false,
       selectable: true,
       closedIcon: $('<img src="img/folder.png" style="vertical-align: middle;">'),
       openedIcon: $('<img src="img/folder_open.png" style="vertical-align: middle;">>')
     });
   },
-  selectedNode: function(idElement) {
+  selectedNode: function(idElement, index) {
     var $hierarchy = $("#" + idElement);
-    var node = $hierarchy.tree('getNodeById', this._selected);
+    App.log("selected length: ", this._selected.length);
+    var node = $hierarchy.tree('getNodeById', this._selected[index]);
     if (this._selected)
       $hierarchy.tree('selectNode', node);
-    this._selected = "";
+    if (index == this._selected.length - 1)
+      this._selected = [];
   }
 };

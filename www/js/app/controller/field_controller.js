@@ -15,7 +15,7 @@ FieldController = {
           var data = fieldsInside.configHierarchy;
           var id = fieldsInside.idfield;
           Hierarchy.renderDisplay(element + id, data);
-          Hierarchy.selectedNode(element + id);
+          Hierarchy.selectedNode(element + id, i);
         }
       });
     });
@@ -95,6 +95,14 @@ FieldController = {
       else if (item.widgetType === "date") {
         FieldController.updateFieldDateValue(idHTMLForUpdate, item, propertiesFile);
       }
+      else if (item.widgetType === "hierarchy") {
+        var nodeId = idHTMLForUpdate + item["idfield"];
+        var node = $(nodeId).tree('getSelectedNode');
+        var data = node.id;
+        if (data == null)
+          data = "";
+        propertiesFile.properties[item["idfield"]] = data;
+      }
       else {
         var nodeId = idHTMLForUpdate + item["idfield"];
         var value = $(nodeId).val();
@@ -103,6 +111,8 @@ FieldController = {
         propertiesFile.properties[item["idfield"]] = value;
       }
     });
+
+    console.log("pf: ", pf);
 
     return pf;
   },
