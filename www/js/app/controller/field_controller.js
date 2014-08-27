@@ -112,8 +112,6 @@ FieldController = {
       }
     });
 
-    console.log("pf: ", pf);
-
     return pf;
   },
   updateFieldPhotoValue: function(item, propertiesFile, fromServer) {

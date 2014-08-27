@@ -27,7 +27,6 @@ Hierarchy = {
   setSelected: function(record) {
     if (record.id == this._value || record.name == this._value) {
       this._selected.push(record.id);
-      App.log("selected : ", this._selected);
       return this._selected;
     }
   },
@@ -45,7 +44,6 @@ Hierarchy = {
   },
   selectedNode: function(idElement, index) {
     var $hierarchy = $("#" + idElement);
-    App.log("selected length: ", this._selected.length);
     var node = $hierarchy.tree('getNodeById', this._selected[index]);
     if (this._selected)
       $hierarchy.tree('selectNode', node);

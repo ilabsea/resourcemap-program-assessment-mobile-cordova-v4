@@ -165,7 +165,6 @@ SiteController = {
       };
       SiteController.displayUpdateLatLng("site/updateOnline.html", $('#div-site-update-name-online'), siteOnlineUpdateData);
       FieldController.renderUpdateOnline(response);
-      console.log("response : ", response);
     });
   },
   submitAllToServerByCollectionId: function() {
