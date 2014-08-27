@@ -49,17 +49,11 @@ $(document).ready(function() {
       showValidateMessage('#validation_create-site');
     },
     submitHandler: function() {
-      if ($(".image").attr('require') == "required") {
-        if ($('.image').attr('src') != '') {
-          $(".photo").css({"border": "1px solid #f3f3f3"});
-          SiteController.add();
-        } else {
-          $(".photo").css({"border": "1px solid red"});
-          showValidateMessage('#validation_create-site');
-        }
-      } else {
+      var classElement = document.getElementsByClassName("image");
+      if (classElement.length != 0)
+        validateImageSubmitHandler(classElement, '#validation_create-site', SiteController.add);
+      else
         SiteController.add();
-      }
     }
   });
 
@@ -73,18 +67,11 @@ $(document).ready(function() {
       showValidateMessage('#validation_update-site');
     },
     submitHandler: function() {
-      var sId = App.DataStore.get("sId");
-      if ($(".image").attr('require') == "required") {
-        if ($('.image').attr('src') != '') {
-          $(".photo").css({"border": "1px solid #f3f3f3"});
-          SiteController.updateBySiteIdOffline(sId);
-        } else {
-          $(".photo").css({"border": "1px solid red"});
-          showValidateMessage('#validation_update-site');
-        }
-      } else {
-        SiteController.updateBySiteIdOffline(sId);
-      }
+      var classElement = document.getElementsByClassName("image");
+      if (classElement.length != 0)
+        validateImageSubmitHandler(classElement, '#validation_update-site', SiteController.updateBySiteIdOffline);
+      else
+        SiteController.updateBySiteIdOffline();
     }
   });
 
@@ -98,17 +85,11 @@ $(document).ready(function() {
       showValidateMessage('#validation_update-site-online');
     },
     submitHandler: function() {
-      if ($(".image").attr('require') == "required") {
-        if ($('.image').attr('src') != '') {
-          $(".photo").css({"border": "1px solid #f3f3f3"});
-          SiteController.updateBySiteIdOnline();
-        } else {
-          $(".photo").css({"border": "1px solid red"});
-          showValidateMessage('#validation_update-site-online');
-        }
-      } else {
+      var classElement = document.getElementsByClassName("image");
+      if (classElement.length != 0)
+        validateImageSubmitHandler(classElement, '#validation_update-site-online', SiteController.updateBySiteIdOnline);
+      else
         SiteController.updateBySiteIdOnline();
-      }
     }
   });
 
@@ -145,4 +126,23 @@ function showValidateMessage(id) {
 function addClassError(element) {
   var $parent = $(element).closest('.ui-select');
   $parent.addClass("error");
+}
+
+function validateImageSubmitHandler(classElement, element, callback) {
+  var b = true;
+  for (i = 0; i < classElement.length; i++) {
+    var idElement = classElement[i].id;
+    var $element = $("#" + idElement);
+    if ($element.attr('require') == "required") {
+      if ($element.attr('src') != '') {
+        $("#property_" + idElement + "_container").css({"border": "1px solid #f3f3f3"});
+      } else {
+        b = false;
+        $("#property_" + idElement + "_container").css({"border": "1px solid red"});
+        showValidateMessage(element);
+      }
+    }
+  }
+  if (b)
+    callback();
 }

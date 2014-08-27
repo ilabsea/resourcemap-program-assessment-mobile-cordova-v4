@@ -90,7 +90,8 @@ SiteController = {
   deleteBySiteId: function(sId) {
     SiteOffline.deleteBySiteId(sId);
   },
-  updateBySiteIdOffline: function(sId) {
+  updateBySiteIdOffline: function() {
+    var sId = App.DataStore.get("sId");
     SiteOffline.fetchBySiteId(sId, function(site) {
       site.name($("#updatesitename").val());
       site.lat($("#updatelolat").val());
