@@ -9,7 +9,7 @@
  {{#if config}} 
  {{#if isHierarchy}} 
  <label>{{name}}</label>
- <div id="update_{{idfield}}" class="tree"></div>
+ <div id="update_{{idfield}}" class="tree" require='{{required}}' onclick="validateHierarchyClicked(this)"></div>
  {{else}}
  <div>
   <label>{{name}}</label>

@@ -1596,7 +1596,7 @@
             node: node,
             click_event: e
           });
-          this.toggle(click_target.node, this.options.slide);
+          this.toggle(node, this.options.slide);
           return this._selectNode(node, true);
         }
       }

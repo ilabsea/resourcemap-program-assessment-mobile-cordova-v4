@@ -60,7 +60,7 @@ FieldHelper = {
         is_mandatory: is_mandatory,
         required: is_required,
         isHierarchy: (kind === "hierarchy" ? true : false),
-        configHierarchy: (kind === "hierarchy" ? Hierarchy.generateField(fields.config, "") : ""),
+        configHierarchy: (kind === "hierarchy" ? Hierarchy.generateField(fields.config, "", id) : "")
       });
     });
     return fieldsWrapper;
@@ -97,9 +97,8 @@ FieldHelper = {
         FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
       else if (item.widgetType === "select_many" || item.widgetType === "select_one")
         FieldHelper.setFieldSelectValue(item, pValue);
-      else if (item.widgetType === "hierarchy") {
+      else if (item.widgetType === "hierarchy")
         FieldHelper.setFieldHierarchyValue(item, pValue);
-      }
       else if (item.widgetType === "date" && pValue)
         item.__value = convertDateWidgetToParam(pValue);
       else
@@ -149,6 +148,7 @@ FieldHelper = {
   },
   setFieldHierarchyValue: function(item, value) {
     item.__value = value;
-    item.configHierarchy = Hierarchy.generateField(item.config, item.__value);
+    item.configHierarchy = Hierarchy.generateField(item.config, item.__value, item.idfield);
+    item._selected = Hierarchy._selected;
   }
 };

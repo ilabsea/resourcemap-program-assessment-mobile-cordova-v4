@@ -65,8 +65,7 @@ SiteCamera = {
     image.src = SiteCamera.dataWithMimeType(imageData);
 
     PhotoList.add(photo);
-
-    validateImage();
+    validateImage(imageId);
   },
   imageId: function() {
     var imageId;
