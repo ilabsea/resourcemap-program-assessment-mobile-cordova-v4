@@ -1044,7 +1044,7 @@
       nodeClass: Node,
       dataFilter: null,
       keyboardSupport: true,
-      openFolderDelay: 10
+      openFolderDelay: 0
     };
 
     JqTreeWidget.prototype.toggle = function(node, slide) {
