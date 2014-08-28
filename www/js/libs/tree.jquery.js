@@ -921,28 +921,36 @@
     };
 
     ElementsRenderer.prototype.createNodeLi = function(node) {
-      var button_classes, button_link, div, escaped_name, folder_classes, icon_element, li, title_span;
+      var class_string, div, escaped_name, button_classes, li, li_classes, button_link, title_span;
       button_classes = this.getButtonClasses(node);
-      folder_classes = this.getFolderClasses(node);
-      escaped_name = this.escapeIfNecessary(node.name);
-      if (node.is_open) {
-        icon_element = this.opened_icon_element;
-      } else {
-        icon_element = this.closed_icon_element;
+      li_classes = ['jqtree_common'];
+      if (this.tree_widget.select_node_handler && this.tree_widget.select_node_handler.isNodeSelected(node)) {
+        li_classes.push('jqtree-selected');
       }
+      class_string = li_classes.join(' ');
+      escaped_name = this.escapeIfNecessary(node.name);
       li = document.createElement('li');
-      li.className = "jqtree_common " + folder_classes;
+      li.className = class_string;
       div = document.createElement('div');
       div.className = "jqtree-element jqtree_common";
       li.appendChild(div);
-      button_link = document.createElement('a');
-      button_link.className = "jqtree_common " + button_classes;
-      button_link.appendChild(icon_element.cloneNode());
-      div.appendChild(button_link);
+
+      if (node.id != '') {
+        button_link = document.createElement('a');
+        button_link.className = "jqtree_common " + button_classes;
+        var img = document.createElement('img');
+        img.setAttribute("src", "img/doc_blank.png");
+        img.setAttribute("src", "img/doc_blank.png");
+        img.setAttribute("style", "vertical-align: middle");
+
+        button_link.appendChild(img);
+        div.appendChild(button_link);
+      }
+
       title_span = document.createElement('span');
       title_span.className = "jqtree_common jqtree-title jqtree-title-folder";
-      div.appendChild(title_span);
       title_span.innerHTML = escaped_name;
+      div.appendChild(title_span);
       return li;
     };
 
