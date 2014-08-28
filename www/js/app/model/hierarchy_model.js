@@ -32,7 +32,6 @@ Hierarchy = {
   },
   renderDisplay: function(idElement, data) {
     var $hierarchy = $("#" + idElement);
-
     $hierarchy.tree({
       data: data,
       autoOpen: false,
@@ -41,6 +40,11 @@ Hierarchy = {
       closedIcon: $('<img src="img/folder.png" style="vertical-align: middle;">'),
       openedIcon: $('<img src="img/folder_open.png" style="vertical-align: middle;">>')
     });
+
+    var existingNode = $hierarchy.tree('getNodeById', data[0].id);
+    $hierarchy.tree(
+        'addNodeBefore', {name: '(no value)', id: ''}, existingNode
+        );
   },
   selectedNode: function(idElement, value) {
     var $hierarchy = $("#" + idElement);

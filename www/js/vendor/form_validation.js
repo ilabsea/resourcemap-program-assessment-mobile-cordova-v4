@@ -202,11 +202,3 @@ function validateHierarchySubmitHandler(classHierarchyElement, element) {
   }
   return h;
 }
-
-function validateHierarchyClicked(element) {
-  var idElement = element.id;
-  var $element = $("#" + idElement);
-  if ($element.attr('require') == "required") {
-    $element.css({"border": "1px solid #f3f3f3"});
-  }
-}

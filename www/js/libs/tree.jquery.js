@@ -1590,7 +1590,7 @@
           this.toggle(click_target.node, this.options.slide);
           e.preventDefault();
           return e.stopPropagation();
-        } else if (click_target.type === 'label') {
+        } else if (click_target.type === 'name') {
           node = click_target.node;
           event = this._triggerEvent('tree.click', {
             node: node,
@@ -1605,7 +1605,7 @@
     JqTreeWidget.prototype._dblclick = function(e) {
       var click_target;
       click_target = this._getClickTarget(e.target);
-      if (click_target && click_target.type === 'label') {
+      if (click_target && click_target.type === 'name') {
         return this._triggerEvent('tree.dblclick', {
           node: click_target.node,
           click_event: e
@@ -1631,7 +1631,7 @@
           node = this._getNode($el);
           if (node) {
             return {
-              type: 'label',
+              type: 'name',
               node: node
             };
           }

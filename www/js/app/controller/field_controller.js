@@ -16,7 +16,7 @@ FieldController = {
           var data = fieldsInside.configHierarchy;
           var id = fieldsInside.idfield;
           Hierarchy.renderDisplay(element + id, data);
-          if(update)  
+          if (update)
             Hierarchy.selectedNode(element + id, fieldsInside._selected);
         }
       });
