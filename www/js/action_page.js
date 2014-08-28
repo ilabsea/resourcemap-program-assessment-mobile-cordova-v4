@@ -65,19 +65,27 @@ $(function() {
   });
 
   $(document).delegate('#btn_back_site_list', 'click', function() {
-    App.DataStore.remove("filePath");
-    App.DataStore.remove("fileDataOffline");
-    App.DataStore.remove("fileNameOffline");
+    var sId = App.DataStore.get("sId");
+    for (var key in localStorage) {
+      if (key.substring(0, sId.length) == sId)
+        localStorage.removeItem(key);
+    }
   });
 
   $(document).delegate('#btn_back_site_list_all', 'click', function() {
-    App.DataStore.remove("filePath");
-    App.DataStore.remove("fileDataOffline");
-    App.DataStore.remove("fileNameOffline");
+    var sId = App.DataStore.get("sId");
+    for (var key in localStorage) {
+      if (key.substring(0, sId.length) == sId)
+        localStorage.removeItem(key);
+    }
   });
 
   $(document).delegate('#btn_back_site_list_online', 'click', function() {
-    App.DataStore.remove("filePath");
+    var sId = App.DataStore.get("sId");
+    for (var key in localStorage) {
+      if (key.substring(0, sId.length) == sId)
+        localStorage.removeItem(key);
+    }
   });
 
   $(document).delegate('#logout', 'click', function() {

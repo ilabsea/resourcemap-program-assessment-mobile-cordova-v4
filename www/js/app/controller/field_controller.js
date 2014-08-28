@@ -9,7 +9,6 @@ FieldController = {
     });
   },
   displayHierarchy: function(element, fieldData, update) {
-    App.log("fieldData : ", fieldData);
     $.each(fieldData.field_collections, function(key, properties) {
       $.each(properties.fields, function(i, fieldsInside) {
         if (fieldsInside.kind === "hierarchy") {
@@ -119,26 +118,25 @@ FieldController = {
   updateFieldPhotoValue: function(item, propertiesFile, fromServer) {
     var idfield = item["idfield"];
     var lPhotoList = PhotoList.getPhotos().length;
-    var sId = localStorage.getItem("sId");
-
+    var sId = App.DataStore.get("sId");
+    
     if (fromServer) {
-      var filePath = App.DataStore.get("filePath");
+      var filePath = App.DataStore.get(sId + "_" + idfield);
       if (filePath == null)
         propertiesFile.properties[idfield] = "";
       else
         propertiesFile.properties[idfield] = filePath;
     } else {
-      var fileData = App.DataStore.get("fileDataOffline");
-      var fileNameLocal = App.DataStore.get("fileNameOffline");
-      if (fileData == null || fileNameLocal == null) {
+      var fileData = App.DataStore.get(sId + "_" + idfield + "_fileData");
+      var fileNameLocal = App.DataStore.get(sId + "_" + idfield + "_fileName");
+      if (fileData == null || fileNameLocal == null)
         propertiesFile.properties[idfield] = "";
-      }
       else {
-        var fileName = fileNameLocal;
-        propertiesFile.properties[idfield] = fileName;
+        propertiesFile.properties[idfield] = fileNameLocal;
         propertiesFile.files[fileName] = fileData;
       }
     }
+    
     for (var i = 0; i < lPhotoList; i++) {
       if (PhotoList.getPhotos()[i].id == idfield && PhotoList.getPhotos()[i].sId == sId) {
         var fileName = PhotoList.getPhotos()[i].name();

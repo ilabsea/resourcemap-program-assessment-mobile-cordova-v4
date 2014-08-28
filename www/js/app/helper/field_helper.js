@@ -106,8 +106,9 @@ FieldHelper = {
     }
   },
   setFieldPhotoValue: function(item, value, site, fromServer) {
+    var sId = App.DataStore.get("sId");
     if (fromServer) {
-      App.DataStore.set("filePath", value);
+      App.DataStore.set(sId + "_" + item["idfield"], value);
       item.__value = imagePath(value);
     }
     else {
@@ -118,8 +119,8 @@ FieldHelper = {
         item.__value = "";
       } else {
         item.__value = SiteCamera.dataWithMimeType(imageData);
-        App.DataStore.set("fileNameOffline", imageId);
-        App.DataStore.set("fileDataOffline", imageData);
+        App.DataStore.set(sId + "_" + item["idfield"] + "_fileName", imageId);
+        App.DataStore.set(sId + "_" + item["idfield"] + "_fileData" , imageData);
       }
     }
   },

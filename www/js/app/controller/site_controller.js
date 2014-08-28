@@ -105,8 +105,12 @@ SiteController = {
         site.properties(propertiesFile.properties);
         site.files(propertiesFile.files);
         persistence.flush();
-        App.DataStore.remove("fileDataOffline");
-        App.DataStore.remove("fileNameOffline");
+
+        $.each(propertiesFile.properties, function(key, field) {
+          App.DataStore.remove( sId + "_" + key + "_fileData");
+          App.DataStore.remove(sId + "_" + key + "_fileName");
+        });
+        
         App.redirectTo("index.html#page-site-list");
       });
     });
@@ -131,11 +135,10 @@ SiteController = {
         }
       };
       SiteModel.update(data, function() {
-        App.DataStore.remove("filePath");
-
         var sId = App.DataStore.get("sId");
         $.each(data.site.properties, function(key, idField) {
           PhotoList.remove(sId, key);
+          App.DataStore.remove(sId + "_" + key);
         });
 
         App.redirectTo("#page-site-list");
