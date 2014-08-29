@@ -133,7 +133,7 @@ FieldController = {
         propertiesFile.properties[idfield] = "";
       else {
         propertiesFile.properties[idfield] = fileNameLocal;
-        propertiesFile.files[fileName] = fileData;
+        propertiesFile.files[fileNameLocal] = fileData;
       }
     }
     

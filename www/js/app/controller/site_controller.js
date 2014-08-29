@@ -107,10 +107,10 @@ SiteController = {
         persistence.flush();
 
         $.each(propertiesFile.properties, function(key, field) {
-          App.DataStore.remove( sId + "_" + key + "_fileData");
+          App.DataStore.remove(sId + "_" + key + "_fileData");
           App.DataStore.remove(sId + "_" + key + "_fileName");
         });
-        
+
         App.redirectTo("index.html#page-site-list");
       });
     });
