@@ -58,9 +58,3 @@ App = {
     return online;
   }
 };
-
-function kernel() {
-  window.isOnline = App.isOnline;
-}
-
-kernel();

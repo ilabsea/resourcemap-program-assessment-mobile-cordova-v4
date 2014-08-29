@@ -19,7 +19,7 @@ $(document).ready(function() {
     errorPlacement: function() {
     },
     submitHandler: function() {
-      if (isOnline()) {
+      if (App.isOnline()) {
         hideElement($("#internet"));
         var email = $('#signupemail').val();
         var password = $('#signuppassword').val();

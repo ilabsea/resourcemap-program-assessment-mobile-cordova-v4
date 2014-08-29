@@ -22,7 +22,7 @@ FieldController = {
     });
   },
   getByCollectionId: function() {
-    if (isOnline())
+    if (App.isOnline())
       this.renderByCollectionIdOnline();
     else
       this.renderByCollectionIdOffline();

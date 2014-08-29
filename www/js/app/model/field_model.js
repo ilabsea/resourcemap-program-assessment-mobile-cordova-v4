@@ -6,8 +6,10 @@ FieldModel = {
       type: "get",
       datatype: 'json',
       success: successCallback,
-      error: function(error) {
-        console.log("error", error);
+      error: function() {
+        App.log("error: ");
+        if (!App.isOnline())
+          FieldController.renderByCollectionIdOffline();
       }
     });
   }

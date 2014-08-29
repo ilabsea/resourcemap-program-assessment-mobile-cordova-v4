@@ -13,7 +13,7 @@ SiteController = {
   },
   add: function() {
     var data = SiteController.buildDataForSite();
-    if (isOnline())
+    if (App.isOnline())
       SiteController.addOnline(data, SiteController.resetForm);
     else
       SiteController.addOffline(data);
@@ -30,7 +30,7 @@ SiteController = {
   },
   getAllByCollectionId: function() {
     SiteController.getByCollectionIdOffline();
-    if (isOnline())
+    if (App.isOnline())
       SiteController.getByCollectionIdOnline();
   },
   getByCollectionIdOffline: function() {
@@ -181,7 +181,7 @@ SiteController = {
     ;
   },
   processToServer: function(key, id) {
-    if (isOnline()) {
+    if (App.isOnline()) {
       Site.all().filter(key, "=", id).list(function(sites) {
         if (sites.length > 0)
           SiteController.processingToServer(sites);

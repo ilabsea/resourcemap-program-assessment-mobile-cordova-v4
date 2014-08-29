@@ -12,7 +12,7 @@ CollectionController = {
   },
   get: function() {
     var currentUser = SessionController.currentUser();
-    if (!isOnline()) {
+    if (!App.isOnline()) {
       CollectionController.getByUserIdOffline(currentUser);
     } else {
       CollectionController.getByUserIdOnline(currentUser);

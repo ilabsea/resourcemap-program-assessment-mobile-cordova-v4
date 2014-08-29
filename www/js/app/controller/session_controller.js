@@ -50,7 +50,7 @@ SessionController = {
     });
   },
   authUser: function(email, password) {
-    if (!isOnline())
+    if (!App.isOnline())
       this.authUserOffline(email, password);
     else
       this.authUserOnline(email, password);
@@ -77,7 +77,7 @@ SessionController = {
   },
   logout: function() {
     $('#form_login')[0].reset();
-    if (!isOnline()) {
+    if (!App.isOnline()) {
       App.Session.resetState();
       App.redirectTo("#page-login");
     }
