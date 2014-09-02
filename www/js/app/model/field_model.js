@@ -6,8 +6,8 @@ FieldModel = {
       type: "get",
       datatype: 'json',
       success: successCallback,
-      error: function() {
-        App.log("error: ");
+      error: function(error) {
+        App.log("error: ", error);
         if (!App.isOnline())
           FieldController.renderByCollectionIdOffline();
       }

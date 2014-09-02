@@ -160,6 +160,13 @@ $(function() {
   });
 
   $(document).delegate('.validateSelectFields', 'change', function() {
+    var $element = $("#" + this.id);
+    if ($element.attr('data-role') === "slider" && $element.attr('data-is_enable_field_logic')) {
+      var field_id = $('option:selected', this).attr('field_id');
+      $("#" + field_id).focus();
+      if ($("#" + field_id)[0].tagName.toLowerCase() === 'img')
+        $("#property_" + field_id + "_container").focus();
+    }
     validateToRemoveStyle(this);
   });
 

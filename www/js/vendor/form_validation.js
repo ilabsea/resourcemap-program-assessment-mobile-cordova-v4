@@ -191,12 +191,12 @@ function validateHierarchySubmitHandler(classHierarchyElement, element) {
     var $element = $("#" + idElement);
     if ($element.attr('require') == "required") {
       var node = $element.tree('getSelectedNode');
-      if (!node) {
+      if (!node.id) {
         $element.css({"border": "1px solid red"});
         showValidateMessage(element);
         h = false;
       } else {
-        $element.css({"border": "1px solid #f3f3f3"});
+        $element.css({"border": "1px solid #999999"});
       }
     }
   }

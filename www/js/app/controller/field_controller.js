@@ -119,7 +119,7 @@ FieldController = {
     var idfield = item["idfield"];
     var lPhotoList = PhotoList.getPhotos().length;
     var sId = App.DataStore.get("sId");
-    
+
     if (fromServer) {
       var filePath = App.DataStore.get(sId + "_" + idfield);
       if (filePath == null)
@@ -136,7 +136,7 @@ FieldController = {
         propertiesFile.files[fileNameLocal] = fileData;
       }
     }
-    
+
     for (var i = 0; i < lPhotoList; i++) {
       if (PhotoList.getPhotos()[i].id == idfield && PhotoList.getPhotos()[i].sId == sId) {
         var fileName = PhotoList.getPhotos()[i].name();

@@ -8,7 +8,7 @@
  {{#if config}}
  {{#if isHierarchy}} 
  <label>{{name}}</label>
- <div id="{{idfield}}" class="tree" require='{{required}}'></div>
+ <div id="{{idfield}}" class="tree" require='{{required}}' tabindex="0"></div>
  {{else}}
  <div>
   <label>{{name}}</label>
@@ -20,18 +20,19 @@
           data-role="{{slider}}" 
           data-mini="{{ctrue}}" 
           {{required}} 
+          data-is_enable_field_logic="{{is_enable_field_logic}}"
           class="validateSelectFields">
    {{#if multiple}}
    <option>Options</option>
    {{else}}
-   {{#if slider}} 
+   {{#if slider}}  
    {{else}}
    <option value="">Option</option>
    <option value="" selected>(no value)</option>
    {{/if}}
    {{/if}}
    {{#config.options}}
-   <option value="{{id}}">{{label}}</option>
+   <option value="{{id}}" field_id="{{field_id}}">{{label}}</option>
    {{/config.options}}                   
   </select>
  </div>
@@ -41,7 +42,7 @@
  <label>{{name}}</label>
  <div onclick="openCameraDialog({{idfield}}, 'new');" 
       id='property_{{idfield}}_container' 
-      class="photo">
+      class="photo" tabindex="0">
   <img class="image" 
        src='{{__value}}' 
        id='{{idfield}}' 

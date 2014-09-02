@@ -81,19 +81,19 @@
     },
     "installed_plugins": {
         "com.phonegap.plugins.sqlite": {
-            "PACKAGE_NAME": "org.instedd.resourcemap"
+            "PACKAGE_NAME": "org.instedd.rmphoto"
         },
         "org.apache.cordova.camera": {
-            "PACKAGE_NAME": "org.instedd.resourcemap"
+            "PACKAGE_NAME": "org.instedd.rmphoto"
         },
         "org.apache.cordova.device": {
-            "PACKAGE_NAME": "org.instedd.resourcemap"
+            "PACKAGE_NAME": "org.instedd.rmphoto"
         },
         "org.apache.cordova.geolocation": {
-            "PACKAGE_NAME": "org.instedd.resourcemap"
+            "PACKAGE_NAME": "org.instedd.rmphoto"
         },
         "org.apache.cordova.network-information": {
-            "PACKAGE_NAME": "org.instedd.resourcemap"
+            "PACKAGE_NAME": "org.instedd.rmphoto"
         }
     },
     "dependent_plugins": {}
