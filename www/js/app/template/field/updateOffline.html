@@ -9,7 +9,10 @@
  {{#if config}} 
  {{#if isHierarchy}} 
  <label>{{name}}</label>
- <div id="update_{{idfield}}" class="tree" require='{{required}}'></div>
+ <div id="update_{{idfield}}" 
+      class="tree" 
+      require='{{required}}' 
+      tabindex="0"></div>
  {{else}}
  <div>
   <label>{{name}}</label>
@@ -21,6 +24,7 @@
           data-role="{{slider}}" 
           data-mini="{{ctrue}}" 
           {{required}}  
+          data-is_enable_field_logic="{{is_enable_field_logic}}"
           class="validateSelectFields">
    {{#if multiple}}
    <option>Options</option>
@@ -32,7 +36,7 @@
    {{/if}}
    {{/if}}
    {{#config.options}}
-   <option value="{{id}}" {{selected}}>{{label}}</option>
+   <option value="{{id}}" {{selected}} field_id="update_{{field_id}}">{{label}}</option>
    {{/config.options}}
   </select>
  </div>
@@ -41,11 +45,11 @@
  {{#if isPhoto}}  
  <span style='display:inline; margin-top:10px'>{{{name}}}</span>
  <div onclick="openCameraDialog({{idfield}}, 'update')" 
-      id='property_update_image_{{idfield}}_container' 
-      class="photo" > 
+      id='property_update_{{idfield}}_container' 
+      class="photo" tabindex="0"> 
   <img class="image" 
        src='{{__value}}' 
-       id='update_image_{{idfield}}' 
+       id='update_{{idfield}}' 
        require='{{required}}' />
  </div>
  {{else}}

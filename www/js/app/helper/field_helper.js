@@ -37,15 +37,28 @@ FieldHelper = {
       }
       if (widgetType === "yes_no") {
         widgetType = "select_one";
-
-        if (is_enable_field_logic)
+        if (is_enable_field_logic) {
+          var field_logics = config.field_logics;
+          var field_id0 = (options["fromServer"]) ? field_logics[0].field_id : config.options[0].field_id;
+          var field_id1 = (options["fromServer"]) ? field_logics[1].field_id : config.options[1].field_id;
           config = {
-            options: [{"id": 0, "label": "NO", "field_id": (options["fromServer"]) ? config.field_logics[0].field_id : config.options[0].field_id},
-              {"id": 1, "label": "YES", "field_id": (options["fromServer"]) ? config.field_logics[1].field_id : config.options[1].field_id}]
+            options: [{
+                id: 0,
+                label: "NO",
+                code: "1",
+                field_id: field_id0
+              },
+              {id: 1,
+                label: "YES",
+                code: "2",
+                field_id: field_id1
+              }]
           };
+        }
         else
           config = {
-            options: [{"id": 0, "label": "NO"}, {"id": 1, "label": "YES"}]
+            options: [{"id": 0, "code": "1", "label": "NO"}, 
+              {"id": 1, "code": "2", "label": "YES"}]
           };
 
         slider = "slider";

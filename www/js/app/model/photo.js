@@ -70,9 +70,9 @@ SiteCamera = {
   imageId: function() {
     var imageId;
     if (SiteCamera.updated == 'update')
-      imageId = "update_image_" + SiteCamera.id;
+      imageId = "update_" + SiteCamera.id;
     else if (SiteCamera.updated == 'update_online')
-      imageId = "update_image_online_" + SiteCamera.id;
+      imageId = "update_online_" + SiteCamera.id;
     else
       imageId = SiteCamera.id;
     return  imageId;
