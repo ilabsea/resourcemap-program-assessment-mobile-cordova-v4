@@ -6,11 +6,16 @@
  <h3>{{name_wrapper}}</h3>
  {{#each fields}}
  {{#if config}} 
- {{#if isHierarchy}} 
- <label>{{name}}</label>
- <div id="update_online_{{idfield}}" class="tree" require='{{required}}' tabindex="0"></div>
+ {{#if isHierarchy}}
+ <div id="wrapper_update_online_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <div id="update_online_{{idfield}}" 
+       class="tree" 
+       require='{{required}}'>
+  </div>
+ </div>
  {{else}}
- <div>
+ <div id="wrapper_update_online_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
   <select id="update_online_{{idfield}}" 
           name="update_online_{{idfield}}" 
@@ -38,18 +43,20 @@
  </div>
  {{/if}}
  {{else}}    
- {{#if isPhoto}}  
- <span style='display:inline; margin-top:10px'>{{{name}}}</span>
- <div onclick="openCameraDialog({{idfield}}, 'update_online')" 
-      id='property_update_online_{{idfield}}_container' 
-      class="photo" tabindex="0"> 
-  <img class="image" 
-       src='{{__value}}' 
-       id='update_online_{{idfield}}' 
-       require='{{required}}' />
+ {{#if isPhoto}}
+ <div id="wrapper_update_online_{{idfield}}" tabindex="0">
+  <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+  <div onclick="openCameraDialog({{idfield}}, 'update_online')" 
+       id='property_update_online_{{idfield}}_container' 
+       class="photo"> 
+   <img class="image" 
+        src='{{__value}}' 
+        id='update_online_{{idfield}}' 
+        require='{{required}}' />
+  </div>
  </div>
  {{else}}
- <div>
+ <div id="wrapper_update_online_{{idfield}}" tabindex="0">
   <label for='name'>{{{name}}}</label>
   {{#ifCond widgetType "date"}}
   <input type="{{widgetType}}" 

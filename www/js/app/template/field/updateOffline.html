@@ -8,13 +8,15 @@
  {{#each fields}}
  {{#if config}} 
  {{#if isHierarchy}} 
- <label>{{name}}</label>
- <div id="update_{{idfield}}" 
-      class="tree" 
-      require='{{required}}' 
-      tabindex="0"></div>
+ <div id="wrapper_update_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <div id="update_{{idfield}}" 
+       class="tree" 
+       require='{{required}}' 
+       tabindex="0"></div>
+ </div>
  {{else}}
- <div>
+ <div id="wrapper_update_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
   <select id="update_{{idfield}}" 
           data-theme="a" 
@@ -43,17 +45,19 @@
  {{/if}}
  {{else}}    
  {{#if isPhoto}}  
- <span style='display:inline; margin-top:10px'>{{{name}}}</span>
- <div onclick="openCameraDialog({{idfield}}, 'update')" 
-      id='property_update_{{idfield}}_container' 
-      class="photo" tabindex="0"> 
-  <img class="image" 
-       src='{{__value}}' 
-       id='update_{{idfield}}' 
-       require='{{required}}' />
+ <div id="wrapper_update_{{idfield}}" tabindex="0">
+  <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+  <div onclick="openCameraDialog({{idfield}}, 'update')" 
+       id='property_update_{{idfield}}_container' 
+       class="photo" tabindex="0"> 
+   <img class="image" 
+        src='{{__value}}' 
+        id='update_{{idfield}}' 
+        require='{{required}}' />
+  </div>
  </div>
  {{else}}
- <div>
+ <div id="wrapper_update_{{idfield}}" tabindex="0">
   <label for='name'>{{{name}}}</label>
   {{#ifCond widgetType "date"}}
   <input type="{{widgetType}}" 

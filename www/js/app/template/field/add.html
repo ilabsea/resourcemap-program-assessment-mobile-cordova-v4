@@ -7,10 +7,12 @@
  {{#each fields}}
  {{#if config}}
  {{#if isHierarchy}} 
- <label>{{name}}</label>
- <div id="{{idfield}}" class="tree" require='{{required}}' tabindex="0"></div>
+ <div id="wrapper_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <div id="{{idfield}}" class="tree" require='{{required}}'></div>
+ </div>
  {{else}}
- <div>
+ <div id="wrapper_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
   <select id="{{idfield}}" 
           data-theme="a" 
@@ -39,17 +41,19 @@
  {{/if}}
  {{else}}    
  {{#if isPhoto}}  
- <label>{{name}}</label>
- <div onclick="openCameraDialog({{idfield}}, 'new');" 
-      id='property_{{idfield}}_container' 
-      class="photo" tabindex="0">
-  <img class="image" 
-       src='{{__value}}' 
-       id='{{idfield}}' 
-       require='{{required}}' /> 
+ <div id="wrapper_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <div onclick="openCameraDialog({{idfield}}, 'new');" 
+       id='property_{{idfield}}_container' 
+       class="photo">
+   <img class="image" 
+        src='{{__value}}' 
+        id='{{idfield}}' 
+        require='{{required}}' /> 
+  </div>
  </div>
  {{else}}
- <div>
+ <div id="wrapper_{{idfield}}" tabindex="0">
   <label for='name'>{{{name}}}</label>
   {{#ifCond widgetType "date"}}
   <input type="{{widgetType}}" 

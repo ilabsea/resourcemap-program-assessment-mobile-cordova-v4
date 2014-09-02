@@ -11,19 +11,15 @@ function setFocus(element) {
       && $element.attr('data-is_enable_field_logic')) {
     var field_id = $('option:selected', element).attr('field_id');
     if (field_id) {
-      if ($("#" + field_id)[0].tagName.toLowerCase() === 'img') {
-        location.hash = ("#property_" + field_id + "_container");
+      location.hash = ("#wrapper_" + field_id);
+      if ($("#" + field_id)[0].tagName.toLowerCase() === 'img') 
         highlighted($("#property_" + field_id + "_container"));
-      }
       else if ($("#" + field_id)[0].tagName.toLowerCase() === 'select') {
-        location.hash = ("#" + field_id + "-button");
         var $parent = $("#" + field_id).closest('.ui-select');
         highlighted($parent);
       }
-      else {
-        location.hash = "#" + field_id;
+      else 
         highlighted($("#" + field_id));
-      }
     }
   }
 }
