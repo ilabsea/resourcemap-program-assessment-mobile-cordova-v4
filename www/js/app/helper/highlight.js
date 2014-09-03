@@ -5,7 +5,7 @@ SkipLogic = {
       if ($element.attr('data-role') === "slider")
         App.DataStore.set("yesNoField", element.id);
 
-      var field_id = $('option:selected', element).attr('field_id');
+      var field_id = $('option:selected', element).attr('data-field_id');
       if (field_id) {
         var skipToId = "#wrapper_" + field_id;
         scrollTo(skipToId);
