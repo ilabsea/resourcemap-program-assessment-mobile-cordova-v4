@@ -1,25 +1,60 @@
-function highlighted(element) {
-  element.addClass('highlighted').removeClass('unhighlighted');
-  setTimeout(function() {
-    element.removeClass('highlighted').addClass('unhighlighted');
-  }, 3000);
-}
+SkipLogic = {
+  setFocus: function(element) {
+    var $element = $("#" + element.id);
+    if ($element.attr('data-is_enable_field_logic')) {
+      if ($element.attr('data-role') === "slider")
+        App.DataStore.set("yesNoField", element.id);
 
-function setFocus(element) {
-  var $element = $("#" + element.id);
-  if ($element.attr('data-role') === "slider"
-      && $element.attr('data-is_enable_field_logic')) {
-    var field_id = $('option:selected', element).attr('field_id');
-    if (field_id) {
-      location.hash = ("#wrapper_" + field_id);
-      if ($("#" + field_id)[0].tagName.toLowerCase() === 'img') 
-        highlighted($("#property_" + field_id + "_container"));
-      else if ($("#" + field_id)[0].tagName.toLowerCase() === 'select') {
-        var $parent = $("#" + field_id).closest('.ui-select');
-        highlighted($parent);
+      var field_id = $('option:selected', element).attr('field_id');
+      if (field_id) {
+        var skipToId = "#wrapper_" + field_id;
+        scrollTo(skipToId);
+        SkipLogic.handleHighlightElement(field_id);
       }
-      else 
-        highlighted($("#" + field_id));
     }
+  },
+  handleHighlightElement: function(field_id) {
+    if ($("#" + field_id)[0].tagName.toLowerCase() === 'img')
+      SkipLogic.highlight("#property_" + field_id + "_container", "img");
+    else if ($("#" + field_id)[0].tagName.toLowerCase() === 'select')
+      SkipLogic.highlight("#" + field_id, "select");
+    else
+      SkipLogic.highlight("#" + field_id, "others");
+  },
+  highlight: function(element, type) {
+    var highlightedElement = App.DataStore.get("highlightedElement");
+    var typeElement = App.DataStore.get("typeElement");
+    if (highlightedElement) {
+      if (highlightedElement !== element)
+        SkipLogic.unhighlightElement(highlightedElement, typeElement);
+      else
+        return;
+    }
+    SkipLogic.highlightElement(element, type);
+  },
+  highlightElement: function(element, type) {
+    if (type === "select") {
+      var $parent = $(element).closest(".ui-select");
+      $parent.addClass('highlighted').removeClass('unhighlighted');
+    } else
+      $(element).addClass('highlighted').removeClass('unhighlighted');
+    App.DataStore.set("highlightedElement", element);
+    App.DataStore.set("typeElement", type);
+  },
+  unhighlightElement: function(element, type) {
+    if (type === "select") {
+      var $parent = $(element).closest(".ui-select");
+      $parent.addClass('unhighlighted').removeClass('highlighted');
+    } else
+      $(element).addClass('unhighlighted').removeClass('highlighted');
+    App.DataStore.remove("highlightedElement");
+    App.DataStore.remove("typeElement");
   }
+};
+
+function scrollTo(element) {
+  if ($(element).length > 0)
+    $(document.body).animate({
+      'scrollTop': $(element).offset().top
+    }, 700);
 }
