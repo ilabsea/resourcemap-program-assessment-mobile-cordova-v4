@@ -8,6 +8,12 @@ SkipLogic = {
       var field_id = $('option:selected', element).attr('data-field_id');
       if (field_id) {
         var skipToId = "#wrapper_" + field_id;
+        var $parent = $(skipToId).parent().parent();
+        
+        $parent.find(".ui-collapsible-heading").removeClass("ui-collapsible-heading-collapsed");
+        $parent.find(".ui-collapsible-content").removeClass("ui-collapsible-content-collapsed");
+        $parent.find(".ui-collapsible-heading a").addClass("ui-icon-minus").removeClass("ui-icon-plus");
+
         scrollTo(skipToId);
         SkipLogic.handleHighlightElement(field_id);
       }
