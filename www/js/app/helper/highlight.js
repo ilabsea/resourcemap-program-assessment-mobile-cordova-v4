@@ -9,11 +9,7 @@ SkipLogic = {
       if (field_id) {
         var skipToId = "#wrapper_" + field_id;
         var $parent = $(skipToId).parent().parent();
-        
-        $parent.find(".ui-collapsible-heading").removeClass("ui-collapsible-heading-collapsed");
-        $parent.find(".ui-collapsible-content").removeClass("ui-collapsible-content-collapsed");
-        $parent.find(".ui-collapsible-heading a").addClass("ui-icon-minus").removeClass("ui-icon-plus");
-
+        triggerExpand($parent);
         scrollTo(skipToId);
         SkipLogic.handleHighlightElement(field_id);
       }
@@ -63,4 +59,13 @@ function scrollTo(element) {
     $(document.body).animate({
       'scrollTop': $(element).offset().top
     }, 700);
+}
+
+function triggerExpand(parent) {
+  parent.find(".ui-collapsible-heading").
+      removeClass("ui-collapsible-heading-collapsed");
+  parent.find(".ui-collapsible-content").
+      removeClass("ui-collapsible-content-collapsed");
+  parent.find(".ui-collapsible-heading a").
+      addClass("ui-icon-minus").removeClass("ui-icon-plus");
 }
