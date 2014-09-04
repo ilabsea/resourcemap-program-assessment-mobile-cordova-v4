@@ -138,12 +138,12 @@ $(document).ready(function() {
 });
 
 function validateToRemoveStyle(element) {
-  var $parent = $(element).closest(".ui-select");
-  if (element.required && element.value == "") {
-    $parent.removeClass('valid').addClass('error');
-  }
-  else {
-    $parent.removeClass('error').addClass('valid');
+  if (element.required) {
+    var $parent = $(element).closest(".ui-select");
+    if (element.value === "")
+      $parent.removeClass('valid').addClass('error');
+    else
+      $parent.removeClass('error').addClass('valid');
   }
 }
 
