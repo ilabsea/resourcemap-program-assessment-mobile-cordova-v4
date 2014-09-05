@@ -4,27 +4,23 @@ SkipLogic = {
     if ($element.attr('data-is_enable_field_logic')) {
       if ($element.attr('data-role') === "slider")
         App.DataStore.set("yesNoField", element.id);
-      
+
       var field_id = $('option:selected', element).attr('data-field_id');
       if (field_id) {
         var skipToId = "#wrapper_" + field_id;
         var $parent = $(skipToId).parent().parent();
         triggerExpand($parent);
-        
+
         setTimeout(function() {
           $("#" + field_id).focus();
         }, 0);
-        
+
         scrollTo(skipToId);
         SkipLogic.handleHighlightElement(field_id);
       }
     }
   },
   handleHighlightElement: function(field_id) {
-    if ($("#" + field_id)[0].tagName.toLowerCase() === 'img')
-      SkipLogic.highlight("#property_" + field_id + "_container", "img");
-    else if ($("#" + field_id)[0].tagName.toLowerCase() === 'select')
-      SkipLogic.highlight("#" + field_id, "select");
     if ($("#" + field_id).attr('data-role') === "slider") {
       var slider = ($("#" + field_id).parent()).children()[2];
       $(slider).attr("id", "slider_" + field_id);
@@ -32,6 +28,10 @@ SkipLogic = {
 
       SkipLogic.highlight("#" + slider_id, 'slider');
     }
+    else if ($("#" + field_id)[0].tagName.toLowerCase() === 'img')
+      SkipLogic.highlight("#property_" + field_id + "_container", "img");
+    else if ($("#" + field_id)[0].tagName.toLowerCase() === 'select')
+      SkipLogic.highlight("#" + field_id, "select");
     else
       SkipLogic.highlight("#" + field_id, "others");
   },
