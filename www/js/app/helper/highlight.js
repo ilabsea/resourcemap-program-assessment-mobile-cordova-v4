@@ -4,12 +4,17 @@ SkipLogic = {
     if ($element.attr('data-is_enable_field_logic')) {
       if ($element.attr('data-role') === "slider")
         App.DataStore.set("yesNoField", element.id);
-
+      
       var field_id = $('option:selected', element).attr('data-field_id');
       if (field_id) {
         var skipToId = "#wrapper_" + field_id;
         var $parent = $(skipToId).parent().parent();
         triggerExpand($parent);
+        
+        setTimeout(function() {
+          $("#" + field_id).focus();
+        }, 0);
+        
         scrollTo(skipToId);
         SkipLogic.handleHighlightElement(field_id);
       }
@@ -20,6 +25,13 @@ SkipLogic = {
       SkipLogic.highlight("#property_" + field_id + "_container", "img");
     else if ($("#" + field_id)[0].tagName.toLowerCase() === 'select')
       SkipLogic.highlight("#" + field_id, "select");
+    if ($("#" + field_id).attr('data-role') === "slider") {
+      var slider = ($("#" + field_id).parent()).children()[2];
+      $(slider).attr("id", "slider_" + field_id);
+      var slider_id = $(slider).attr("id");
+
+      SkipLogic.highlight("#" + slider_id, 'slider');
+    }
     else
       SkipLogic.highlight("#" + field_id, "others");
   },
@@ -38,6 +50,12 @@ SkipLogic = {
     if (type === "select") {
       var $parent = $(element).closest(".ui-select");
       $parent.addClass('highlighted').removeClass('unhighlighted');
+    } else if (type === 'slider') {
+      $(element).css({
+        "-webkit-box-shadow": "0 0 12px #3388cc",
+        "-moz-box-shadow": "0 0 12px #3388cc",
+        "box-shadow": "0 0 12px #3388cc"
+      });
     } else
       $(element).addClass('highlighted').removeClass('unhighlighted');
     App.DataStore.set("highlightedElement", element);
@@ -47,13 +65,18 @@ SkipLogic = {
     if (type === "select") {
       var $parent = $(element).closest(".ui-select");
       $parent.addClass('unhighlighted').removeClass('highlighted');
+    } else if (type === 'slider') {
+      $(element).css({
+        "-webkit-box-shadow": "",
+        "-moz-box-shadow": "",
+        "box-shadow": ""
+      });
     } else
       $(element).addClass('unhighlighted').removeClass('highlighted');
     App.DataStore.remove("highlightedElement");
     App.DataStore.remove("typeElement");
   }
 };
-
 function scrollTo(element) {
   if ($(element).length > 0)
     $(document.body).animate({
