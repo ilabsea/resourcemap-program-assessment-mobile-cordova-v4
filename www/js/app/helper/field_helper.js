@@ -158,7 +158,7 @@ FieldHelper = {
     var sId = App.DataStore.get("sId");
     if (fromServer) {
       App.DataStore.set(sId + "_" + item["idfield"], value);
-      item.__value = imagePath(value);
+      item.__value = SiteCamera.imagePath(value);
     }
     else {
       var files = site.files();
