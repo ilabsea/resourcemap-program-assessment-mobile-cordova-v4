@@ -149,10 +149,12 @@ function validateToRemoveStyle(element) {
 
 function validateImage(idElement) {
   var $element = $("#" + idElement);
-  if ($element.attr('src') == '' && $element.attr('require') == "required") {
-    $("#property_" + idElement + "_container").css({"border": "1px solid red"});
-  } else {
-    $("#property_" + idElement + "_container").css({"border": "1px solid #f3f3f3"});
+  if ($element.attr('require') === "required") {
+    if ($element.attr('src') === '' ) {
+      $("#property_" + idElement + "_container").css({"border": "1px solid red"});
+    } else {
+      $("#property_" + idElement + "_container").css({"border": "1px solid #f3f3f3"});
+    }
   }
 }
 

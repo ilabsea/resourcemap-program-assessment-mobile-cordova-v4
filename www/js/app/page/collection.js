@@ -1,9 +1,4 @@
-App.initialize();
-App.onDeviceReady();
 $(function() {
-  FastClick.attach(document.body);
-  Translation.setLang(Translation.getLang());
-  Translation.renderLang();
   
   $(document).delegate('#page-collection-list', 'pagebeforeshow', function() {
     App.emptyHTML();

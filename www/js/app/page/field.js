@@ -1,5 +1,5 @@
-$(function(){
-  
+$(function() {
+
   $(document).delegate('.validateSelectFields', 'change', function() {
     SkipLogic.setFocus(this);
     validateToRemoveStyle(this);

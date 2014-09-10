@@ -10,12 +10,12 @@ SkipLogic = {
         var skipToId = "#wrapper_" + field_id;
         var $parent = $(skipToId).parent().parent();
         triggerExpand($parent);
-
+        
         setTimeout(function() {
           $("#" + field_id).focus();
-        }, 0);
+        }, 500);
 
-        scrollTo(skipToId);
+        scrollToHash(skipToId);
         SkipLogic.handleHighlightElement(field_id);
       }
     }
@@ -77,7 +77,8 @@ SkipLogic = {
     App.DataStore.remove("typeElement");
   }
 };
-function scrollTo(element) {
+
+function scrollToHash(element) {
   if ($(element).length > 0)
     $(document.body).animate({
       'scrollTop': $(element).offset().top

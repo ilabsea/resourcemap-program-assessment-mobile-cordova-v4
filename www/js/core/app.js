@@ -51,7 +51,7 @@ App = {
   isOnline: function() {
     var online = false;
     if (navigator.connection) {
-      online = (navigator.connection.type != Connection.NONE);
+      online = (navigator.connection.type !== Connection.NONE);
       return online;
     }
     online = navigator.onLine;

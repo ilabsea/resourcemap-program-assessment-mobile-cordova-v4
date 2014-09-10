@@ -1,4 +1,5 @@
 $(function() {
+
   $(document).delegate('#page-site-list', 'pagebeforeshow', function() {
     $("#btn_sendToServer").hide();
     var cId = App.DataStore.get("cId");

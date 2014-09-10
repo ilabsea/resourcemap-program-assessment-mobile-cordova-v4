@@ -7,7 +7,7 @@ PhotoList = {
   remove: function(sId, id) {
     for (var i = 0; i < PhotoList.count(); i++) {
       var photo = PhotoList.getPhotos()[i];
-      if (photo.id == id && photo.sId == sId) {
+      if (photo.id === id && photo.sId === sId) {
         return PhotoList.photos.splice(i, 1);
       }
     }
@@ -41,7 +41,7 @@ SiteCamera = {
   },
   takePhoto: function(idField, updated, cameraType) {
     var type;
-    if (cameraType == "camera") {
+    if (cameraType === "camera") {
       type = Camera.PictureSourceType.CAMERA;
     }
     else {
@@ -69,9 +69,9 @@ SiteCamera = {
   },
   imageId: function() {
     var imageId;
-    if (SiteCamera.updated == 'update')
+    if (SiteCamera.updated === 'update')
       imageId = "update_" + SiteCamera.id;
-    else if (SiteCamera.updated == 'update_online')
+    else if (SiteCamera.updated === 'update_online')
       imageId = "update_online_" + SiteCamera.id;
     else
       imageId = SiteCamera.id;
@@ -84,8 +84,10 @@ SiteCamera = {
 function openCameraDialog(idField, updated) {
   $('#currentCameraImage').val(idField);
   $('#currentCameraImageType').val(updated);
-  $.mobile.changePage("#cameraDialog", {role: "dialog"});
   localStorage['no_update_reload'] = 1;
+  $.mobile.activePage.addClass("ui-disabled");
+  $("#cameraDialog").show();
+  $("#cameraDialog").css("z-index", 200000);
 }
 
 function invokeCamera(cameraType) {
@@ -96,7 +98,8 @@ function invokeCamera(cameraType) {
 }
 
 function closeDialog() {
-  $('#cameraDialog').dialog('close');
+  $("#cameraDialog").hide();
+  $.mobile.activePage.removeClass('ui-disabled');
 }
 
 function imagePath(imgFileName) {

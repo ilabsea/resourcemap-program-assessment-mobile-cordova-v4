@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="org.instedd.resourcemapfocus" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>RMFocus</name>
+<widget id="org.instedd.photostate" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>PhotoState</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
@@ -24,7 +24,8 @@
     <preference name="android-minSdkVersion"      value="7" />              <!-- android: MIN SDK version supported on the target device. MAX version is blank by default. -->
     <preference name="android-installLocation"    value="auto" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
     <preference name="AndroidLaunchMode" value="singleTask" />
-    
+    <preference name="KeyboardDisplayRequiresUserAction" value="false" />
+        
     <access origin="*"/>
     <access origin="*://*.googleapis.com/*" subdomains="true" />
     <access origin="*://*.gstatic.com/*" subdomains="true" />
