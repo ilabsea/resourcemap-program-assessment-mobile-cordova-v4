@@ -6,16 +6,7 @@
      data-collapsed="false">
  <h3>{{name_wrapper}}</h3>
  {{#each fields}}
- {{#if config}} 
- {{#if isHierarchy}} 
- <div id="wrapper_update_{{idfield}}" tabindex="0">
-  <label>{{name}}</label>
-  <div id="update_{{idfield}}" 
-       class="tree" 
-       require='{{required}}' 
-       tabindex="0"></div>
- </div>
- {{else}}
+ {{#if config.options}} 
  <div id="wrapper_update_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
   <select id="update_{{idfield}}" 
@@ -42,8 +33,16 @@
    {{/config.options}}
   </select>
  </div>
- {{/if}}
- {{else}}    
+ {{else}} 
+ {{#if isHierarchy}} 
+ <div id="wrapper_update_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <div id="update_{{idfield}}" 
+       class="tree" 
+       require='{{required}}' 
+       tabindex="0"></div>
+ </div>
+ {{else}}
  {{#if isPhoto}}  
  <div id="wrapper_update_{{idfield}}" tabindex="0">
   <span style='display:inline; margin-top:10px'>{{{name}}}</span>
@@ -74,6 +73,7 @@
          {{required}} >  
   {{/ifCond}}
  </div>
+ {{/if}}
  {{/if}}
  {{/if}}
  {{/each}}

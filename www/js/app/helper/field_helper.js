@@ -33,7 +33,8 @@ FieldHelper = {
 
       if (widgetType === "numeric") {
         widgetType = "number";
-        config = "";
+        if (config.range)
+          is_required = "required";
       }
 
       if (widgetType === "select_one" && is_enable_field_logic)
@@ -71,6 +72,7 @@ FieldHelper = {
         is_enable_field_logic: is_enable_field_logic
       });
     });
+
     return fieldsWrapper;
   },
   buildFieldSelectOne: function(config, fromServer) {

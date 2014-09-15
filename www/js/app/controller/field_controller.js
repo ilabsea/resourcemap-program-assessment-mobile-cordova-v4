@@ -2,7 +2,6 @@ FieldController = {
   display: function(templateURL, element, elementHierarchy, fieldData, update) {
     App.Template.process(templateURL, fieldData, function(content) {
       element.html(content);
-
       FieldController.displayHierarchy(elementHierarchy, fieldData, update);
 
       element.trigger("create");

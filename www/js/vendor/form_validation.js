@@ -42,6 +42,9 @@ $(document).ready(function() {
   $('#form_create_site').validate({
     focusInvalid: false,
     errorPlacement: function(error, element) {
+      if (element.attr("type") === "number" &&
+          (element.attr("min") || element.attr("max"))) 
+        error.insertAfter($(element).parent());
       addClassError(element);
 
       var classElement = document.getElementsByClassName("image");
@@ -150,7 +153,7 @@ function validateToRemoveStyle(element) {
 function validateImage(idElement) {
   var $element = $("#" + idElement);
   if ($element.attr('require') === "required") {
-    if ($element.attr('src') === '' ) {
+    if ($element.attr('src') === '') {
       $("#property_" + idElement + "_container").css({"border": "1px solid red"});
     } else {
       $("#property_" + idElement + "_container").css({"border": "1px solid #f3f3f3"});

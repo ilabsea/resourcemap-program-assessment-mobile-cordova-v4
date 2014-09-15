@@ -19,7 +19,7 @@ SiteController = {
       SiteController.addOffline(data);
   },
   addOnline: function(data, callback) {
-    ViewBinding.setBusy(true);
+    ViewBinding.setBusy(true);  
     SiteModel.create(data, callback, function() {
       ViewBinding.setAlert("Please send data again.");
     });
@@ -262,17 +262,18 @@ SiteController = {
             }
           }
         }
-        else if ($field.length > 0 && $field[0].getAttribute("type") == 'date') {
+        else if ($field.length > 0 && $field[0].getAttribute("type") === 'date') {
           var date = $field.val();
           if (date) {
             date = convertDateWidgetToParam(date);
           }
           properties["" + each_field + ""] = date;
         }
-        else if ($field[0].getAttribute("class") === "tree") {
+        else if ($field[0].getAttribute("class") === "tree" || 
+            $field[0].getAttribute("class") === "tree unhighlighted") {
           var node = $field.tree('getSelectedNode');
           var data = node.id;
-          if (data == null)
+          if (data === null)
             data = "";
           properties[each_field] = data;
         }

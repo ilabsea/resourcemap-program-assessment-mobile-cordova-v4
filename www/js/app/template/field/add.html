@@ -5,13 +5,7 @@
      data-collapsed="false">
  <h3>{{name_wrapper}}</h3>
  {{#each fields}}
- {{#if config}}
- {{#if isHierarchy}} 
- <div id="wrapper_{{idfield}}" tabindex="0">
-  <label>{{name}}</label>
-  <div id="{{idfield}}" class="tree" require='{{required}}' tabindex="0"></div>
- </div>
- {{else}}
+ {{#if config.options}}
  <div id="wrapper_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
   <select id="{{idfield}}" 
@@ -38,8 +32,13 @@
    {{/config.options}}                   
   </select>
  </div>
- {{/if}}
- {{else}}    
+ {{else}}  
+ {{#if isHierarchy}} 
+ <div id="wrapper_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <div id="{{idfield}}" class="tree" require='{{required}}' tabindex="0"></div>
+ </div>
+ {{else}}
  {{#if isPhoto}}  
  <div id="wrapper_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
@@ -67,9 +66,12 @@
          id="{{idfield}}" 
          value ="{{__value}}" 
          name="{{name}}" 
+         min="{{config.range.minimum}}"
+         max="{{config.range.maximum}}"
          {{required}}/>
   {{/ifCond}}
  </div>
+ {{/if}}
  {{/if}}
  {{/if}}
  {{/each}}
