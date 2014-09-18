@@ -79,8 +79,6 @@ FieldHelper = {
       });
     });
 
-    App.log('fieldsWrapper: ', fieldsWrapper);
-
     return fieldsWrapper;
   },
   buildFieldSelectOne: function(config) {

@@ -71,7 +71,6 @@ SkipLogic = {
     }
   },
   handleHighlightElement: function(field_id) {
-    App.log("field_id", $("#" + field_id));
     if ($("#" + field_id).attr('data-role') === "slider") {
       var slider = ($("#" + field_id).parent()).children()[2];
       $(slider).attr("id", "slider_" + field_id);
