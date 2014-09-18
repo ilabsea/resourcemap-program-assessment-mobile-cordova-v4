@@ -40,12 +40,14 @@ FieldHelper = {
       if (widgetType === "select_one" && is_enable_field_logic)
         config = FieldHelper.buildFieldSelectOne(config);
 
-      if (widgetType === "select_many" && is_enable_field_logic) 
-        App.DataStore.set("configSelectManyForSkipLogic_" + id, JSON.stringify(fields));
+      if (widgetType === "select_many" && is_enable_field_logic)
+        App.DataStore.set("configSelectManyForSkipLogic_" + id,
+            JSON.stringify(fields));
 
       if (widgetType === "yes_no") {
         widgetType = "select_one";
-        config = FieldHelper.buildFieldYesNo(is_enable_field_logic, config, options["fromServer"]);
+        config = FieldHelper.buildFieldYesNo(is_enable_field_logic, config,
+            options["fromServer"]);
 
         slider = "slider";
         ctrue = "true";
@@ -71,11 +73,12 @@ FieldHelper = {
         is_mandatory: is_mandatory,
         required: is_required,
         isHierarchy: (kind === "hierarchy" ? true : false),
-        configHierarchy: (kind === "hierarchy" ? Hierarchy.generateField(fields.config, "", id) : ""),
+        configHierarchy: (kind === "hierarchy" ?
+            Hierarchy.generateField(fields.config, "", id) : ""),
         is_enable_field_logic: is_enable_field_logic
       });
     });
-    
+
     App.log('fieldsWrapper: ', fieldsWrapper);
 
     return fieldsWrapper;
@@ -95,8 +98,10 @@ FieldHelper = {
     var configOptions;
     if (is_enable_field_logic) {
       var field_logics = config.field_logics;
-      var field_id0 = fromServer ? field_logics[0].field_id : config.options[0].field_id;
-      var field_id1 = fromServer ? field_logics[1].field_id : config.options[1].field_id;
+      var field_id0 = fromServer ?
+          field_logics[0].field_id : config.options[0].field_id;
+      var field_id1 = fromServer ?
+          field_logics[1].field_id : config.options[1].field_id;
       config = {
         options: [{
             id: 0,
@@ -142,16 +147,19 @@ FieldHelper = {
     for (propertyCode in p) {
       $.each(itemLayer.fields, function(i, item) {
         var propertyValue = p[propertyCode];
-        FieldHelper.setFieldsValue(item, propertyCode, propertyValue, site, fromServer);
+        FieldHelper.setFieldsValue(item, propertyCode,
+            propertyValue, site, fromServer);
       });
     }
     return itemLayer;
   },
   setFieldsValue: function(item, propertyCode, pValue, site, fromServer) {
-    if (item.code === propertyCode || parseInt(item["idfield"]) === parseInt(propertyCode)) {
+    if (item.code === propertyCode || parseInt(item["idfield"])
+        === parseInt(propertyCode)) {
       if (item.widgetType === "photo")
         FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
-      else if (item.widgetType === "select_many" || item.widgetType === "select_one")
+      else if (item.widgetType === "select_many"
+          || item.widgetType === "select_one")
         FieldHelper.setFieldSelectValue(item, pValue);
       else if (item.widgetType === "hierarchy")
         FieldHelper.setFieldHierarchyValue(item, pValue);
@@ -185,18 +193,21 @@ FieldHelper = {
     for (var k = 0; k < item.config.options.length; k++) {
       item.config.options[k]["selected"] = "";
       if (item.__value == true || item.__value == false) {
-        if (item.config.options[k].id == item.__value || item.config.options[k].code == item.__value[j]) {
+        if (item.config.options[k].id == item.__value
+            || item.config.options[k].code == item.__value[j]) {
           item.config.options[k]["selected"] = "selected";
         }
       } else {
         if (item.__value instanceof Array) {
           for (var j = 0; j < item.__value.length; j++) {
-            if (item.config.options[k].id == item.__value[j] || item.config.options[k].code == item.__value[j]) {
+            if (item.config.options[k].id == item.__value[j]
+                || item.config.options[k].code == item.__value[j]) {
               item.config.options[k]["selected"] = "selected";
             }
           }
         } else {
-          if (item.config.options[k].id == item.__value || item.config.options[k].code == item.__value) {
+          if (item.config.options[k].id == item.__value
+              || item.config.options[k].code == item.__value) {
             item.config.options[k]["selected"] = "selected";
           }
         }
@@ -205,7 +216,8 @@ FieldHelper = {
   },
   setFieldHierarchyValue: function(item, value) {
     item.__value = value;
-    item.configHierarchy = Hierarchy.generateField(item.config, item.__value, item.idfield);
+    item.configHierarchy = Hierarchy.generateField(item.config, item.__value,
+        item.idfield);
     item._selected = Hierarchy._selected;
   }
 };

@@ -1,4 +1,3 @@
-<!--field collection update in page update site (sites are in local database) -->
 {{#each field_collections}}
 <div data-role="collapsible" 
      data-inset="true" 
@@ -21,16 +20,21 @@
           class="validateSelectFields">
    {{#if multiple}}
    <option>Options</option>
+   {{#config.options}}
+   <option value="{{id}}" {{selected}}>{{label}}</option>
+   {{/config.options}}
+
    {{else}}
    {{#if slider}} 
    {{else}}
    <option value="">Option</option>
    <option value="" selected>(no value)</option>
    {{/if}}
-   {{/if}}
    {{#config.options}}
    <option value="{{id}}" {{selected}} data-field_id="update_{{field_id}}">{{label}}</option>
    {{/config.options}}
+   {{/if}}
+
   </select>
  </div>
  {{else}} 

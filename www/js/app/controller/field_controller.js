@@ -55,20 +55,25 @@ FieldController = {
         field_collections.push(item);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
-      FieldController.display("field/add.html", $('#div_field_collection'), "", {field_collections: field_collections}, false);
+      FieldController.display("field/add.html", $('#div_field_collection'), "",
+          {field_collections: field_collections}, false);
     });
   },
   renderUpdateOffline: function(site) {
     var cId = App.DataStore.get("cId");
     FieldOffline.fetchByCollectionId(cId, function(layers) {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
-      FieldController.display("field/updateOffline.html", $('#div_update_field_collection'), "update_", {field_collections: field_collections}, true);
+      FieldController.display("field/updateOffline.html",
+          $('#div_update_field_collection'), "update_",
+          {field_collections: field_collections}, true);
     });
   },
   renderUpdateOnline: function(site) {
     FieldModel.fetch(function(layers) {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
-      FieldController.display("field/updateOnline.html", $('#div_update_field_collection_online'), "update_online_", {field_collections: field_collections}, true);
+      FieldController.display("field/updateOnline.html",
+          $('#div_update_field_collection_online'),
+          "update_online_", {field_collections: field_collections}, true);
     });
   },
   synForCurrentCollection: function(newFields) {

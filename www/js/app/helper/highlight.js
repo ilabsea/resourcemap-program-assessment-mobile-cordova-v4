@@ -29,16 +29,21 @@ SkipLogic = {
     var selectedValue = element.val();
     var b = false;
     if (selectedValue) {
+      var idElement = element.attr('id');
+      var id = idElement.substr(idElement.lastIndexOf("_")+1);
+      var wrapper_skip = idElement.slice(0, idElement.lastIndexOf("_") + 1 );
+      
       var configOption = JSON.parse(
-          App.DataStore.get("configSelectManyForSkipLogic_" + element.attr('id')));
-      if (configOption.id == element.attr('id')) {
+          App.DataStore.get("configSelectManyForSkipLogic_" + id));
+      
+      if ((configOption.id || configOption.idfield) == id) {
         var l = selectedValue.length;
 
         $.each(configOption.config.field_logics, function(i, field_logic) {
           if (l === 1) {
             if (field_logic.condition_type === 'any') {
               if (field_logic.value == selectedValue[0]) {
-                var field_id = field_logic.field_id;
+                var field_id = wrapper_skip + field_logic.field_id;
                 SkipLogic.handleSkipLogic(field_id);
               }
             }
@@ -55,7 +60,7 @@ SkipLogic = {
                   }
                 }
                 if (b) {
-                  var field_id = field_logic.field_id;
+                  var field_id = wrapper_skip + field_logic.field_id;
                   SkipLogic.handleSkipLogic(field_id);
                 }
               }
@@ -66,6 +71,7 @@ SkipLogic = {
     }
   },
   handleHighlightElement: function(field_id) {
+    App.log("field_id", $("#" + field_id));
     if ($("#" + field_id).attr('data-role') === "slider") {
       var slider = ($("#" + field_id).parent()).children()[2];
       $(slider).attr("id", "slider_" + field_id);
