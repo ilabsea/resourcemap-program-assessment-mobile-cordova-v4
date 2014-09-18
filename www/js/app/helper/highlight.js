@@ -2,21 +2,66 @@ SkipLogic = {
   setFocus: function(element) {
     var $element = $("#" + element.id);
     if ($element.attr('data-is_enable_field_logic')) {
-      if ($element.attr('data-role') === "slider")
-        App.DataStore.set("yesNoField", element.id);
+      if (!$element.attr('multiple')) {
+        if ($element.attr('data-role') === "slider")
+          App.DataStore.set("yesNoField", element.id);
 
-      var field_id = $('option:selected', element).attr('data-field_id');
-      if (field_id) {
-        var skipToId = "#wrapper_" + field_id;
-        var $parent = $(skipToId).parent().parent();
-        triggerExpand($parent);
-        
-        setTimeout(function() {
-          $("#" + field_id).focus();
-        }, 500);
+        var field_id = $('option:selected', element).attr('data-field_id');
+        SkipLogic.handleSkipLogic(field_id);
+      }
+    }
+  },
+  handleSkipLogic: function(field_id) {
+    if (field_id) {
+      var skipToId = "#wrapper_" + field_id;
+      var $parent = $(skipToId).parent().parent();
+      triggerExpand($parent);
 
-        scrollToHash(skipToId);
-        SkipLogic.handleHighlightElement(field_id);
+      setTimeout(function() {
+        $("#" + field_id).focus();
+      }, 500);
+
+      scrollToHash(skipToId);
+      SkipLogic.handleHighlightElement(field_id);
+    }
+  },
+  handleSkipLogicSelectMany: function(element) {
+    var selectedValue = element.val();
+    var b = false;
+    if (selectedValue) {
+      var configOption = JSON.parse(
+          App.DataStore.get("configSelectManyForSkipLogic_" + element.attr('id')));
+      if (configOption.id == element.attr('id')) {
+        var l = selectedValue.length;
+
+        $.each(configOption.config.field_logics, function(i, field_logic) {
+          if (l === 1) {
+            if (field_logic.condition_type === 'any') {
+              if (field_logic.value == selectedValue[0]) {
+                var field_id = field_logic.field_id;
+                SkipLogic.handleSkipLogic(field_id);
+              }
+            }
+          } else {
+            if (field_logic.condition_type === 'all') {
+              var lselected_option = Object.keys(field_logic.selected_options).length;
+              if (lselected_option === l) {
+                for (var i = 0; i < l; i++) {
+                  if (field_logic.selected_options[i].value === selectedValue[i])
+                    b = true;
+                  else {
+                    b = false;
+                    break;
+                  }
+                }
+                if (b) {
+                  var field_id = field_logic.field_id;
+                  SkipLogic.handleSkipLogic(field_id);
+                }
+              }
+            }
+          }
+        });
       }
     }
   },

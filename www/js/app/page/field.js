@@ -5,6 +5,13 @@ $(function() {
     validateToRemoveStyle(this);
   });
 
+  $(document).delegate('.ui-selectmenu', 'popupafterclose', function() {
+    var start = this.id.search("-");
+    var element = $("#" + this.id.substring(0, start));
+    if (element.attr('data-is_enable_field_logic') && element.attr('multiple'))
+      SkipLogic.handleSkipLogicSelectMany(element);
+  });
+
   $('body').click(function(event) {
     var yesNoField = App.DataStore.get("yesNoField");
     var otherField = $(event.target).attr("id");

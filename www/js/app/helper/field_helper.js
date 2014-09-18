@@ -38,7 +38,10 @@ FieldHelper = {
       }
 
       if (widgetType === "select_one" && is_enable_field_logic)
-        config = FieldHelper.buildFieldSelectOne(config, options["fromServer"]);
+        config = FieldHelper.buildFieldSelectOne(config);
+
+      if (widgetType === "select_many" && is_enable_field_logic) 
+        App.DataStore.set("configSelectManyForSkipLogic_" + id, JSON.stringify(fields));
 
       if (widgetType === "yes_no") {
         widgetType = "select_one";
@@ -72,10 +75,12 @@ FieldHelper = {
         is_enable_field_logic: is_enable_field_logic
       });
     });
+    
+    App.log('fieldsWrapper: ', fieldsWrapper);
 
     return fieldsWrapper;
   },
-  buildFieldSelectOne: function(config, fromServer) {
+  buildFieldSelectOne: function(config) {
     var configOptions;
     $.each(config.options, function(i, option) {
       $.each(config.field_logics, function(j, field_logic) {
