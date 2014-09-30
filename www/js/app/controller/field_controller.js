@@ -5,6 +5,13 @@ FieldController = {
       FieldController.displayHierarchy(elementHierarchy, fieldData, update);
 
       element.trigger("create");
+      
+      $.each(fieldData.field_collections, function(key, properties) {
+        if(!properties.membership.write){
+          var ele = properties.membership.layer_id + "_collapsable";
+          $($("#" + ele).children()[1]).addClass("ui-disabled");
+        }
+      });
     });
   },
   displayHierarchy: function(element, fieldData, update) {
@@ -27,19 +34,23 @@ FieldController = {
       this.renderByCollectionIdOffline();
   },
   renderByCollectionIdOnline: function() {
-    FieldModel.fetch(function(response) {
-      var field_id_arr = new Array();
-      var field_collections = [];
-      $.each(response, function(key, properties) {
-        $.each(properties.fields, function(i, fieldsInside) {
-          field_id_arr.push(fieldsInside.id);
+    var cId = App.DataStore.get("cId");
+
+    LayerMembership.fetch(cId, function(layerMemberships) {
+      FieldModel.fetch(function(response) {
+        var field_id_arr = new Array();
+        var field_collections = [];
+        $.each(response, function(key, properties) {
+          $.each(properties.fields, function(i, fieldsInside) {
+            field_id_arr.push(fieldsInside.id);
+          });
+          var fields = FieldHelper.buildField(properties, {fromServer: true}, layerMemberships);
+          field_collections.push(fields);
         });
-        var fields = FieldHelper.buildField(properties, {fromServer: true});
-        field_collections.push(fields);
+        App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+        FieldController.synForCurrentCollection(field_collections);
+        FieldController.display("field/add.html", $('#div_field_collection'), "", {field_collections: field_collections}, false);
       });
-      App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
-      FieldController.synForCurrentCollection(field_collections);
-      FieldController.display("field/add.html", $('#div_field_collection'), "", {field_collections: field_collections}, false);
     });
   },
   renderByCollectionIdOffline: function() {

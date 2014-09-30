@@ -1,5 +1,5 @@
 FieldHelper = {
-  buildField: function(fieldObj, options) {
+  buildField: function(fieldObj, options, layerMemberships) {
     options = options || {};
     var id = null;
     var fieldsBuild = [];
@@ -11,6 +11,10 @@ FieldHelper = {
     if (options["fromServer"]) {
       fieldsWrapper.name_wrapper = fieldObj.name;
       fieldsWrapper.id_wrapper = fieldObj.id;
+      $.each(layerMemberships, function(key, layerMembership) {
+        if(fieldObj.id === layerMembership.layer_id)
+          fieldsWrapper.membership = layerMembership;
+      });
     }
     else {
       fieldsWrapper.name_wrapper = fieldObj.name_wrapper;

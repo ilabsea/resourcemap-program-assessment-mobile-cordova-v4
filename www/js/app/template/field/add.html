@@ -2,7 +2,8 @@
 <div data-role="collapsible" 
      data-inset="true" 
      data-theme="a" 
-     data-collapsed="false">
+     data-collapsed="false" 
+     id="{{id_wrapper}}_collapsable">
  <h3>{{name_wrapper}}</h3>
  {{#each fields}}
  {{#if config.options}}
@@ -19,20 +20,20 @@
           data-is_enable_field_logic="{{is_enable_field_logic}}"
           class="validateSelectFields">
    {{#if multiple}}
-    <option>Options</option>
-    {{#config.options}}
-    <option value="{{id}}">{{label}}</option>
-    {{/config.options}}   
-   
+   <option>Options</option>
+   {{#config.options}}
+   <option value="{{id}}">{{label}}</option>
+   {{/config.options}}   
+
    {{else}}
-    {{#if slider}}  
-    {{else}}
-     <option value="">Option</option>
-     <option value="" selected>(no value)</option>
-    {{/if}}
-     {{#config.options}}
-     <option value="{{id}}" data-field_id="{{field_id}}">{{label}}</option>
-     {{/config.options}}   
+   {{#if slider}}  
+   {{else}}
+   <option value="">Option</option>
+   <option value="" selected>(no value)</option>
+   {{/if}}
+   {{#config.options}}
+   <option value="{{id}}" data-field_id="{{field_id}}">{{label}}</option>
+   {{/config.options}}   
    {{/if}}    
   </select>
  </div>
