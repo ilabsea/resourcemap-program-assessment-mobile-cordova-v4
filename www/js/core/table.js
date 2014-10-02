@@ -28,7 +28,8 @@ function createTables() {
     collection_id: "INT",
     user_id: "INT",
     name_wrapper: "TEXT",
-    id_wrapper: "TEXT",
-    fields: "JSON"
+    id_wrapper: "INT",
+    fields: "JSON",
+    layer_membership: "JSON"
   });
 }

@@ -12,13 +12,14 @@ FieldHelper = {
       fieldsWrapper.name_wrapper = fieldObj.name;
       fieldsWrapper.id_wrapper = fieldObj.id;
       $.each(layerMemberships, function(key, layerMembership) {
-        if(fieldObj.id === layerMembership.layer_id)
-          fieldsWrapper.membership = layerMembership;
+        if (fieldObj.id === layerMembership.layer_id)
+          fieldsWrapper.layer_membership = layerMembership;
       });
     }
     else {
       fieldsWrapper.name_wrapper = fieldObj.name_wrapper;
       fieldsWrapper.id_wrapper = fieldObj.id_wrapper;
+      fieldsWrapper.layer_membership = fieldObj.layer_membership;
     }
     $.each(fieldObj.fields, function(key, fields) {
       if (options["fromServer"])
@@ -128,21 +129,21 @@ FieldHelper = {
 
     return configOptions;
   },
-  buildFieldsUpdate: function(layers, site, fromServer) {
+  buildFieldsUpdate: function(layers, site, fromServer, layerMemberships) {
     var field_collections = [];
     $.each(layers, function(key, layer) {
-      var item = FieldHelper.buildFieldsLayer(layer, site, fromServer);
+      var item = FieldHelper.buildFieldsLayer(layer, site, fromServer, layerMemberships);
       field_collections.push(item);
     });
     return field_collections;
   },
-  buildFieldsLayer: function(layer, site, fromServer) {
+  buildFieldsLayer: function(layer, site, fromServer, layerMemberships) {
     if (fromServer) {
-      var itemLayer = FieldHelper.buildField(layer, {fromServer: fromServer});
+      var itemLayer = FieldHelper.buildField(layer, {fromServer: fromServer}, layerMemberships);
       var p = site.properties;
     }
     else {
-      var itemLayer = FieldHelper.buildField(layer._data, {fromServer: fromServer});
+      var itemLayer = FieldHelper.buildField(layer._data, {fromServer: fromServer}, "");
       var p = site.properties();
     }
 

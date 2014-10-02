@@ -5,13 +5,7 @@ FieldController = {
       FieldController.displayHierarchy(elementHierarchy, fieldData, update);
 
       element.trigger("create");
-      
-      $.each(fieldData.field_collections, function(key, properties) {
-        if(!properties.membership.write){
-          var ele = properties.membership.layer_id + "_collapsable";
-          $($("#" + ele).children()[1]).addClass("ui-disabled");
-        }
-      });
+      FieldController.displayUiDisabled(elementHierarchy, fieldData);
     });
   },
   displayHierarchy: function(element, fieldData, update) {
@@ -25,6 +19,16 @@ FieldController = {
             Hierarchy.selectedNode(element + id, fieldsInside._selected);
         }
       });
+    });
+  },
+  displayUiDisabled: function(element, fieldData) {
+    $.each(fieldData.field_collections, function(key, properties) {
+      if (properties.layer_membership) {
+        if (!properties.layer_membership.write) {
+          var ele = "collapsable_" + element + properties.layer_membership.layer_id;
+          $($("#" + ele).children()[1]).addClass("ui-disabled");
+        }
+      }
     });
   },
   getByCollectionId: function() {
@@ -44,7 +48,8 @@ FieldController = {
           $.each(properties.fields, function(i, fieldsInside) {
             field_id_arr.push(fieldsInside.id);
           });
-          var fields = FieldHelper.buildField(properties, {fromServer: true}, layerMemberships);
+          var fields = FieldHelper.buildField(properties, {fromServer: true},
+          layerMemberships);
           field_collections.push(fields);
         });
         App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
@@ -62,9 +67,11 @@ FieldController = {
         $.each(field.fields(), function(i, fieldsInfield) {
           field_id_arr.push(fieldsInfield.idfield);
         });
-        var item = FieldHelper.buildField(field._data, {fromServer: false});
+        var item = FieldHelper.buildField(field._data,
+            {fromServer: false}, "");
         field_collections.push(item);
       });
+      App.log("field collections offline : ", field_collections);
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       FieldController.display("field/add.html", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
@@ -73,18 +80,22 @@ FieldController = {
   renderUpdateOffline: function(site) {
     var cId = App.DataStore.get("cId");
     FieldOffline.fetchByCollectionId(cId, function(layers) {
-      var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
+      var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false, "");
       FieldController.display("field/updateOffline.html",
           $('#div_update_field_collection'), "update_",
           {field_collections: field_collections}, true);
     });
   },
   renderUpdateOnline: function(site) {
-    FieldModel.fetch(function(layers) {
-      var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
-      FieldController.display("field/updateOnline.html",
-          $('#div_update_field_collection_online'),
-          "update_online_", {field_collections: field_collections}, true);
+    var cId = App.DataStore.get("cId");
+    LayerMembership.fetch(cId, function(layerMemberships) {
+      FieldModel.fetch(function(layers) {
+        var field_collections = FieldHelper.buildFieldsUpdate(layers, site,
+            true, layerMemberships);
+        FieldController.display("field/updateOnline.html",
+            $('#div_update_field_collection_online'),
+            "update_online_", {field_collections: field_collections}, true);
+      });
     });
   },
   synForCurrentCollection: function(newFields) {
@@ -98,9 +109,9 @@ FieldController = {
     var pf = propertiesFile;
     var itemLayer;
     if (fromServer)
-      itemLayer = FieldHelper.buildField(field, {fromServer: fromServer});
+      itemLayer = FieldHelper.buildField(field, {fromServer: fromServer}, "");
     else
-      itemLayer = FieldHelper.buildField(field._data, {fromServer: fromServer});
+      itemLayer = FieldHelper.buildField(field._data, {fromServer: fromServer}, "");
 
     var items = itemLayer.fields;
 
@@ -127,7 +138,7 @@ FieldController = {
         propertiesFile.properties[item["idfield"]] = value;
       }
     });
-
+    
     return pf;
   },
   updateFieldPhotoValue: function(item, propertiesFile, fromServer) {

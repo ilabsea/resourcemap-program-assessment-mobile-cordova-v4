@@ -45,6 +45,7 @@ $(document).ready(function() {
       if (element.attr("type") === "number" &&
           (element.attr("min") || element.attr("max"))) 
         error.insertAfter($(element).parent());
+      
       addClassError(element);
 
       var classElement = document.getElementsByClassName("image");
@@ -118,7 +119,7 @@ $(document).ready(function() {
     invalidHandler: function() {
       showValidateMessage('#validation_update-site-online');
     },
-    submitHandler: function() {
+    submitHandler: function(e) {
       var classElement = document.getElementsByClassName("image");
       var classHierarchyElement = document.getElementsByClassName("tree");
       var h = true;

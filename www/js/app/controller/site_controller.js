@@ -19,7 +19,7 @@ SiteController = {
       SiteController.addOffline(data);
   },
   addOnline: function(data, callback) {
-    ViewBinding.setBusy(true);  
+    ViewBinding.setBusy(true);
     SiteModel.create(data, callback, function() {
       ViewBinding.setAlert("Please send data again.");
     });
@@ -118,10 +118,12 @@ SiteController = {
   updateBySiteIdOnline: function() {
     var data;
     ViewBinding.setBusy(true);
+
     FieldModel.fetch(function(fields) {
       var propertiesFile = {properties: {}, files: {}};
       $.each(fields, function(key, field) {
-        propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
+        propertiesFile = FieldController.updateFieldValueBySiteId(
+            propertiesFile, field, "#update_online_", true);
       });
       data = {
         "_method": "put",
@@ -135,12 +137,12 @@ SiteController = {
         }
       };
       SiteModel.update(data, function() {
+        App.log("data : ", data);
         var sId = App.DataStore.get("sId");
         $.each(data.site.properties, function(key, idField) {
           PhotoList.remove(sId, key);
           App.DataStore.remove(sId + "_" + key);
         });
-
         App.redirectTo("#page-site-list");
       }, function() {
         alert(i18n.t("global.please_reupdate_your_site"));
@@ -269,7 +271,7 @@ SiteController = {
           }
           properties["" + each_field + ""] = date;
         }
-        else if ($field[0].getAttribute("class") === "tree" || 
+        else if ($field[0].getAttribute("class") === "tree" ||
             $field[0].getAttribute("class") === "tree unhighlighted") {
           var node = $field.tree('getSelectedNode');
           var data = node.id;
