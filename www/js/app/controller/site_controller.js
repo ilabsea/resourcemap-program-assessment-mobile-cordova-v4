@@ -167,7 +167,7 @@ SiteController = {
       var siteOnlineUpdateData = {
         name: response.name,
         lat: response.lat,
-        lng: response.long
+        lng: response.lng
       };
       SiteController.displayUpdateLatLng("site/updateOnline.html", $('#div-site-update-name-online'), siteOnlineUpdateData);
       FieldController.renderUpdateOnline(response);

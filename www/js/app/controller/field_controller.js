@@ -71,7 +71,6 @@ FieldController = {
             {fromServer: false}, "");
         field_collections.push(item);
       });
-      App.log("field collections offline : ", field_collections);
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       FieldController.display("field/add.html", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
@@ -86,16 +85,16 @@ FieldController = {
           {field_collections: field_collections}, true);
     });
   },
-  renderUpdateOnline: function(site) {
+  renderUpdateOnline: function(siteData) {
     var cId = App.DataStore.get("cId");
-    LayerMembership.fetch(cId, function(layerMemberships) {
-      FieldModel.fetch(function(layers) {
-        var field_collections = FieldHelper.buildFieldsUpdate(layers, site,
-            true, layerMemberships);
-        FieldController.display("field/updateOnline.html",
-            $('#div_update_field_collection_online'),
-            "update_online_", {field_collections: field_collections}, true);
-      });
+    var sId = localStorage.getItem("sId");
+
+    SitesPermission.fetch(cId, function(site) {
+      if (!site.read && !site.write && !site.none) {
+        LayerMembershipsHelper.buildAllLayersOfSite(cId, siteData);
+      } else {
+        LayerMembershipsHelper.buildCustomerSitePermission(site, siteData, cId, sId);
+      }
     });
   },
   synForCurrentCollection: function(newFields) {
@@ -138,7 +137,7 @@ FieldController = {
         propertiesFile.properties[item["idfield"]] = value;
       }
     });
-    
+
     return pf;
   },
   updateFieldPhotoValue: function(item, propertiesFile, fromServer) {
