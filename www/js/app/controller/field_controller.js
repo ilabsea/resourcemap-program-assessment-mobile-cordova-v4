@@ -90,7 +90,8 @@ FieldController = {
     var sId = localStorage.getItem("sId");
 
     SitesPermission.fetch(cId, function(site) {
-      if (!site.read && !site.write && !site.none) {
+      if ((!site.read && !site.write && !site.none)
+          || (site.read.all_sites && site.write.all_sites && site.none.all_sites)) {
         LayerMembershipsHelper.buildAllLayersOfSite(cId, siteData);
       } else {
         LayerMembershipsHelper.buildCustomerSitePermission(site, siteData, cId, sId);

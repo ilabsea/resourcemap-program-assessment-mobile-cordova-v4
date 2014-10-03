@@ -41,7 +41,6 @@ SiteModel = {
     });
   },
   update: function(data, successCallback, errorCallback) {
-    App.log("data for update : ", data);
     var cId = localStorage.getItem("cId");
     var sId = localStorage.getItem("sId");
     $.ajax({
