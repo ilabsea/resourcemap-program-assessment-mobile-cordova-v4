@@ -91,11 +91,10 @@ FieldController = {
 
     SitesPermission.fetch(cId, function(site) {
       if ((!site.read && !site.write && !site.none)
-          || (site.read.all_sites && site.write.all_sites && site.none.all_sites)) {
+          || (site.read.all_sites && site.write.all_sites && site.none.all_sites))
         LayerMembershipsHelper.buildAllLayersOfSite(cId, siteData);
-      } else {
+      else
         LayerMembershipsHelper.buildCustomerSitePermission(site, siteData, cId, sId);
-      }
     });
   },
   synForCurrentCollection: function(newFields) {
@@ -116,12 +115,10 @@ FieldController = {
     var items = itemLayer.fields;
 
     $.each(items, function(i, item) {
-      if (item.isPhoto) {
+      if (item.isPhoto) 
         FieldController.updateFieldPhotoValue(item, propertiesFile, fromServer);
-      }
-      else if (item.widgetType === "date") {
+      else if (item.widgetType === "date") 
         FieldController.updateFieldDateValue(idHTMLForUpdate, item, propertiesFile);
-      }
       else if (item.widgetType === "hierarchy") {
         var nodeId = idHTMLForUpdate + item["idfield"];
         var node = $(nodeId).tree('getSelectedNode');
