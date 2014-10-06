@@ -119,34 +119,8 @@ SiteController = {
     var data;
     ViewBinding.setBusy(true);
 
-    var fieldsId = [];
-    var propertiesFile = {properties: {}, files: {}};
-
     FieldModel.fetch(function(fields) {
-      $.each(fields, function(key, field) {
-        $.each(field.fields, function(key, f) {
-          fieldsId.push(f.id);
-        });
-      });
-    });
-
-    SiteModel.fetchOne(function(sites) {
-      var pIds = Object.keys(sites.properties);
-      for (var val in pIds) {
-        for (var i in fieldsId) {
-          if (pIds[val] != fieldsId[i]) {
-            if (fieldsId.length - 1 == i) {
-              var eachId = pIds[val];
-              var eachVal = sites.properties[eachId];
-              propertiesFile.properties[eachId] = eachVal;
-            }
-          } else
-            break;
-        }
-      }
-    });
-
-    FieldModel.fetch(function(fields) {
+      var propertiesFile = {properties: {}, files: {}};
       $.each(fields, function(key, field) {
         propertiesFile = FieldController.updateFieldValueBySiteId(
             propertiesFile, field, "#update_online_", true);
