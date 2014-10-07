@@ -24,7 +24,7 @@ LayerMembershipsHelper = {
     else if (site.read.some_sites.length !== 0)
       LayerMembershipsHelper.buildCustomerSiteReadWrite(site.read, false, siteData,
           cId, sId);
-    else if (site.none.some_sites.length !== 0)
+    else if (site.none.some_sites.length !== 0) 
       LayerMembershipsHelper.buildCustomerSiteReadWrite(site.none, "none", siteData,
           cId, sId);
   },
@@ -38,14 +38,14 @@ LayerMembershipsHelper = {
   },
   buildSiteWithVisibleLayers: function(siteData, rw) {
     VisibleLayersFor.fetch(function(layers) {
-      if (rw == 'none')
-        layers = {};
       var layerMemberships = LayerMembershipsHelper.build(layers, rw);
       var field_collections = FieldHelper.buildFieldsUpdate(layers,
           siteData, true, layerMemberships);
       FieldController.display("field/updateOnline.html",
           $('#div_update_field_collection_online'),
           "update_online_", {field_collections: field_collections}, true);
+      if(rw === 'none')
+        $('#div_update_field_collection_online').hide();
     });
   }
 };

@@ -119,7 +119,7 @@ SiteController = {
     var data;
     ViewBinding.setBusy(true);
 
-    FieldModel.fetch(function(fields) {
+    VisibleLayersFor.fetch(function(fields) {
       var propertiesFile = {properties: {}, files: {}};
       $.each(fields, function(key, field) {
         propertiesFile = FieldController.updateFieldValueBySiteId(
