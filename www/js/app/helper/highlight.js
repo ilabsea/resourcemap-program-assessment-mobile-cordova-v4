@@ -31,85 +31,44 @@ SkipLogic = {
       var idElement = element.attr('id');
       var id = idElement.substr(idElement.lastIndexOf("_") + 1);
       var wrapper_skip = idElement.slice(0, idElement.lastIndexOf("_") + 1);
-
       var configOption = JSON.parse(
           App.DataStore.get("configSelectManyForSkipLogic_" + id));
 
-      App.log("config : ", configOption);
       if ((configOption.id || configOption.idfield) == id) {
-        var l = selectedValue.length;
-
         $.each(configOption.config.field_logics, function(i, field_logic) {
-          var lselectedOption = Object.keys(field_logic.selected_options).length;
-          if (l === 1) {
-            if (field_logic.condition_type === 'any' ||
-                (field_logic.condition_type === 'all' && lselectedOption === 1)) {
-              for (var i = 0; i < lselectedOption; i++) {
-                if (field_logic.selected_options[i].value == selectedValue[0]) {
-                  var field_id = wrapper_skip + field_logic.field_id;
-                  SkipLogic.handleSkipLogic(field_id);
+          var selectedOptions = field_logic.selected_options;
+
+          var b = false;
+          var is_all = [];
+          var all_condi = false;
+
+          for (var i in selectedValue) {
+            for (var j in selectedOptions) {
+              if (selectedValue[i] == selectedOptions[j].value) {
+                b = true;
+                is_all.push(true);
+                break;
+              }
+            }
+            if (b) {
+              if (field_logic.condition_type == 'any') {
+                all_condi = true;
+                break;
+              } else {
+                if (is_all.length == Object.keys(selectedOptions).length) {
+                  all_condi = App.allBooleanTrue(is_all);
                   break;
                 }
               }
             }
-          } else {
-            if (field_logic.condition_type === 'all') {
-              var b = false;
-              if (lselectedOption === l) {
-                for (var i = 0; i < l; i++) {
-                  if (field_logic.selected_options[i].value === selectedValue[i])
-                    b = true;
-                  else {
-                    b = false;
-                    break;
-                  }
-                }
-                if (b) {
-                  var field_id = wrapper_skip + field_logic.field_id;
-                  SkipLogic.handleSkipLogic(field_id);
-                }
-              }
-            }
+          }
+          if (all_condi) {
+            var field_id = wrapper_skip + field_logic.field_id;
+            SkipLogic.handleSkipLogic(field_id);
+            return false;
           }
         });
       }
-//      if ((configOption.id || configOption.idfield) == id) {
-//        var l = selectedValue.length;
-//
-//        $.each(configOption.config.field_logics, function(i, field_logic) {
-//          var lselectedOption = Object.keys(field_logic.selected_options).length;
-//          if (l === 1) {
-//            if (field_logic.condition_type === 'any' ||
-//                (field_logic.condition_type === 'all' && lselectedOption === 1)) {
-//              for (var i = 0; i < lselectedOption; i++) {
-//                if (field_logic.selected_options[i].value == selectedValue[0]) {
-//                  var field_id = wrapper_skip + field_logic.field_id;
-//                  SkipLogic.handleSkipLogic(field_id);
-//                  break;
-//                }
-//              }
-//            }
-//          } else {
-//            if (field_logic.condition_type === 'all') {
-//              var b = false;
-//              if (lselectedOption === l) {
-//                for (var i = 0; i < l; i++) {
-//                  if (field_logic.selected_options[i].value === selectedValue[i])
-//                    b = true;
-//                  else {
-//                    b = false;
-//                    break;
-//                  }
-//                }
-//                if (b) {
-//                  var field_id = wrapper_skip + field_logic.field_id;
-//                  SkipLogic.handleSkipLogic(field_id);
-//                }
-//              }
-//            }
-//          }
-//        });
-//      }
     }
   },
   handleHighlightElement: function(field_id) {
