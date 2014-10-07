@@ -56,5 +56,11 @@ App = {
     }
     online = navigator.onLine;
     return online;
+  },
+  allBooleanTrue: function(arr) {
+    for (var i in arr)
+      if (!arr[i])
+        return false;
+    return true;
   }
 };
