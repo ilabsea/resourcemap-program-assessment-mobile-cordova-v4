@@ -1,25 +1,4 @@
 FieldController = {
-  display: function(templateURL, element, elementHierarchy, fieldData, update) {
-    App.Template.process(templateURL, fieldData, function(content) {
-      element.html(content);
-      FieldController.displayHierarchy(elementHierarchy, fieldData, update);
-
-      element.trigger("create");
-    });
-  },
-  displayHierarchy: function(element, fieldData, update) {
-    $.each(fieldData.field_collections, function(key, properties) {
-      $.each(properties.fields, function(i, fieldsInside) {
-        if (fieldsInside.kind === "hierarchy") {
-          var data = fieldsInside.configHierarchy;
-          var id = fieldsInside.idfield;
-          Hierarchy.renderDisplay(element + id, data);
-          if (update)
-            Hierarchy.selectedNode(element + id, fieldsInside._selected);
-        }
-      });
-    });
-  },
   getByCollectionId: function() {
     if (App.isOnline())
       this.renderByCollectionIdOnline();
@@ -39,7 +18,7 @@ FieldController = {
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       FieldController.synForCurrentCollection(field_collections);
-      FieldController.display("field/add.html", $('#div_field_collection'), "", {field_collections: field_collections}, false);
+      FieldHelperView.display("field/add.html", $('#div_field_collection'), "", {field_collections: field_collections}, false);
     });
   },
   renderByCollectionIdOffline: function() {
@@ -55,7 +34,7 @@ FieldController = {
         field_collections.push(item);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
-      FieldController.display("field/add.html", $('#div_field_collection'), "",
+      FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
     });
   },
@@ -63,7 +42,7 @@ FieldController = {
     var cId = App.DataStore.get("cId");
     FieldOffline.fetchByCollectionId(cId, function(layers) {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
-      FieldController.display("field/updateOffline.html",
+      FieldHelperView.display("field/updateOffline.html",
           $('#div_update_field_collection'), "update_",
           {field_collections: field_collections}, true);
     });
@@ -71,7 +50,7 @@ FieldController = {
   renderUpdateOnline: function(site) {
     FieldModel.fetch(function(layers) {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
-      FieldController.display("field/updateOnline.html",
+      FieldHelperView.display("field/updateOnline.html",
           $('#div_update_field_collection_online'),
           "update_online_", {field_collections: field_collections}, true);
     });

@@ -30,6 +30,7 @@ FieldHelper = {
       var is_required = "";
       var is_mandatory = fields.is_mandatory;
       var is_enable_field_logic = fields.is_enable_field_logic;
+      var readonly = '';
 
       if (widgetType === "numeric") {
         widgetType = "number";
@@ -56,6 +57,11 @@ FieldHelper = {
       if (widgetType === "phone")
         widgetType = "tel";
 
+      if (widgetType === "calculation") {
+        widgetType = "text";
+        readonly = 'readonly';
+      }
+
       if (is_mandatory)
         is_required = "required";
 
@@ -75,7 +81,8 @@ FieldHelper = {
         isHierarchy: (kind === "hierarchy" ? true : false),
         configHierarchy: (kind === "hierarchy" ?
             Hierarchy.generateField(fields.config, "", id) : ""),
-        is_enable_field_logic: is_enable_field_logic
+        is_enable_field_logic: is_enable_field_logic,
+        readonly: readonly
       });
     });
 
