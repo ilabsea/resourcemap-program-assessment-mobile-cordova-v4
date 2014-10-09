@@ -1,7 +1,7 @@
 $(function() {
 
-  $(document).delegate('.calculation', 'keyup change', function() {
-    Calculation.calculate();
+  $(document).delegate('.calculation', 'keyup change click', function() {
+    Calculation.calculate(this);
   });
 
   $(document).delegate('.validateSelectFields', 'change', function() {

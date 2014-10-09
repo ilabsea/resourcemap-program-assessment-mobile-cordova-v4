@@ -13,6 +13,7 @@ SiteController = {
   },
   add: function() {
     var data = SiteController.buildDataForSite();
+    App.log("data : ", data);
     if (App.isOnline())
       SiteController.addOnline(data, SiteController.resetForm);
     else
@@ -168,6 +169,7 @@ SiteController = {
         lng: response.long
       };
       SiteController.displayUpdateLatLng("site/updateOnline.html", $('#div-site-update-name-online'), siteOnlineUpdateData);
+      App.log("response : ", response);
       FieldController.renderUpdateOnline(response);
     });
   },
@@ -270,7 +272,8 @@ SiteController = {
           properties["" + each_field + ""] = date;
         }
         else if ($field[0].getAttribute("class") === "tree" || 
-            $field[0].getAttribute("class") === "tree unhighlighted") {
+            $field[0].getAttribute("class") === "tree unhighlighted" || 
+            $field[0].getAttribute("class") === "tree calculation") {
           var node = $field.tree('getSelectedNode');
           var data = node.id;
           if (data === null)
