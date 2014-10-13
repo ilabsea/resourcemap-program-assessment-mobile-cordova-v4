@@ -35,13 +35,9 @@ var mapObject = {
   loadMap: function() {
     var $content = $("#map_canvas");
     var mapCanvas = $content[0];
-
-    var platformOS = device.platform;
-
-    if (platformOS == "Android")
-      $content.height(screen.height - 800);
-    else
-      $content.height(screen.height - 200);
+    
+    var mapCanvasTop = $content.offset().top;
+    $content.height(window.innerHeight - mapCanvasTop);
 
     var options = {
       zoom: 15,
