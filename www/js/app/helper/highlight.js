@@ -79,10 +79,10 @@ SkipLogic = {
 
       SkipLogic.highlight("#" + slider_id, 'slider');
     }
-    else if ($("#" + field_id)[0].tagName.toLowerCase() === 'img')
-      SkipLogic.highlight("#property_" + field_id + "_container", "img");
     else if ($("#" + field_id)[0].tagName.toLowerCase() === 'select')
       SkipLogic.highlight("#" + field_id, "select");
+    else if ($("#" + field_id)[0].tagName.toLowerCase() === 'img')
+      SkipLogic.highlight("#property_" + field_id + "_container", "img");
     else
       SkipLogic.highlight("#" + field_id, "others");
   },

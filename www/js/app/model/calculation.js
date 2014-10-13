@@ -23,7 +23,7 @@ Calculation = {
         if (isNaN(val) || !val)
           val = "'" + val + "'";
         
-        code_cal = code_cal.replace('[' + dependent_field.name + ']', val);
+        code_cal = code_cal.replace('$' + dependent_field.name , val);
       });
       var cal_ele = $("#" + elementPrefixId + field_cal.idfield);
       var res = eval(code_cal);
