@@ -2,11 +2,6 @@ label.error {
     color: red;
     font-size: 12px;
     font-weight: normal;
-    line-height: 1.4;
-    margin-top: 0.2em !important;
-    width: 100%;
-    float: left;
-    margin-bottom: 30px !important;
 }
 
 input.error {

@@ -16,12 +16,8 @@ FieldHelperView = {
           var data = fieldsInside.configHierarchy;
           var id = fieldsInside.idfield;
           Hierarchy.renderDisplay(elementPrefixID + id, data);
-          if (update) {
-            App.log("fieldsInside ", fieldsInside);
-            App.log(fieldsInside._selected);
+          if (update)
             Hierarchy.selectedNode(elementPrefixID + id, fieldsInside._selected);
-            App.log("update : ", update);
-          }
         }
       });
     });

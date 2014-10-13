@@ -13,7 +13,6 @@ SiteController = {
   },
   add: function() {
     var data = SiteController.buildDataForSite();
-    App.log("data : ", data);
     if (App.isOnline())
       SiteController.addOnline(data, SiteController.resetForm);
     else
@@ -169,7 +168,6 @@ SiteController = {
         lng: response.long
       };
       SiteController.displayUpdateLatLng("site/updateOnline.html", $('#div-site-update-name-online'), siteOnlineUpdateData);
-      App.log("response : ", response);
       FieldController.renderUpdateOnline(response);
     });
   },

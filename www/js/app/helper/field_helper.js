@@ -91,10 +91,12 @@ FieldHelper = {
   buildFieldSelectOne: function(config) {
     var configOptions;
     $.each(config.options, function(i, option) {
-      $.each(config.field_logics, function(j, field_logic) {
-        if (option.id === field_logic.value)
-          config.options[i]["field_id"] = field_logic.field_id;
-      });
+      if (config.field_logics) {
+        $.each(config.field_logics, function(j, field_logic) {
+          if (option.id === field_logic.value)
+            config.options[i]["field_id"] = field_logic.field_id;
+        });
+      }
     });
     configOptions = config;
     return configOptions;
