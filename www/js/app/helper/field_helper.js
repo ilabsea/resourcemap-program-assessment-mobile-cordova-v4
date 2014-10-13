@@ -85,7 +85,7 @@ FieldHelper = {
         readonly: readonly
       });
     });
-    
+
     return fieldsWrapper;
   },
   buildFieldSelectOne: function(config) {

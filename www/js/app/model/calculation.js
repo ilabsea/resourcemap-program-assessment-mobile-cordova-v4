@@ -12,18 +12,22 @@ Calculation = {
       $.each(field_cal.config.dependent_fields, function(j, dependent_field) {
         var $e = $("#" + elementPrefixId + this.id);
         var val = $e.val();
-        
-        if($e.attr('class') == 'tree calculation'){
+
+        if ($e.attr('class') == 'tree calculation') {
           val = $e.tree('getSelectedNode');
           val = val.name;
-          if(!val)
+          if (!val)
             val = '';
-        } 
+        }
+        if (val == null)
+          val = '';
         
         if (isNaN(val) || !val)
           val = "'" + val + "'";
         
-        code_cal = code_cal.replace('$' + dependent_field.name , val);
+        App.log("val : ", val);
+        
+        code_cal = code_cal.replace('$' + dependent_field.name, val);
       });
       var cal_ele = $("#" + elementPrefixId + field_cal.idfield);
       var res = eval(code_cal);
