@@ -20,50 +20,49 @@
  */
 
 function getModelName() {
-    var modelName = window.qnx.webplatform.device.modelName;
-    //Pre 10.2 (meaning Z10 or Q10)
-    if (typeof modelName === "undefined") {
-        if (window.screen.height === 720 && window.screen.width === 720) {
-            if (window.matchMedia("(-blackberry-display-technology: -blackberry-display-oled)").matches) {
-                modelName = "Q10";
-            } else {
-                modelName = "Q5";
-            }
-        } else if ((window.screen.height === 1280 && window.screen.width === 768) ||
-                (window.screen.height === 768 && window.screen.width === 1280)) {
-            modelName = "Z10";
-        } else {
-            modelName = window.qnx.webplatform.deviceName;
-        }
+  var modelName = window.qnx.webplatform.device.modelName;
+  //Pre 10.2 (meaning Z10 or Q10)
+  if (typeof modelName === "undefined") {
+    if (window.screen.height === 720 && window.screen.width === 720) {
+      if (window.matchMedia("(-blackberry-display-technology: -blackberry-display-oled)").matches) {
+        modelName = "Q10";
+      } else {
+        modelName = "Q5";
+      }
+    } else if ((window.screen.height === 1280 && window.screen.width === 768) ||
+        (window.screen.height === 768 && window.screen.width === 1280)) {
+      modelName = "Z10";
+    } else {
+      modelName = window.qnx.webplatform.deviceName;
     }
+  }
 
-    return modelName;
+  return modelName;
 }
 
 function getUUID() {
-    var uuid = "";
-    try {
-        //Must surround by try catch because this will throw if the app is missing permissions
-        uuid = window.qnx.webplatform.device.devicePin;
-    } catch (e) {
-        //DO Nothing
-    }
-    return uuid;
+  var uuid = "";
+  try {
+    //Must surround by try catch because this will throw if the app is missing permissions
+    uuid = window.qnx.webplatform.device.devicePin;
+  } catch (e) {
+    //DO Nothing
+  }
+  return uuid;
 }
 
 module.exports = {
-    getDeviceInfo: function(success, fail, args, env) {
-        var result = new PluginResult(args, env),
-                modelName = getModelName(),
-                uuid = getUUID(),
-                info = {
-                    platform: "blackberry10",
-                    version: window.qnx.webplatform.device.scmBundle,
-                    model: modelName,
-                    uuid: uuid,
-                    cordova: "dev"
-                };
-
-        result.ok(info);
-    }
+  getDeviceInfo: function(success, fail, args, env) {
+    var result = new PluginResult(args, env),
+        modelName = getModelName(),
+        uuid = getUUID(),
+        info = {
+          platform: "blackberry10",
+          version: window.qnx.webplatform.device.scmBundle,
+          model: modelName,
+          uuid: uuid,
+          cordova: "dev"
+        };
+    result.ok(info);
+  }
 };

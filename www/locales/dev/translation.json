@@ -5,7 +5,7 @@
         "save": "Save",
         "lat": "Location'Lat",
         "lng": "Location'lng",
-        "logout": "Logout",
+        "logout": "Sign out",
         "back": "Back",
         "send_to_server": "Send to server",
         "name": "Name",
@@ -13,7 +13,16 @@
         "delete": "Delete",
         "cancel": "Cancel",
         "site": "Sites",
-        "add": "Add new site"
+        "add": "Add new site",
+        "viewAll": "View all",
+        "viewOffline": "View offline",
+        "viewOnline": "View online",
+        "menu": "Menu",
+        "save_site": "Save Site",
+        "ajax-loader": "Please wait ...",
+        "no_internet_connection": "No internet connection.",
+        "please_resend_data": "Please resend the data.",
+        "please_reupdate_your_site": "Please reupdate your site."
     },
     "login_page": {
         "login": "Login",
@@ -32,7 +41,7 @@
     },
     "collection_page": {
         "view_offline_site": "View offline site",
-        "collection": "Collections"
+        "collection": "My Collections"
     },
     "map_page": {
         "map": "Map"
@@ -51,6 +60,15 @@
         "invalide": "Invalid email or password.",
         "not_found": "Not found in database.",
         "plsSignIn": "Please sign in."
+    },
+    "dialog": {
+        "option": "Photo Options",
+        "take": "Take Photo",
+        "choose": "Choose Existing",
+        "signupsuccess": "Sign up successfully."
+    },
+    "nav": {
+        "online": "Online",
+        "offline": "Offline"
     }
-
 }

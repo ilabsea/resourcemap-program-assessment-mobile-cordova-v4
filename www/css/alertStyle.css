@@ -16,9 +16,22 @@
     background-color: #FFCC99;
     border-radius:10px;
 }
+.required_data{
+    display: none;
+    text-align: center;
+    color: #ffffff;
+    background-color: #333333;
+    border-radius: 10px;
+    border-color: #111111;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-shadow: 0 1px 0 #111111;
+}
 p{
     display: none;
-    color: violet;  
+    color: rgb(36, 100, 168);  
 }
 #internet{
     display:none; 
@@ -46,6 +59,7 @@ input[type="checkbox"]{
 #passmatch{
     color:red;
 }
+
 #info_sign_in{
     display: none;
     color: orange;

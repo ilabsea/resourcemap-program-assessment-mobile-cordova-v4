@@ -3,13 +3,24 @@ label.error {
     font-size: 12px;
     font-weight: normal;
     line-height: 1.4;
-    margin-top: 0.5em;
+    margin-top: 0.2em !important;
     width: 100%;
     float: left;
+    margin-bottom: 30px !important;
 }
 
 input.error {
-    border: 1px solid red;
+    border: 1px solid red !important;
+}
+
+.ui-select.error {
+    border: 1px solid red !important;
+    border-radius: 16px;
+}
+
+.ui-select.valid {
+    border: 1px solid #f3f3f3 !important;
+    border-radius: 16px;
 }
 
 @media screen and (orientation: portrait){

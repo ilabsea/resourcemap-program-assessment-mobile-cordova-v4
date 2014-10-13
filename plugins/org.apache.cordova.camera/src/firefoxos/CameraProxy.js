@@ -20,34 +20,34 @@
  */
 
 function takePicture(success, error, opts) {
-    var pick = new MozActivity({
-        name: "pick",
-        data: {
-            type: ["image/*"]
-        }
-    });
+  var pick = new MozActivity({
+    name: "pick",
+    data: {
+      type: ["image/*"]
+    }
+  });
 
-    pick.onerror = error || function() {
-    };
+  pick.onerror = error || function() {
+  };
 
-    pick.onsuccess = function() {
-        // image is returned as Blob in this.result.blob
-        // we need to call success with url or base64 encoded image
-        if (opts && opts.destinationType == 0) {
-            // TODO: base64
-            return;
-        }
-        if (!opts || !opts.destinationType || opts.destinationType > 0) {
-            // url
-            return success(window.URL.createObjectURL(this.result.blob));
-        }
-    };
+  pick.onsuccess = function() {
+    // image is returned as Blob in this.result.blob
+    // we need to call success with url or base64 encoded image
+    if (opts && opts.destinationType == 0) {
+      // TODO: base64
+      return;
+    }
+    if (!opts || !opts.destinationType || opts.destinationType > 0) {
+      // url
+      return success(window.URL.createObjectURL(this.result.blob));
+    }
+  };
 }
 
 module.exports = {
-    takePicture: takePicture,
-    cleanup: function() {
-    }
+  takePicture: takePicture,
+  cleanup: function() {
+  }
 };
 
 require("cordova/firefoxos/commandProxy").add("Camera", module.exports);

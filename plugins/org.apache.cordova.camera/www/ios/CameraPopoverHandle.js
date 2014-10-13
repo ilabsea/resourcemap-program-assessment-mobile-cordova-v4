@@ -25,10 +25,10 @@ var exec = require('cordova/exec');
  * A handle to an image picker popover.
  */
 var CameraPopoverHandle = function() {
-    this.setPosition = function(popoverOptions) {
-        var args = [popoverOptions];
-        exec(null, null, "Camera", "repositionPopover", args);
-    };
+  this.setPosition = function(popoverOptions) {
+    var args = [popoverOptions];
+    exec(null, null, "Camera", "repositionPopover", args);
+  };
 };
 
 module.exports = CameraPopoverHandle;
