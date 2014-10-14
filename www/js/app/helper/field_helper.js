@@ -38,8 +38,11 @@ FieldHelper = {
           is_required = "required";
       }
 
-      if (widgetType === "select_one" && is_enable_field_logic)
+      if (widgetType === "select_one" && is_enable_field_logic) {
         config = FieldHelper.buildFieldSelectOne(config);
+        if (!config.field_logics)
+          is_enable_field_logic = false;
+      }
 
       if (widgetType === "select_many" && is_enable_field_logic)
         App.DataStore.set("configSelectManyForSkipLogic_" + id,
@@ -47,9 +50,11 @@ FieldHelper = {
 
       if (widgetType === "yes_no") {
         widgetType = "select_one";
-        config = FieldHelper.buildFieldYesNo(is_enable_field_logic, config,
-            options["fromServer"]);
-
+        config = FieldHelper.buildFieldYesNo(config, options["fromServer"]);
+        
+        if (!config.field_logics)
+          is_enable_field_logic = false;
+        
         slider = "slider";
         ctrue = "true";
       }
@@ -86,10 +91,10 @@ FieldHelper = {
       });
     });
 
+    App.log("fieldsWrapper : ", fieldsWrapper);
     return fieldsWrapper;
   },
   buildFieldSelectOne: function(config) {
-    var configOptions;
     $.each(config.options, function(i, option) {
       if (config.field_logics) {
         $.each(config.field_logics, function(j, field_logic) {
@@ -98,13 +103,11 @@ FieldHelper = {
         });
       }
     });
-    configOptions = config;
-    return configOptions;
+    return config;
   },
-  buildFieldYesNo: function(is_enable_field_logic, config, fromServer) {
-    var configOptions;
-    if (is_enable_field_logic) {
-      var field_logics = config.field_logics;
+  buildFieldYesNo: function(config, fromServer) {
+    var field_logics = config.field_logics;
+    if (field_logics) {
       var field_id0 = fromServer ?
           field_logics[0].field_id : config.options[0].field_id;
       var field_id1 = fromServer ?
@@ -129,9 +132,7 @@ FieldHelper = {
           {"id": 1, "code": "2", "label": "YES"}]
       };
 
-    configOptions = config;
-
-    return configOptions;
+    return config;
   },
   buildFieldsUpdate: function(layers, site, fromServer) {
     var field_collections = [];

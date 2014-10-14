@@ -5,7 +5,6 @@ SkipLogic = {
       if (!$element.attr('multiple')) {
         if ($element.attr('data-role') === "slider")
           App.DataStore.set("yesNoField", element.id);
-
         var field_id = $('option:selected', element).attr('data-field_id');
         SkipLogic.handleSkipLogic(field_id);
       }
@@ -34,40 +33,42 @@ SkipLogic = {
       var configOption = JSON.parse(
           App.DataStore.get("configSelectManyForSkipLogic_" + id));
 
-      if ((configOption.id || configOption.idfield) == id) {
-        $.each(configOption.config.field_logics, function(i, field_logic) {
-          var selectedOptions = field_logic.selected_options;
+      if (configOption.config.field_logics) {
+        if ((configOption.id || configOption.idfield) == id) {
+          $.each(configOption.config.field_logics, function(i, field_logic) {
+            var selectedOptions = field_logic.selected_options;
 
-          var b = false;
-          var is_all = [];
-          var all_condi = false;
+            var b = false;
+            var is_all = [];
+            var all_condi = false;
 
-          for (var i in selectedValue) {
-            for (var j in selectedOptions) {
-              if (selectedValue[i] == selectedOptions[j].value) {
-                b = true;
-                is_all.push(true);
-                break;
-              }
-            }
-            if (b) {
-              if (field_logic.condition_type == 'any') {
-                all_condi = true;
-                break;
-              } else {
-                if (is_all.length == Object.keys(selectedOptions).length) {
-                  all_condi = App.allBooleanTrue(is_all);
+            for (var i in selectedValue) {
+              for (var j in selectedOptions) {
+                if (selectedValue[i] == selectedOptions[j].value) {
+                  b = true;
+                  is_all.push(true);
                   break;
                 }
               }
+              if (b) {
+                if (field_logic.condition_type == 'any') {
+                  all_condi = true;
+                  break;
+                } else {
+                  if (is_all.length == Object.keys(selectedOptions).length) {
+                    all_condi = App.allBooleanTrue(is_all);
+                    break;
+                  }
+                }
+              }
             }
-          }
-          if (all_condi) {
-            var field_id = wrapper_skip + field_logic.field_id;
-            SkipLogic.handleSkipLogic(field_id);
-            return false;
-          }
-        });
+            if (all_condi) {
+              var field_id = wrapper_skip + field_logic.field_id;
+              SkipLogic.handleSkipLogic(field_id);
+              return false;
+            }
+          });
+        }
       }
     }
   },
