@@ -9,6 +9,14 @@ FieldHelperView = {
       FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
     });
   },
+  displayLayerMenu: function(path, element, layers_collection, current_page) {
+    layers_collection.field_collections.current_page = current_page;
+    App.log("layers_collection : ", layers_collection);
+    App.Template.process(path, layers_collection, function(content) {
+      element.html(content);
+      element.trigger("create");
+    });
+  },
   displayHierarchy: function(elementPrefixID, fieldData, update) {
     $.each(fieldData.field_collections, function(key, properties) {
       $.each(properties.fields, function(i, fieldsInside) {

@@ -130,6 +130,14 @@ SkipLogic = {
   }
 };
 
+function scrollToLayer(selectElement) {
+  var element = ("#collapsable_" + $("#" + selectElement.id).val());
+  App.log("element : ", element);
+  if ($("#" + selectElement.id).val() == 'logout')
+    SessionController.logout();
+  scrollToHash(element);
+}
+
 function scrollToHash(element) {
   if ($(element).length > 0)
     $(document.body).animate({
