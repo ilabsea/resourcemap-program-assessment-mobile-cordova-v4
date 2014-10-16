@@ -132,10 +132,12 @@ SkipLogic = {
 
 function scrollToLayer(selectElement) {
   var element = ("#collapsable_" + $("#" + selectElement.id).val());
-  App.log("element : ", element);
   if ($("#" + selectElement.id).val() == 'logout')
-    SessionController.logout();
-  scrollToHash(element);
+    setTimeout(function() {
+      SessionController.logout();
+    }, 50);
+  else
+    scrollToHash(element);
 }
 
 function scrollToHash(element) {

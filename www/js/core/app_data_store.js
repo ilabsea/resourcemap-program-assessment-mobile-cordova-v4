@@ -15,8 +15,9 @@ App.DataStore = {
   clearPartlyAfterCreateSite: function() {
     var sId = App.DataStore.get("sId");
     for (var key in localStorage) {
-      if (key.substring(0, sId.length) == sId)
-        localStorage.removeItem(key);
+      if (sId)
+        if (key.substring(0, sId.length) == sId)
+          localStorage.removeItem(key);
       if (key.substr(0, key.indexOf('_')) == "configSelectManyForSkipLogic")
         localStorage.removeItem(key);
     }
