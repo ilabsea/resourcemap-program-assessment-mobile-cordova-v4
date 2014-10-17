@@ -5,7 +5,7 @@
         name="layer-list-menu" 
         id="{{field_collections.current_page}}layer-list-menu" 
         onchange="scrollToLayer($(this).val())"> 
- <option value="">{{t "global.menu"}}</option>
+ <option value="" selected>{{t "global.menu"}}</option>
  {{#each field_collections}}
  <option 
   value="{{../field_collections.current_page}}{{id_wrapper}}">{{name_wrapper}}</option>
