@@ -19,7 +19,7 @@ SiteController = {
       SiteController.addOffline(data);
   },
   addOnline: function(data, callback) {
-    ViewBinding.setBusy(true);  
+    ViewBinding.setBusy(true);
     SiteModel.create(data, callback, function() {
       ViewBinding.setAlert("Please send data again.");
     });
@@ -269,8 +269,8 @@ SiteController = {
           }
           properties["" + each_field + ""] = date;
         }
-        else if ($field[0].getAttribute("class") === "tree" || 
-            $field[0].getAttribute("class") === "tree unhighlighted" || 
+        else if ($field[0].getAttribute("class") === "tree" ||
+            $field[0].getAttribute("class") === "tree unhighlighted" ||
             $field[0].getAttribute("class") === "tree calculation") {
           var node = $field.tree('getSelectedNode');
           var data = node.id;

@@ -103,7 +103,7 @@ $(document).ready(function() {
         h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site');
       if (classElement.length != 0)
         bImage = validateImageSubmitHandler(classElement, '#validation_update-site', SiteController.updateBySiteIdOffline);
-      if (h && bImage){
+      if (h && bImage) {
         SiteController.updateBySiteIdOffline();
         App.DataStore.clearPartlyAfterCreateSite();
       }
@@ -138,7 +138,7 @@ $(document).ready(function() {
         h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
       if (classElement.length != 0)
         bImage = validateImageSubmitHandler(classElement, '#validation_update-site-online', SiteController.updateBySiteIdOnline);
-      if (h && bImage){
+      if (h && bImage) {
         SiteController.updateBySiteIdOnline();
         App.DataStore.clearPartlyAfterCreateSite();
       }

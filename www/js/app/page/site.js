@@ -73,6 +73,15 @@ $(function() {
     });
   });
 
+  $(document).delegate('#layer-list-menu-dialog, \n\
+#update_layer-list-menu-dialog, \n\
+#update_online_layer-list-menu-dialog', 'pagehide', function() {
+    var idElement = this.id;
+    var index = idElement.indexOf("-dialog");
+    var ele = idElement.substr(0, index);
+    scrollToLayer($('#' + ele).val());
+  });
+
   function requireReload(callback) {
     if (localStorage['no_update_reload'] != undefined)
       localStorage.removeItem('no_update_reload');

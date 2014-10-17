@@ -130,21 +130,23 @@ SkipLogic = {
   }
 };
 
-function scrollToLayer(selectElement) {
-  var element = ("#collapsable_" + $("#" + selectElement.id).val());
-  if ($("#" + selectElement.id).val() == 'logout')
+function scrollToLayer(selectedValue) {
+  var element = ("#collapsable_" + selectedValue);
+  if (selectedValue == 'logout')
     setTimeout(function() {
       SessionController.logout();
     }, 50);
-  else
+  else {
+    triggerExpand($(element));
     scrollToHash(element);
+  }
 }
 
 function scrollToHash(element) {
   if ($(element).length > 0)
     $(document.body).animate({
       'scrollTop': $(element).offset().top
-    }, 700);
+    }, 800);
 }
 
 function triggerExpand(parent) {

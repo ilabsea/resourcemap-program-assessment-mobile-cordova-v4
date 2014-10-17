@@ -1,4 +1,4 @@
-$(function(){
+$(function() {
 
   $(document).delegate('#btn_sendToServer', 'click', function() {
     var cId = App.DataStore.get("cId");

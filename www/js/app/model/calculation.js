@@ -8,35 +8,37 @@ Calculation = {
 
     $.each(fields_cal, function(i, field_cal) {
       var code_cal = field_cal.config.code_calculation;
+      if (code_cal) {
 
-      $.each(field_cal.config.dependent_fields, function(j, dependent_field) {
-        var $e = $("#" + elementPrefixId + this.id);
-        var val = $e.val();
+        $.each(field_cal.config.dependent_fields, function(j, dependent_field) {
+          var $e = $("#" + elementPrefixId + this.id);
+          var val = $e.val();
 
-        if (dependent_field.kind == "select_one" || dependent_field.kind == "select_many")
-          val = $("#" + elementPrefixId + this.id + " option:selected").text();
-        else if (dependent_field.kind == "yes_no") {
-          if (val == 0)
-            val = false;
-          else
-            val = true;
-        }
+          if (dependent_field.kind == "select_one" || dependent_field.kind == "select_many")
+            val = $("#" + elementPrefixId + this.id + " option:selected").text();
+          else if (dependent_field.kind == "yes_no") {
+            if (val == 0)
+              val = false;
+            else
+              val = true;
+          }
 
-        if ($e.attr('class') == 'tree calculation') {
-          val = $e.tree('getSelectedNode');
-          val = val.name;
-          if (!val)
-            val = '';
-        }
+          if ($e.attr('class') == 'tree calculation') {
+            val = $e.tree('getSelectedNode');
+            val = val.name;
+            if (!val)
+              val = '';
+          }
 
-        if (isNaN(val) || !val)
-          val = "'" + val + "'";
+          if (isNaN(val) || !val)
+            val = "'" + val + "'";
 
-        code_cal = code_cal.replace('$' + dependent_field.code, val);
-      });
-      var cal_ele = $("#" + elementPrefixId + field_cal.idfield);
-      var res = eval(code_cal);
-      cal_ele.val(res);
+          code_cal = code_cal.replace('$' + dependent_field.code, val);
+        });
+        var cal_ele = $("#" + elementPrefixId + field_cal.idfield);
+        var res = eval(code_cal);
+        cal_ele.val(res);
+      }
     });
   }
 };
