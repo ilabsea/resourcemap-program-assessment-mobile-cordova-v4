@@ -5,8 +5,6 @@ FieldHelperView = {
       FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
 
       element.trigger("create");
-
-      FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
     });
   },
   displayLayerMenu: function(path, element, layers_collection, current_page) {
@@ -27,22 +25,6 @@ FieldHelperView = {
             Hierarchy.selectedNode(elementPrefixID + id, fieldsInside._selected);
         }
       });
-    });
-  },
-  displayCalculationField: function(elementPrefixID, fieldData) {
-    var fieldCal = [];
-
-    $.each(fieldData.field_collections, function(key, properties) {
-      $.each(properties.fields, function(i, fieldsInside) {
-        if (fieldsInside.kind === "calculation") {
-          $.each(fieldsInside.config.dependent_fields, function(i, dependent_field) {
-            var e = "#" + elementPrefixID + dependent_field.id;
-            $(e).addClass('calculation');
-          });
-          fieldCal.push(fieldsInside);
-        }
-      });
-      App.DataStore.set('fields_cal', JSON.stringify(fieldCal));
     });
   }
 };

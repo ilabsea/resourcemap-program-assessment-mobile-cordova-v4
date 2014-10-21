@@ -143,7 +143,6 @@ function scrollToLayer(selectedValue) {
 }
 
 function scrollToHash(element) {
-  App.log("element : ", element);
   if ($(element).length > 0)
     $(document.body).animate({
       'scrollTop': $(element).offset().top
