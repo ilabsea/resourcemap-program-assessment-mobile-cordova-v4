@@ -17,46 +17,48 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
-
+*/
+           
 // latest geolocation spec can be found here: http://www.w3.org/TR/geolocation-API/
 
 var idsMap = {};
 
 module.exports = {
-  getLocation: function(success, error, args) {
-    var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
-    function successCallback(position) {
-      // Cordova is creating Position object using just coords
-      success(position.coords);
-    }
-    geo.getCurrentPosition(successCallback, error, {
-      enableHighAccuracy: args[0],
-      maximumAge: args[1]
-    });
-  },
-  addWatch: function(success, error, args) {
-    var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
-    var id = args[0];
-    var nativeId = geo.watchPosition(success, error, {
-      enableHighAccuracy: args[1]
-    });
+    getLocation: function(success, error, args) {
+        var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
+        function successCallback(position) {
+          // Cordova is creating Position object using just coords
+          success(position.coords);
+        }
+        geo.getCurrentPosition(successCallback, error, {
+            enableHighAccuracy: args[0],
+            maximumAge: args[1]
+        });
+    },
 
-    idsMap[id] = nativeId;
-  },
-  clearWatch: function(success, error, args) {
-    var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
-    var id = args[0];
+    addWatch: function(success, error, args) {
+        var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');        
+        var id = args[0];
+        var nativeId = geo.watchPosition(success, error, {
+            enableHighAccuracy: args[1]
+        });
 
-    if (id in idsMap) {
-      geo.clearWatch(idsMap[id]);
-      delete idsMap[id];
-    }
+        idsMap[id] = nativeId;
+    },
 
-    if (success) {
-      success();
+    clearWatch: function(success, error, args) {
+        var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
+        var id = args[0];
+
+        if(id in idsMap) {
+            geo.clearWatch(idsMap[id]);
+            delete idsMap[id];
+        }
+
+        if(success) {
+            success();
+        }
     }
-  }
 };
 
-require("cordova/firefoxos/commandProxy").add("Geolocation", module.exports);
+require("cordova/exec/proxy").add("Geolocation", module.exports);
