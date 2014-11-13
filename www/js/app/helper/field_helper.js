@@ -51,9 +51,6 @@ FieldHelper = {
         widgetType = "select_one";
         config = FieldHelper.buildFieldYesNo(config, options["fromServer"]);
 
-        if (!config.field_logics)
-          is_enable_field_logic = false;
-
         slider = "slider";
         ctrue = "true";
       }
