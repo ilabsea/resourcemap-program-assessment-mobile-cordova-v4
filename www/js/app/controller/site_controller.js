@@ -106,10 +106,7 @@ SiteController = {
         site.files(propertiesFile.files);
         persistence.flush();
 
-        $.each(propertiesFile.properties, function(key, field) {
-          App.DataStore.remove(sId + "_" + key + "_fileData");
-          App.DataStore.remove(sId + "_" + key + "_fileName");
-        });
+        App.DataStore.clearPartlyAfterCreateSite();
 
         App.redirectTo("index.html#page-site-list");
       });
@@ -138,8 +135,9 @@ SiteController = {
         var sId = App.DataStore.get("sId");
         $.each(data.site.properties, function(key, idField) {
           PhotoList.remove(sId, key);
-          App.DataStore.remove(sId + "_" + key);
         });
+        
+        App.DataStore.clearPartlyAfterCreateSite();
 
         App.redirectTo("#page-site-list");
       }, function() {
