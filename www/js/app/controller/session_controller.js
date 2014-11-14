@@ -29,8 +29,12 @@ SessionController = {
         }
         App.redirectTo("#page-collection-list");
       });
-    }, function() {
-      showElement($('#invalidmail'));
+    }, function(x, t, m) {
+        if(t==="timeout" || t === "error" || t==="notmodified") {
+          alert("Internet connection problem");
+        } else {
+          showElement($('#invalidmail'));
+        }
     });
   },
   authUserOffline: function(email, password) {

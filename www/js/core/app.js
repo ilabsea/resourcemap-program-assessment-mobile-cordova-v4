@@ -1,4 +1,4 @@
-URL = "http://192.168.1.157:3000/";
+URL = "http://192.168.1.127:3000/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
@@ -42,7 +42,8 @@ App = {
     $.ajaxSetup({
       complete: function() {
         ViewBinding.setBusy(false);
-      }
+      },
+      timeout: 5000
     });
   },
   redirectTo: function(url) {
