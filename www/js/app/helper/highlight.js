@@ -19,8 +19,9 @@ SkipLogic = {
       setTimeout(function() {
         $("#" + field_id).focus();
       }, 500);
-
+      
       scrollToHash(skipToId);
+
       SkipLogic.handleHighlightElement(field_id);
     }
   },

@@ -86,8 +86,8 @@ FieldHelper = {
         is_enable_field_logic: is_enable_field_logic,
         readonly: readonly
       });
-    }); 
-    
+    });
+
     return fieldsWrapper;
   },
   buildFieldSelectOne: function(config) {
