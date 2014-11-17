@@ -42,7 +42,8 @@ App = {
     $.ajaxSetup({
       complete: function() {
         ViewBinding.setBusy(false);
-      }
+      },
+      timeout: 5000
     });
   },
   redirectTo: function(url) {

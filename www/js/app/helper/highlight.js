@@ -15,13 +15,12 @@ SkipLogic = {
       var skipToId = "#wrapper_" + field_id;
       var $parent = $(skipToId).parent().parent();
       triggerExpand($parent);
-
+      scrollToHash(skipToId);
+      
       setTimeout(function() {
         $("#" + field_id).focus();
       }, 500);
       
-      scrollToHash(skipToId);
-
       SkipLogic.handleHighlightElement(field_id);
     }
   },
