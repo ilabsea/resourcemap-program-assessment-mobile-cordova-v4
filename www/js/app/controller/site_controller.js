@@ -269,8 +269,7 @@ SiteController = {
           properties["" + each_field + ""] = date;
         }
         else if ($field[0].getAttribute("class") === "tree" ||
-            $field[0].getAttribute("class") === "tree unhighlighted" ||
-            $field[0].getAttribute("class") === "tree calculation") {
+            $field[0].getAttribute("class") === "tree unhighlighted") {
           var node = $field.tree('getSelectedNode');
           var data = node.id;
           if (data === null)

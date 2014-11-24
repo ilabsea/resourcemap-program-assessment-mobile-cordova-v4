@@ -30,7 +30,7 @@ Calculation = {
               val = '';
           }
 
-          if (isNaN(val) || !val)
+          if (isNaN(val) || !val || dependent_field.kind == "text")
             val = "'" + val + "'";
 
           code_cal = code_cal.replace('$' + dependent_field.code, val);

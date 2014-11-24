@@ -27,7 +27,8 @@
     "login_page": {
         "login": "ការចូល",
         "creat_new_accotun": "បង្កើតគណនីថ្មី",
-        "invalide_email": "សូមបញ្ចូលអីុម៉ែលអោយបានត្រឹមត្រូវ"
+        "invalide_email": "សូមបញ្ចូលអីុម៉ែលអោយបានត្រឹមត្រូវ",
+        "about":"អំពី"
     },
     "signup_page": {
         "sign_up": "ចុះឈ្មោះ",
