@@ -1,4 +1,9 @@
 $(function() {
+
+  $(document).delegate('.calculation', 'keyup change click', function() {
+    Calculation.calculate(this);
+  });
+
   $(document).delegate('.validateSelectFields', 'change', function() {
     SkipLogic.setFocus(this);
     validateToRemoveStyle(this);
