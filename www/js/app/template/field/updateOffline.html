@@ -71,14 +71,25 @@
          class="date" 
          {{required}} >  
   {{else}}
-  <input type="{{widgetType}}" 
+   {{#ifCond widgetType "number"}}
+    <input type="{{widgetType}}" 
          id="update_{{idfield}}" 
          value ="{{__value}}" 
          name="{{name}}" 
          min="{{config.range.minimum}}"
          max="{{config.range.maximum}}"
+         data-is_enable_field_logic="{{is_enable_field_logic}}"
+         class="skipLogicNumber"
+         {{required}}
+         {{readonly}}/>
+    {{else}}
+     <input type="{{widgetType}}" 
+         id="update_{{idfield}}" 
+         value ="{{__value}}" 
+         name="{{name}}" 
          {{required}} 
-         {{readonly}}/>  
+         {{readonly}}/> 
+    {{/ifCond}}
   {{/ifCond}}
  </div>
  {{/if}}
