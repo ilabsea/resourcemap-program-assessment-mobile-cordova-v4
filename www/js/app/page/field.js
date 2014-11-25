@@ -3,7 +3,12 @@ $(function() {
   $(document).delegate('.calculation', 'keyup change click', function() {
     Calculation.calculate(this);
   });
-
+  
+  $(document).delegate('.skipLogicNumber', 'change', function() {
+    App.log("here: ", this);
+    SkipLogic.setFocus(this);
+  });
+  
   $(document).delegate('.validateSelectFields', 'change', function() {
     SkipLogic.setFocus(this);
     validateToRemoveStyle(this);

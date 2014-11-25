@@ -74,7 +74,9 @@
          min="{{config.range.minimum}}"
          max="{{config.range.maximum}}"
          {{required}}
-         {{readonly}}/>
+         {{readonly}}
+         data-is_enable_field_logic="{{is_enable_field_logic}}"
+         class="skipLogicNumber"/>
   {{/ifCond}}
  </div>
  {{/if}}
