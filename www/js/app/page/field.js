@@ -5,8 +5,7 @@ $(function() {
   });
   
   $(document).delegate('.skipLogicNumber', 'change', function() {
-    App.log("here: ", this);
-    SkipLogic.setFocus(this);
+    SkipLogic.skipLogicNumber(this);
   });
   
   $(document).delegate('.validateSelectFields', 'change', function() {
