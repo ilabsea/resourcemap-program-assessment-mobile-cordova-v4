@@ -1,4 +1,20 @@
 SkipLogic = {
+  skipLogicNumber: function(element) {
+    var val = $(element).val();
+    var idElement = $(element).attr('id');
+    var id = idElement.substr(idElement.lastIndexOf("_") + 1);
+    var config = JSON.parse(
+        App.DataStore.get("configNumberSkipLogic_" + id));
+    if(config){
+      $.each(config, function(i, field_logic){
+        var op = field_logic.condition_type;
+        if(Operators[op](val, field_logic.value)){
+          SkipLogic.handleSkipLogic(field_logic.field_id);
+          return false;
+        }
+      });
+    }
+  },
   setFocus: function(element) {
     var $element = $("#" + element.id);
     if ($element.attr('data-is_enable_field_logic')) {
@@ -16,11 +32,11 @@ SkipLogic = {
       var $parent = $(skipToId).parent().parent();
       triggerExpand($parent);
       scrollToHash(skipToId);
-      
+
       setTimeout(function() {
         $("#" + field_id).focus();
       }, 500);
-      
+
       SkipLogic.handleHighlightElement(field_id);
     }
   },

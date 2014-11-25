@@ -1,4 +1,8 @@
 $(function() {
+  $(document).delegate('.skipLogicNumber', 'change', function() {
+    SkipLogic.skipLogicNumber(this);
+  });
+  
   $(document).delegate('.validateSelectFields', 'change', function() {
     SkipLogic.setFocus(this);
     validateToRemoveStyle(this);
