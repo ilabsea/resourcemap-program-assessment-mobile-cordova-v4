@@ -2,6 +2,7 @@ SkipLogic = {
   skipLogicNumber: function(element) {
     var val = $(element).val();
     var idElement = $(element).attr('id');
+    var prefixIdElement = idElement.substr(0, idElement.lastIndexOf("_") + 1);
     var id = idElement.substr(idElement.lastIndexOf("_") + 1);
     var config = JSON.parse(
         App.DataStore.get("configNumberSkipLogic_" + id));
@@ -9,7 +10,7 @@ SkipLogic = {
       $.each(config, function(i, field_logic){
         var op = field_logic.condition_type;
         if(Operators[op](val, field_logic.value)){
-          SkipLogic.handleSkipLogic(field_logic.field_id);
+          SkipLogic.handleSkipLogic(prefixIdElement + field_logic.field_id);
           return false;
         }
       });
