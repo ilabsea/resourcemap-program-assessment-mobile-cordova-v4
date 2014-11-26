@@ -1,30 +1,30 @@
 var Operators = {
-  '=': function(a, b) {
-    if (a == b)
+  '=': function(input, configVal) {
+    if (input == configVal)
       return true;
     else
       return false;
   },
-  '<': function(a, b) {
-    if (a < b)
+  '<': function(input, configVal) {
+    if (input < configVal)
       return true;
     else
       return false;
   },
-  '>': function(a, b) {
-    if (a > b)
+  '>': function(input, configVal) {
+    if (input > configVal)
       return true;
     else
       return false;
   },
-  '<=': function(a, b) {
-    if (a <= b)
+  '<=': function(input, configVal) {
+    if (input <= configVal)
       return true;
     else
       return false;
   },
-  '>=': function(a, b) {
-    if (a >= b)
+  '>=': function(input, configVal) {
+    if (input >= configVal)
       return true;
     else
       return false;
