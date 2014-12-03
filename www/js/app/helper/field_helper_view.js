@@ -35,10 +35,12 @@ FieldHelperView = {
     $.each(fieldData.field_collections, function(key, properties) {
       $.each(properties.fields, function(i, fieldsInside) {
         if (fieldsInside.kind === "calculation") {
-          $.each(fieldsInside.config.dependent_fields, function(i, dependent_field) {
-            var e = "#" + elementPrefixID + dependent_field.id;
-            $(e).addClass('calculation');
-          });
+          if (fieldsInside.config.dependent_fields) {
+            $.each(fieldsInside.config.dependent_fields, function(i, dependent_field) {
+              var e = "#" + elementPrefixID + dependent_field.id;
+              $(e).addClass('calculation');
+            });
+          }
           fieldCal.push(fieldsInside);
         }
       });
