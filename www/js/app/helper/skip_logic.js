@@ -33,7 +33,7 @@ SkipLogic = {
       var $parent = $(skipToId).parent().parent();
       triggerExpand($parent);
       scrollToHash(skipToId);
-
+      
       setTimeout(function() {
         $("#" + field_id).focus();
       }, 500);
