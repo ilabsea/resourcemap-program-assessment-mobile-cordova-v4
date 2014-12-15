@@ -55,7 +55,6 @@ FieldHelper = {
       if (widgetType === "yes_no") {
         widgetType = "select_one";
         config = FieldHelper.buildFieldYesNo(config, options["fromServer"]);
-        App.log("config : ", config)
         slider = "slider";
         ctrue = "true";
       }
