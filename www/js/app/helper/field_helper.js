@@ -38,7 +38,7 @@ FieldHelper = {
           is_required = "required";
         if (config.field_logics) {
           App.DataStore.set("configNumberSkipLogic_" + id,
-            JSON.stringify(config.field_logics));
+              JSON.stringify(config.field_logics));
         }
       }
 
@@ -55,7 +55,7 @@ FieldHelper = {
       if (widgetType === "yes_no") {
         widgetType = "select_one";
         config = FieldHelper.buildFieldYesNo(config, options["fromServer"]);
-
+        App.log("config : ", config)
         slider = "slider";
         ctrue = "true";
       }
@@ -91,7 +91,7 @@ FieldHelper = {
         readonly: readonly
       });
     });
-    
+
     return fieldsWrapper;
   },
   buildFieldSelectOne: function(config) {
@@ -107,30 +107,29 @@ FieldHelper = {
   },
   buildFieldYesNo: function(config, fromServer) {
     var field_logics = config.field_logics;
-    if (field_logics) {
-      var field_id0 = fromServer ?
-          field_logics[0].field_id : config.options[0].field_id;
-      var field_id1 = fromServer ?
-          field_logics[1].field_id : config.options[1].field_id;
-      config = {
-        options: [{
-            id: 0,
-            label: "NO",
-            code: "1",
-            field_id: field_id0
-          },
-          {id: 1,
-            label: "YES",
-            code: "2",
-            field_id: field_id1
-          }]
-      };
+    var field_id0, field_id1;
+    if (fromServer) {
+      if (field_logics) {
+        field_id0 = field_logics[0].field_id;
+        field_id1 = field_logics[1].field_id;
+      }
+    } else {
+      field_id0 = config.options[0].field_id;
+      field_id1 = config.options[1].field_id;
     }
-    else
-      config = {
-        options: [{"id": 0, "code": "1", "label": "NO"},
-          {"id": 1, "code": "2", "label": "YES"}]
-      };
+    config = {
+      options: [{
+          id: 0,
+          label: "NO",
+          code: "1",
+          field_id: field_id0
+        },
+        {id: 1,
+          label: "YES",
+          code: "2",
+          field_id: field_id1
+        }]
+    };
 
     return config;
   },
