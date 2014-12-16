@@ -31,21 +31,6 @@ SkipLogic = {
     var field_id = $('option:selected', $element).attr('data-field_id');
     SkipLogic.handleSkipLogic(field_id);
   },
-  handleSkipLogic: function(field_id) {
-    if (field_id) {
-      var skipToId = "#wrapper_" + field_id;
-      var $parent = $(skipToId).parent().parent();
-      triggerExpand($parent);
-
-      scrollToHash(skipToId);
-
-      setTimeout(function() {
-        $("#" + field_id).focus();
-      }, 500);
-
-      SkipLogic.handleHighlightElement(field_id);
-    }
-  },
   skipLogicSelectMany: function(element) {
     var selectedValue = element.val();
     if (selectedValue) {
@@ -92,6 +77,21 @@ SkipLogic = {
           });
         }
       }
+    }
+  },
+  handleSkipLogic: function(field_id) {
+    if (field_id) {
+      var skipToId = "#wrapper_" + field_id;
+      var $parent = $(skipToId).parent().parent();
+      triggerExpand($parent);
+
+      scrollToHash(skipToId);
+
+      setTimeout(function() {
+        $("#" + field_id).focus();
+      }, 500);
+
+      SkipLogic.handleHighlightElement(field_id);
     }
   },
   handleHighlightElement: function(field_id) {
