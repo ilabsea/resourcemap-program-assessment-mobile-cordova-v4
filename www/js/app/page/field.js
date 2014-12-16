@@ -9,15 +9,19 @@ $(function() {
   });
   
   $(document).delegate('.validateSelectFields', 'change', function() {
-    SkipLogic.setFocus(this);
+    SkipLogic.skipLogicYesNo(this.id);
     validateToRemoveStyle(this);
   });
 
   $(document).delegate('.ui-selectmenu', 'popupafterclose pagehide', function() {
     var start = this.id.search("-");
-    var element = $("#" + this.id.substring(0, start));
+    var ele = this.id.substring(0, start);
+    var element = $("#" + ele);
     if (element.attr('data-is_enable_field_logic') && element.attr('multiple'))
       SkipLogic.handleSkipLogicSelectMany(element);
+    else{
+      SkipLogic.skipLogicSelectOne(ele);
+    }
   });
 
   $(document).delegate('#layer-list-menu-dialog, \n\
