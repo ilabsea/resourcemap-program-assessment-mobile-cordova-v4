@@ -6,32 +6,37 @@ SkipLogic = {
     var id = idElement.substr(idElement.lastIndexOf("_") + 1);
     var config = JSON.parse(
         App.DataStore.get("configNumberSkipLogic_" + id));
-    if(config){
-      $.each(config, function(i, field_logic){
+    if (config) {
+      $.each(config, function(i, field_logic) {
         var op = field_logic.condition_type;
-        if(Operators[op](val, field_logic.value)){
+        if (Operators[op](val, field_logic.value)) {
           SkipLogic.handleSkipLogic(prefixIdElement + field_logic.field_id);
           return false;
         }
       });
     }
   },
-  setFocus: function(element) {
-    var $element = $("#" + element.id);
+  skipLogicYesNo: function(element) {
+    var $element = $("#" + element);
     if ($element.attr('data-is_enable_field_logic')) {
-      if (!$element.attr('multiple')) {
-        if ($element.attr('data-role') === "slider")
-          App.DataStore.set("yesNoField", element.id);
-        var field_id = $('option:selected', element).attr('data-field_id');
+      if ($element.attr('data-role') === "slider") {
+        App.DataStore.set("yesNoField", element);
+        var field_id = $('option:selected', $element).attr('data-field_id');
         SkipLogic.handleSkipLogic(field_id);
       }
     }
+  },
+  skipLogicSelectOne: function(element) {
+    var $element = $("#" + element);
+    var field_id = $('option:selected', $element).attr('data-field_id');
+    SkipLogic.handleSkipLogic(field_id);
   },
   handleSkipLogic: function(field_id) {
     if (field_id) {
       var skipToId = "#wrapper_" + field_id;
       var $parent = $(skipToId).parent().parent();
       triggerExpand($parent);
+
       scrollToHash(skipToId);
 
       setTimeout(function() {
@@ -163,7 +168,7 @@ function scrollToHash(element) {
   if ($(element).length > 0)
     $(document.body).animate({
       'scrollTop': $(element).offset().top
-    }, 800);
+    }, 1000);
 }
 
 function triggerExpand(parent) {
