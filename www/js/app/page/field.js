@@ -13,7 +13,7 @@ $(function() {
     var ele = this.id.substring(0, start);
     var element = $("#" + ele);
     if (element.attr('data-is_enable_field_logic') && element.attr('multiple'))
-      SkipLogic.handleSkipLogicSelectMany(element);
+      SkipLogic.skipLogicSelectMany(element);
     else{
       SkipLogic.skipLogicSelectOne(ele);
     }

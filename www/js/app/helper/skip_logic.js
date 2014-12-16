@@ -46,7 +46,7 @@ SkipLogic = {
       SkipLogic.handleHighlightElement(field_id);
     }
   },
-  handleSkipLogicSelectMany: function(element) {
+  skipLogicSelectMany: function(element) {
     var selectedValue = element.val();
     if (selectedValue) {
       var idElement = element.attr('id');
