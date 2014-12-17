@@ -168,7 +168,7 @@ function scrollToHash(element) {
   if ($(element).length > 0)
     $(document.body).animate({
       'scrollTop': $(element).offset().top
-    }, 1000);
+    }, 800);
 }
 
 function triggerExpand(parent) {

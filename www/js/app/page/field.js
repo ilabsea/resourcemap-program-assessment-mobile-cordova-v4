@@ -2,7 +2,7 @@ $(function() {
   $(document).delegate('.skipLogicNumber', 'change', function() {
     SkipLogic.skipLogicNumber(this);
   });
-  
+
   $(document).delegate('.validateSelectFields', 'change', function() {
     SkipLogic.skipLogicYesNo(this.id);
     validateToRemoveStyle(this);
@@ -14,7 +14,7 @@ $(function() {
     var element = $("#" + ele);
     if (element.attr('data-is_enable_field_logic') && element.attr('multiple'))
       SkipLogic.skipLogicSelectMany(element);
-    else{
+    else {
       SkipLogic.skipLogicSelectOne(ele);
     }
   });
