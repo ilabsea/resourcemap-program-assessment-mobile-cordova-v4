@@ -34,6 +34,7 @@ App = {
   onDeviceReady: function() {
     connectionDB(App.DB_NAME, App.DB_SIZE);
     createTables();
+    FastClick.attach(document.body);
   },
   emptyHTML: function() {
     $(".clearPreviousDisplay").html("");

@@ -180,3 +180,14 @@ h1 {
     border: 1px solid #f3f3f3 !important;
     border-radius: 16px;
 }
+
+.ui-dialog{
+    min-height: 100% !important;
+    background: #f3f3f3 !important;
+}
+
+.ui-page{
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden; 
+    -moz-backface-visibility:hidden; 
+}
