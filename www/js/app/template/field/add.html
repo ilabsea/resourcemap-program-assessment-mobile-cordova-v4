@@ -18,7 +18,7 @@
           data-mini="{{ctrue}}" 
           {{required}} 
           data-is_enable_field_logic="{{is_enable_field_logic}}"
-          class="validateSelectFields">
+          class="validateSelectFields needsclick">
    {{#if multiple}}
    <option>Options</option>
    {{#config.options}}
@@ -67,25 +67,25 @@
          class="date" 
          {{required}}/>
   {{else}}
-   {{#ifCond widgetType "number"}}
-    <input type="{{widgetType}}" 
-           id="{{idfield}}" 
-           value ="{{__value}}" 
-           name="{{name}}" 
-           min="{{config.range.minimum}}"
-           max="{{config.range.maximum}}"
-           data-is_enable_field_logic="{{is_enable_field_logic}}"
-           class="skipLogicNumber"
-           {{required}}
-           {{readonly}}/>
-    {{else}}
-     <input type="{{widgetType}}" 
-           id="{{idfield}}" 
-           value ="{{__value}}" 
-           name="{{name}}" 
-           {{required}}
-           {{readonly}}/>
-    {{/ifCond}}
+  {{#ifCond widgetType "number"}}
+  <input type="{{widgetType}}" 
+         id="{{idfield}}" 
+         value ="{{__value}}" 
+         name="{{name}}" 
+         min="{{config.range.minimum}}"
+         max="{{config.range.maximum}}"
+         data-is_enable_field_logic="{{is_enable_field_logic}}"
+         class="skipLogicNumber"
+         {{required}}
+         {{readonly}}/>
+  {{else}}
+  <input type="{{widgetType}}" 
+         id="{{idfield}}" 
+         value ="{{__value}}" 
+         name="{{name}}" 
+         {{required}}
+         {{readonly}}/>
+  {{/ifCond}}
   {{/ifCond}}
  </div>
  {{/if}}
