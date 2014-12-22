@@ -16,7 +16,7 @@ FieldHelper = {
       fieldsWrapper.name_wrapper = fieldObj.name_wrapper;
       fieldsWrapper.id_wrapper = fieldObj.id_wrapper;
     }
-    $.each(fieldObj.fields, function(key, fields) {
+    $.map(fieldObj.fields, function(fields) {
       if (options["fromServer"]) {
         id = fields.id;
       }
@@ -63,14 +63,15 @@ FieldHelper = {
         displayHierarchy: (kind === "hierarchy" ? Hierarchy.generateField(fields.config, "") : "")
       });
     });
+
     return fieldsWrapper;
   },
   buildFieldsUpdate: function(layers, site, fromServer) {
-    var field_collections = [];
-    $.each(layers, function(key, layer) {
+    var field_collections = $.map(layers, function(layer) {
       var item = FieldHelper.buildFieldsLayer(layer, site, fromServer);
-      field_collections.push(item);
+      return item;
     });
+
     return field_collections;
   },
   buildFieldsLayer: function(layer, site, fromServer) {
@@ -84,7 +85,7 @@ FieldHelper = {
     }
 
     for (propertyCode in p) {
-      $.each(itemLayer.fields, function(i, item) {
+      $.map(itemLayer.fields, function(item) {
         var propertyValue = p[propertyCode];
         FieldHelper.setFieldsValue(item, propertyCode, propertyValue, site, fromServer);
       });

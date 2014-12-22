@@ -15,7 +15,7 @@ FieldModel = {
 
 FieldOffline = {
   add: function(fields) {
-    $.each(fields, function(index, field) {
+    $.map(fields, function(field) {
       var fieldParams = {
         collection_id: field.cId,
         user_id: field.user_id,

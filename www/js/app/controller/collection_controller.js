@@ -20,9 +20,9 @@ CollectionController = {
   },
   getByUserIdOffline: function(currentUser) {
     CollectionOffline.fetchByUserId(currentUser, function(collections) {
-      var collectionData = [];
       var asyncTotal = 0;
-      collections.forEach(function(collection) {
+      var collectionData = [];
+      $.map(collections, function(collection) {
         SiteOffline.countByCollectionId(collection.idcollection(), function(count) {
           var item = CollectionController.dataCollection(collection, currentUser, count, false);
           asyncTotal++;
@@ -32,18 +32,18 @@ CollectionController = {
             CollectionController.displayList({collectionList: collectionData});
           }
         });
-      });
+      }); 
     });
   },
   getByUserIdOnline: function(currentUser) {
-    CollectionModel.fetch(function(response) {
+    CollectionModel.fetch(function(collections) {
       var collectionData = [];
-      $.each(response, function(key, collection) {
+      $.each(collections, function(key, collection) {
         SiteOffline.countByCollectionId(collection.id, function(count) {
           var item = CollectionController.dataCollection(collection, currentUser, count, true);
           collectionData.push(item);
 
-          if (key === response.length - 1) {
+          if (key === collections.length - 1) {
             CollectionController.displayList({collectionList: collectionData});
             CollectionController.synCollectionForCurrentUser(collectionData);
           }

@@ -12,15 +12,14 @@ FieldController = {
       this.renderByCollectionIdOffline();
   },
   renderByCollectionIdOnline: function() {
-    FieldModel.fetch(function(response) {
+    FieldModel.fetch(function(layers) {
       var field_id_arr = new Array();
-      var field_collections = [];
-      $.each(response, function(key, properties) {
-        $.each(properties.fields, function(i, fieldsInside) {
-          field_id_arr.push(fieldsInside.id);
+      var field_collections = $.map(layers, function(layer) {
+        field_id_arr = $.map(layer.fields, function(field) {
+          return field.id;
         });
-        var fields = FieldHelper.buildField(properties, {fromServer: true});
-        field_collections.push(fields);
+        var fields = FieldHelper.buildField(layer, {fromServer: true});
+        return fields;
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       FieldController.synForCurrentCollection(field_collections);
@@ -29,15 +28,14 @@ FieldController = {
   },
   renderByCollectionIdOffline: function() {
     var cId = App.DataStore.get("cId");
-    FieldOffline.fetchByCollectionId(cId, function(fields) {
+    FieldOffline.fetchByCollectionId(cId, function(layers) {
       var field_id_arr = new Array();
-      var field_collections = [];
-      fields.forEach(function(field) {
-        $.each(field.fields(), function(i, fieldsInfield) {
-          field_id_arr.push(fieldsInfield.idfield);
+      var field_collections = $.map(layers, function(layer) {
+        field_id_arr = $.map(layer.fields(), function(field) {
+          return field.idfield;
         });
-        var item = FieldHelper.buildField(field._data, {fromServer: false});
-        field_collections.push(item);
+        var item = FieldHelper.buildField(layer._data, {fromServer: false});
+        return item;
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       FieldController.display("field/add.html", $('#div_field_collection'), {field_collections: field_collections});
@@ -72,8 +70,7 @@ FieldController = {
       itemLayer = FieldHelper.buildField(field._data, {fromServer: fromServer});
 
     var items = itemLayer.fields;
-
-    $.each(items, function(i, item) {
+    $.map(items, function(item) {
       if (item.isPhoto) {
         FieldController.updateFieldPhotoValue(item, propertiesFile, fromServer);
       }

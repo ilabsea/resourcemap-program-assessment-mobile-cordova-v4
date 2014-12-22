@@ -115,7 +115,7 @@ SiteController = {
     ViewBinding.setBusy(true);
     FieldModel.fetch(function(fields) {
       var propertiesFile = {properties: {}, files: {}};
-      $.each(fields, function(key, field) {
+      $.map(fields, function(field){
         propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
       });
       data = {
