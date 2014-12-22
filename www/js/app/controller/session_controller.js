@@ -57,7 +57,7 @@ SessionController = {
   },
   signUp: function(user) {
     var data = {user: user};
-    if (password === user.passwordConfirmation) {
+    if (user.password === user.password_confirmation) {
       hideElement($("#passmatch"));
       ViewBinding.setBusy(true);
 

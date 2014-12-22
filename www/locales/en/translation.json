@@ -36,7 +36,7 @@
         "phone_number": "Phone number",
         "already_have_accont": "Already have an account",
         "pwd_not_match": "Password doesn't match confirmation",
-        "exit_email": "Email have been already",
+        "exit_email": "Email has already been taken",
         "internet": "Unable to connect to the Internet",
         "alert": "Sign up successful"
     },
