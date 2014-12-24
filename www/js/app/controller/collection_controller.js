@@ -2,7 +2,7 @@ CollectionController = {
   displayList: function(collectionData) {
     App.Template.process("collection/list.html", collectionData, function(content) {
       $('#collection-list').html(content);
-      $('#collection-list').listview("refresh");
+      $('#collection-list').listview('refresh');
     });
   },
   displayName: function(collectionName) {
@@ -32,7 +32,7 @@ CollectionController = {
             CollectionController.displayList({collectionList: collectionData});
           }
         });
-      }); 
+      });
     });
   },
   getByUserIdOnline: function(currentUser) {

@@ -6,7 +6,6 @@ $(function() {
 
   $(document).delegate('#page-collection-list', 'pagebeforeshow', function() {
     App.emptyHTML();
-    hideElement($("#info_sign_in"));
     CollectionController.get();
     var currentUser = SessionController.currentUser();
     SiteController.countByUserId(currentUser.id);

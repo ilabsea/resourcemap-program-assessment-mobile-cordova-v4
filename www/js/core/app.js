@@ -1,4 +1,4 @@
-URL = "http://192.168.1.127:3000/";
+URL = "http://resourcemap-sea.instedd.org/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
@@ -20,6 +20,7 @@ App = {
   initialize: function() {
     this.bindEvents();
     this.setUp();
+    App.onBackPress();
   },
   resetDb: function() {
     persistence.reset();
@@ -35,6 +36,18 @@ App = {
     connectionDB(App.DB_NAME, App.DB_SIZE);
     createTables();
   },
+  onBackPress: function() {
+    document.addEventListener("backbutton", function() {
+      if ($.mobile.activePage.is("#page-login"))
+        navigator.app.exitApp();
+      else if ($.mobile.activePage.is("#page-collection-list"))
+        navigator.Backbutton.goHome(function() {
+        }, function() {
+        });
+      else
+        navigator.app.backHistory();
+    }, false);
+  },
   emptyHTML: function() {
     $(".clearPreviousDisplay").html("");
   },
@@ -47,6 +60,9 @@ App = {
   },
   redirectTo: function(url) {
     $.mobile.changePage(url);
+  },
+  replacePage: function(url) {
+    location.replace(url);
   },
   isOnline: function() {
     var online = false;

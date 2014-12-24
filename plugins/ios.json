@@ -104,6 +104,9 @@
         },
         "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "org.instedd.resourcemap"
+        },
+        "com.badrit.Backbutton": {
+            "PACKAGE_NAME": "org.instedd.resourcemap"
         }
     },
     "dependent_plugins": {}

@@ -64,9 +64,9 @@
     <h3 id="info_sign_in" data-i18n="validation.plsSignIn">Please sign in</h3>
     <form id="form_login">
      <label for="email" data-i18n="global.email"> Email </label>
-     <input type="email" id="email" name="user[email]" class="required email"/>
+     <input type="email" id="email" name="user[email]" class="required email" value="mouyleng@instedd.org"/>
      <label for="password" data-i18n="global.password"> Password </label>
-     <input type="password" id="password" name="user[password]" class="required"/>
+     <input type="password" id="password" name="user[password]" class="required" value="mouyleng123"/>
      <button class="ui-shadow ui-btn ui-corner-all" id="btn_submitLogin" data-i18n="login_page.login">Log in</button>
     </form>              
    </div>
@@ -116,7 +116,7 @@
    </div>  
   </div>
 
-  <!-- Login Success -->
+  <!-- page-collection-list -->
   <div data-role="page" id="page-collection-list" data-theme="b">
    <div data-role="header" >
     <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r" class="ui-btn-right" data-i18n="global.logout">Sign out</button>
@@ -158,8 +158,10 @@
    <div data-role="header">
     <a href="#page-collection-list" data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" data-i18n="global.back">Back</a>
     <h2 class="title"></h2>
-    <div class="ui-btn-right" >
-     <select data-theme="a" data-native-menu="false" data-iconpos="notext" data-icon="bullets" name="site-list-menu" id="site-list-menu" onchange="SiteList.menu()" > 
+    <div class="ui-btn-right">
+     <select data-theme="a" data-native-menu="false" data-iconpos="notext" 
+             data-icon="bullets" name="site-list-menu" id="site-list-menu" 
+             onchange="SiteList.menu()"> 
       <option value="" data-i18n="global.menu"></option>
       <option value="1" selected data-i18n="global.viewAll">View all</option>
       <option value="2" data-i18n="global.viewOffline">View offline</option>
@@ -294,6 +296,7 @@
    $(document).on("mobileinit", function() {
     $.mobile.allowCrossDomainPages = true;
     $.support.cors = true;
+    $.mobile.phonegapNavigationEnabled = true;
    });
   </script>
 
