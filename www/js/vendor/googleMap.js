@@ -25,6 +25,7 @@ var mapObject = {
     }
     var point = this.marker.getPosition();
     this.map.panTo(point);
+    google.maps.event.trigger(map_canvas, 'resize');
   },
   getLatLng: function() {
     var lat = $("#mark_lat").val();
@@ -46,7 +47,6 @@ var mapObject = {
     this.map = new google.maps.Map(mapCanvas, options);
 
     this.setMarker();
-    $.mobile.changePage($("#page-map"));
     _self = this;
 
     google.maps.event.addListener(_self.marker, 'dragend', function() {
