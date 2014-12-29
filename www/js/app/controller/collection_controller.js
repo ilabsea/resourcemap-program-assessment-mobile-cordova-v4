@@ -79,7 +79,7 @@ CollectionController = {
 
     return item;
   },
-  getOne: function() {
+  getOne: function(cId) {
     if (App.isOnline()) {
       CollectionModel.fetchOne(function(collection) {
         App.DataStore.set("collection", JSON.stringify(collection));

@@ -5,12 +5,12 @@ SiteController = {
       element.listview("refresh");
     });
   },
-  displayUpdateLatLng: function(templateURL, element, siteUpdateData) {
+  displayUpdateLatLng: function(templateURL, element, suffix, siteUpdateData) {
     App.Template.process(templateURL, siteUpdateData, function(content) {
       element.html(content);
       element.trigger("create");
-      InvisibleLayer.invisibleNameLatLng("update_wrapSiteName",
-          "update_wrapSiteLocation", function() {
+      InvisibleLayer.invisibleNameLatLng("update_wrapSiteName" + suffix,
+          "update_wrapSiteLocation" + suffix, function() {
           });
     });
   },
@@ -158,7 +158,7 @@ SiteController = {
       };
 
       SiteController.displayUpdateLatLng("site/updateOffline.html",
-          $('#div-site-update-name'), siteUpdateData);
+          $('#div-site-update-name'), "", siteUpdateData);
       FieldController.renderUpdateOffline(site);
     });
   },
@@ -172,7 +172,7 @@ SiteController = {
       };
 
       SiteController.displayUpdateLatLng("site/updateOnline.html",
-          $('#div-site-update-name-online'), siteOnlineUpdateData);
+          $('#div-site-update-name-online'), "_online", siteOnlineUpdateData);
 
       FieldController.renderUpdateOnline(response);
     });

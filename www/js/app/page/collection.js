@@ -13,6 +13,6 @@ $(function() {
     var cName = $(this).attr("data-name");
     App.DataStore.set("collectionName", cName);
     CollectionController.displayName({name: cName});
-    CollectionController.getOne();
+    CollectionController.getOne(cId);
   });
 });
