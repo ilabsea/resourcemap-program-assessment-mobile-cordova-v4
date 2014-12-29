@@ -9,8 +9,8 @@ SiteController = {
     App.Template.process(templateURL, siteUpdateData, function(content) {
       element.html(content);
       element.trigger("create");
-      InvisibleLayer.invisibleNameLatLng("update_wrapSiteName" + suffix,
-          "update_wrapSiteLocation" + suffix, function() {
+      InvisibleLayer.invisibleNameLatLng("update_wrapSiteLocation" + suffix,
+          "update_wrapSiteName" + suffix, function() {
           });
     });
   },
