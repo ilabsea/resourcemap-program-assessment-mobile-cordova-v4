@@ -11,6 +11,7 @@ App = {
   URL_LOGOUT: END_POINT + "/users/sign_out.json?auth_token=",
   URL_FIELD: END_POINT + "/v1/collections/",
   URL_SITE: END_POINT + "/v1/collections/",
+  URL_COLLECTION: END_POINT + "/collections/",
   DEBUG: true,
   userId: "",
   log: function(text, data) {

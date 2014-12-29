@@ -3,6 +3,8 @@ function createTables() {
     idcollection: "INT",
     name: "TEXT",
     description: "TEXT",
+    is_visible_location: "BOOL",
+    is_visible_name: "BOOL",
     user_id: "INT"
   });
 

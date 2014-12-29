@@ -62,6 +62,8 @@ CollectionController = {
     var item = {
       name: collection.name,
       description: collection.description,
+      is_visible_location: collection.is_visible_location,
+      is_visible_name: collection.is_visible_name,
       user_id: currentUser.id,
       linkpagesite: "#page-site-list"
     };
@@ -76,5 +78,16 @@ CollectionController = {
       item.displayCount = count;
 
     return item;
+  },
+  getOne: function() {
+    if (App.isOnline()) {
+      CollectionModel.fetchOne(function(collection) {
+        App.DataStore.set("collection", JSON.stringify(collection));
+      });
+    } else {
+      CollectionOffline.fetchOne(cId, function(collection) {
+        App.DataStore.set("collection", JSON.stringify(collection));
+      });
+    }
   }
 };
