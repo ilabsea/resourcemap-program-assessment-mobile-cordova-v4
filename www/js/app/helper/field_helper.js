@@ -105,12 +105,14 @@ FieldHelper = {
     return config;
   },
   buildFieldYesNo: function(config, fromServer) {
-    var field_logics = config.field_logics;
     var field_id0, field_id1;
     if (fromServer) {
-      if (field_logics) {
-        field_id0 = field_logics[0].field_id;
-        field_id1 = field_logics[1].field_id;
+      if (config) {
+        var field_logics = config.field_logics;
+        if (field_logics) {
+          field_id0 = field_logics[0].field_id;
+          field_id1 = field_logics[1].field_id;
+        }
       }
     } else {
       field_id0 = config.options[0].field_id;
