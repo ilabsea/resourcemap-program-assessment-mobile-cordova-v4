@@ -37,8 +37,8 @@ Hierarchy = {
       autoOpen: false,
       dragAndDrop: false,
       selectable: true,
-      closedIcon: $('<img src="img/folder.png" style="vertical-align: middle;">'),
-      openedIcon: $('<img src="img/folder_open.png" style="vertical-align: middle;">>')
+      closedIcon: $('<img src=\"img/folder.png\" style=\"vertical-align: middle;\">'),
+      openedIcon: $('<img src=\"img/folder_open.png\" style=\"vertical-align: middle;\">')
     });
 
     var existingNode = $hierarchy.tree('getNodeById', data[0].id);

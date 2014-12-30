@@ -7,7 +7,7 @@ SkipLogic = {
     var config = JSON.parse(
         App.DataStore.get("configNumberSkipLogic_" + id));
     if (config) {
-      $.each(config, function(i, field_logic) {
+      $.map(config, function(field_logic) {
         var op = field_logic.condition_type;
         if (Operators[op](val, field_logic.value)) {
           SkipLogic.handleSkipLogic(prefixIdElement + field_logic.field_id);
@@ -57,7 +57,7 @@ SkipLogic = {
 
       if (configOption.config.field_logics) {
         if ((configOption.id || configOption.idfield) == id) {
-          $.each(configOption.config.field_logics, function(i, field_logic) {
+          $.map(configOption.config.field_logics, function(field_logic) {
             var selectedOptions = field_logic.selected_options;
 
             var b = false;

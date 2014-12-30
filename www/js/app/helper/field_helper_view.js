@@ -15,8 +15,8 @@ FieldHelperView = {
     });
   },
   displayHierarchy: function(elementPrefixID, fieldData, update) {
-    $.each(fieldData.field_collections, function(key, properties) {
-      $.each(properties.fields, function(i, fieldsInside) {
+    $.map(fieldData.field_collections, function(properties) {
+      $.map(properties.fields, function(fieldsInside) {
         if (fieldsInside.kind === "hierarchy") {
           var data = fieldsInside.configHierarchy;
           var id = fieldsInside.idfield;

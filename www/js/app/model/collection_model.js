@@ -11,7 +11,7 @@ CollectionModel = {
 
 CollectionOffline = {
   add: function(collections) {
-    $.each(collections, function(index, collection) {
+    $.map(collections, function(collection) {
       var collectionParams = {
         idcollection: collection.idcollection,
         name: collection.name,
