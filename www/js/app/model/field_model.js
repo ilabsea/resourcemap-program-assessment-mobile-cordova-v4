@@ -7,7 +7,9 @@ FieldModel = {
       datatype: 'json',
       success: successCallback,
       error: function(error) {
-        console.log("error", error);
+        App.log("error: ", error);
+        if (!App.isOnline())
+          FieldController.renderByCollectionIdOffline();
       }
     });
   }

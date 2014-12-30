@@ -1,26 +1,13 @@
-<!--field collection in create page-->
 {{#each field_collections}}
 <div data-role="collapsible" 
      data-inset="true" 
      data-theme="a" 
-     data-collapsed="false">
+     data-collapsed="true"
+     id="collapsable_{{id_wrapper}}">
  <h3>{{name_wrapper}}</h3>
  {{#each fields}}
- {{#if config}} 
- {{#if isHierarchy}} 
- <label>{{name}}</label>
- <select id="{{idfield}}" 
-         data-theme="a" 
-         name="{{idfield}}" 
-         data-native-menu="false" 
-         {{required}} 
-         class="validateSelectFields">
-  <option value="">Option</option>
-  <option value="">(no value)</option>
-  {{{displayHierarchy}}}
- </select>
- {{else}}
- <div>
+ {{#if config.options}}
+ <div id="wrapper_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
   <select id="{{idfield}}" 
           data-theme="a" 
@@ -30,35 +17,47 @@
           data-role="{{slider}}" 
           data-mini="{{ctrue}}" 
           {{required}} 
-          class="validateSelectFields">
+          data-is_enable_field_logic="{{is_enable_field_logic}}"
+          class="validateSelectFields needsclick">
    {{#if multiple}}
    <option>Options</option>
-   {{else}}
-   {{#if slider}} 
-   {{else}}
-   <option value="">Option</option>
-   <option value="">(no value)</option>
-   {{/if}}
-   {{/if}}
    {{#config.options}}
    <option value="{{id}}">{{label}}</option>
-   {{/config.options}}                   
+   {{/config.options}}   
+
+   {{else}}
+   {{#if slider}}  
+   {{else}}
+   <option value="">Option</option>
+   <option value="" selected>(no value)</option>
+   {{/if}}
+   {{#config.options}}
+   <option value="{{id}}" data-field_id="{{field_id}}">{{label}}</option>
+   {{/config.options}}   
+   {{/if}}    
   </select>
  </div>
- {{/if}}
- {{else}}    
- {{#if isPhoto}}  
- <label>{{name}}</label>
- <div onclick="openCameraDialog({{idfield}}, 'new');" 
-      id='property_{{idfield}}_container' 
-      class="photo">
-  <img class="image" 
-       src='{{__value}}' 
-       id='{{idfield}}' 
-       require='{{required}}' /> 
+ {{else}}  
+ {{#if isHierarchy}} 
+ <div id="wrapper_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <div id="{{idfield}}" class="tree" require='{{required}}' tabindex="0"></div>
  </div>
  {{else}}
- <div>
+ {{#if isPhoto}}  
+ <div id="wrapper_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <div onclick="CameraModel.openCameraDialog({{idfield}}, 'new');" 
+       id='property_{{idfield}}_container' 
+       class="photo">
+   <img class="image" 
+        src='{{__value}}' 
+        id='{{idfield}}' 
+        require='{{required}}' /> 
+  </div>
+ </div>
+ {{else}}
+ <div id="wrapper_{{idfield}}" tabindex="0">
   <label for='name'>{{{name}}}</label>
   {{#ifCond widgetType "date"}}
   <input type="{{widgetType}}" 
@@ -68,13 +67,28 @@
          class="date" 
          {{required}}/>
   {{else}}
+  {{#ifCond widgetType "number"}}
   <input type="{{widgetType}}" 
          id="{{idfield}}" 
          value ="{{__value}}" 
          name="{{name}}" 
-         {{required}}/>
+         min="{{config.range.minimum}}"
+         max="{{config.range.maximum}}"
+         data-is_enable_field_logic="{{is_enable_field_logic}}"
+         class="skipLogicNumber"
+         {{required}}
+         {{readonly}}/>
+  {{else}}
+  <input type="{{widgetType}}" 
+         id="{{idfield}}" 
+         value ="{{__value}}" 
+         name="{{name}}" 
+         {{required}}
+         {{readonly}}/>
+  {{/ifCond}}
   {{/ifCond}}
  </div>
+ {{/if}}
  {{/if}}
  {{/if}}
  {{/each}}

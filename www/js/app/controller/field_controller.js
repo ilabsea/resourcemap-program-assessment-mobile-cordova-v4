@@ -1,12 +1,6 @@
 FieldController = {
-  display: function(templateURL, element, fieldData) {
-    App.Template.process(templateURL, fieldData, function(content) {
-      element.html(content);
-      element.trigger("create");
-    });
-  },
   getByCollectionId: function() {
-    if (isOnline())
+    if (App.isOnline())
       this.renderByCollectionIdOnline();
     else
       this.renderByCollectionIdOffline();
@@ -23,7 +17,11 @@ FieldController = {
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       FieldController.synForCurrentCollection(field_collections);
-      FieldController.display("field/add.html", $('#div_field_collection'), {field_collections: field_collections});
+
+      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
+          {field_collections: field_collections}, "");
+      FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
+          {field_collections: field_collections}, false);
     });
   },
   renderByCollectionIdOffline: function() {
@@ -38,20 +36,32 @@ FieldController = {
         return item;
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
-      FieldController.display("field/add.html", $('#div_field_collection'), {field_collections: field_collections});
+
+      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
+          {field_collections: field_collections}, "");
+      FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
+          {field_collections: field_collections}, false);
     });
   },
   renderUpdateOffline: function(site) {
     var cId = App.DataStore.get("cId");
     FieldOffline.fetchByCollectionId(cId, function(layers) {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
-      FieldController.display("field/updateOffline.html", $('#div_update_field_collection'), {field_collections: field_collections});
+      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
+          {field_collections: field_collections}, "update_");
+      FieldHelperView.display("field/updateOffline.html",
+          $('#div_update_field_collection'), "update_",
+          {field_collections: field_collections}, true);
     });
   },
   renderUpdateOnline: function(site) {
     FieldModel.fetch(function(layers) {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
-      FieldController.display("field/updateOnline.html", $('#div_update_field_collection_online'), {field_collections: field_collections});
+      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
+          {field_collections: field_collections}, "update_online_");
+      FieldHelperView.display("field/updateOnline.html",
+          $('#div_update_field_collection_online'),
+          "update_online_", {field_collections: field_collections}, true);
     });
   },
   synForCurrentCollection: function(newFields) {
@@ -77,6 +87,14 @@ FieldController = {
       else if (item.widgetType === "date") {
         FieldController.updateFieldDateValue(idHTMLForUpdate, item, propertiesFile);
       }
+      else if (item.widgetType === "hierarchy") {
+        var nodeId = idHTMLForUpdate + item["idfield"];
+        var node = $(nodeId).tree('getSelectedNode');
+        var data = node.id;
+        if (data == null)
+          data = "";
+        propertiesFile.properties[item["idfield"]] = data;
+      }
       else {
         var nodeId = idHTMLForUpdate + item["idfield"];
         var value = $(nodeId).val();
@@ -91,26 +109,25 @@ FieldController = {
   updateFieldPhotoValue: function(item, propertiesFile, fromServer) {
     var idfield = item["idfield"];
     var lPhotoList = PhotoList.getPhotos().length;
-    var sId = localStorage.getItem("sId");
+    var sId = App.DataStore.get("sId");
 
     if (fromServer) {
-      var filePath = App.DataStore.get("filePath");
+      var filePath = App.DataStore.get(sId + "_" + idfield);
       if (filePath == null)
         propertiesFile.properties[idfield] = "";
       else
         propertiesFile.properties[idfield] = filePath;
     } else {
-      var fileData = App.DataStore.get("fileDataOffline");
-      var fileNameLocal = App.DataStore.get("fileNameOffline");
-      if (fileData == null || fileNameLocal == null) {
+      var fileData = App.DataStore.get(sId + "_" + idfield + "_fileData");
+      var fileNameLocal = App.DataStore.get(sId + "_" + idfield + "_fileName");
+      if (fileData == null || fileNameLocal == null)
         propertiesFile.properties[idfield] = "";
-      }
       else {
-        var fileName = fileNameLocal;
-        propertiesFile.properties[idfield] = fileName;
-        propertiesFile.files[fileName] = fileData;
+        propertiesFile.properties[idfield] = fileNameLocal;
+        propertiesFile.files[fileNameLocal] = fileData;
       }
     }
+
     for (var i = 0; i < lPhotoList; i++) {
       if (PhotoList.getPhotos()[i].id == idfield && PhotoList.getPhotos()[i].sId == sId) {
         var fileName = PhotoList.getPhotos()[i].name();

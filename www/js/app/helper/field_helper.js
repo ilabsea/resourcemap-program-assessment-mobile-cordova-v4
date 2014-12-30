@@ -17,12 +17,11 @@ FieldHelper = {
       fieldsWrapper.id_wrapper = fieldObj.id_wrapper;
     }
     $.map(fieldObj.fields, function(fields) {
-      if (options["fromServer"]) {
+      if (options["fromServer"]) 
         id = fields.id;
-      }
-      else {
+      else
         id = fields.idfield;
-      }
+
       var kind = fields.kind;
       var widgetType = kind;
       var config = fields.config;
@@ -30,22 +29,42 @@ FieldHelper = {
       var ctrue = "";
       var is_required = "";
       var is_mandatory = fields.is_mandatory;
+      var is_enable_field_logic = fields.is_enable_field_logic;
+
       if (widgetType === "numeric") {
         widgetType = "number";
-        config = "";
+        if (config.range)
+          is_required = "required";
+        if (config.field_logics) {
+          App.DataStore.set("configNumberSkipLogic_" + id,
+              JSON.stringify(config.field_logics));
+        }
       }
+
+      if (widgetType === "select_one" && is_enable_field_logic) {
+        config = FieldHelper.buildFieldSelectOne(config);
+        if (!config.field_logics)
+          is_enable_field_logic = false;
+      }
+
+      if (widgetType === "select_many" && is_enable_field_logic)
+        App.DataStore.set("configSelectManyForSkipLogic_" + id,
+            JSON.stringify(fields));
+
       if (widgetType === "yes_no") {
         widgetType = "select_one";
-        var configOptions = {options: [{"id": 0, "code": "1", "label": "NO"}, {"id": 1, "code": "2", "label": "YES"}]};
-        config = configOptions;
+        config = FieldHelper.buildFieldYesNo(config, options["fromServer"]);
+
         slider = "slider";
         ctrue = "true";
       }
-      if (widgetType === "phone") {
+
+      if (widgetType === "phone")
         widgetType = "tel";
-      }
+
       if (is_mandatory)
         is_required = "required";
+
       fieldsWrapper.fields.push({
         idfield: id,
         name: fields.name,
@@ -60,11 +79,54 @@ FieldHelper = {
         is_mandatory: is_mandatory,
         required: is_required,
         isHierarchy: (kind === "hierarchy" ? true : false),
-        displayHierarchy: (kind === "hierarchy" ? Hierarchy.generateField(fields.config, "") : "")
+        configHierarchy: (kind === "hierarchy" ?
+            Hierarchy.generateField(fields.config, "", id) : ""),
+        is_enable_field_logic: is_enable_field_logic
       });
     });
 
     return fieldsWrapper;
+  },
+  buildFieldSelectOne: function(config) {
+    $.each(config.options, function(i, option) {
+      if (config.field_logics) {
+        $.each(config.field_logics, function(j, field_logic) {
+          if (option.id === field_logic.value)
+            config.options[i]["field_id"] = field_logic.field_id;
+        });
+      }
+    });
+    return config;
+  },
+  buildFieldYesNo: function(config, fromServer) {
+    var field_id0, field_id1;
+    if (fromServer) {
+      if (config) {
+        var field_logics = config.field_logics;
+        if (field_logics) {
+          field_id0 = field_logics[0].field_id;
+          field_id1 = field_logics[1].field_id;
+        }
+      }
+    } else {
+      field_id0 = config.options[0].field_id;
+      field_id1 = config.options[1].field_id;
+    }
+    config = {
+      options: [{
+          id: 0,
+          label: "NO",
+          code: "1",
+          field_id: field_id0
+        },
+        {id: 1,
+          label: "YES",
+          code: "2",
+          field_id: field_id1
+        }]
+    };
+
+    return config;
   },
   buildFieldsUpdate: function(layers, site, fromServer) {
     var field_collections = $.map(layers, function(layer) {
@@ -87,20 +149,22 @@ FieldHelper = {
     for (propertyCode in p) {
       $.map(itemLayer.fields, function(item) {
         var propertyValue = p[propertyCode];
-        FieldHelper.setFieldsValue(item, propertyCode, propertyValue, site, fromServer);
+        FieldHelper.setFieldsValue(item, propertyCode,
+            propertyValue, site, fromServer);
       });
     }
     return itemLayer;
   },
   setFieldsValue: function(item, propertyCode, pValue, site, fromServer) {
-    if (item.code === propertyCode || parseInt(item["idfield"]) === parseInt(propertyCode)) {
+    if (item.code === propertyCode || parseInt(item["idfield"])
+        === parseInt(propertyCode)) {
       if (item.widgetType === "photo")
         FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
-      else if (item.widgetType === "select_many" || item.widgetType === "select_one")
+      else if (item.widgetType === "select_many"
+          || item.widgetType === "select_one")
         FieldHelper.setFieldSelectValue(item, pValue);
-      else if (item.widgetType === "hierarchy") {
+      else if (item.widgetType === "hierarchy")
         FieldHelper.setFieldHierarchyValue(item, pValue);
-      }
       else if (item.widgetType === "date" && pValue)
         item.__value = convertDateWidgetToParam(pValue);
       else
@@ -108,9 +172,10 @@ FieldHelper = {
     }
   },
   setFieldPhotoValue: function(item, value, site, fromServer) {
+    var sId = App.DataStore.get("sId");
     if (fromServer) {
-      App.DataStore.set("filePath", value);
-      item.__value = imagePath(value);
+      App.DataStore.set(sId + "_" + item["idfield"], value);
+      item.__value = SiteCamera.imagePath(value);
     }
     else {
       var files = site.files();
@@ -120,8 +185,8 @@ FieldHelper = {
         item.__value = "";
       } else {
         item.__value = SiteCamera.dataWithMimeType(imageData);
-        App.DataStore.set("fileNameOffline", imageId);
-        App.DataStore.set("fileDataOffline", imageData);
+        App.DataStore.set(sId + "_" + item["idfield"] + "_fileName", imageId);
+        App.DataStore.set(sId + "_" + item["idfield"] + "_fileData", imageData);
       }
     }
   },
@@ -130,18 +195,21 @@ FieldHelper = {
     for (var k = 0; k < item.config.options.length; k++) {
       item.config.options[k]["selected"] = "";
       if (item.__value == true || item.__value == false) {
-        if (item.config.options[k].id == item.__value || item.config.options[k].code == item.__value[j]) {
+        if (item.config.options[k].id == item.__value
+            || item.config.options[k].code == item.__value[j]) {
           item.config.options[k]["selected"] = "selected";
         }
       } else {
         if (item.__value instanceof Array) {
           for (var j = 0; j < item.__value.length; j++) {
-            if (item.config.options[k].id == item.__value[j] || item.config.options[k].code == item.__value[j]) {
+            if (item.config.options[k].id == item.__value[j]
+                || item.config.options[k].code == item.__value[j]) {
               item.config.options[k]["selected"] = "selected";
             }
           }
         } else {
-          if (item.config.options[k].id == item.__value || item.config.options[k].code == item.__value) {
+          if (item.config.options[k].id == item.__value
+              || item.config.options[k].code == item.__value) {
             item.config.options[k]["selected"] = "selected";
           }
         }
@@ -150,6 +218,8 @@ FieldHelper = {
   },
   setFieldHierarchyValue: function(item, value) {
     item.__value = value;
-    item.displayHierarchy = Hierarchy.generateField(item.config, item.__value);
+    item.configHierarchy = Hierarchy.generateField(item.config, item.__value,
+        item.idfield);
+    item._selected = Hierarchy._selected;
   }
 };

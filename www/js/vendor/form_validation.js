@@ -19,7 +19,7 @@ $(document).ready(function() {
     errorPlacement: function() {
     },
     submitHandler: function() {
-      if (isOnline()) {
+      if (App.isOnline()) {
         hideElement($("#internet"));
         var email = $('#signupemail').val();
         var password = $('#signuppassword').val();
@@ -42,23 +42,35 @@ $(document).ready(function() {
   $('#form_create_site').validate({
     focusInvalid: false,
     errorPlacement: function(error, element) {
-      validateImage();
+      if (element.attr("type") === "number" &&
+          (element.attr("min") || element.attr("max")))
+        error.insertAfter($(element).parent());
       addClassError(element);
+
+      var classElement = document.getElementsByClassName("image");
+      var classHierarchyElement = document.getElementsByClassName("tree");
+      if (classHierarchyElement.length != 0)
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_create-site');
+      if (classElement.length != 0)
+        bImage = validateImageSubmitHandler(classElement, '#validation_create-site');
     },
     invalidHandler: function() {
       showValidateMessage('#validation_create-site');
     },
     submitHandler: function() {
-      if ($(".image").attr('require') == "required") {
-        if ($('.image').attr('src') != '') {
-          $(".photo").css({"border": "1px solid #f3f3f3"});
-          SiteController.add();
-        } else {
-          $(".photo").css({"border": "1px solid red"});
-          showValidateMessage('#validation_create-site');
-        }
-      } else {
+      var classElement = document.getElementsByClassName("image");
+      var classHierarchyElement = document.getElementsByClassName("tree");
+      var h = true;
+      var bImage = true;
+
+      if (classHierarchyElement.length != 0)
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_create-site');
+      if (classElement.length != 0)
+        bImage = validateImageSubmitHandler(classElement, '#validation_create-site');
+
+      if (h && bImage) {
         SiteController.add();
+        App.DataStore.clearPartlyAfterCreateSite();
       }
     }
   });
@@ -66,49 +78,66 @@ $(document).ready(function() {
   $('#form_update_site').validate({
     focusInvalid: false,
     errorPlacement: function(error, element) {
-      validateImage();
+      if (element.attr("type") === "number" &&
+          (element.attr("min") || element.attr("max")))
+        error.insertAfter($(element).parent());
       addClassError(element);
+
+      var classElement = document.getElementsByClassName("image");
+      var classHierarchyElement = document.getElementsByClassName("tree");
+      if (classHierarchyElement.length != 0)
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site');
+      if (classElement.length != 0)
+        bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
     },
     invalidHandler: function() {
       showValidateMessage('#validation_update-site');
     },
     submitHandler: function() {
-      var sId = App.DataStore.get("sId");
-      if ($(".image").attr('require') == "required") {
-        if ($('.image').attr('src') != '') {
-          $(".photo").css({"border": "1px solid #f3f3f3"});
-          SiteController.updateBySiteIdOffline(sId);
-        } else {
-          $(".photo").css({"border": "1px solid red"});
-          showValidateMessage('#validation_update-site');
-        }
-      } else {
-        SiteController.updateBySiteIdOffline(sId);
-      }
+      var classElement = document.getElementsByClassName("image");
+      var classHierarchyElement = document.getElementsByClassName("tree");
+      var h = true;
+      var bImage = true;
+
+      if (classHierarchyElement.length != 0)
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site');
+      if (classElement.length != 0)
+        bImage = validateImageSubmitHandler(classElement, '#validation_update-site', SiteController.updateBySiteIdOffline);
+      if (h && bImage) 
+        SiteController.updateBySiteIdOffline();
     }
   });
 
   $('#form_update_site_online').validate({
     focusInvalid: false,
     errorPlacement: function(error, element) {
-      validateImage();
+      if (element.attr("type") === "number" &&
+          (element.attr("min") || element.attr("max")))
+        error.insertAfter($(element).parent());
       addClassError(element);
+
+      var classElement = document.getElementsByClassName("image");
+      var classHierarchyElement = document.getElementsByClassName("tree");
+      if (classHierarchyElement.length != 0)
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
+      if (classElement.length != 0)
+        bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
     },
     invalidHandler: function() {
       showValidateMessage('#validation_update-site-online');
     },
     submitHandler: function() {
-      if ($(".image").attr('require') == "required") {
-        if ($('.image').attr('src') != '') {
-          $(".photo").css({"border": "1px solid #f3f3f3"});
-          SiteController.updateBySiteIdOnline();
-        } else {
-          $(".photo").css({"border": "1px solid red"});
-          showValidateMessage('#validation_update-site-online');
-        }
-      } else {
+      var classElement = document.getElementsByClassName("image");
+      var classHierarchyElement = document.getElementsByClassName("tree");
+      var h = true;
+      var bImage = true;
+
+      if (classHierarchyElement.length != 0)
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
+      if (classElement.length != 0)
+        bImage = validateImageSubmitHandler(classElement, '#validation_update-site-online', SiteController.updateBySiteIdOnline);
+      if (h && bImage) 
         SiteController.updateBySiteIdOnline();
-      }
     }
   });
 
@@ -120,20 +149,23 @@ $(document).ready(function() {
 });
 
 function validateToRemoveStyle(element) {
-  var $parent = $(element).closest(".ui-select");
-  if (element.required && element.value == "") {
-    $parent.removeClass('valid').addClass('error');
-  }
-  else {
-    $parent.removeClass('error').addClass('valid');
+  if (element.required) {
+    var $parent = $(element).closest(".ui-select");
+    if (element.value === "")
+      $parent.removeClass('valid').addClass('error');
+    else
+      $parent.removeClass('error').addClass('valid');
   }
 }
 
-function validateImage() {
-  if ($('.image').attr('src') == '' && $(".image").attr('require') == "required") {
-    $(".photo").css({"border": "1px solid red"});
-  } else {
-    $(".photo").css({"border": "1px solid #f3f3f3"});
+function validateImage(idElement) {
+  var $element = $("#" + idElement);
+  if ($element.attr('require') === "required") {
+    if ($element.attr('src') === '') {
+      $("#property_" + idElement + "_container").css({"border": "1px solid red"});
+    } else {
+      $("#property_" + idElement + "_container").css({"border": "1px solid #f3f3f3"});
+    }
   }
 }
 
@@ -145,4 +177,41 @@ function showValidateMessage(id) {
 function addClassError(element) {
   var $parent = $(element).closest('.ui-select');
   $parent.addClass("error");
+}
+
+function validateImageSubmitHandler(classElement, element) {
+  var b = true;
+  for (i = 0; i < classElement.length; i++) {
+    var idElement = classElement[i].id;
+    var $element = $("#" + idElement);
+    if ($element.attr('require') == "required") {
+      if ($element.attr('src') != '') {
+        $("#property_" + idElement + "_container").css({"border": "1px solid #f3f3f3"});
+      } else {
+        b = false;
+        $("#property_" + idElement + "_container").css({"border": "1px solid red"});
+        showValidateMessage(element);
+      }
+    }
+  }
+  return b;
+}
+
+function validateHierarchySubmitHandler(classHierarchyElement, element) {
+  var h = true;
+  for (i = 0; i < classHierarchyElement.length; i++) {
+    var idElement = classHierarchyElement[i].id;
+    var $element = $("#" + idElement);
+    if ($element.attr('require') == "required") {
+      var node = $element.tree('getSelectedNode');
+      if (!node.id) {
+        $element.css({"border": "1px solid red"});
+        showValidateMessage(element);
+        h = false;
+      } else {
+        $element.css({"border": "1px solid #999999"});
+      }
+    }
+  }
+  return h;
 }

@@ -13,8 +13,8 @@ SiteController = {
   },
   add: function() {
     var data = SiteController.buildDataForSite();
-    if (isOnline())
-      SiteController.addOnline(data, SiteController.resetForm );
+    if (App.isOnline())
+      SiteController.addOnline(data, SiteController.resetForm);
     else
       SiteController.addOffline(data);
   },
@@ -30,7 +30,7 @@ SiteController = {
   },
   getAllByCollectionId: function() {
     SiteController.getByCollectionIdOffline();
-    if (isOnline())
+    if (App.isOnline())
       SiteController.getByCollectionIdOnline();
   },
   getByCollectionIdOffline: function() {
@@ -90,7 +90,8 @@ SiteController = {
   deleteBySiteId: function(sId) {
     SiteOffline.deleteBySiteId(sId);
   },
-  updateBySiteIdOffline: function(sId) {
+  updateBySiteIdOffline: function() {
+    var sId = App.DataStore.get("sId");
     SiteOffline.fetchBySiteId(sId, function(site) {
       site.name($("#updatesitename").val());
       site.lat($("#updatelolat").val());
@@ -104,8 +105,9 @@ SiteController = {
         site.properties(propertiesFile.properties);
         site.files(propertiesFile.files);
         persistence.flush();
-        App.DataStore.remove("fileDataOffline");
-        App.DataStore.remove("fileNameOffline");
+
+        App.DataStore.clearPartlyAfterCreateSite();
+
         App.redirectTo("index.html#page-site-list");
       });
     });
@@ -130,12 +132,12 @@ SiteController = {
         }
       };
       SiteModel.update(data, function() {
-        App.DataStore.remove("filePath");
-
         var sId = App.DataStore.get("sId");
         $.each(data.site.properties, function(key, idField) {
           PhotoList.remove(sId, key);
         });
+        
+        App.DataStore.clearPartlyAfterCreateSite();
 
         App.redirectTo("#page-site-list");
       }, function() {
@@ -177,7 +179,7 @@ SiteController = {
     ;
   },
   processToServer: function(key, id) {
-    if (isOnline()) {
+    if (App.isOnline()) {
       Site.all().filter(key, "=", id).list(function(sites) {
         if (sites.length > 0)
           SiteController.processingToServer(sites);
@@ -258,13 +260,22 @@ SiteController = {
             }
           }
         }
-        else if ($field.length > 0 && $field[0].getAttribute("type") == 'date') {
+        else if ($field.length > 0 && $field[0].getAttribute("type") === 'date') {
           var date = $field.val();
           if (date) {
             date = convertDateWidgetToParam(date);
           }
           properties["" + each_field + ""] = date;
-        } else {
+        }
+        else if ($field[0].getAttribute("class") === "tree" ||
+            $field[0].getAttribute("class") === "tree unhighlighted") {
+          var node = $field.tree('getSelectedNode');
+          var data = node.id;
+          if (data === null)
+            data = "";
+          properties[each_field] = data;
+        }
+        else {
           var data = $field.val();
           if (data == null)
             data = "";

@@ -299,7 +299,7 @@
       max: $.validator.format("Please enter a value less than or equal to {0}."),
       min: $.validator.format("Please enter a value greater than or equal to {0}.")
     },
-    autoCreateRanges: false,
+    autoCreateRanges: true,
     prototype: {
       init: function() {
         this.labelContainer = $(this.settings.errorLabelContainer);

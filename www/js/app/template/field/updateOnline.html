@@ -2,23 +2,12 @@
 <div data-role="collapsible" 
      data-inset="true" 
      data-theme="a" 
-     data-collapsed="false">
+     data-collapsed="true"
+     id="collapsable_update_online_{{id_wrapper}}">
  <h3>{{name_wrapper}}</h3>
  {{#each fields}}
- {{#if config}} 
- {{#if isHierarchy}} 
- <label>{{name}}</label>
- <select id="update_online_{{idfield}}" 
-         name="update_online_{{idfield}}" 
-         data-native-menu="false" 
-         data-theme="a" {{required}} 
-         class="validateSelectFields">
-  <option value="">Option</option>
-  <option value="">(no value)</option>
-  {{{displayHierarchy}}}
- </select>
- {{else}}
- <div>
+ {{#if config.options}} 
+ <div id="wrapper_update_online_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
   <select id="update_online_{{idfield}}" 
           name="update_online_{{idfield}}" 
@@ -28,35 +17,49 @@
           data-role="{{slider}}" 
           data-mini="{{ctrue}}" 
           {{required}} 
-          class="validateSelectFields">
+          data-is_enable_field_logic="{{is_enable_field_logic}}"
+          class="validateSelectFields needsclick">
    {{#if multiple}}
    <option>Options</option>
+   {{#config.options}}
+   <option value="{{id}}" {{selected}}>{{label}}</option>
+   {{/config.options}}
    {{else}}
    {{#if slider}} 
    {{else}}
    <option value="">Option</option>
-   <option value="">(no value)</option>
-   {{/if}}
+   <option value="" selected>(no value)</option>
    {{/if}}
    {{#config.options}}
-   <option value="{{id}}" {{selected}}>{{label}}</option>
+   <option value="{{id}}" {{selected}} data-field_id="update_online_{{field_id}}">{{label}}</option>
    {{/config.options}}
+   {{/if}}
   </select>
  </div>
- {{/if}}
- {{else}}    
- {{#if isPhoto}}  
- <span style='display:inline; margin-top:10px'>{{{name}}}</span>
- <div onclick="openCameraDialog({{idfield}}, 'update_online')" 
-      id='property_{{idfield}}_container' 
-      class="photo" > 
-  <img class="image" 
-       src='{{__value}}' 
-       id='update_image_online_{{idfield}}' 
-       require='{{required}}' />
+ {{else}}  
+ {{#if isHierarchy}}
+ <div id="wrapper_update_online_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <div id="update_online_{{idfield}}" 
+       class="tree" 
+       require='{{required}}'>
+  </div>
  </div>
  {{else}}
- <div>
+ {{#if isPhoto}}
+ <div id="wrapper_update_online_{{idfield}}" tabindex="0">
+  <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+  <div onclick="CameraModel.openCameraDialog({{idfield}}, 'update_online')" 
+       id='property_update_online_{{idfield}}_container' 
+       class="photo"> 
+   <img class="image" 
+        src='{{__value}}' 
+        id='update_online_{{idfield}}' 
+        require='{{required}}' />
+  </div>
+ </div>
+ {{else}}
+ <div id="wrapper_update_online_{{idfield}}" tabindex="0">
   <label for='name'>{{{name}}}</label>
   {{#ifCond widgetType "date"}}
   <input type="{{widgetType}}" 
@@ -66,13 +69,28 @@
          class="date" 
          {{required}} >  
   {{else}}
-  <input type="{{widgetType}}" 
+   {{#ifCond widgetType "number"}}
+    <input type="{{widgetType}}" 
          id="update_online_{{idfield}}" 
          value ="{{__value}}" 
          name="{{name}}" 
-         {{required}} >  
+         min="{{config.range.minimum}}"
+         max="{{config.range.maximum}}"
+         data-is_enable_field_logic="{{is_enable_field_logic}}"
+         class="skipLogicNumber"
+         {{required}} 
+         {{readonly}}>  
+    {{else}}
+     <input type="{{widgetType}}" 
+         id="update_online_{{idfield}}" 
+         value ="{{__value}}" 
+         name="{{name}}" 
+         {{required}} 
+         {{readonly}}>  
+    {{/ifCond}}
   {{/ifCond}}
  </div>
+ {{/if}}
  {{/if}}
  {{/if}}
  {{/each}}

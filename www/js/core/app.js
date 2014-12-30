@@ -35,6 +35,7 @@ App = {
   onDeviceReady: function() {
     connectionDB(App.DB_NAME, App.DB_SIZE);
     createTables();
+    FastClick.attach(document.body);
   },
   onBackPress: function() {
     document.addEventListener("backbutton", function() {
@@ -55,7 +56,8 @@ App = {
     $.ajaxSetup({
       complete: function() {
         ViewBinding.setBusy(false);
-      }
+      },
+      timeout: 5000
     });
   },
   redirectTo: function(url) {
@@ -67,16 +69,16 @@ App = {
   isOnline: function() {
     var online = false;
     if (navigator.connection) {
-      online = (navigator.connection.type != Connection.NONE);
+      online = (navigator.connection.type !== Connection.NONE);
       return online;
     }
     online = navigator.onLine;
     return online;
+  },
+  allBooleanTrue: function(arr) {
+    for (var i in arr)
+      if (!arr[i])
+        return false;
+    return true;
   }
 };
-
-function kernel() {
-  window.isOnline = App.isOnline;
-}
-
-kernel();

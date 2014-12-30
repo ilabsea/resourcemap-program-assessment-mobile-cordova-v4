@@ -36,7 +36,7 @@ var mapObject = {
   loadMap: function() {
     var $content = $("#map_canvas");
     var mapCanvas = $content[0];
-    
+
     var mapCanvasTop = $content.offset().top;
     $content.height(window.innerHeight - mapCanvasTop);
 

@@ -1,39 +1,54 @@
 Hierarchy = {
-  _display: "",
   _data: [],
   _value: "",
+  _selected: "",
   setData: function(field) {
     this._data = field["hierarchy"];
   },
-  generateField: function(field, value) {
-    this._display = "";
+  generateField: function(field, value, id) {
     this._value = value;
     this.setData(field);
-    this.processHierarchy(this._data, 0);
-    return this._display;
+    this.processHierarchy(this._data, id);
+    return this._data;
   },
-  processHierarchy: function(data, nbSpace) {
+  processHierarchy: function(data, id) {
     for (var i = 0; i < data.length; i++) {
-      this._display += this.renderItemOption(data[i], nbSpace);
-
+      this.setSelected(data[i], id);
       if (data[i].sub) {
-        this.processHierarchy(data[i].sub, nbSpace + 3);
+        data[i].children = data[i].sub;
+        delete data[i].sub;
+        this.processHierarchy(data[i].children);
+      }
+      if (data[i].children) {
+        this.processHierarchy(data[i].children);
       }
     }
   },
-  renderItemOption: function(record, nbSpace) {
-    var label = this.generateSpace(nbSpace) + record.name;
-    if (record.id == this._value || record.name == this._value)
-      return "<option value='" + record.id + "' selected>" + label + "</option>";
-    else
-      return "<option value='" + record.id + "'>" + label + "</option>";
-
-  },
-  generateSpace: function(nbSpace) {
-    var totalSpace = "";
-    for (var i = 0; i < nbSpace; i++) {
-      totalSpace += "&nbsp;";
+  setSelected: function(record) {
+    if (record.id == this._value || record.name == this._value) {
+      this._selected = record.id;
+      return this._selected;
     }
-    return totalSpace;
+  },
+  renderDisplay: function(idElement, data) {
+    var $hierarchy = $("#" + idElement);
+    $hierarchy.tree({
+      data: data,
+      autoOpen: false,
+      dragAndDrop: false,
+      selectable: true,
+      closedIcon: $('<img src="img/folder.png" style="vertical-align: middle;">'),
+      openedIcon: $('<img src="img/folder_open.png" style="vertical-align: middle;">>')
+    });
+
+    var existingNode = $hierarchy.tree('getNodeById', data[0].id);
+    $hierarchy.tree(
+        'addNodeBefore', {name: '(no value)', id: ''}, existingNode
+        );
+  },
+  selectedNode: function(idElement, value) {
+    var $hierarchy = $("#" + idElement);
+    var node = $hierarchy.tree('getNodeById', value);
+    $hierarchy.tree('selectNode', node);
   }
 };

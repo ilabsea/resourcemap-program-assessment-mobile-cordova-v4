@@ -29,8 +29,12 @@ SessionController = {
         }
         App.redirectTo("#page-collection-list");
       });
-    }, function() {
-      showElement($('#invalidmail'));
+    }, function(x, t, m) {
+        if(t==="timeout" || t === "error" || t==="notmodified") {
+          alert("Internet connection problem");
+        } else {
+          showElement($('#invalidmail'));
+        }
     });
   },
   authUserOffline: function(email, password) {
@@ -50,7 +54,7 @@ SessionController = {
     });
   },
   authUser: function(email, password) {
-    if (!isOnline())
+    if (!App.isOnline())
       this.authUserOffline(email, password);
     else
       this.authUserOnline(email, password);
@@ -77,7 +81,7 @@ SessionController = {
   },
   logout: function() {
     $('#form_login')[0].reset();
-    if (!isOnline()) {
+    if (!App.isOnline()) {
       App.Session.resetState();
       App.redirectTo("#page-login");
     }
