@@ -17,48 +17,48 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
+*/
 
 //map from BB10 to cordova connection types:
 //https://github.com/apache/cordova-js/blob/master/lib/common/plugin/Connection.js
 function mapConnectionType(con) {
-  switch (con.type) {
+    switch (con.type) {
     case 'wired':
-      return 'ethernet';
+        return 'ethernet';
     case 'wifi':
-      return 'wifi';
+        return 'wifi';
     case 'none':
-      return 'none';
+        return 'none';
     case 'cellular':
-      switch (con.technology) {
+        switch (con.technology) {
         case 'edge':
         case 'gsm':
-          return '2g';
+            return '2g';
         case 'evdo':
-          return '3g';
+            return '3g';
         case 'umts':
-          return '3g';
+            return '3g';
         case 'lte':
-          return '4g';
-      }
-      return "cellular";
-  }
-  return 'unknown';
+            return '4g';
+        }
+        return "cellular";
+    }
+    return 'unknown';
 }
 
 function currentConnectionType() {
-  try {
-    //possible for webplatform to throw pps exception
-    return mapConnectionType(window.qnx.webplatform.device.activeConnection || {type: 'none'});
-  }
-  catch (e) {
-    return 'unknown';
-  }
+    try {
+        //possible for webplatform to throw pps exception
+        return mapConnectionType(window.qnx.webplatform.device.activeConnection || { type : 'none' });
+    }
+    catch (e) {
+        return 'unknown';
+    }
 }
 
 module.exports = {
-  getConnectionInfo: function(success, fail, args, env) {
-    var result = new PluginResult(args, env);
-    result.ok(currentConnectionType());
-  }
+    getConnectionInfo: function (success, fail, args, env) {
+        var result = new PluginResult(args, env);
+        result.ok(currentConnectionType());
+    }
 };
