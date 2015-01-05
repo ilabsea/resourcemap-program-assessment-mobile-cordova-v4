@@ -102,10 +102,10 @@
         "org.apache.cordova.geolocation": {
             "PACKAGE_NAME": "org.instedd.resourcemap"
         },
-        "org.apache.cordova.network-information": {
+        "com.badrit.Backbutton": {
             "PACKAGE_NAME": "org.instedd.resourcemap"
         },
-        "com.badrit.Backbutton": {
+        "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "org.instedd.resourcemap"
         }
     },
