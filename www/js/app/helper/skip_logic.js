@@ -32,7 +32,9 @@ SkipLogic = {
     SkipLogic.handleSkipLogic(field_id);
   },
   handleSkipLogic: function(field_id) {
-    if (field_id) {
+    var id = "";
+    if (field_id) id = field_id.substr(field_id.lastIndexOf("_") + 1);
+    if (id) {
       var skipToId = "#wrapper_" + field_id;
       var $parent = $(skipToId).parent().parent();
       triggerExpand($parent);
