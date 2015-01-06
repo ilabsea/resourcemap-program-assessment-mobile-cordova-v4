@@ -22,7 +22,7 @@ $(function() {
     $("#mark_lng").val($("#updatelolng_online").val());
     localStorage['no_update_reload'] = 1;
   });
-  
+
   $(document).delegate('#page-map', 'pageshow', function() {
     mapObject.render();
   });

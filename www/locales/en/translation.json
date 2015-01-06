@@ -27,7 +27,8 @@
     "login_page": {
         "login": "Login",
         "creat_new_accotun": "Create new account",
-        "invalide_email": "Please enter a valid email address."
+        "invalide_email": "Please enter a valid email address.",
+        "about":"About"
     },
     "signup_page": {
         "sign_up": "SignUp",

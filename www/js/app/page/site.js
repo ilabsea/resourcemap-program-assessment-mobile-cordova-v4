@@ -42,29 +42,11 @@ $(function() {
     requireReload(SiteController.renderUpdateSiteFormOffline);
   });
 
-  $(document).delegate('#btn_back_site_list', 'click', function() {
-    var sId = App.DataStore.get("sId");
-    for (var key in localStorage) {
-      if (key.substring(0, sId.length) == sId)
-        localStorage.removeItem(key);
-    }
-  });
-
-  $(document).delegate('#btn_back_site_list_all', 'click', function() {
-    var sId = App.DataStore.get("sId");
-    for (var key in localStorage) {
-      if (key.substring(0, sId.length) == sId)
-        localStorage.removeItem(key);
-    }
-  });
-
-  $(document).delegate('#btn_back_site_list_online', 'click', function() {
-    var sId = App.DataStore.get("sId");
-    for (var key in localStorage) {
-      if (key.substring(0, sId.length) == sId)
-        localStorage.removeItem(key);
-    }
-  });
+  $(document).delegate(
+      '#btn_back_site_in_create , #btn_back_site_list_online , \n\
+#btn_back_site_list_all , #btn_back_site_list', 'click', function() {
+        App.DataStore.clearPartlyAfterCreateSite();
+      });
 
   $(document).delegate('#page-site-list #site-list li', 'click', function() {
     var sId = $(this).attr("data-id");
@@ -90,7 +72,7 @@ $(function() {
       }
     });
   });
-
+  
   function requireReload(callback) {
     if (localStorage['no_update_reload'] != undefined)
       localStorage.removeItem('no_update_reload');

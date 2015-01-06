@@ -2,7 +2,7 @@
 <div data-role="collapsible" 
      data-inset="true" 
      data-theme="a" 
-     data-collapsed="false"
+     data-collapsed="true"
      id="collapsable_update_{{id_wrapper}}">
  <h3>{{name_wrapper}}</h3>
  {{#each fields}}
@@ -18,7 +18,7 @@
           data-mini="{{ctrue}}" 
           {{required}}  
           data-is_enable_field_logic="{{is_enable_field_logic}}"
-          class="validateSelectFields">
+          class="validateSelectFields needsclick">
    {{#if multiple}}
    <option>Options</option>
    {{#config.options}}
@@ -71,11 +71,25 @@
          class="date" 
          {{required}} >  
   {{else}}
-  <input type="{{widgetType}}" 
+   {{#ifCond widgetType "number"}}
+    <input type="{{widgetType}}" 
          id="update_{{idfield}}" 
          value ="{{__value}}" 
          name="{{name}}" 
-         {{required}} >  
+         min="{{config.range.minimum}}"
+         max="{{config.range.maximum}}"
+         data-is_enable_field_logic="{{is_enable_field_logic}}"
+         class="skipLogicNumber"
+         {{required}}
+         {{readonly}}/>
+    {{else}}
+     <input type="{{widgetType}}" 
+         id="update_{{idfield}}" 
+         value ="{{__value}}" 
+         name="{{name}}" 
+         {{required}} 
+         {{readonly}}/> 
+    {{/ifCond}}
   {{/ifCond}}
  </div>
  {{/if}}

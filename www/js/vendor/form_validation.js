@@ -43,7 +43,7 @@ $(document).ready(function() {
     focusInvalid: false,
     errorPlacement: function(error, element) {
       if (element.attr("type") === "number" &&
-          (element.attr("min") || element.attr("max"))) 
+          (element.attr("min") || element.attr("max")))
         error.insertAfter($(element).parent());
       
       addClassError(element);
@@ -69,14 +69,19 @@ $(document).ready(function() {
       if (classElement.length != 0)
         bImage = validateImageSubmitHandler(classElement, '#validation_create-site');
 
-      if (h && bImage)
+      if (h && bImage) {
         SiteController.add();
+        App.DataStore.clearPartlyAfterCreateSite();
+      }
     }
   });
 
   $('#form_update_site').validate({
     focusInvalid: false,
     errorPlacement: function(error, element) {
+      if (element.attr("type") === "number" &&
+          (element.attr("min") || element.attr("max")))
+        error.insertAfter($(element).parent());
       addClassError(element);
 
       var classElement = document.getElementsByClassName("image");
@@ -99,7 +104,7 @@ $(document).ready(function() {
         h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site');
       if (classElement.length != 0)
         bImage = validateImageSubmitHandler(classElement, '#validation_update-site', SiteController.updateBySiteIdOffline);
-      if (h && bImage)
+      if (h && bImage) 
         SiteController.updateBySiteIdOffline();
     }
   });
@@ -107,6 +112,9 @@ $(document).ready(function() {
   $('#form_update_site_online').validate({
     focusInvalid: false,
     errorPlacement: function(error, element) {
+      if (element.attr("type") === "number" &&
+          (element.attr("min") || element.attr("max")))
+        error.insertAfter($(element).parent());
       addClassError(element);
 
       var classElement = document.getElementsByClassName("image");
@@ -129,7 +137,7 @@ $(document).ready(function() {
         h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
       if (classElement.length != 0)
         bImage = validateImageSubmitHandler(classElement, '#validation_update-site-online', SiteController.updateBySiteIdOnline);
-      if (h && bImage)
+      if (h && bImage) 
         SiteController.updateBySiteIdOnline();
     }
   });

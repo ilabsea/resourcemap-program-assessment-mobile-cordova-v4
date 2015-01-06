@@ -40,10 +40,17 @@ FieldHelper = {
         widgetType = "number";
         if (config.range)
           is_required = "required";
+        if (config.field_logics) {
+          App.DataStore.set("configNumberSkipLogic_" + id,
+              JSON.stringify(config.field_logics));
+        }
       }
 
-      if (widgetType === "select_one" && is_enable_field_logic)
+      if (widgetType === "select_one" && is_enable_field_logic) {
         config = FieldHelper.buildFieldSelectOne(config);
+        if (!config.field_logics)
+          is_enable_field_logic = false;
+      }
 
       if (widgetType === "select_many" && is_enable_field_logic)
         App.DataStore.set("configSelectManyForSkipLogic_" + id,
@@ -51,8 +58,7 @@ FieldHelper = {
 
       if (widgetType === "yes_no") {
         widgetType = "select_one";
-        config = FieldHelper.buildFieldYesNo(is_enable_field_logic, config,
-            options["fromServer"]);
+        config = FieldHelper.buildFieldYesNo(config, options["fromServer"]);
 
         slider = "slider";
         ctrue = "true";
@@ -87,47 +93,45 @@ FieldHelper = {
     return fieldsWrapper;
   },
   buildFieldSelectOne: function(config) {
-    var configOptions;
     $.each(config.options, function(i, option) {
-      $.each(config.field_logics, function(j, field_logic) {
-        if (option.id === field_logic.value)
-          config.options[i]["field_id"] = field_logic.field_id;
-      });
+      if (config.field_logics) {
+        $.each(config.field_logics, function(j, field_logic) {
+          if (option.id === field_logic.value)
+            config.options[i]["field_id"] = field_logic.field_id;
+        });
+      }
     });
-    configOptions = config;
-    return configOptions;
+    return config;
   },
-  buildFieldYesNo: function(is_enable_field_logic, config, fromServer) {
-    var configOptions;
-    if (is_enable_field_logic) {
-      var field_logics = config.field_logics;
-      var field_id0 = fromServer ?
-          field_logics[0].field_id : config.options[0].field_id;
-      var field_id1 = fromServer ?
-          field_logics[1].field_id : config.options[1].field_id;
-      config = {
-        options: [{
-            id: 0,
-            label: "NO",
-            code: "1",
-            field_id: field_id0
-          },
-          {id: 1,
-            label: "YES",
-            code: "2",
-            field_id: field_id1
-          }]
-      };
+  buildFieldYesNo: function(config, fromServer) {
+    var field_id0, field_id1;
+    if (fromServer) {
+      if (config) {
+        var field_logics = config.field_logics;
+        if (field_logics) {
+          field_id0 = field_logics[0].field_id;
+          field_id1 = field_logics[1].field_id;
+        }
+      }
+    } else {
+      field_id0 = config.options[0].field_id;
+      field_id1 = config.options[1].field_id;
     }
-    else
-      config = {
-        options: [{"id": 0, "code": "1", "label": "NO"},
-          {"id": 1, "code": "2", "label": "YES"}]
-      };
+    config = {
+      options: [{
+          id: 0,
+          label: "NO",
+          code: "1",
+          field_id: field_id0
+        },
+        {id: 1,
+          label: "YES",
+          code: "2",
+          field_id: field_id1
+        }]
+    };
 
-    configOptions = config;
-
-    return configOptions;
+    return config;
   },
   buildFieldsUpdate: function(layers, site, fromServer, layerMemberships) {
     var field_collections = [];

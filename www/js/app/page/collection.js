@@ -1,5 +1,5 @@
 $(function() {
-  
+
   $(document).delegate('#page-collection-list', 'pagebeforeshow', function() {
     App.emptyHTML();
     hideElement($("#info_sign_in"));
@@ -7,7 +7,7 @@ $(function() {
     var currentUser = SessionController.currentUser();
     SiteController.countByUserId(currentUser.id);
   });
-  
+
   $(document).delegate('#page-collection-list li', 'click', function() {
     var cId = $(this).attr("data-id");
     App.DataStore.set("cId", cId);

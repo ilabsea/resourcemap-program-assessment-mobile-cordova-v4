@@ -17,9 +17,8 @@ SiteModel = {
       type: "GET",
       datatype: 'json',
       success: successCallback,
-      cache: false,
       error: function(error) {
-        console.log("Retriving sites from server : ", error);
+        App.log("Retriving sites from server : ", error);
       }
     });
   },
@@ -32,8 +31,11 @@ SiteModel = {
       type: "GET",
       datatype: 'json',
       success: successCallback,
-      error: function(error) {
-        console.log("Retriving sites from server : ", error);
+      error: function(error, t) {
+        if(t==="timeout" || t === "error" || t==="notmodified") {
+          alert('Internet connection problem.');
+          App.redirectTo('#page-site-list');
+        } 
       },
       complete: function() {
         ViewBinding.setBusy(true);

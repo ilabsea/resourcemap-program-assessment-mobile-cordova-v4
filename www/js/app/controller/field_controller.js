@@ -1,6 +1,6 @@
 FieldController = {
-  display: function(templateURL, element, elementHierarchy, fieldData, update) {
-    App.Template.process(templateURL, fieldData, function(content) {
+  display: function (templateURL, element, elementHierarchy, fieldData, update) {
+    App.Template.process(templateURL, fieldData, function (content) {
       element.html(content);
       FieldController.displayHierarchy(elementHierarchy, fieldData, update);
 
@@ -8,9 +8,9 @@ FieldController = {
       FieldController.displayUiDisabled(elementHierarchy, fieldData);
     });
   },
-  displayHierarchy: function(element, fieldData, update) {
-    $.each(fieldData.field_collections, function(key, properties) {
-      $.each(properties.fields, function(i, fieldsInside) {
+  displayHierarchy: function (element, fieldData, update) {
+    $.each(fieldData.field_collections, function (key, properties) {
+      $.each(properties.fields, function (i, fieldsInside) {
         if (fieldsInside.kind === "hierarchy") {
           var data = fieldsInside.configHierarchy;
           var id = fieldsInside.idfield;
@@ -21,8 +21,8 @@ FieldController = {
       });
     });
   },
-  displayUiDisabled: function(element, fieldData) {
-    $.each(fieldData.field_collections, function(key, properties) {
+  displayUiDisabled: function (element, fieldData) {
+    $.each(fieldData.field_collections, function (key, properties) {
       if (properties.layer_membership) {
         if (!properties.layer_membership.write) {
           var ele = "collapsable_" + element + properties.layer_membership.layer_id;
@@ -31,21 +31,21 @@ FieldController = {
       }
     });
   },
-  getByCollectionId: function() {
+  getByCollectionId: function () {
     if (App.isOnline())
       this.renderByCollectionIdOnline();
     else
       this.renderByCollectionIdOffline();
   },
-  renderByCollectionIdOnline: function() {
+  renderByCollectionIdOnline: function () {
     var cId = App.DataStore.get("cId");
 
-    LayerMembership.fetch(cId, function(layerMemberships) {
-      FieldModel.fetch(function(response) {
+    LayerMembership.fetch(cId, function (layerMemberships) {
+      FieldModel.fetch(function (response) {
         var field_id_arr = new Array();
         var field_collections = [];
-        $.each(response, function(key, properties) {
-          $.each(properties.fields, function(i, fieldsInside) {
+        $.each(response, function (key, properties) {
+          $.each(properties.fields, function (i, fieldsInside) {
             field_id_arr.push(fieldsInside.id);
           });
           var fields = FieldHelper.buildField(properties, {fromServer: true},
@@ -54,17 +54,20 @@ FieldController = {
         });
         App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
         FieldController.synForCurrentCollection(field_collections);
-        FieldController.display("field/add.html", $('#div_field_collection'), "", {field_collections: field_collections}, false);
+        FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
+            {field_collections: field_collections}, "");
+        FieldController.display("field/add.html", $('#div_field_collection'), "",
+            {field_collections: field_collections}, false);
       });
     });
   },
-  renderByCollectionIdOffline: function() {
+  renderByCollectionIdOffline: function () {
     var cId = App.DataStore.get("cId");
-    FieldOffline.fetchByCollectionId(cId, function(fields) {
+    FieldOffline.fetchByCollectionId(cId, function (fields) {
       var field_id_arr = new Array();
       var field_collections = [];
-      fields.forEach(function(field) {
-        $.each(field.fields(), function(i, fieldsInfield) {
+      fields.forEach(function (field) {
+        $.each(field.fields(), function (i, fieldsInfield) {
           field_id_arr.push(fieldsInfield.idfield);
         });
         var item = FieldHelper.buildField(field._data,
@@ -72,24 +75,29 @@ FieldController = {
         field_collections.push(item);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
-      FieldController.display("field/add.html", $('#div_field_collection'), "",
+
+      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
+          {field_collections: field_collections}, "");
+      FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
     });
   },
-  renderUpdateOffline: function(site) {
+  renderUpdateOffline: function (site) {
     var cId = App.DataStore.get("cId");
-    FieldOffline.fetchByCollectionId(cId, function(layers) {
+    FieldOffline.fetchByCollectionId(cId, function (layers) {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false, "");
+      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
+          {field_collections: field_collections}, "update_");
       FieldController.display("field/updateOffline.html",
           $('#div_update_field_collection'), "update_",
           {field_collections: field_collections}, true);
     });
   },
-  renderUpdateOnline: function(siteData) {
+  renderUpdateOnline: function (siteData) {
     var cId = App.DataStore.get("cId");
     var sId = localStorage.getItem("sId");
 
-    SitesPermission.fetch(cId, function(site) {
+    SitesPermission.fetch(cId, function (site) {
       if ((!site.read && !site.write && !site.none)
           || (site.read.all_sites && site.write.all_sites && site.none.all_sites))
         LayerMembershipsHelper.buildAllLayersOfSite(cId, siteData);
@@ -97,14 +105,14 @@ FieldController = {
         LayerMembershipsHelper.buildCustomerSitePermission(site, siteData, cId, sId);
     });
   },
-  synForCurrentCollection: function(newFields) {
+  synForCurrentCollection: function (newFields) {
     var cId = App.DataStore.get("cId");
-    FieldOffline.fetchByCollectionId(cId, function(fields) {
+    FieldOffline.fetchByCollectionId(cId, function (fields) {
       FieldOffline.remove(fields);
       FieldOffline.add(newFields);
     });
   },
-  updateFieldValueBySiteId: function(propertiesFile, field, idHTMLForUpdate, fromServer) {
+  updateFieldValueBySiteId: function (propertiesFile, field, idHTMLForUpdate, fromServer) {
     var pf = propertiesFile;
     var itemLayer;
     if (fromServer)
@@ -114,10 +122,10 @@ FieldController = {
 
     var items = itemLayer.fields;
 
-    $.each(items, function(i, item) {
-      if (item.isPhoto) 
+    $.each(items, function (i, item) {
+      if (item.isPhoto)
         FieldController.updateFieldPhotoValue(item, propertiesFile, fromServer);
-      else if (item.widgetType === "date") 
+      else if (item.widgetType === "date")
         FieldController.updateFieldDateValue(idHTMLForUpdate, item, propertiesFile);
       else if (item.widgetType === "hierarchy") {
         var nodeId = idHTMLForUpdate + item["idfield"];
@@ -138,7 +146,7 @@ FieldController = {
 
     return pf;
   },
-  updateFieldPhotoValue: function(item, propertiesFile, fromServer) {
+  updateFieldPhotoValue: function (item, propertiesFile, fromServer) {
     var idfield = item["idfield"];
     var lPhotoList = PhotoList.getPhotos().length;
     var sId = App.DataStore.get("sId");
@@ -169,7 +177,7 @@ FieldController = {
       }
     }
   },
-  updateFieldDateValue: function(idHTMLForUpdate, item, propertiesFile) {
+  updateFieldDateValue: function (idHTMLForUpdate, item, propertiesFile) {
     var nodeId = idHTMLForUpdate + item["idfield"];
     var value = $(nodeId).val();
     if (value != "") {
