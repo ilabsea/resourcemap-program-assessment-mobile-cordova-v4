@@ -177,7 +177,7 @@ SkipLogic = {
   disabledElement: function (disabled_id) {
     for (var i in disabled_id) {
       App.log("disabled Id : ", disabled_id[i]);
-      $("#wrapper_" + disabled_id[i]).prop('disabled',true);
+      $("#wrapper_" + disabled_id[i]).addClass('ui-disabled');
     }
   }
 };
