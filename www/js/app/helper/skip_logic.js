@@ -10,7 +10,7 @@ SkipLogic = {
       $.each(config, function (i, field_logic) {
         var op = field_logic.condition_type;
         if (Operators[op](val, field_logic.value)) {
-          SkipLogic.handleSkipLogic(prefixIdElement + field_logic.field_id);
+          SkipLogic.handleSkipLogic(idElement, prefixIdElement + field_logic.field_id);
           return false;
         }
       });
@@ -29,7 +29,7 @@ SkipLogic = {
   skipLogicSelectOne: function (element) {
     var $element = $("#" + element);
     var field_id = $('option:selected', $element).attr('data-field_id');
-    SkipLogic.handleSkipLogic(field_id);
+    SkipLogic.handleSkipLogic(element, field_id);
   },
   skipLogicSelectMany: function (element) {
     var selectedValue = element.val();
@@ -71,7 +71,7 @@ SkipLogic = {
             }
             if (all_condi) {
               var field_id = wrapper_skip + field_logic.field_id;
-              SkipLogic.handleSkipLogic(field_id);
+              SkipLogic.handleSkipLogic(idElement, field_id);
               return false;
             }
           });
@@ -155,28 +155,27 @@ SkipLogic = {
     App.DataStore.remove("highlightedElement");
     App.DataStore.remove("typeElement");
   },
-  getDisabledId: function (id1, id2) {
+  getDisabledId: function (fieldId, field_focus) {
     var field_id_arr = JSON.parse(App.DataStore.get("field_id_arr"));
-    App.log("id 1 : ", id1);
-    App.log('id 2 : ', id2);
     var disabled_id = [];
     var startIndex, endIndex;
+    var prefixId = fieldId.substr(0, fieldId.lastIndexOf("_") + 1);
     $.each(field_id_arr, function (i, field_id) {
-      if (field_id === id1) {
+      field_id = prefixId + field_id;
+      if (field_id === fieldId)
         startIndex = i;
-      } else if (field_id === id2) {
+      else if (field_id === field_focus) {
         endIndex = i;
         return false;
       }
     });
     for (var i = startIndex; i < endIndex - 1; i++) {
-      disabled_id.push(field_id_arr[i + 1]);
+      disabled_id.push(prefixId + field_id_arr[i + 1]);
     }
     SkipLogic.disabledElement(disabled_id);
   },
   disabledElement: function (disabled_id) {
     for (var i in disabled_id) {
-      App.log("disabled Id : ", disabled_id[i]);
       $("#wrapper_" + disabled_id[i]).addClass('ui-disabled');
     }
   }
@@ -184,7 +183,7 @@ SkipLogic = {
 
 function scrollToLayer(selectedValue) {
   var element = ("#collapsable_" + selectedValue);
-  if (selectedValue == 'logout')
+  if (selectedValue === 'logout')
     setTimeout(function () {
       SessionController.logout();
     }, 50);
