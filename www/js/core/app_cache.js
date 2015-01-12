@@ -8,5 +8,13 @@ App.Cache = {
   },
   clearAll: function() {
     App.DataStore.clearAll();
+  },
+  resetValue: function(){
+    $("#updatesitename_online").val("");
+    $("#updatelolat_online").val("");
+    $("#updatelolng_online").val("");
+    $("#updatesitename").val("");
+    $("#updatelolat").val("");
+    $("#updatelolng").val("");
   }
 };

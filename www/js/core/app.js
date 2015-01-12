@@ -1,4 +1,4 @@
-URL = "http://resourcemap-sea.instedd.org/";
+URL = "http://192.168.1.127:3000/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
@@ -11,6 +11,7 @@ App = {
   URL_LOGOUT: END_POINT + "/users/sign_out.json?auth_token=",
   URL_FIELD: END_POINT + "/v1/collections/",
   URL_SITE: END_POINT + "/v1/collections/",
+  URL_COLLECTION: END_POINT + "/collections/",
   DEBUG: true,
   userId: "",
   log: function(text, data) {

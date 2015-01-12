@@ -5,10 +5,13 @@ SiteController = {
       element.listview("refresh");
     });
   },
-  displayUpdateLatLng: function(templateURL, element, siteUpdateData) {
+  displayUpdateLatLng: function(templateURL, element, suffix, siteUpdateData) {
     App.Template.process(templateURL, siteUpdateData, function(content) {
       element.html(content);
       element.trigger("create");
+      InvisibleLayer.invisibleNameLatLng("update_wrapSiteLocation" + suffix,
+          "update_wrapSiteName" + suffix, function() {
+          });
     });
   },
   add: function() {
@@ -107,7 +110,7 @@ SiteController = {
         persistence.flush();
 
         App.DataStore.clearPartlyAfterCreateSite();
-
+        App.Cache.resetValue();
         App.redirectTo("index.html#page-site-list");
       });
     });
@@ -136,9 +139,9 @@ SiteController = {
         $.each(data.site.properties, function(key, idField) {
           PhotoList.remove(sId, key);
         });
-        
-        App.DataStore.clearPartlyAfterCreateSite();
 
+        App.DataStore.clearPartlyAfterCreateSite();
+        App.Cache.resetValue();
         App.redirectTo("#page-site-list");
       }, function() {
         alert(i18n.t("global.please_reupdate_your_site"));
@@ -153,7 +156,9 @@ SiteController = {
         lat: site.lat(),
         lng: site.lng()
       };
-      SiteController.displayUpdateLatLng("site/updateOffline.html", $('#div-site-update-name'), siteUpdateData);
+
+      SiteController.displayUpdateLatLng("site/updateOffline.html",
+          $('#div-site-update-name'), "", siteUpdateData);
       FieldController.renderUpdateOffline(site);
     });
   },
@@ -165,7 +170,10 @@ SiteController = {
         lat: response.lat,
         lng: response.long
       };
-      SiteController.displayUpdateLatLng("site/updateOnline.html", $('#div-site-update-name-online'), siteOnlineUpdateData);
+
+      SiteController.displayUpdateLatLng("site/updateOnline.html",
+          $('#div-site-update-name-online'), "_online", siteOnlineUpdateData);
+
       FieldController.renderUpdateOnline(response);
     });
   },

@@ -18,7 +18,6 @@ $(function() {
     App.DataStore.set("sId", sId);
     requireReload(SiteController.renderUpdateSiteFormOnline);
   });
-
   $(document).delegate('#btn_delete-site', 'click', function() {
     var sId = App.DataStore.get("sId");
     SiteController.deleteBySiteId(sId);
@@ -46,6 +45,7 @@ $(function() {
       '#btn_back_site_in_create , #btn_back_site_list_online , \n\
 #btn_back_site_list_all , #btn_back_site_list', 'click', function() {
         App.DataStore.clearPartlyAfterCreateSite();
+        App.Cache.resetValue();
       });
 
   $(document).delegate('#page-site-list #site-list li', 'click', function() {
@@ -57,22 +57,25 @@ $(function() {
   });
 
   $(document).delegate('#page-create-site', 'pagebeforeshow', function() {
-    requireReload(function() {
-      var lat = $("#lat").val();
-      var lng = $("#lng").val();
-      if (lat == "" && lng == "") {
-        navigator.geolocation.getCurrentPosition(function(pos) {
-          var lat = pos.coords.latitude;
-          var lng = pos.coords.longitude;
-          $("#lat").val(lat);
-          $("#lng").val(lng);
-          $("#mark_lat").val(lat);
-          $("#mark_lng").val(lng);
+    InvisibleLayer.invisibleNameLatLng("wrapSiteLocation", "wrapSiteName",
+        function() {
+          requireReload(function() {
+            var lat = $("#lat").val();
+            var lng = $("#lng").val();
+            if (lat == "" && lng == "") {
+              navigator.geolocation.getCurrentPosition(function(pos) {
+                var lat = pos.coords.latitude;
+                var lng = pos.coords.longitude;
+                $("#lat").val(lat);
+                $("#lng").val(lng);
+                $("#mark_lat").val(lat);
+                $("#mark_lng").val(lng);
+              });
+            }
+          });
         });
-      }
-    });
   });
-  
+
   function requireReload(callback) {
     if (localStorage['no_update_reload'] != undefined)
       localStorage.removeItem('no_update_reload');
