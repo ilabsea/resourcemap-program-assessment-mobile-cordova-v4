@@ -62,11 +62,12 @@ SiteController = {
         date = new Date(date);
         date = dateToParam(date);
         var item = {id: data.id,
-          name: data.name,
+          name: data.name? data.name: "\u00A0",
           collectionName: "",
           date: date,
           link: "#page-update-site-online"
         };
+        App.log("item : ", item);
         siteOnlineData.push(item);
         if (key === response["total"] - 1) {
           SiteController.display($('#site-list-online'), {siteList: siteOnlineData});
