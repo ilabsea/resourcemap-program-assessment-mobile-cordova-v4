@@ -90,11 +90,11 @@ SkipLogic = {
 
       scrollToHash(skipToId);
 
-      SkipLogic.getDisabledId(element, field_id);
-
       setTimeout(function () {
         $("#" + field_id).focus();
       }, 500);
+
+      SkipLogic.getDisabledId(element, field_id);
 
       SkipLogic.handleHighlightElement(field_id);
     }
@@ -157,27 +157,32 @@ SkipLogic = {
   },
   getDisabledId: function (fieldId, field_focus) {
     var field_id_arr = JSON.parse(App.DataStore.get("field_id_arr"));
-    var disabled_id = [];
+    var disabled_id, enabled_id;
     var startIndex, endIndex;
     var prefixId = fieldId.substr(0, fieldId.lastIndexOf("_") + 1);
     $.each(field_id_arr, function (i, field_id) {
       field_id = prefixId + field_id;
       if (field_id === fieldId)
-        startIndex = i;
+        startIndex = i + 1;
       else if (field_id === field_focus) {
         endIndex = i;
         return false;
       }
     });
-    for (var i = startIndex; i < endIndex - 1; i++) {
-      disabled_id.push(prefixId + field_id_arr[i + 1]);
+    for (var i = startIndex; i < endIndex; i++) {
+      disabled_id = prefixId + field_id_arr[i];
+      SkipLogic.disableElement(disabled_id);
     }
-    SkipLogic.disabledElement(disabled_id);
+    for (var j = endIndex; j < field_id_arr.length; j++) {
+      enabled_id = prefixId + field_id_arr[j];
+      SkipLogic.enableElement(enabled_id);
+    }
   },
-  disabledElement: function (disabled_id) {
-    for (var i in disabled_id) {
-      $("#wrapper_" + disabled_id[i]).addClass('ui-disabled');
-    }
+  disableElement: function (disabled_id) {
+    $("#wrapper_" + disabled_id).addClass('ui-disabled');
+  },
+  enableElement: function (enabled_id) {
+    $("#wrapper_" + enabled_id).removeClass('ui-disabled');
   }
 };
 
