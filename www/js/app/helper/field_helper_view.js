@@ -5,6 +5,7 @@ FieldHelperView = {
       FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
 
       element.trigger("create");
+      FieldHelperView.displayUiDisabled(elementPrefixID, fieldData);
     });
   },
   displayLayerMenu: function(path, element, layers_collection, current_page) {
@@ -25,6 +26,16 @@ FieldHelperView = {
             Hierarchy.selectedNode(elementPrefixID + id, fieldsInside._selected);
         }
       });
+    });
+  },
+  displayUiDisabled: function (element, fieldData) {
+    $.each(fieldData.field_collections, function (key, properties) {
+      if (properties.layer_membership) {
+        if (!properties.layer_membership.write) {
+          var ele = "collapsable_" + element + properties.layer_membership.layer_id;
+          $($("#" + ele).children()[1]).addClass("ui-disabled");
+        }
+      }
     });
   }
 };

@@ -1,36 +1,4 @@
 FieldController = {
-  display: function (templateURL, element, elementHierarchy, fieldData, update) {
-    App.Template.process(templateURL, fieldData, function (content) {
-      element.html(content);
-      FieldController.displayHierarchy(elementHierarchy, fieldData, update);
-
-      element.trigger("create");
-      FieldController.displayUiDisabled(elementHierarchy, fieldData);
-    });
-  },
-  displayHierarchy: function (element, fieldData, update) {
-    $.each(fieldData.field_collections, function (key, properties) {
-      $.each(properties.fields, function (i, fieldsInside) {
-        if (fieldsInside.kind === "hierarchy") {
-          var data = fieldsInside.configHierarchy;
-          var id = fieldsInside.idfield;
-          Hierarchy.renderDisplay(element + id, data);
-          if (update)
-            Hierarchy.selectedNode(element + id, fieldsInside._selected);
-        }
-      });
-    });
-  },
-  displayUiDisabled: function (element, fieldData) {
-    $.each(fieldData.field_collections, function (key, properties) {
-      if (properties.layer_membership) {
-        if (!properties.layer_membership.write) {
-          var ele = "collapsable_" + element + properties.layer_membership.layer_id;
-          $($("#" + ele).children()[1]).addClass("ui-disabled");
-        }
-      }
-    });
-  },
   getByCollectionId: function () {
     if (App.isOnline())
       this.renderByCollectionIdOnline();
@@ -56,7 +24,7 @@ FieldController = {
         FieldController.synForCurrentCollection(field_collections);
         FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
             {field_collections: field_collections}, "");
-        FieldController.display("field/add.html", $('#div_field_collection'), "",
+        FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
             {field_collections: field_collections}, false);
       });
     });
@@ -75,7 +43,6 @@ FieldController = {
         field_collections.push(item);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
-
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
           {field_collections: field_collections}, "");
       FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
@@ -88,7 +55,7 @@ FieldController = {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false, "");
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
           {field_collections: field_collections}, "update_");
-      FieldController.display("field/updateOffline.html",
+      FieldHelperView.display("field/updateOffline.html",
           $('#div_update_field_collection'), "update_",
           {field_collections: field_collections}, true);
     });
