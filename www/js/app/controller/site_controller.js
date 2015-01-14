@@ -119,7 +119,8 @@ SiteController = {
   updateBySiteIdOnline: function() {
     var data;
     ViewBinding.setBusy(true);
-    FieldModel.fetch(function(fields) {
+
+    VisibleLayersFor.fetch(function(fields) {
       var propertiesFile = {properties: {}, files: {}};
       $.map(fields, function(field){
         propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
@@ -140,7 +141,6 @@ SiteController = {
         $.each(data.site.properties, function(key, idField) {
           PhotoList.remove(sId, key);
         });
-
         App.DataStore.clearPartlyAfterCreateSite();
         App.Cache.resetValue();
         App.redirectTo("#page-site-list");
@@ -169,7 +169,7 @@ SiteController = {
       var siteOnlineUpdateData = {
         name: response.name,
         lat: response.lat,
-        lng: response.long
+        lng: response.lng
       };
 
       SiteController.displayUpdateLatLng("site/updateOnline.html",
@@ -185,7 +185,6 @@ SiteController = {
   submitAllToServerByUserId: function() {
     var currentUser = SessionController.currentUser();
     SiteController.processToServer("user_id", currentUser.id);
-    ;
   },
   processToServer: function(key, id) {
     if (App.isOnline()) {

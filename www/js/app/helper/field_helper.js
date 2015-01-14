@@ -1,5 +1,5 @@
 FieldHelper = {
-  buildField: function(fieldObj, options) {
+  buildField: function (fieldObj, options, layerMemberships) {
     options = options || {};
     var fromServer = options["fromServer"];
     var pf = null;
@@ -11,13 +11,26 @@ FieldHelper = {
       name_wrapper: fromServer ? fieldObj.name : fieldObj.name_wrapper,
       id_wrapper: fromServer ? fieldObj.id : fieldObj.id_wrapper
     };
-    $.map(fieldObj.fields, function(fields) {
+    if (fromServer) {
+      fieldsWrapper.name_wrapper = fieldObj.name;
+      fieldsWrapper.id_wrapper = fieldObj.id;
+      $.each(layerMemberships, function (key, layerMembership) {
+        if (fieldObj.id === layerMembership.layer_id)
+          fieldsWrapper.layer_membership = layerMembership;
+      });
+    }
+    else {
+      fieldsWrapper.name_wrapper = fieldObj.name_wrapper;
+      fieldsWrapper.id_wrapper = fieldObj.id_wrapper;
+      fieldsWrapper.layer_membership = fieldObj.layer_membership;
+    }
+    $.map(fieldObj.fields, function (fields) {
       pf = FieldHelper.buildFieldProperties(fields, fromServer);
       fieldsWrapper.fields.push(pf);
     });
     return fieldsWrapper;
   },
-  buildFieldProperties: function(fields, fromServer) {
+  buildFieldProperties: function (fields, fromServer) {
     var id = fromServer ? fields.id : fields.idfield;
     var kind = fields.kind;
     var widgetType = kind;
@@ -85,10 +98,10 @@ FieldHelper = {
     };
     return fieldProperties;
   },
-  buildFieldSelectOne: function(config) {
-    $.each(config.options, function(i, option) {
+  buildFieldSelectOne: function (config) {
+    $.each(config.options, function (i, option) {
       if (config.field_logics) {
-        $.map(config.field_logics, function(field_logic) {
+        $.map(config.field_logics, function (field_logic) {
           if (option.id === field_logic.value)
             config.options[i]["field_id"] = field_logic.field_id;
         });
@@ -96,7 +109,7 @@ FieldHelper = {
     });
     return config;
   },
-  buildFieldYesNo: function(config, fromServer) {
+  buildFieldYesNo: function (config, fromServer) {
     var field_id0, field_id1;
     if (fromServer) {
       if (config) {
@@ -126,26 +139,26 @@ FieldHelper = {
 
     return config;
   },
-  buildFieldsUpdate: function(layers, site, fromServer) {
-    var field_collections = $.map(layers, function(layer) {
+  buildFieldsUpdate: function (layers, site, fromServer) {
+    var field_collections = $.map(layers, function (layer) {
       var item = FieldHelper.buildFieldsLayer(layer, site, fromServer);
       return item;
     });
 
     return field_collections;
   },
-  buildFieldsLayer: function(layer, site, fromServer) {
+  buildFieldsLayer: function (layer, site, fromServer, layerMemberships) {
     if (fromServer) {
-      var itemLayer = FieldHelper.buildField(layer, {fromServer: fromServer});
+      var itemLayer = FieldHelper.buildField(layer, {fromServer: fromServer}, layerMemberships);
       var p = site.properties;
     }
     else {
-      var itemLayer = FieldHelper.buildField(layer._data, {fromServer: fromServer});
+      var itemLayer = FieldHelper.buildField(layer._data, {fromServer: fromServer}, "");
       var p = site.properties();
     }
 
     for (propertyCode in p) {
-      $.map(itemLayer.fields, function(item) {
+      $.map(itemLayer.fields, function (item) {
         var propertyValue = p[propertyCode];
         FieldHelper.setFieldsValue(item, propertyCode,
             propertyValue, site, fromServer);
@@ -153,7 +166,7 @@ FieldHelper = {
     }
     return itemLayer;
   },
-  setFieldsValue: function(item, propertyCode, pValue, site, fromServer) {
+  setFieldsValue: function (item, propertyCode, pValue, site, fromServer) {
     if (item.code === propertyCode || parseInt(item["idfield"])
         === parseInt(propertyCode)) {
       switch (item.widgetType) {
@@ -176,7 +189,7 @@ FieldHelper = {
       }
     }
   },
-  setFieldPhotoValue: function(item, value, site, fromServer) {
+  setFieldPhotoValue: function (item, value, site, fromServer) {
     var sId = App.DataStore.get("sId");
     if (fromServer) {
       App.DataStore.set(sId + "_" + item["idfield"], value);
@@ -195,7 +208,7 @@ FieldHelper = {
       }
     }
   },
-  setFieldSelectValue: function(item, value) {
+  setFieldSelectValue: function (item, value) {
     item.__value = value;
     for (var k = 0; k < item.config.options.length; k++) {
       item.config.options[k]["selected"] = "";
@@ -221,7 +234,7 @@ FieldHelper = {
       }
     }
   },
-  setFieldHierarchyValue: function(item, value) {
+  setFieldHierarchyValue: function (item, value) {
     item.__value = value;
     item.configHierarchy = Hierarchy.generateField(item.config, item.__value,
         item.idfield);

@@ -31,6 +31,7 @@ function createTables() {
     user_id: "INT",
     name_wrapper: "TEXT",
     id_wrapper: "INT",
+    layer_membership: "JSON",
     fields: "JSON"
   });
 }

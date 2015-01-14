@@ -23,7 +23,8 @@ FieldOffline = {
         user_id: field.user_id,
         name_wrapper: field.name_wrapper,
         id_wrapper: field.id_wrapper,
-        fields: field.fields
+        fields: field.fields,
+        layer_membership: field.layer_membership
       };
       var fieldObj = new Field(fieldParams);
       persistence.add(fieldObj);
