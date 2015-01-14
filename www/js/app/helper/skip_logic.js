@@ -171,7 +171,8 @@ SkipLogic = {
     });
     for (var i = startIndex; i < endIndex; i++) {
       disabled_id = prefixId + field_id_arr[i];
-      SkipLogic.disableElement(disabled_id);
+      if ($("#" + disabled_id).attr('require') !== "required")
+        SkipLogic.disableElement(disabled_id);
     }
     for (var j = endIndex; j < field_id_arr.length; j++) {
       enabled_id = prefixId + field_id_arr[j];
