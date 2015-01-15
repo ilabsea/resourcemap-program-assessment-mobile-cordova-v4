@@ -9,4 +9,4 @@ App.Cache = {
   clearAll: function() {
     App.DataStore.clearAll();
   }
-}
+};
