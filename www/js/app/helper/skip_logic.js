@@ -171,7 +171,7 @@ SkipLogic = {
     });
     for (var i = startIndex; i < endIndex; i++) {
       disabled_id = prefixId + field_id_arr[i];
-      if ($("#" + disabled_id).attr('require') === "required" 
+      if ($("#" + disabled_id).attr('require') === "required"
           || $("#" + disabled_id).attr("required")) {
         $("#" + disabled_id).attr('require', "");
         $("#" + disabled_id).removeAttr('required');
@@ -256,9 +256,9 @@ SkipLogic = {
             break;
           case "yes_no":
             for (var i = 0; i < config.options.length; i++) {
-              var elementId = prefixId + field.idfield;
-              var elementIdToFocus = prefixId + config.options[i].field_id;
-              if (field.__value == config.options[i].id && config.options[i].field_id) {
+              if (field.__value == config.options[i].id) {
+                var elementId = prefixId + field.idfield;
+                var elementIdToFocus = prefixId + config.options[i].field_id;
                 SkipLogic.getDisabledId(elementId, elementIdToFocus);
               }
             }

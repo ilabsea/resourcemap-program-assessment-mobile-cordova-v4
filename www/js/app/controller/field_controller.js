@@ -1,16 +1,16 @@
 FieldController = {
-  getByCollectionId: function() {
+  getByCollectionId: function () {
     if (App.isOnline())
       this.renderByCollectionIdOnline();
     else
       this.renderByCollectionIdOffline();
   },
-  renderByCollectionIdOnline: function() {
-    FieldModel.fetch(function(response) {
+  renderByCollectionIdOnline: function () {
+    FieldModel.fetch(function (response) {
       var field_id_arr = new Array();
       var field_collections = [];
-      $.each(response, function(key, properties) {
-        $.each(properties.fields, function(i, fieldsInside) {
+      $.each(response, function (key, properties) {
+        $.each(properties.fields, function (i, fieldsInside) {
           field_id_arr.push(fieldsInside.id);
         });
         var fields = FieldHelper.buildField(properties, {fromServer: true});
@@ -25,13 +25,13 @@ FieldController = {
           {field_collections: field_collections}, false);
     });
   },
-  renderByCollectionIdOffline: function() {
+  renderByCollectionIdOffline: function () {
     var cId = App.DataStore.get("cId");
-    FieldOffline.fetchByCollectionId(cId, function(fields) {
+    FieldOffline.fetchByCollectionId(cId, function (fields) {
       var field_id_arr = new Array();
       var field_collections = [];
-      fields.forEach(function(field) {
-        $.each(field.fields(), function(i, fieldsInfield) {
+      fields.forEach(function (field) {
+        $.each(field.fields(), function (i, fieldsInfield) {
           field_id_arr.push(fieldsInfield.idfield);
         });
         var item = FieldHelper.buildField(field._data, {fromServer: false});
@@ -45,9 +45,9 @@ FieldController = {
           {field_collections: field_collections}, false);
     });
   },
-  renderUpdateOffline: function(site) {
+  renderUpdateOffline: function (site) {
     var cId = App.DataStore.get("cId");
-    FieldOffline.fetchByCollectionId(cId, function(layers) {
+    FieldOffline.fetchByCollectionId(cId, function (layers) {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
           {field_collections: field_collections}, "update_");
@@ -56,8 +56,16 @@ FieldController = {
           {field_collections: field_collections}, true);
     });
   },
-  renderUpdateOnline: function(site) {
-    FieldModel.fetch(function(layers) {
+  renderUpdateOnline: function (site) {
+    var field_id_arr = [];
+    FieldModel.fetch(function (layers) {
+      $.map(layers, function (fields) {
+        $.map(fields.fields, function (field) {
+          field_id_arr.push(field.id);
+        });
+      });
+      App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+      
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
           {field_collections: field_collections}, "update_online_");
@@ -66,14 +74,14 @@ FieldController = {
           "update_online_", {field_collections: field_collections}, true);
     });
   },
-  synForCurrentCollection: function(newFields) {
+  synForCurrentCollection: function (newFields) {
     var cId = App.DataStore.get("cId");
-    FieldOffline.fetchByCollectionId(cId, function(fields) {
+    FieldOffline.fetchByCollectionId(cId, function (fields) {
       FieldOffline.remove(fields);
       FieldOffline.add(newFields);
     });
   },
-  updateFieldValueBySiteId: function(propertiesFile, field, idHTMLForUpdate, fromServer) {
+  updateFieldValueBySiteId: function (propertiesFile, field, idHTMLForUpdate, fromServer) {
     var pf = propertiesFile;
     var itemLayer;
     if (fromServer)
@@ -83,7 +91,7 @@ FieldController = {
 
     var items = itemLayer.fields;
 
-    $.each(items, function(i, item) {
+    $.each(items, function (i, item) {
       if (item.isPhoto) {
         FieldController.updateFieldPhotoValue(item, propertiesFile, fromServer);
       }
@@ -109,7 +117,7 @@ FieldController = {
 
     return pf;
   },
-  updateFieldPhotoValue: function(item, propertiesFile, fromServer) {
+  updateFieldPhotoValue: function (item, propertiesFile, fromServer) {
     var idfield = item["idfield"];
     var lPhotoList = PhotoList.getPhotos().length;
     var sId = App.DataStore.get("sId");
@@ -140,7 +148,7 @@ FieldController = {
       }
     }
   },
-  updateFieldDateValue: function(idHTMLForUpdate, item, propertiesFile) {
+  updateFieldDateValue: function (idHTMLForUpdate, item, propertiesFile) {
     var nodeId = idHTMLForUpdate + item["idfield"];
     var value = $(nodeId).val();
     if (value != "") {
