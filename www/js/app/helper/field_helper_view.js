@@ -1,24 +1,26 @@
 FieldHelperView = {
-  display: function(templateURL, element, elementPrefixID, fieldData, update) {
-    App.Template.process(templateURL, fieldData, function(content) {
+  display: function (templateURL, element, elementPrefixID, fieldData, update) {
+    App.Template.process(templateURL, fieldData, function (content) {
       element.html(content);
       FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
 
       element.trigger("create");
 
       FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
+      if (elementPrefixID)
+        FieldHelperView.displayUiDisabled(elementPrefixID, fieldData);
     });
   },
-  displayLayerMenu: function(path, element, layers_collection, current_page) {
+  displayLayerMenu: function (path, element, layers_collection, current_page) {
     layers_collection.field_collections.current_page = current_page;
-    App.Template.process(path, layers_collection, function(content) {
+    App.Template.process(path, layers_collection, function (content) {
       element.html(content);
       element.trigger("create");
     });
   },
-  displayHierarchy: function(elementPrefixID, fieldData, update) {
-    $.each(fieldData.field_collections, function(key, properties) {
-      $.each(properties.fields, function(i, fieldsInside) {
+  displayHierarchy: function (elementPrefixID, fieldData, update) {
+    $.each(fieldData.field_collections, function (key, properties) {
+      $.each(properties.fields, function (i, fieldsInside) {
         if (fieldsInside.kind === "hierarchy") {
           var data = fieldsInside.configHierarchy;
           var id = fieldsInside.idfield;
@@ -29,14 +31,14 @@ FieldHelperView = {
       });
     });
   },
-  displayCalculationField: function(elementPrefixID, fieldData) {
+  displayCalculationField: function (elementPrefixID, fieldData) {
     var fieldCal = [];
 
-    $.each(fieldData.field_collections, function(key, properties) {
-      $.each(properties.fields, function(i, fieldsInside) {
+    $.map(fieldData.field_collections, function (properties) {
+      $.map(properties.fields, function (fieldsInside) {
         if (fieldsInside.kind === "calculation") {
           if (fieldsInside.config.dependent_fields) {
-            $.each(fieldsInside.config.dependent_fields, function(i, dependent_field) {
+            $.each(fieldsInside.config.dependent_fields, function (i, dependent_field) {
               var e = "#" + elementPrefixID + dependent_field.id;
               $(e).addClass('calculation');
             });
@@ -45,6 +47,13 @@ FieldHelperView = {
         }
       });
       App.DataStore.set('fields_cal', JSON.stringify(fieldCal));
+    });
+  },
+  displayUiDisabled: function (prefixId, fieldData) {
+    $.map(fieldData.field_collections, function (layer) {
+      $.map(layer.fields, function (field) {
+        SkipLogic.disableUIEditSite(field, prefixId);
+      });
     });
   }
 };

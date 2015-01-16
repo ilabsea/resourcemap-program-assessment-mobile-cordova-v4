@@ -156,6 +156,8 @@ SkipLogic = {
     App.DataStore.remove("typeElement");
   },
   getDisabledId: function (fieldId, field_focus) {
+    App.log("fieldId : ", fieldId);
+    App.log("field_focus: ", field_focus);
     var field_id_arr = JSON.parse(App.DataStore.get("field_id_arr"));
     var disabled_id, enabled_id;
     var startIndex, endIndex;
@@ -171,8 +173,8 @@ SkipLogic = {
     });
     for (var i = startIndex; i < endIndex; i++) {
       disabled_id = prefixId + field_id_arr[i];
-      if ($("#" + disabled_id).attr('require') !== "required") {
-        $("#" + disabled_id).removeAttr('require', "");
+      if ($("#" + disabled_id).attr('require') === "required") {
+        $("#" + disabled_id).attr('require', "");
       }
       SkipLogic.disableElement(disabled_id);
     }
@@ -186,6 +188,84 @@ SkipLogic = {
   },
   enableElement: function (enabled_id) {
     $("#wrapper_" + enabled_id).removeClass('ui-disabled');
+  },
+  disableUIEditSite: function (field, prefixId) {
+    if (field.is_enable_field_logic) {
+      var config = field.config;
+      if (config) {
+        switch (field.kind) {
+          case "numberic":
+            $.map(config.field_logics, function (field_logic) {
+              var op = field_logic.condition_type;
+              var elementId = prefixId + field.idfield;
+              var elementIdToFocus = prefixId + field_logic.field_id;
+              if (Operators[op](field.__value, field_logic.value)) {
+                SkipLogic.getDisabledId(elementId, elementIdToFocus);
+                return false;
+              }
+            });
+            break;
+          case "select_one":
+            for (var i = 0; i < config.options.length; i++) {
+              var elementId = prefixId + field.idfield;
+              var elementIdToFocus = prefixId + config.options[i].field_id;
+              if (field.config.options[i].id == field.__value
+                  || field.config.options[i].code == field.__value) {
+                SkipLogic.getDisabledId(elementId, elementIdToFocus);
+              }
+            }
+            break;
+          case "select_many":
+            if (field.__value) {
+              var value = FieldHelper.generateCodeToIdSelectManyOption(field, field.__value);
+              $.map(field.config.field_logics, function (field_logic) {
+                var selectedOptions = field_logic.selected_options;
+
+                var b = false;
+                var is_all = [];
+                var all_condi = false;
+
+                for (var i in value) {
+                  for (var j in selectedOptions) {
+                    if (value[i] == selectedOptions[j].value) {
+                      b = true;
+                      is_all.push(true);
+                      break;
+                    }
+                  }
+                  if (b) {
+                    if (field_logic.condition_type == 'any') {
+                      all_condi = true;
+                      break;
+                    } else {
+                      if (is_all.length == Object.keys(selectedOptions).length) {
+                        all_condi = App.allBooleanTrue(is_all);
+                        break;
+                      }
+                    }
+                  }
+                }
+                if (all_condi) {
+                  var elementId = prefixId + field.idfield;
+                  var elementIdToFocus = prefixId + field_logic.field_id;
+                  SkipLogic.getDisabledId(elementId, elementIdToFocus);
+                  return false;
+                }
+              });
+            }
+            break;
+          case "yes_no":
+            for (var i = 0; i < config.options.length; i++) {
+              var elementId = prefixId + field.idfield;
+              var elementIdToFocus = prefixId + config.options[i].field_id;
+              if (field.__value == config.options[i].id && config.options[i].field_id) {
+                SkipLogic.getDisabledId(elementId, elementIdToFocus);
+              }
+            }
+            break;
+        }
+      }
+    }
   }
 };
 
