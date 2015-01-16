@@ -156,8 +156,6 @@ SkipLogic = {
     App.DataStore.remove("typeElement");
   },
   getDisabledId: function (fieldId, field_focus) {
-    App.log("fieldId : ", fieldId);
-    App.log("field_focus: ", field_focus);
     var field_id_arr = JSON.parse(App.DataStore.get("field_id_arr"));
     var disabled_id, enabled_id;
     var startIndex, endIndex;
@@ -173,8 +171,10 @@ SkipLogic = {
     });
     for (var i = startIndex; i < endIndex; i++) {
       disabled_id = prefixId + field_id_arr[i];
-      if ($("#" + disabled_id).attr('require') === "required") {
+      if ($("#" + disabled_id).attr('require') === "required" 
+          || $("#" + disabled_id).attr("required")) {
         $("#" + disabled_id).attr('require', "");
+        $("#" + disabled_id).removeAttr('required');
       }
       SkipLogic.disableElement(disabled_id);
     }
