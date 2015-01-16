@@ -35,7 +35,7 @@ App = {
     connectionDB(App.DB_NAME, App.DB_SIZE);
     createTables();
     FastClick.attach(document.body);
-    this.initialPage();
+    App.initialPage();
   },
   initialPage: function () {
     var currentUser = JSON.parse(App.DataStore.get("currentUser"));

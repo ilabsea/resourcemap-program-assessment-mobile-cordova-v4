@@ -93,11 +93,14 @@ SessionController = {
     }
   },
   storeSessionLogin: function (email, password) {
-    if (!App.isOnline()) {
-      this.storeSessionOffline(email, password);
-    } else {
-      this.storeSessionOnline(email, password);
-    }
+    var isOnline;
+    setTimeout(function () {
+      isOnline = App.isOnline();
+      if (!isOnline)
+        SessionController.storeSessionOffline(email, password);
+      else
+        SessionController.storeSessionOnline(email, password);
+    }, 500);
   },
   storeSessionOnline: function (email, password) {
     var data = {user: {email: email, password: password}};
