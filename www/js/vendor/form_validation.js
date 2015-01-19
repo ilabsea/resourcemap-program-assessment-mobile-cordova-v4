@@ -34,7 +34,7 @@ $(document).ready(function() {
       else
         showElement($("#internet"));
     },
-    invalidHandler: function(event, validator) {
+    invalidHandler: function() {
       showValidateMessage('#validation_email_psd_confirm');
     }
   });
