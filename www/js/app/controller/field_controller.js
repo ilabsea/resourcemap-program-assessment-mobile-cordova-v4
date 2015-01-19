@@ -46,8 +46,16 @@ FieldController = {
     });
   },
   renderUpdateOffline: function (site) {
+    var field_id_arr = [];
     var cId = App.DataStore.get("cId");
     FieldOffline.fetchByCollectionId(cId, function (layers) {
+      $.map(layers, function (layer) {
+        $.map(layer._data.fields, function (field) {
+          field_id_arr.push(field.idfield);
+        });
+      });
+      App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
           {field_collections: field_collections}, "update_");
@@ -65,7 +73,7 @@ FieldController = {
         });
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
-      
+
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
           {field_collections: field_collections}, "update_online_");
