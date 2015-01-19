@@ -33,16 +33,16 @@ SkipLogic = {
   },
   skipLogicSelectMany: function (element) {
     var selectedValue = element.val();
+    var idElement = element.attr('id');
+    var id = idElement.substr(idElement.lastIndexOf("_") + 1);
+    var wrapper_skip = idElement.slice(0, idElement.lastIndexOf("_") + 1);
     if (selectedValue) {
-      var idElement = element.attr('id');
-      var id = idElement.substr(idElement.lastIndexOf("_") + 1);
-      var wrapper_skip = idElement.slice(0, idElement.lastIndexOf("_") + 1);
       var configOption = JSON.parse(
           App.DataStore.get("configSelectManyForSkipLogic_" + id));
 
       if (configOption.config.field_logics) {
         if ((configOption.id || configOption.idfield) == id) {
-          $.each(configOption.config.field_logics, function (i, field_logic) {
+          $.each(configOption.config.field_logics, function (k, field_logic) {
             var selectedOptions = field_logic.selected_options;
 
             var b = false;
@@ -73,11 +73,16 @@ SkipLogic = {
               var field_id = wrapper_skip + field_logic.field_id;
               SkipLogic.handleSkipLogic(idElement, field_id);
               return false;
+            } else {
+              if (k === configOption.config.field_logics.length - 1) {
+                SkipLogic.getDisabledId(idElement, idElement);
+              }
             }
           });
         }
       }
-    }
+    } else
+      SkipLogic.getDisabledId(idElement, idElement);
   },
   handleSkipLogic: function (element, field_id) {
     var id = "";
@@ -93,11 +98,12 @@ SkipLogic = {
       setTimeout(function () {
         $("#" + field_id).focus();
       }, 500);
-
-      SkipLogic.getDisabledId(element, field_id);
-
-      SkipLogic.handleHighlightElement(field_id);
     }
+    else {
+      field_id = element;
+    }
+    SkipLogic.getDisabledId(element, field_id);
+    SkipLogic.handleHighlightElement(field_id);
   },
   handleHighlightElement: function (field_id) {
     if ($("#" + field_id).attr('data-role') === "slider") {
@@ -164,7 +170,7 @@ SkipLogic = {
       field_id = prefixId + field_id;
       if (field_id === fieldId)
         startIndex = i + 1;
-      else if (field_id === field_focus) {
+      if (field_id === field_focus) {
         endIndex = i;
         return false;
       }
