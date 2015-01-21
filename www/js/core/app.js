@@ -55,7 +55,7 @@ App = {
       complete: function () {
         ViewBinding.setBusy(false);
       },
-      timeout: 5000
+      timeout: 120000
     });
   },
   redirectTo: function (url) {

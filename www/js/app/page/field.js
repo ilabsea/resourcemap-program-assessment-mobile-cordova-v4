@@ -17,10 +17,12 @@ $(function() {
     var start = this.id.search("-");
     var ele = this.id.substring(0, start);
     var element = $("#" + ele);
-    if (element.attr('data-is_enable_field_logic') && element.attr('multiple'))
-      SkipLogic.skipLogicSelectMany(element);
-    else 
-      SkipLogic.skipLogicSelectOne(ele);
+    if(element.attr('data-is_enable_field_logic')){
+      if(element.attr('multiple'))
+        SkipLogic.skipLogicSelectMany(element);
+      else
+        SkipLogic.skipLogicSelectOne(ele);
+    }
   });
 
   $(document).delegate('#layer-list-menu-dialog, \n\

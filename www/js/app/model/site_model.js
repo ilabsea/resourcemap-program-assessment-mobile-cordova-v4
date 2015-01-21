@@ -17,6 +17,7 @@ SiteModel = {
       type: "GET",
       datatype: 'json',
       success: successCallback,
+      timeout: 600000,
       error: function(error) {
         App.log("Retriving sites from server : ", error);
       }
@@ -30,6 +31,7 @@ SiteModel = {
       data: {"auth_token": App.Session.getAuthToken()},
       type: "GET",
       datatype: 'json',
+      timeout: 600000,
       success: successCallback,
       error: function(error, t) {
         if(t==="timeout" || t === "error" || t==="notmodified") {
