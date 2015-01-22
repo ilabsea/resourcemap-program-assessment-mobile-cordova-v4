@@ -34,8 +34,6 @@ FieldHelper = {
 
       if (widgetType === "numeric") {
         widgetType = "number";
-        if (config.range)
-          is_required = "required";
         if (config.field_logics) {
           App.DataStore.set("configNumberSkipLogic_" + id,
               JSON.stringify(config.field_logics));
