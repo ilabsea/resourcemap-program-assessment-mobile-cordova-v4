@@ -183,6 +183,7 @@ SkipLogic = {
         $("#" + disabled_id).removeAttr('required');
       }
       SkipLogic.disableElement(disabled_id);
+      SkipLogic.setValueToEmpty(disabled_id);
     }
     for (var j = endIndex; j < field_id_arr.length; j++) {
       enabled_id = prefixId + field_id_arr[j];
@@ -194,6 +195,21 @@ SkipLogic = {
   },
   enableElement: function (enabled_id) {
     $("#wrapper_" + enabled_id).removeClass('ui-disabled');
+  },
+  setValueToEmpty: function (idElement) {
+    var $element = $("#" + idElement);
+    if ($element.attr('data-role') === "slider")
+      $element.val("0").slider("refresh");
+    else if ($element[0].tagName.toLowerCase() === 'select')
+      $element.val("").selectmenu('refresh');
+    else if ($element[0].tagName.toLowerCase() === 'img') {
+      $element.attr("src", "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==");
+      $("#wrapper_" + idElement).addClass('skip-logic-over-img');
+    }
+    else if ($element.attr("class") === "tree")
+      Hierarchy.selectedNode(idElement, "");
+    else
+      $element.val("");
   },
   disableUIEditSite: function (field, prefixId) {
     if (field.is_enable_field_logic) {
