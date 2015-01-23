@@ -7,8 +7,7 @@ FieldHelperView = {
       element.trigger("create");
 
       FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
-      if (elementPrefixID)
-        FieldHelperView.displayUiDisabled(elementPrefixID, fieldData);
+      FieldHelperView.displayUiDisabled(elementPrefixID, fieldData, update);
     });
   },
   displayLayerMenu: function (path, element, layers_collection, current_page) {
@@ -49,10 +48,13 @@ FieldHelperView = {
       App.DataStore.set('fields_cal', JSON.stringify(fieldCal));
     });
   },
-  displayUiDisabled: function (prefixId, fieldData) {
+  displayUiDisabled: function (prefixId, fieldData, update) {
     $.map(fieldData.field_collections, function (layer) {
       $.map(layer.fields, function (field) {
-        SkipLogic.disableUIEditSite(field, prefixId);
+        if(update)
+          SkipLogic.disableUIEditSite(field, prefixId);
+        else
+          SkipLogic.disableUIAddSite(field);
       });
     });
   }

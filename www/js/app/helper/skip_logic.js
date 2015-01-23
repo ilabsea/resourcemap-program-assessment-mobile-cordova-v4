@@ -216,7 +216,7 @@ SkipLogic = {
       var config = field.config;
       if (config) {
         switch (field.kind) {
-          case "numberic":
+          case "numeric":
             $.map(config.field_logics, function (field_logic) {
               var op = field_logic.condition_type;
               var elementId = prefixId + field.idfield;
@@ -285,6 +285,21 @@ SkipLogic = {
               }
             }
             break;
+        }
+      }
+    }
+  },
+  disableUIAddSite: function (field) {
+    if (field.is_enable_field_logic) {
+      var config = field.config;
+      if (config && field.kind === "yes_no") {
+        var value = $("#" + field.idfield).val();
+        for (var i = 0; i < config.options.length; i++) {
+          if (value == config.options[i].id) {
+            var elementId = field.idfield;
+            var elementIdToFocus = config.options[i].field_id;
+            SkipLogic.getDisabledId(elementId, elementIdToFocus);
+          }
         }
       }
     }
