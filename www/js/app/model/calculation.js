@@ -15,7 +15,24 @@ Calculation = {
   generateSyntax: function (field_cal, elementPrefixId) {
     var syntaxCal = field_cal.config.code_calculation;
     if (syntaxCal) {
-      $.map(field_cal.config.dependent_fields, function (dependField) {
+      // bring the longer code to be the front in config
+      var length = 0;
+      var dependentFields = field_cal.config.dependent_fields;
+
+      $.map(dependentFields, function () {
+        length++;
+      });
+      var tmp = "";
+      for (var i = 0; i < length - 1; i++) {
+        for (var j = i + 1; j < length; j++) {
+          if (dependentFields[i]["code"].length < dependentFields[j]["code"].length) {
+            tmp = dependentFields[i];
+            dependentFields[i] = dependentFields[j];
+            dependentFields[j] = tmp;
+          }
+        }
+      }
+      $.map(dependentFields, function (dependField) {
         var fieldName = "$" + dependField["code"];
         var fieldValue;
         switch (dependField["kind"]) {
