@@ -30,7 +30,7 @@ SessionController = {
         App.redirectTo("#page-collection-list");
       });
     }, function(x, t, m) {
-        if(t==="timeout" || t === "error" || t==="notmodified") {
+        if(t==="timeout" || t==="notmodified") {
           alert("Internet connection problem");
         } else {
           showElement($('#invalidmail'));
