@@ -20,13 +20,13 @@ LayerMembershipsHelper = {
     });
   },
   buildCustomerSitePermission: function (site, siteData, cId, sId) {
-    if (site.write.some_sites.length !== 0)
+    if (site.write.some_sites.length !== 0) 
       LayerMembershipsHelper.buildCustomerSiteReadWrite(site.write, true, siteData
           , cId, sId);
-    else if (site.read.some_sites.length !== 0)
+    else if (site.read.some_sites.length !== 0) 
       LayerMembershipsHelper.buildCustomerSiteReadWrite(site.read, false, siteData,
           cId, sId);
-    else if (site.none.some_sites.length !== 0)
+    else if (site.none.some_sites.length !== 0) 
       LayerMembershipsHelper.buildCustomerSiteReadWrite(site.none, "none", siteData,
           cId, sId);
   },
@@ -34,8 +34,10 @@ LayerMembershipsHelper = {
     $.map(siteState.some_sites, function (some_site) {
       if (some_site.id == sId)
         LayerMembershipsHelper.buildSiteWithVisibleLayers(siteData, rw);
-      else
+      else{
+        $('#div_update_field_collection_online').show();
         LayerMembershipsHelper.buildAllLayersOfSite(cId, siteData);
+      }
     });
   },
   buildSiteWithVisibleLayers: function (siteData, rw) {

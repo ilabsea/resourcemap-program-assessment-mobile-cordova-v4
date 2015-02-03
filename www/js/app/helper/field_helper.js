@@ -140,9 +140,9 @@ FieldHelper = {
 
     return config;
   },
-  buildFieldsUpdate: function (layers, site, fromServer) {
+  buildFieldsUpdate: function (layers, site, fromServer, layerMemberships) {
     var field_collections = $.map(layers, function (layer) {
-      var item = FieldHelper.buildFieldsLayer(layer, site, fromServer);
+      var item = FieldHelper.buildFieldsLayer(layer, site, fromServer, layerMemberships);
       return item;
     });
 

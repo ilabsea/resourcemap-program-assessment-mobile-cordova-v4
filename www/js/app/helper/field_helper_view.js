@@ -29,7 +29,7 @@ FieldHelperView = {
     });
   },
   displayUiDisabled: function (element, fieldData) {
-    $.each(fieldData.field_collections, function (key, properties) {
+    $.map(fieldData.field_collections, function (properties) {
       if (properties.layer_membership) {
         if (!properties.layer_membership.write) {
           var ele = "collapsable_" + element + properties.layer_membership.layer_id;
