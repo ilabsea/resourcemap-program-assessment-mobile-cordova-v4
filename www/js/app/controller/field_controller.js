@@ -7,18 +7,16 @@ FieldController = {
   },
   renderByCollectionIdOnline: function () {
     var cId = App.DataStore.get("cId");
-
     LayerMembership.fetch(cId, function (layerMemberships) {
-      FieldModel.fetch(function (response) {
+      FieldModel.fetch(function (layers) {
         var field_id_arr = new Array();
-        var field_collections = [];
-        $.each(response, function (key, properties) {
-          $.each(properties.fields, function (i, fieldsInside) {
-            field_id_arr.push(fieldsInside.id);
+        var field_collections = $.map(layers, function (layer) {
+          field_id_arr = $.map(layer.fields, function (field) {
+            return field.id;
           });
-          var fields = FieldHelper.buildField(properties, {fromServer: true},
+          var fields = FieldHelper.buildField(layer, {fromServer: true},
           layerMemberships);
-          field_collections.push(fields);
+          return fields;
         });
         App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
         FieldController.synForCurrentCollection(field_collections);
@@ -35,8 +33,8 @@ FieldController = {
       var field_id_arr = new Array();
       var field_collections = [];
       fields.forEach(function (field) {
-        $.each(field.fields(), function (i, fieldsInfield) {
-          field_id_arr.push(fieldsInfield.idfield);
+        field_id_arr = $.map(field.fields(), function (fieldsInfield) {
+          return fieldsInfield.idfield;
         });
         var item = FieldHelper.buildField(field._data,
             {fromServer: false}, "");
@@ -81,32 +79,32 @@ FieldController = {
   },
   updateFieldValueBySiteId: function (propertiesFile, field, idHTMLForUpdate, fromServer) {
     var pf = propertiesFile;
-    var itemLayer;
-    if (fromServer)
-      itemLayer = FieldHelper.buildField(field, {fromServer: fromServer}, "");
-    else
-      itemLayer = FieldHelper.buildField(field._data, {fromServer: fromServer}, "");
+    var itemLayer = fromServer ? FieldHelper.buildField(field, {fromServer: fromServer}, "") :
+        FieldHelper.buildField(field._data, {fromServer: fromServer}, "");
 
     var items = itemLayer.fields;
-    $.map(items, function(item) {
-      if (item.isPhoto === "photo")
-        FieldController.updateFieldPhotoValue(item, propertiesFile, fromServer);
-      else if (item.widgetType === "date")
-        FieldController.updateFieldDateValue(idHTMLForUpdate, item, propertiesFile);
-      else if (item.widgetType === "hierarchy") {
-        var nodeId = idHTMLForUpdate + item["idfield"];
-        var node = $(nodeId).tree('getSelectedNode');
-        var data = node.id;
-        if (data == null)
-          data = "";
-        propertiesFile.properties[item["idfield"]] = data;
-      }
-      else {
-        var nodeId = idHTMLForUpdate + item["idfield"];
-        var value = $(nodeId).val();
-        if (value == null)
-          value = "";
-        propertiesFile.properties[item["idfield"]] = value;
+    $.map(items, function (item) {
+      switch (item.widgetType) {
+        case "photo":
+          FieldController.updateFieldPhotoValue(item, propertiesFile, fromServer);
+          break;
+        case "date":
+          FieldController.updateFieldDateValue(idHTMLForUpdate, item, propertiesFile);
+          break;
+        case "hierarchy":
+          var nodeId = idHTMLForUpdate + item["idfield"];
+          var node = $(nodeId).tree('getSelectedNode');
+          var data = node.id;
+          if (data == null)
+            data = "";
+          propertiesFile.properties[item["idfield"]] = data;
+          break;
+        default: 
+          var nodeId = idHTMLForUpdate + item["idfield"];
+          var value = $(nodeId).val();
+          if (value == null)
+            value = "";
+          propertiesFile.properties[item["idfield"]] = value;
       }
     });
 

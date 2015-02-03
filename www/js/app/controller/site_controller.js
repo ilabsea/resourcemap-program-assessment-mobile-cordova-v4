@@ -1,46 +1,46 @@
 SiteController = {
-  display: function(element, siteData) {
-    App.Template.process("site/list.html", siteData, function(content) {
+  display: function (element, siteData) {
+    App.Template.process("site/list.html", siteData, function (content) {
       element.html(content);
       element.listview("refresh");
     });
   },
-  displayUpdateLatLng: function(templateURL, element, suffix, siteUpdateData) {
-    App.Template.process(templateURL, siteUpdateData, function(content) {
+  displayUpdateLatLng: function (templateURL, element, suffix, siteUpdateData) {
+    App.Template.process(templateURL, siteUpdateData, function (content) {
       element.html(content);
       element.trigger("create");
       InvisibleLayer.invisibleNameLatLng("update_wrapSiteLocation" + suffix,
-          "update_wrapSiteName" + suffix, function() {
+          "update_wrapSiteName" + suffix, function () {
           });
     });
   },
-  add: function() {
+  add: function () {
     var data = SiteController.buildDataForSite();
     if (App.isOnline())
       SiteController.addOnline(data, SiteController.resetForm);
     else
       SiteController.addOffline(data);
   },
-  addOnline: function(data, callback) {
+  addOnline: function (data, callback) {
     ViewBinding.setBusy(true);
-    SiteModel.create(data, callback, function() {
+    SiteModel.create(data, callback, function () {
       ViewBinding.setAlert("Please send data again.");
     });
   },
-  addOffline: function(data) {
+  addOffline: function (data) {
     SiteOffline.add(data);
     SiteController.resetForm();
   },
-  getAllByCollectionId: function() {
+  getAllByCollectionId: function () {
     SiteController.getByCollectionIdOffline();
     if (App.isOnline())
       SiteController.getByCollectionIdOnline();
   },
-  getByCollectionIdOffline: function() {
+  getByCollectionIdOffline: function () {
     var cId = App.DataStore.get("cId");
-    SiteOffline.fetchByCollectionId(cId, function(sites) {
+    SiteOffline.fetchByCollectionId(cId, function (sites) {
       var siteData = [];
-      sites.forEach(function(site) {
+      sites.forEach(function (site) {
         var fullDate = dateToParam(site.created_at());
         siteData.push({
           id: site.id,
@@ -53,21 +53,20 @@ SiteController = {
       SiteController.display($('#site-list'), {siteList: siteData});
     });
   },
-  getByCollectionIdOnline: function() {
+  getByCollectionIdOnline: function () {
     var cId = App.DataStore.get("cId");
-    SiteModel.fetch(cId, function(response) {
+    SiteModel.fetch(cId, function (response) {
       var siteOnlineData = [];
-      $.each(response["sites"], function(key, data) {
+      $.each(response["sites"], function (key, data) {
         var date = data.created_at;
         date = new Date(date);
         date = dateToParam(date);
         var item = {id: data.id,
-          name: data.name? data.name: "\u00A0",
+          name: data.name ? data.name : "\u00A0",
           collectionName: "",
           date: date,
           link: "#page-update-site-online"
         };
-        App.log("item : ", item);
         siteOnlineData.push(item);
         if (key === response["total"] - 1) {
           SiteController.display($('#site-list-online'), {siteList: siteOnlineData});
@@ -75,10 +74,10 @@ SiteController = {
       });
     });
   },
-  getByUserId: function(userId) {
-    SiteOffline.fetchByUserId(userId, function(sites) {
+  getByUserId: function (userId) {
+    SiteOffline.fetchByUserId(userId, function (sites) {
       var siteofflineData = [];
-      sites.forEach(function(site) {
+      sites.forEach(function (site) {
         var fullDate = dateToParam(site.created_at());
         var item = {id: site.id,
           name: site.name(),
@@ -91,19 +90,19 @@ SiteController = {
       SiteController.display($('#offlinesite-list'), {siteList: siteofflineData});
     });
   },
-  deleteBySiteId: function(sId) {
+  deleteBySiteId: function (sId) {
     SiteOffline.deleteBySiteId(sId);
   },
-  updateBySiteIdOffline: function() {
+  updateBySiteIdOffline: function () {
     var sId = App.DataStore.get("sId");
-    SiteOffline.fetchBySiteId(sId, function(site) {
+    SiteOffline.fetchBySiteId(sId, function (site) {
       site.name($("#updatesitename").val());
       site.lat($("#updatelolat").val());
       site.lng($("#updatelolng").val());
       var cId = App.DataStore.get("cId");
-      FieldOffline.fetchByCollectionId(cId, function(fields) {
+      FieldOffline.fetchByCollectionId(cId, function (fields) {
         var propertiesFile = {properties: {}, files: {}};
-        fields.forEach(function(field) {
+        fields.forEach(function (field) {
           propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_", false);
         });
         site.properties(propertiesFile.properties);
@@ -116,13 +115,13 @@ SiteController = {
       });
     });
   },
-  updateBySiteIdOnline: function() {
+  updateBySiteIdOnline: function () {
     var data;
     ViewBinding.setBusy(true);
 
-    VisibleLayersFor.fetch(function(fields) {
+    VisibleLayersFor.fetch(function (fields) {
       var propertiesFile = {properties: {}, files: {}};
-      $.map(fields, function(field){
+      $.map(fields, function (field) {
         propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
       });
       data = {
@@ -136,22 +135,22 @@ SiteController = {
           "files": propertiesFile.files
         }
       };
-      SiteModel.update(data, function() {
+      SiteModel.update(data, function () {
         var sId = App.DataStore.get("sId");
-        $.each(data.site.properties, function(key, idField) {
+        $.each(data.site.properties, function (key, idField) {
           PhotoList.remove(sId, key);
         });
         App.DataStore.clearPartlyAfterCreateSite();
         App.Cache.resetValue();
         App.redirectTo("#page-site-list");
-      }, function() {
+      }, function () {
         alert(i18n.t("global.please_reupdate_your_site"));
       });
     });
   },
-  renderUpdateSiteFormOffline: function() {
+  renderUpdateSiteFormOffline: function () {
     var sId = App.DataStore.get("sId");
-    SiteOffline.fetchBySiteId(sId, function(site) {
+    SiteOffline.fetchBySiteId(sId, function (site) {
       var siteUpdateData = {
         name: site.name(),
         lat: site.lat(),
@@ -163,9 +162,9 @@ SiteController = {
       FieldController.renderUpdateOffline(site);
     });
   },
-  renderUpdateSiteFormOnline: function() {
+  renderUpdateSiteFormOnline: function () {
     ViewBinding.setBusy(true);
-    SiteModel.fetchOne(function(response) {
+    SiteModel.fetchOne(function (response) {
       var siteOnlineUpdateData = {
         name: response.name,
         lat: response.lat,
@@ -178,17 +177,17 @@ SiteController = {
       FieldController.renderUpdateOnline(response);
     });
   },
-  submitAllToServerByCollectionId: function() {
+  submitAllToServerByCollectionId: function () {
     var cId = App.DataStore.get("cId");
     SiteController.processToServer("collection_id", cId);
   },
-  submitAllToServerByUserId: function() {
+  submitAllToServerByUserId: function () {
     var currentUser = SessionController.currentUser();
     SiteController.processToServer("user_id", currentUser.id);
   },
-  processToServer: function(key, id) {
+  processToServer: function (key, id) {
     if (App.isOnline()) {
-      Site.all().filter(key, "=", id).list(function(sites) {
+      Site.all().filter(key, "=", id).list(function (sites) {
         if (sites.length > 0)
           SiteController.processingToServer(sites);
       });
@@ -196,7 +195,7 @@ SiteController = {
     else
       alert(i18n.t("global.no_internet_connection"));
   },
-  processingToServer: function(sites) {
+  processingToServer: function (sites) {
     var site = sites[0];
     ViewBinding.setBusy(true);
     var data = {site: {
@@ -208,7 +207,7 @@ SiteController = {
         files: site.files()
       }
     };
-    SiteModel.create(data["site"], function() {
+    SiteModel.create(data["site"], function () {
       persistence.remove(site);
       persistence.flush();
       $('#sendToServer').show();
@@ -217,13 +216,13 @@ SiteController = {
         App.redirectTo("#page-collection-list");
       else
         SiteController.processingToServer(sites);
-    }, function() {
+    }, function () {
       showElement($("#info_sign_in"));
       App.redirectTo("#page-login");
     });
   },
-  countByUserId: function(userId) {
-    SiteOffline.countByUserId(userId, function(count) {
+  countByUserId: function (userId) {
+    SiteOffline.countByUserId(userId, function (count) {
       if (count == 0) {
         $('#btn_viewOfflineSite').hide();
       } else {
@@ -231,8 +230,8 @@ SiteController = {
       }
     });
   },
-  countByCollectionId: function(cId) {
-    SiteOffline.countByCollectionId(cId, function(count) {
+  countByCollectionId: function (cId) {
+    SiteOffline.countByCollectionId(cId, function (count) {
       var offline = "#site-list-menu option[value='2']";
       if (count == 0) {
         $(offline).attr('disabled', true);
@@ -243,7 +242,7 @@ SiteController = {
       $("#site-list-menu").selectmenu("refresh", true);
     });
   },
-  buildDataForSite: function() {
+  buildDataForSite: function () {
     var cId = App.DataStore.get("cId");
     var sname = $('#sitename').val();
     var slat = $('#lat').val();
@@ -301,7 +300,7 @@ SiteController = {
     };
     return data;
   },
-  resetForm: function() {
+  resetForm: function () {
     PhotoList.clear();
     $('#form_create_site')[0].reset();
     App.redirectTo("#page-site-list");

@@ -1,7 +1,7 @@
 LayerMembershipsHelper = {
   build: function (layers, write) {
     var layerMemberships = [];
-    $.each(layers, function (i, layer) {
+    $.map(layers, function (layer) {
       layerMemberships.push({read: true, write: write, layer_id: layer.id});
     });
     return layerMemberships;
@@ -31,7 +31,7 @@ LayerMembershipsHelper = {
           cId, sId);
   },
   buildCustomerSiteReadWrite: function (siteState, rw, siteData, cId, sId) {
-    $.each(siteState.some_sites, function (i, some_site) {
+    $.map(siteState.some_sites, function (some_site) {
       if (some_site.id == sId)
         LayerMembershipsHelper.buildSiteWithVisibleLayers(siteData, rw);
       else

@@ -14,10 +14,11 @@ FieldHelper = {
     if (fromServer) {
       fieldsWrapper.name_wrapper = fieldObj.name;
       fieldsWrapper.id_wrapper = fieldObj.id;
-      $.each(layerMemberships, function (key, layerMembership) {
-        if (fieldObj.id === layerMembership.layer_id)
-          fieldsWrapper.layer_membership = layerMembership;
-      });
+      if(layerMemberships)
+        $.map(layerMemberships, function(layerMembership){
+          if (fieldObj.id === layerMembership.layer_id)
+            fieldsWrapper.layer_membership = layerMembership;
+        });
     }
     else {
       fieldsWrapper.name_wrapper = fieldObj.name_wrapper;
@@ -157,7 +158,7 @@ FieldHelper = {
       var p = site.properties();
     }
 
-    for (propertyCode in p) {
+    for (var propertyCode in p) {
       $.map(itemLayer.fields, function (item) {
         var propertyValue = p[propertyCode];
         FieldHelper.setFieldsValue(item, propertyCode,
