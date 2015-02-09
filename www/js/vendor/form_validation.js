@@ -40,6 +40,7 @@ $(document).ready(function() {
   });
 
   $('#form_create_site').validate({
+    ignore:'',
     focusInvalid: false,
     errorPlacement: function(error, element) {
       if (element.attr("type") === "number" &&
@@ -77,6 +78,7 @@ $(document).ready(function() {
   });
 
   $('#form_update_site').validate({
+    ignore:'',
     focusInvalid: false,
     errorPlacement: function(error, element) {
       if (element.attr("type") === "number" &&
@@ -110,6 +112,7 @@ $(document).ready(function() {
   });
 
   $('#form_update_site_online').validate({
+    ignore:'',
     focusInvalid: false,
     errorPlacement: function(error, element) {
       if (element.attr("type") === "number" &&
