@@ -6,6 +6,7 @@ FieldModel = {
       type: "get",
       datatype: 'json',
       success: successCallback,
+      timeout: 600000,
       error: function(error) {
         App.log("error: ", error);
         if (!App.isOnline())

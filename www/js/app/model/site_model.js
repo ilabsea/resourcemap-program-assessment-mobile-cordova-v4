@@ -17,6 +17,7 @@ SiteModel = {
       type: "GET",
       datatype: 'json',
       success: successCallback,
+      timeout: 600000,
       error: function(error) {
         App.log("Retriving sites from server : ", error);
       }
@@ -31,8 +32,9 @@ SiteModel = {
       type: "GET",
       datatype: 'json',
       success: successCallback,
+      timeout: 600000,
       error: function(error, t) {
-        if(t==="timeout" || t === "error" || t==="notmodified") {
+        if(t==="timeout" || t==="notmodified") {
           alert('Internet connection problem.');
           App.redirectTo('#page-site-list');
         } 
