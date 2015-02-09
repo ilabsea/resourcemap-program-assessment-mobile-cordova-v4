@@ -1,11 +1,11 @@
-$(function() {
-  $(document).delegate('#create-icon-map', 'click', function() {
+$(function () {
+  $(document).delegate('#create-icon-map', 'click', function () {
     $("#btn_back_create_site").show();
     $("#btn_back_update_site").hide();
     $("#btn_back_update_site_online").hide();
   });
 
-  $(document).delegate('#update_icon_map', 'click', function() {
+  $(document).delegate('#update_icon_map', 'click', function () {
     $("#btn_back_create_site").hide();
     $("#btn_back_update_site_online").hide();
     $("#btn_back_update_site").show();
@@ -14,7 +14,7 @@ $(function() {
     localStorage['no_update_reload'] = 1;
   });
 
-  $(document).delegate('#update_icon_map_online', 'click', function() {
+  $(document).delegate('#update_icon_map_online', 'click', function () {
     $("#btn_back_create_site").hide();
     $("#btn_back_update_site_online").show();
     $("#btn_back_update_site").hide();
@@ -23,7 +23,8 @@ $(function() {
     localStorage['no_update_reload'] = 1;
   });
 
-  $(document).delegate('#page-map', 'pageshow', function() {
-    mapObject.render();
+  $(document).delegate('#page-map', 'pageshow', function () {
+    if (App.isOnline())
+      mapObject.render();
   });
 });
