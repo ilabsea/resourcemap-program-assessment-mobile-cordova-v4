@@ -103,11 +103,10 @@ ViewBinding = {
   __msg: "",
   setBusy: function(status) {
     this.__busy = status;
-    if (this.__busy) {
-      showSpinner();
-    }
+    if (this.__busy) 
+      Spinner.show();
     else
-      hideSpinner();
+      Spinner.hide();
   },
   setAlert: function(msg) {
     this.__msg = msg;

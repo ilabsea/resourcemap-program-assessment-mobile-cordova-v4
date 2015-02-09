@@ -14,60 +14,71 @@ App = {
   URL_COLLECTION: END_POINT + "/collections/",
   DEBUG: true,
   userId: "",
-  log: function(text, data) {
+  log: function (text, data) {
     if (App.DEBUG)
       console.log(text, data);
   },
-  initialize: function() {
+  initialize: function () {
     this.bindEvents();
     this.setUp();
     App.onBackPress();
   },
-  resetDb: function() {
+  resetDb: function () {
     persistence.reset();
     persistence.schemaSync();
   },
-  resetCache: function() {
+  resetCache: function () {
     App.Cache.clearAll();
   },
-  bindEvents: function() {
+  bindEvents: function () {
     document.addEventListener('deviceready', this.onDeviceReady, false);
   },
-  onDeviceReady: function() {
+  onDeviceReady: function () {
     connectionDB(App.DB_NAME, App.DB_SIZE);
     createTables();
     FastClick.attach(document.body);
+    App.initialPage();
   },
-  onBackPress: function() {
-    document.addEventListener("backbutton", function() {
+  initialPage: function () {
+    var currentUser = JSON.parse(App.DataStore.get("currentUser"));
+    if (currentUser) {
+      var email = currentUser.email;
+      var password = currentUser.password;
+      $("#page-initial").prependTo("body");
+      Spinner.spinner();
+      SessionController.storeSessionLogin(email, password);
+    }
+  },
+  onBackPress: function () {
+    document.addEventListener("backbutton", function () {
       if ($.mobile.activePage.is("#page-login"))
         navigator.app.exitApp();
       else if ($.mobile.activePage.is("#page-collection-list"))
-        navigator.Backbutton.goHome(function() {
-        }, function() {
+        navigator.Backbutton.goHome(function () {
+        }, function () {
         });
       else
         navigator.app.backHistory();
     }, false);
   },
-  emptyHTML: function() {
+  emptyHTML: function () {
     $(".clearPreviousDisplay").html("");
   },
-  setUp: function() {
+  setUp: function () {
     $.ajaxSetup({
-      complete: function() {
+      complete: function () {
         ViewBinding.setBusy(false);
       },
       timeout: 120000
     });
   },
-  redirectTo: function(url) {
+  redirectTo: function (url) {
     $.mobile.changePage(url);
   },
-  replacePage: function(url) {
+  replacePage: function (url) {
     location.replace(url);
   },
-  isOnline: function() {
+  isOnline: function () {
     var online = false;
     if (navigator.connection) {
       online = (navigator.connection.type !== Connection.NONE);
@@ -76,7 +87,7 @@ App = {
     online = navigator.onLine;
     return online;
   },
-  allBooleanTrue: function(arr) {
+  allBooleanTrue: function (arr) {
     for (var i in arr)
       if (!arr[i])
         return false;
