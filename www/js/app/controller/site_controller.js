@@ -16,6 +16,7 @@ SiteController = {
   },
   add: function () {
     var data = SiteController.buildDataForSite();
+    App.log("data : ", data)
     if (App.isOnline())
       SiteController.addOnline(data, SiteController.resetForm);
     else
@@ -250,6 +251,7 @@ SiteController = {
     var properties = {};
     var files = {};
     var field_id_arr = App.DataStore.get("field_id_arr");
+    App.log("field_id_arr : ", field_id_arr);
     if (field_id_arr != null) {
       var storedFieldId = JSON.parse(field_id_arr);
       for (var i = 0; i < storedFieldId.length; i++) {

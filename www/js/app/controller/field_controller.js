@@ -11,8 +11,8 @@ FieldController = {
       FieldModel.fetch(function (layers) {
         var field_id_arr = new Array();
         var field_collections = $.map(layers, function (layer) {
-          field_id_arr = $.map(layer.fields, function (field) {
-            return field.id;
+          $.map(layer.fields, function (field) {
+            field_id_arr.push(field.id);
           });
           var fields = FieldHelper.buildField(layer, {fromServer: true},
           layerMemberships);
@@ -33,8 +33,8 @@ FieldController = {
       var field_id_arr = new Array();
       var field_collections = [];
       fields.forEach(function (field) {
-        field_id_arr = $.map(field.fields(), function (fieldsInfield) {
-          return fieldsInfield.idfield;
+        $.map(field.fields(), function (fieldsInfield) {
+          field_id_arr.push(fieldsInfield.idfield);
         });
         var item = FieldHelper.buildField(field._data,
             {fromServer: false}, "");
