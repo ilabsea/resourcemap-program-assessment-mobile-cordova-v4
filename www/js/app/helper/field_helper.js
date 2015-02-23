@@ -182,8 +182,9 @@ FieldHelper = {
           FieldHelper.setFieldHierarchyValue(item, pValue);
           break;
         case "date":
-          if (pValue)
-            item.__value = convertDateWidgetToParam(pValue);
+          if (pValue){
+            item.__value = pValue.split("T")[0];
+          }
           break;
         default:
           item.__value = pValue;
