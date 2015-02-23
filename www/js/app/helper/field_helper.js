@@ -183,7 +183,11 @@ FieldHelper = {
           break;
         case "date":
           if (pValue){
-            item.__value = pValue.split("T")[0];
+            var date = pValue.split("T")[0];
+            if(!fromServer)
+              item.__value = convertDateWidgetToParam(date);
+            else
+              item.__value = date;
           }
           break;
         default:
