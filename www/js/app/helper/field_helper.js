@@ -74,6 +74,10 @@ FieldHelper = {
       case "phone":
         widgetType = "tel";
         break;
+      case "location":
+        widgetType = "select_one";
+        config = FieldHelper.buildFieldLocation(config);
+        break;
     }
 
     if (is_mandatory)
@@ -97,6 +101,7 @@ FieldHelper = {
           Hierarchy.generateField(fields.config, "", id) : ""),
       is_enable_field_logic: is_enable_field_logic
     };
+    App.log("fieldProperties : ", fieldProperties);
     return fieldProperties;
   },
   buildFieldSelectOne: function (config) {
@@ -109,6 +114,13 @@ FieldHelper = {
       }
     });
     return config;
+  },
+  buildFieldLocation: function(config){
+    var configLocations = {locations: []};
+    $.map(config.locations, function(location){
+      configLocations.locations.push(location);
+    });
+    return configLocations;
   },
   buildFieldYesNo: function (config, fromServer) {
     var field_id0, field_id1;
