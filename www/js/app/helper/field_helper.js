@@ -59,6 +59,11 @@ FieldHelper = {
 
       if (widgetType === "phone")
         widgetType = "tel";
+      
+      if (widgetType === "location"){
+        widgetType = "select_one";
+        config = FieldHelper.buildFieldLocation(config);
+    }
 
       if (widgetType === "calculation") {
         widgetType = "text";
@@ -101,6 +106,13 @@ FieldHelper = {
       }
     });
     return config;
+  },
+  buildFieldLocation: function(config){
+    var configLocations = {locations: []};
+    $.map(config.locations, function(location){
+      configLocations.locations.push(location);
+    });
+    return configLocations;
   },
   buildFieldYesNo: function (config, fromServer) {
     var field_id0, field_id1;
