@@ -6,6 +6,10 @@ $(function () {
     SiteController.countByCollectionId(cId);
     SiteController.getAllByCollectionId();
     $("#site-list-menu").get(0).selectedIndex = 0;
+
+//    navigator.geolocation.getCurrentPosition(function (pos) {
+//      App.DataStore.set("currentPosition", JSON.stringify(pos));
+//    });
   });
 
   $(document).delegate('#btn_create_site', 'click', function () {
@@ -57,27 +61,20 @@ $(function () {
   });
 
   $(document).delegate('#page-create-site', 'pagebeforeshow', function () {
-    InvisibleLayer.invisibleNameLatLng("wrapSiteLocation", "wrapSiteName",
-        function () {
-          requireReload(function () {
-            var lat = $("#lat").val();
-            var lng = $("#lng").val();
-            if (lat == "" && lng == "") {
-              navigator.geolocation.getCurrentPosition(function (pos) {
-                var lat = pos.coords.latitude;
-                var lng = pos.coords.longitude;
-                $("#lat").val(lat);
-                $("#lng").val(lng);
-                $("#mark_lat").val(lat);
-                $("#mark_lng").val(lng);
-              }, function () {
-                alert("Location cannot be found.");
-              }, {
-                enableHighAccuracy: true
-              });
-            }
-          });
-        });
+    InvisibleLayer.invisibleNameLatLng("wrapSiteLocation", "wrapSiteName", function () {
+      requireReload(function () {
+        var lat = $("#lat").val();
+        var lng = $("#lng").val();
+
+        SiteController.getCurrentLocation(lat, lng);
+      });
+    });
+  });
+
+  $(document).delegate('#lat, #lng', 'change', function () {
+    var lat = $("#lat").val();
+    var lng = $("#lng").val();
+    FieldController.renderLocationField(lat, lng);
   });
 
   function requireReload(callback) {

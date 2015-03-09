@@ -10,15 +10,19 @@ FieldController = {
     LayerMembership.fetch(cId, function (layerMemberships) {
       FieldModel.fetch(function (layers) {
         var field_id_arr = new Array();
+        var location_fields_id = new Array();
         var field_collections = $.map(layers, function (layer) {
           $.map(layer.fields, function (field) {
             field_id_arr.push(field.id);
+            if (field.kind === "location")
+              location_fields_id.push(field.id);
           });
           var fields = FieldHelper.buildField(layer, {fromServer: true},
           layerMemberships);
           return fields;
         });
         App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+        App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
         FieldController.synForCurrentCollection(field_collections);
         FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
             {field_collections: field_collections}, "");
@@ -99,7 +103,7 @@ FieldController = {
             data = "";
           propertiesFile.properties[item["idfield"]] = data;
           break;
-        default: 
+        default:
           var nodeId = idHTMLForUpdate + item["idfield"];
           var value = $(nodeId).val();
           if (value == null)
@@ -149,5 +153,16 @@ FieldController = {
       value = dateToParam(value);
     }
     propertiesFile.properties[item["idfield"]] = value;
+  },
+  renderLocationField: function (lat, lng) {
+    var location_fields_id = JSON.parse(App.DataStore.get("location_fields_id"));
+    for (var i in location_fields_id) {
+      var id = location_fields_id[i];
+      var config = JSON.parse(App.DataStore.get("configLocations_" + id));
+      var locationOptions = Location.getLocations(lat, lng, config);
+      config.locationOptions = locationOptions;
+      var $element = $("#" + id);
+      FieldHelperView.displayLocationField("field/location.html", $element, {config: config});
+    }
   }
 };

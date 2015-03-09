@@ -14,8 +14,8 @@ FieldHelper = {
     if (fromServer) {
       fieldsWrapper.name_wrapper = fieldObj.name;
       fieldsWrapper.id_wrapper = fieldObj.id;
-      if(layerMemberships)
-        $.map(layerMemberships, function(layerMembership){
+      if (layerMemberships)
+        $.map(layerMemberships, function (layerMembership) {
           if (fieldObj.id === layerMembership.layer_id)
             fieldsWrapper.layer_membership = layerMembership;
         });
@@ -29,6 +29,7 @@ FieldHelper = {
       pf = FieldHelper.buildFieldProperties(fields, fromServer);
       fieldsWrapper.fields.push(pf);
     });
+    App.log("fieldsWrapper : ", fieldsWrapper );
     return fieldsWrapper;
   },
   buildFieldProperties: function (fields, fromServer) {
@@ -77,6 +78,8 @@ FieldHelper = {
       case "location":
         widgetType = "select_one";
         config = FieldHelper.buildFieldLocation(config);
+        App.DataStore.set("configLocations_" + id,
+            JSON.stringify(config));
         break;
     }
 
@@ -101,7 +104,6 @@ FieldHelper = {
           Hierarchy.generateField(fields.config, "", id) : ""),
       is_enable_field_logic: is_enable_field_logic
     };
-    App.log("fieldProperties : ", fieldProperties);
     return fieldProperties;
   },
   buildFieldSelectOne: function (config) {
@@ -115,11 +117,20 @@ FieldHelper = {
     });
     return config;
   },
-  buildFieldLocation: function(config){
-    var configLocations = {locations: []};
-    $.map(config.locations, function(location){
+  buildFieldLocation: function (config) {
+    var configLocations = {locations: [], locationOptions: []};
+  
+//    var pos = JSON.parse(App.DataStore.get("currentPosition"));
+//    var lat = pos.coords.latitude;
+//    var lng = pos.coords.longitude;
+//    
+//    configLocations.locationOptions = Location.getLocations(lat, lng, config);
+    
+    $.map(config.locations, function (location) {
       configLocations.locations.push(location);
     });
+    configLocations.locationOptions = configLocations.locations;
+    configLocations.maximumSearchLength = config.maximumSearchLength;
     return configLocations;
   },
   buildFieldYesNo: function (config, fromServer) {
@@ -194,9 +205,9 @@ FieldHelper = {
           FieldHelper.setFieldHierarchyValue(item, pValue);
           break;
         case "date":
-          if (pValue){
+          if (pValue) {
             var date = pValue.split("T")[0];
-            if(!fromServer)
+            if (!fromServer)
               item.__value = convertDateWidgetToParam(date);
             else
               item.__value = date;

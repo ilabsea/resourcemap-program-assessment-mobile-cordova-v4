@@ -1,6 +1,6 @@
 FieldHelperView = {
-  display: function(templateURL, element, elementPrefixID, fieldData, update) {
-    App.Template.process(templateURL, fieldData, function(content) {
+  display: function (templateURL, element, elementPrefixID, fieldData, update) {
+    App.Template.process(templateURL, fieldData, function (content) {
       element.html(content);
       FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
 
@@ -8,16 +8,22 @@ FieldHelperView = {
       FieldHelperView.displayUiDisabled(elementPrefixID, fieldData);
     });
   },
-  displayLayerMenu: function(path, element, layers_collection, current_page) {
+  displayLocationField: function (templateURL, element, configData) {
+    App.Template.process(templateURL, configData, function (content) {
+      element.html(content);
+      element.selectmenu("refresh");
+    });
+  },
+  displayLayerMenu: function (path, element, layers_collection, current_page) {
     layers_collection.field_collections.current_page = current_page;
-    App.Template.process(path, layers_collection, function(content) {
+    App.Template.process(path, layers_collection, function (content) {
       element.html(content);
       element.trigger("create");
     });
   },
-  displayHierarchy: function(elementPrefixID, fieldData, update) {
-    $.map(fieldData.field_collections, function(properties) {
-      $.map(properties.fields, function(fieldsInside) {
+  displayHierarchy: function (elementPrefixID, fieldData, update) {
+    $.map(fieldData.field_collections, function (properties) {
+      $.map(properties.fields, function (fieldsInside) {
         if (fieldsInside.kind === "hierarchy") {
           var data = fieldsInside.configHierarchy;
           var id = fieldsInside.idfield;

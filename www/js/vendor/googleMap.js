@@ -1,7 +1,7 @@
 var mapObject = {
   map: null,
   marker: null,
-  render: function() {
+  render: function () {
     if (this.map == null) {
       this.loadMap();
     }
@@ -9,7 +9,7 @@ var mapObject = {
       this.setMarker();
     }
   },
-  setMarker: function() {
+  setMarker: function () {
     var latlng = this.getLatLng();
     _self = this;
     if (this.marker) {
@@ -27,13 +27,13 @@ var mapObject = {
     this.map.panTo(point);
     google.maps.event.trigger(map_canvas, 'resize');
   },
-  getLatLng: function() {
+  getLatLng: function () {
     var lat = $("#mark_lat").val();
     var lng = $("#mark_lng").val();
     var latlng = new google.maps.LatLng(lat, lng);
     return latlng;
   },
-  loadMap: function() {
+  loadMap: function () {
     var $content = $("#map_canvas");
     var mapCanvas = $content[0];
 
@@ -49,7 +49,7 @@ var mapObject = {
     this.setMarker();
     _self = this;
 
-    google.maps.event.addListener(_self.marker, 'dragend', function() {
+    google.maps.event.addListener(_self.marker, 'dragend', function () {
       var point = _self.marker.getPosition();
       var lat = point.lat();
       var lng = point.lng();
