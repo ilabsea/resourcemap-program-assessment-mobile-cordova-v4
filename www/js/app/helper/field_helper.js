@@ -111,13 +111,6 @@ FieldHelper = {
   },
   buildFieldLocation: function (config) {
     var configLocations = {locations: [], locationOptions: []};
-  
-//    var pos = JSON.parse(App.DataStore.get("currentPosition"));
-//    var lat = pos.coords.latitude;
-//    var lng = pos.coords.longitude;
-//    
-//    configLocations.locationOptions = Location.getLocations(lat, lng, config);
-    
     $.map(config.locations, function (location) {
       configLocations.locations.push(location);
     });

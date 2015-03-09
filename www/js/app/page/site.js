@@ -6,10 +6,6 @@ $(function () {
     SiteController.countByCollectionId(cId);
     SiteController.getAllByCollectionId();
     $("#site-list-menu").get(0).selectedIndex = 0;
-
-//    navigator.geolocation.getCurrentPosition(function (pos) {
-//      App.DataStore.set("currentPosition", JSON.stringify(pos));
-//    });
   });
 
   $(document).delegate('#btn_create_site', 'click', function () {
@@ -62,11 +58,13 @@ $(function () {
 
   $(document).delegate('#page-create-site', 'pagebeforeshow', function () {
     requireReload(function () {
-      var lat = $("#lat").val();
-      var lng = $("#lng").val();
-
-      SiteController.getCurrentLocation(lat, lng);
-    });
+        var lat = $("#lat").val();
+        var lng = $("#lng").val();
+        if (lat == "" && lng == "")
+          SiteController.getCurrentLocation();
+        else
+          FieldController.renderLocationField(lat, lng);
+      });
   });
 
   $(document).delegate('#lat, #lng', 'change', function () {
