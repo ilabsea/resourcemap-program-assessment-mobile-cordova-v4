@@ -10,6 +10,12 @@ FieldHelperView = {
       FieldHelperView.displayUiDisabled(elementPrefixID, fieldData, update);
     });
   },
+  displayLocationField: function (templateURL, element, configData) {
+    App.Template.process(templateURL, configData, function (content) {
+      element.html(content);
+      element.selectmenu("refresh");
+    });
+  },
   displayLayerMenu: function (path, element, layers_collection, current_page) {
     layers_collection.field_collections.current_page = current_page;
     App.Template.process(path, layers_collection, function (content) {
@@ -18,8 +24,8 @@ FieldHelperView = {
     });
   },
   displayHierarchy: function (elementPrefixID, fieldData, update) {
-    $.each(fieldData.field_collections, function (key, properties) {
-      $.each(properties.fields, function (i, fieldsInside) {
+    $.map(fieldData.field_collections, function (properties) {
+      $.map(properties.fields, function (fieldsInside) {
         if (fieldsInside.kind === "hierarchy") {
           var data = fieldsInside.configHierarchy;
           var id = fieldsInside.idfield;

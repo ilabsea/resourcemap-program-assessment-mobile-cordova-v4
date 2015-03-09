@@ -11,6 +11,23 @@ SiteController = {
       element.trigger("create");
     });
   },
+  getCurrentLocation: function (lat, lng) {
+    if (lat == "" && lng == "") {
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        var lat = pos.coords.latitude;
+        var lng = pos.coords.longitude;
+        $("#lat").val(lat);
+        $("#lng").val(lng);
+        $("#mark_lat").val(lat);
+        $("#mark_lng").val(lng);
+        FieldController.renderLocationField(lat, lng);
+      }, function () {
+        alert("Location cannot be found.");
+      }, {
+        enableHighAccuracy: true
+      });
+    }
+  },
   add: function () {
     var data = SiteController.buildDataForSite();
     if (App.isOnline())

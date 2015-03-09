@@ -63,6 +63,8 @@ FieldHelper = {
       if (widgetType === "location"){
         widgetType = "select_one";
         config = FieldHelper.buildFieldLocation(config);
+        App.DataStore.set("configLocations_" + id,
+            JSON.stringify(config));
     }
 
       if (widgetType === "calculation") {
@@ -107,11 +109,20 @@ FieldHelper = {
     });
     return config;
   },
-  buildFieldLocation: function(config){
-    var configLocations = {locations: []};
-    $.map(config.locations, function(location){
+  buildFieldLocation: function (config) {
+    var configLocations = {locations: [], locationOptions: []};
+  
+//    var pos = JSON.parse(App.DataStore.get("currentPosition"));
+//    var lat = pos.coords.latitude;
+//    var lng = pos.coords.longitude;
+//    
+//    configLocations.locationOptions = Location.getLocations(lat, lng, config);
+    
+    $.map(config.locations, function (location) {
       configLocations.locations.push(location);
     });
+    configLocations.locationOptions = configLocations.locations;
+    configLocations.maximumSearchLength = config.maximumSearchLength;
     return configLocations;
   },
   buildFieldYesNo: function (config, fromServer) {
@@ -174,17 +185,29 @@ FieldHelper = {
   setFieldsValue: function (item, propertyCode, pValue, site, fromServer) {
     if (item.code === propertyCode || parseInt(item["idfield"])
         === parseInt(propertyCode)) {
-      if (item.widgetType === "photo")
-        FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
-      else if (item.widgetType === "select_many"
-          || item.widgetType === "select_one")
-        FieldHelper.setFieldSelectValue(item, pValue);
-      else if (item.widgetType === "hierarchy")
-        FieldHelper.setFieldHierarchyValue(item, pValue);
-      else if (item.widgetType === "date" && pValue)
-        item.__value = convertDateWidgetToParam(pValue);
-      else
-        item.__value = pValue;
+      switch (item.widgetType) {
+        case "photo" :
+          FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
+          break;
+        case "select_many":
+        case "select_one":
+          FieldHelper.setFieldSelectValue(item, pValue);
+          break;
+        case "hierarchy":
+          FieldHelper.setFieldHierarchyValue(item, pValue);
+          break;
+        case "date":
+          if (pValue) {
+            var date = pValue.split("T")[0];
+            if (!fromServer)
+              item.__value = convertDateWidgetToParam(date);
+            else
+              item.__value = date;
+          }
+          break;
+        default:
+          item.__value = pValue;
+      }
     }
   },
   setFieldPhotoValue: function (item, value, site, fromServer) {
