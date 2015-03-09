@@ -156,10 +156,17 @@ FieldHelper = {
     return config;
   },
   buildFieldsUpdate: function (layers, site, fromServer, layerMemberships) {
+    var location_fields_id = [];
     var field_collections = $.map(layers, function (layer) {
+      $.map(layer.fields, function (field) {
+        if (field.kind === "location")
+          location_fields_id.push(field.id);
+      });
       var item = FieldHelper.buildFieldsLayer(layer, site, fromServer, layerMemberships);
       return item;
     });
+
+    App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
 
     return field_collections;
   },
@@ -185,13 +192,17 @@ FieldHelper = {
   setFieldsValue: function (item, propertyCode, pValue, site, fromServer) {
     if (item.code === propertyCode || parseInt(item["idfield"])
         === parseInt(propertyCode)) {
-      switch (item.widgetType) {
+      switch (item.kind) {
         case "photo" :
           FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
           break;
         case "select_many":
         case "select_one":
           FieldHelper.setFieldSelectValue(item, pValue);
+          break;
+        case "location":
+          FieldHelper.buildFieldLocationUpdate(site, item);
+          FieldHelper.setFieldLocationValue(item, pValue);
           break;
         case "hierarchy":
           FieldHelper.setFieldHierarchyValue(item, pValue);
@@ -229,6 +240,14 @@ FieldHelper = {
       }
     }
   },
+  setFieldLocationValue: function (item, value) {
+    item.__value = value;
+    for (var k = 0; k < item.config.locationOptions.length; k++) {
+      if (item.config.locationOptions[k].code == item.__value) {
+        item.config.locationOptions[k]["selected"] = "selected";
+      }
+    }
+  },
   setFieldSelectValue: function (item, value) {
     item.__value = value;
     for (var k = 0; k < item.config.options.length; k++) {
@@ -260,5 +279,8 @@ FieldHelper = {
     item.configHierarchy = Hierarchy.generateField(item.config, item.__value,
         item.idfield);
     item._selected = Hierarchy._selected;
+  },
+  buildFieldLocationUpdate: function (site, item) {
+    item.config.locationOptions = Location.getLocations(site.lat, site.lng, item.config);
   }
 };

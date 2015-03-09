@@ -64,15 +64,22 @@ $(function () {
         if (lat == "" && lng == "")
           SiteController.getCurrentLocation();
         else
-          FieldController.renderLocationField(lat, lng);
+          FieldController.renderLocationField(lat, lng, "");
       });
     });
+  });
+
+  $(document).delegate('#updatelolat_online, #updatelolng_online, #page-update-site-online', 'change pagebeforeshow', function () {
+    var lat = $("#updatelolat_online").val();
+    var lng = $("#updatelolng_online").val();
+    var prefixId = "update_online_";
+    FieldController.renderLocationField(lat, lng, prefixId);
   });
 
   $(document).delegate('#lat, #lng', 'change', function () {
     var lat = $("#lat").val();
     var lng = $("#lng").val();
-    FieldController.renderLocationField(lat, lng);
+    FieldController.renderLocationField(lat, lng, "");
   });
 
   function requireReload(callback) {
