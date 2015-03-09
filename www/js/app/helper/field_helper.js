@@ -148,12 +148,19 @@ FieldHelper = {
 
     return config;
   },
-  buildFieldsUpdate: function (layers, site, fromServer) {
-    var field_collections = [];
-    $.each(layers, function (key, layer) {
-      var item = FieldHelper.buildFieldsLayer(layer, site, fromServer);
-      field_collections.push(item);
+  buildFieldsUpdate: function (layers, site, fromServer, layerMemberships) {
+    var location_fields_id = [];
+    var field_collections = $.map(layers, function (layer) {
+      $.map(layer.fields, function (field) {
+        if (field.kind === "location")
+          location_fields_id.push(field.id);
+      });
+      var item = FieldHelper.buildFieldsLayer(layer, site, fromServer, layerMemberships);
+      return item;
     });
+
+    App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
+
     return field_collections;
   },
   buildFieldsLayer: function (layer, site, fromServer) {
@@ -178,13 +185,17 @@ FieldHelper = {
   setFieldsValue: function (item, propertyCode, pValue, site, fromServer) {
     if (item.code === propertyCode || parseInt(item["idfield"])
         === parseInt(propertyCode)) {
-      switch (item.widgetType) {
+      switch (item.kind) {
         case "photo" :
           FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
           break;
         case "select_many":
         case "select_one":
           FieldHelper.setFieldSelectValue(item, pValue);
+          break;
+        case "location":
+          FieldHelper.buildFieldLocationUpdate(site, item);
+          FieldHelper.setFieldLocationValue(item, pValue);
           break;
         case "hierarchy":
           FieldHelper.setFieldHierarchyValue(item, pValue);
@@ -219,6 +230,14 @@ FieldHelper = {
         item.__value = SiteCamera.dataWithMimeType(imageData);
         App.DataStore.set(sId + "_" + item["idfield"] + "_fileName", imageId);
         App.DataStore.set(sId + "_" + item["idfield"] + "_fileData", imageData);
+      }
+    }
+  },
+  setFieldLocationValue: function (item, value) {
+    item.__value = value;
+    for (var k = 0; k < item.config.locationOptions.length; k++) {
+      if (item.config.locationOptions[k].code == item.__value) {
+        item.config.locationOptions[k]["selected"] = "selected";
       }
     }
   },
@@ -267,5 +286,8 @@ FieldHelper = {
     if(arr_id.length === 0)
       arr_id = arr_code;
     return arr_id;
+  },
+  buildFieldLocationUpdate: function (site, item) {
+    item.config.locationOptions = Location.getLocations(site.lat, site.lng, item.config);
   }
 };
