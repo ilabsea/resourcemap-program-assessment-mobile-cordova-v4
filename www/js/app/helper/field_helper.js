@@ -29,7 +29,6 @@ FieldHelper = {
       pf = FieldHelper.buildFieldProperties(fields, fromServer);
       fieldsWrapper.fields.push(pf);
     });
-    App.log("fieldsWrapper : ", fieldsWrapper );
     return fieldsWrapper;
   },
   buildFieldProperties: function (fields, fromServer) {
@@ -119,13 +118,6 @@ FieldHelper = {
   },
   buildFieldLocation: function (config) {
     var configLocations = {locations: [], locationOptions: []};
-  
-//    var pos = JSON.parse(App.DataStore.get("currentPosition"));
-//    var lat = pos.coords.latitude;
-//    var lng = pos.coords.longitude;
-//    
-//    configLocations.locationOptions = Location.getLocations(lat, lng, config);
-    
     $.map(config.locations, function (location) {
       configLocations.locations.push(location);
     });
