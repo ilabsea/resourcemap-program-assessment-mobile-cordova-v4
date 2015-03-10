@@ -61,6 +61,23 @@
   </div>
  </div>
  {{else}}
+ {{#if config.locations}}
+ <div id="wrapper_update_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <select id="update_{{idfield}}" 
+          data-theme="a" 
+          name="update_{{idfield}}" 
+          data-native-menu="false"
+          {{required}} 
+          class="needsclick">
+   <option value="">Option</option>
+   <option value="" selected>(no value)</option>
+   {{#config.locationOptions}}
+   <option value="{{code}}" {{selected}}>{{name}}</option>
+   {{/config.locationOptions}}
+  </select>
+ </div>
+ {{else}}
  <div id="wrapper_update_{{idfield}}" tabindex="0">
   <label for='name'>{{{name}}}</label>
   {{#ifCond widgetType "date"}}
@@ -71,8 +88,8 @@
          class="date" 
          {{required}} >  
   {{else}}
-   {{#ifCond widgetType "number"}}
-    <input type="{{widgetType}}" 
+  {{#ifCond widgetType "number"}}
+  <input type="{{widgetType}}" 
          id="update_{{idfield}}" 
          value ="{{__value}}" 
          name="{{name}}" 
@@ -82,16 +99,17 @@
          class="skipLogicNumber"
          {{required}}
          {{readonly}}/>
-    {{else}}
-     <input type="{{widgetType}}" 
+  {{else}}
+  <input type="{{widgetType}}" 
          id="update_{{idfield}}" 
          value ="{{__value}}" 
          name="{{name}}" 
          {{required}} 
          {{readonly}}/> 
-    {{/ifCond}}
+  {{/ifCond}}
   {{/ifCond}}
  </div>
+ {{/if}}
  {{/if}}
  {{/if}}
  {{/if}}

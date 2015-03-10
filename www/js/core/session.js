@@ -17,5 +17,6 @@ App.Session = {
     App.DataStore.remove("currentUser");
     App.DataStore.remove("field_id_arr");
     App.DataStore.remove("sId");
+    App.DataStore.remove("location_fields_id");
   }
 };

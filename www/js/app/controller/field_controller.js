@@ -36,15 +36,19 @@ FieldController = {
     FieldOffline.fetchByCollectionId(cId, function (fields) {
       var field_id_arr = new Array();
       var field_collections = [];
+      var location_fields_id = [];
       fields.forEach(function (field) {
         $.map(field.fields(), function (fieldsInfield) {
           field_id_arr.push(fieldsInfield.idfield);
+          if (fieldsInfield.kind === "location")
+            location_fields_id.push(fieldsInfield.idfield);
         });
         var item = FieldHelper.buildField(field._data,
             {fromServer: false}, "");
         field_collections.push(item);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+      App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
           {field_collections: field_collections}, "");
       FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
