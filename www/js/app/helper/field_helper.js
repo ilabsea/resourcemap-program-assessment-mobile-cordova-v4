@@ -151,14 +151,16 @@ FieldHelper = {
   buildFieldsUpdate: function (layers, site, fromServer, layerMemberships) {
     var location_fields_id = [];
     var field_collections = $.map(layers, function (layer) {
-      $.map(layer.fields, function (field) {
-        if (field.kind === "location")
-          location_fields_id.push(field.id);
+      var fields = fromServer ? layer.fields : layer.fields();
+      $.map(fields, function (field) {
+        if (field.kind === "location") {
+          var fieldId = fromServer ? field.id : field.idfield;
+          location_fields_id.push(fieldId);
+        }
       });
       var item = FieldHelper.buildFieldsLayer(layer, site, fromServer, layerMemberships);
       return item;
     });
-
     App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
 
     return field_collections;
@@ -194,7 +196,7 @@ FieldHelper = {
           FieldHelper.setFieldSelectValue(item, pValue);
           break;
         case "location":
-          FieldHelper.buildFieldLocationUpdate(site, item);
+          FieldHelper.buildFieldLocationUpdate(site, item, fromServer);
           FieldHelper.setFieldLocationValue(item, pValue);
           break;
         case "hierarchy":
@@ -287,7 +289,9 @@ FieldHelper = {
       arr_id = arr_code;
     return arr_id;
   },
-  buildFieldLocationUpdate: function (site, item) {
-    item.config.locationOptions = Location.getLocations(site.lat, site.lng, item.config);
+  buildFieldLocationUpdate: function (site, item, fromServer) {
+    var lat = fromServer ? site.lat : site.lat();
+    var lng = fromServer ? site.lng : site.lng();
+    item.config.locationOptions = Location.getLocations(lat, lng, item.config);
   }
 };

@@ -66,6 +66,13 @@ $(function () {
           FieldController.renderLocationField(lat, lng, "");
       });
   });
+  
+  $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
+    var lat = $("#updatelolat").val();
+    var lng = $("#updatelolng").val();
+    var prefixId = "update_";
+    FieldController.renderLocationField(lat, lng, prefixId);
+  });
 
   $(document).delegate('#updatelolat_online, #updatelolng_online, #page-update-site-online', 'change pagebeforeshow', function () {
     var lat = $("#updatelolat_online").val();
