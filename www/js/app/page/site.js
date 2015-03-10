@@ -63,30 +63,20 @@ $(function () {
         var lng = $("#lng").val();
         if (lat == "" && lng == "")
           SiteController.getCurrentLocation();
-        else
-          FieldController.renderLocationField(lat, lng, "");
       });
     });
   });
   
   $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
-    var lat = $("#updatelolat").val();
-    var lng = $("#updatelolng").val();
-    var prefixId = "update_";
-    FieldController.renderLocationField(lat, lng, prefixId);
+    FieldController.renderLocationField("#updatelolat", "#updatelolng", "update_");
   });
 
-  $(document).delegate('#updatelolat_online, #updatelolng_online, #page-update-site-online', 'change pagebeforeshow', function () {
-    var lat = $("#updatelolat_online").val();
-    var lng = $("#updatelolng_online").val();
-    var prefixId = "update_online_";
-    FieldController.renderLocationField(lat, lng, prefixId);
+  $(document).delegate('#updatelolat_online, #updatelolng_online', 'change', function () {
+    FieldController.renderLocationField("#updatelolat_online", "#updatelolng_online", "update_online_");
   });
 
   $(document).delegate('#lat, #lng', 'change', function () {
-    var lat = $("#lat").val();
-    var lng = $("#lng").val();
-    FieldController.renderLocationField(lat, lng, "");
+    FieldController.renderLocationField("#lat", "#lng", "");
   });
 
   function requireReload(callback) {
