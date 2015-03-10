@@ -125,7 +125,6 @@ FieldController = {
         propertiesFile.properties[item["idfield"]] = value;
       }
     });
-
     return pf;
   },
   updateFieldPhotoValue: function (item, propertiesFile, fromServer) {

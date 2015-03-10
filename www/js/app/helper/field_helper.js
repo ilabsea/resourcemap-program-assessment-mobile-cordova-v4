@@ -238,6 +238,7 @@ FieldHelper = {
   setFieldLocationValue: function (item, value) {
     item.__value = value;
     for (var k = 0; k < item.config.locationOptions.length; k++) {
+      item.config.locationOptions[k]["selected"] = "";
       if (item.config.locationOptions[k].code == item.__value) {
         item.config.locationOptions[k]["selected"] = "selected";
       }
