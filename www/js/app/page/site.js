@@ -44,6 +44,8 @@ $(function () {
   $(document).delegate(
       '#btn_back_site_in_create , #btn_back_site_list_online , \n\
 #btn_back_site_list_all , #btn_back_site_list', 'click', function () {
+        if ($(this).attr("id") === "btn_back_site_in_create")
+          ValidationHelper.resetFormValidate("#form_create_site");
         App.DataStore.clearPartlyAfterCreateSite();
         App.Cache.resetValue();
       });
