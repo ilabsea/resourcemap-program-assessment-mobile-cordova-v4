@@ -88,7 +88,7 @@ var ValidationHelper = {
   },
   validateImageChange: function (idElement) {
     var $element = $("#" + idElement);
-    if ($element.attr('required') == "required") {
+    if ($element.attr('required')) {
       if ($element.attr('src') == '')
         this.AddClassImageError(idElement);
       else
