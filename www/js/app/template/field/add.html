@@ -36,12 +36,14 @@
    {{/config.options}}   
    {{/if}}    
   </select>
+  <label id="label_{{idfield}}" class="errorSelect" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}  
  {{#if isHierarchy}} 
  <div id="wrapper_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
   <div id="{{idfield}}" class="tree" require='{{required}}' tabindex="0"></div>
+  <label id="label_{{idfield}}" class="errorHierarchy" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}
  {{#if isPhoto}}  
@@ -53,8 +55,9 @@
    <img class="image" 
         src='{{__value}}' 
         id='{{idfield}}' 
-        require='{{required}}' /> 
+        required='{{required}}' /> 
   </div>
+  <label id="label_{{idfield}}" class="errorImage" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}
  <div id="wrapper_{{idfield}}" tabindex="0">

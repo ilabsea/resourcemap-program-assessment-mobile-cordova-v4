@@ -29,7 +29,7 @@ SiteCamera = {
     image.src = SiteCamera.dataWithMimeType(imageData);
 
     PhotoList.add(photo);
-    validateImage(imageId);
+    ValidationHelper.validateImageChange(imageId);
   },
   imageId: function() {
     var imageId;

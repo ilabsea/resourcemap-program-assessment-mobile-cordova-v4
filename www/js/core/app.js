@@ -2,7 +2,7 @@ URL = "http://192.168.1.120:3000/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
-  DB_NAME: 'resourcemap_db',
+  DB_NAME: 'resourcemap_db_3_1',
   END_POINT: END_POINT,
   IMG_PATH: URL + "photo_field/",
   AUTH_URL: END_POINT + "/users/sign_in.json",

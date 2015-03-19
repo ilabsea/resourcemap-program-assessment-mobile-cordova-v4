@@ -5,7 +5,7 @@ $(function () {
 
   $(document).delegate('.validateSelectFields', 'change', function () {
     SkipLogic.skipLogicYesNo(this.id);
-    validateToRemoveStyle(this);
+    ValidationHelper.validateSelectChange(this);
   });
 
   $(document).delegate('.ui-selectmenu', 'popupafterclose pagehide', function () {
