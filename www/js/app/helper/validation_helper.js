@@ -137,8 +137,8 @@ var ValidationHelper = {
       $("#label_" + $(element).attr("id")).css("display", "none");
     }
   },
-  resetFormValidate: function (element) {
-    var $element = $(element);
+  resetFormValidate: function (formElement) {
+    var $element = $(formElement);
     var validator = $element.validate();
     validator.resetForm();
   }
