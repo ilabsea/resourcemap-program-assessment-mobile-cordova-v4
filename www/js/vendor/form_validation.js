@@ -60,49 +60,33 @@ $(document).ready(function () {
 
   $('#form_update_site').validate({
     errorPlacement: function (error, element) {
-      if (element.attr("type") === "number" &&
-          (element.attr("min") || element.attr("max")))
-        error.insertAfter($(element).parent());
-      ValidationHelper.addClassError(element);
+      ValidationHelper.AddClassSelectError(element);
+      error.insertAfter($(element).parent());
     },
-    invalidHandler: function () {
-      showValidateMessage('#validation_update-site');
+    invalidHandler: function (e, validator) {
+      ValidationHelper.invalidHandler(validator, "#validation_update-site");
     },
     submitHandler: function () {
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      var h = true;
-      var bImage = true;
-
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_update-site', SiteController.updateBySiteIdOffline);
-      if (h && bImage)
-        SiteController.updateBySiteIdOffline();
+      ValidationHelper.handleSubmitHandler("#validation_update-site",
+          function () {
+            SiteController.updateBySiteIdOffline();
+          });
     }
   });
 
   $('#form_update_site_online').validate({
     errorPlacement: function (error, element) {
-      ValidationHelper.addClassError(element);
-
+      ValidationHelper.AddClassSelectError(element);
+      error.insertAfter($(element).parent());
     },
-    invalidHandler: function () {
-      showValidateMessage('#validation_update-site-online');
+    invalidHandler: function (e, validator) {
+      ValidationHelper.invalidHandler(validator, "#validation_update-site-online");
     },
     submitHandler: function (e) {
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      var h = true;
-      var bImage = true;
-
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_update-site-online', SiteController.updateBySiteIdOnline);
-      if (h && bImage)
-        SiteController.updateBySiteIdOnline();
+      ValidationHelper.handleSubmitHandler("#validation_update-site-online",
+          function () {
+            SiteController.updateBySiteIdOnline();
+          });
     }
   });
 });

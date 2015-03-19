@@ -35,8 +35,8 @@
    <option value="{{id}}" {{selected}} data-field_id="update_{{field_id}}">{{label}}</option>
    {{/config.options}}
    {{/if}}
-
   </select>
+  <label id="label_update_{{idfield}}" class="errorSelect" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}} 
  {{#if isHierarchy}} 
@@ -46,6 +46,7 @@
        class="tree" 
        require='{{required}}' 
        tabindex="0"></div>
+  <label id="label_update_{{idfield}}" class="errorHierarchy" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}
  {{#if isPhoto}}  
@@ -57,8 +58,9 @@
    <img class="image" 
         src='{{__value}}' 
         id='update_{{idfield}}' 
-        require='{{required}}' />
+        {{required}} />
   </div>
+  <label id="label_update_{{idfield}}" class="errorImage" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}
  <div id="wrapper_update_{{idfield}}" tabindex="0">
@@ -71,8 +73,8 @@
          class="date" 
          {{required}} >  
   {{else}}
-   {{#ifCond widgetType "number"}}
-    <input type="{{widgetType}}" 
+  {{#ifCond widgetType "number"}}
+  <input type="{{widgetType}}" 
          id="update_{{idfield}}" 
          value ="{{__value}}" 
          name="{{name}}" 
@@ -82,14 +84,14 @@
          class="skipLogicNumber"
          {{required}}
          {{readonly}}/>
-    {{else}}
-     <input type="{{widgetType}}" 
+  {{else}}
+  <input type="{{widgetType}}" 
          id="update_{{idfield}}" 
          value ="{{__value}}" 
          name="{{name}}" 
          {{required}} 
          {{readonly}}/> 
-    {{/ifCond}}
+  {{/ifCond}}
   {{/ifCond}}
  </div>
  {{/if}}
