@@ -74,14 +74,14 @@ var ValidationHelper = {
     $(id).show().delay(4000).fadeOut();
     $(id).focus();
   },
-  validateHierarchyChange: function(idElement){
+  validateHierarchyChange: function (idElement) {
     var $tree = $("#" + idElement);
     if ($tree.attr('require') === "required") {
       var node = $tree.tree('getSelectedNode');
-      if (!node.id){
+      if (!node.id) {
         this.AddClassHierarchyError(idElement);
       }
-      else{
+      else {
         this.removeClassHierarchyError(idElement);
       }
     }
@@ -117,7 +117,7 @@ var ValidationHelper = {
     $parent.removeClass("error");
     $("#label_" + id).css("display", 'none');
   },
-  removeClassHierarchyError: function(id){
+  removeClassHierarchyError: function (id) {
     $("#" + id).removeClass("error");
     $("#label_" + id).css("display", 'none');
   },
@@ -132,8 +132,10 @@ var ValidationHelper = {
   },
   AddClassSelectError: function (element) {
     if ($(element)[0].tagName.toLowerCase() === "select") {
-      var $parent = $(element).closest('.ui-select');
-      $parent.addClass("error");
+      if ($(element).val() == "") {
+        var $parent = $(element).closest('.ui-select');
+        $parent.addClass("error");
+      }
       $("#label_" + $(element).attr("id")).css("display", "none");
     }
   },
