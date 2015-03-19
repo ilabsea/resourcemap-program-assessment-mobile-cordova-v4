@@ -10,7 +10,8 @@ $(document).ready(function () {
 
   $('#form_login').validate({
     invalidHandler: function () {
-      ValidationHelper.showValidateMessage("#validation_email_psd");
+      ValidationHelper.setPopUpMsgError("#validation_email_psd");
+      ValidationHelper.showPopUpErrorMessage();
     },
     submitHandler: function () {
       var email = $("#email").val();
@@ -20,6 +21,10 @@ $(document).ready(function () {
   });
 
   $('#form_signup').validate({
+    invalidHandler: function () {
+      ValidationHelper.setPopUpMsgError("#validation_email_psd_confirm");
+      ValidationHelper.showPopUpErrorMessage();
+    },
     submitHandler: function () {
       if (App.isOnline()) {
         hideElement($("#internet"));
@@ -35,9 +40,6 @@ $(document).ready(function () {
       }
       else
         showElement($("#internet"));
-    },
-    invalidHandler: function () {
-      ValidationHelper.showValidateMessage("#validation_email_psd_confirm");
     }
   });
 
