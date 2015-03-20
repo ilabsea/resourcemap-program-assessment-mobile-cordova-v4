@@ -200,6 +200,7 @@ FieldHelper = {
       item.__value = SiteCamera.imagePath(value);
     }
     else {
+      
       var files = site.files();
       var imageId = value;
       var imageData = files[imageId];

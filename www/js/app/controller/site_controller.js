@@ -258,7 +258,7 @@ SiteController = {
         if ($field.length > 0 && $field[0].tagName.toLowerCase() == 'img') {
           var lPhotoList = PhotoList.getPhotos().length;
           for (var p = 0; p < lPhotoList; p++) {
-            var sId = localStorage.getItem("sId");
+            var sId = App.DataStore.get("sId");
             if (PhotoList.getPhotos()[p].id == each_field && PhotoList.getPhotos()[p].sId == sId) {
               var fileName = PhotoList.getPhotos()[p].name();
               properties[each_field] = fileName;
