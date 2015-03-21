@@ -1,13 +1,20 @@
 PhotoList = {
   photos: [],
   add: function(photo) {
-    PhotoList.remove(photo.sId, photo.id);
     PhotoList.photos.push(photo);
+    var previousName = App.DataStore.get("photoName_" + photo.id);
+    if (previousName){ 
+      alert("have previous name store");
+      this.remove(previousName);
+    }else{
+      alert("no previous name : ", JSON.stringify(photo.name));
+    }
+    App.DataStore.set("photoName_" + photo.id, photo.name);
   },
-  remove: function(sId, id) {
+  remove: function(name) {
     for (var i = 0; i < PhotoList.count(); i++) {
       var photo = PhotoList.getPhotos()[i];
-      if (photo.id === id && photo.sId === sId) {
+      if (photo.name === name) {
         return PhotoList.photos.splice(i, 1);
       }
     }
@@ -23,13 +30,10 @@ PhotoList = {
   }
 };
 
-function Photo(sId, id, data, format) {
-  this.sId = sId;
-  this.id = id;
+function Photo(id, data, format) {
+  this.id = id; //field id
   this.data = data;
   this.format = format;
-  this.name = function() {
-    var date = new Date();
-    return "" + date.getTime() + "_" + this.sId + "_" + this.id + "." + this.format;
-  };
+  var date = new Date();
+  this.name = "" + date.getTime() + "_" + this.id + "." + this.format;
 }

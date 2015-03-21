@@ -1,9 +1,9 @@
 SiteCamera = {
   format: "jpeg",
-  dataWithMimeType: function(data) {
+  dataWithMimeType: function (data) {
     return 'data:image/jpeg;base64,' + data;
   },
-  takePhoto: function(idField, updated, cameraType) {
+  takePhoto: function (idField, updated, cameraType) {
     var type;
     if (cameraType === "camera") {
       type = Camera.PictureSourceType.CAMERA;
@@ -21,17 +21,16 @@ SiteCamera = {
     };
     navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, cameraOptions);
   },
-  onSuccess: function(imageData) {
-    var sId = localStorage.getItem("sId");
+  onSuccess: function (imageData) {
     var imageId = SiteCamera.imageId();
     var image = document.getElementById(imageId);
-    var photo = new Photo(sId, SiteCamera.id, imageData, SiteCamera.format);
+    var photo = new Photo( SiteCamera.id, imageData, SiteCamera.format);
     image.src = SiteCamera.dataWithMimeType(imageData);
-
+    
     PhotoList.add(photo);
     ValidationHelper.validateImageChange(imageId);
   },
-  imageId: function() {
+  imageId: function () {
     var imageId;
     if (SiteCamera.updated === 'update')
       imageId = "update_" + SiteCamera.id;
@@ -41,9 +40,9 @@ SiteCamera = {
       imageId = SiteCamera.id;
     return  imageId;
   },
-  imagePath: function(imgFileName) {
+  imagePath: function (imgFileName) {
     return App.IMG_PATH + imgFileName;
   },
-  onFail: function() {
+  onFail: function () {
   }
 };

@@ -108,7 +108,6 @@ SiteController = {
         site.properties(propertiesFile.properties);
         site.files(propertiesFile.files);
         persistence.flush();
-
         App.DataStore.clearPartlyAfterCreateSite();
         App.Cache.resetValue();
         App.redirectTo("index.html#page-site-list");
@@ -136,10 +135,6 @@ SiteController = {
         }
       };
       SiteModel.update(data, function () {
-        var sId = App.DataStore.get("sId");
-        $.each(data.site.properties, function (key, idField) {
-          PhotoList.remove(sId, key);
-        });
         App.DataStore.clearPartlyAfterCreateSite();
         App.Cache.resetValue();
         App.redirectTo("#page-site-list");
@@ -254,22 +249,26 @@ SiteController = {
       var storedFieldId = JSON.parse(field_id_arr);
       for (var i = 0; i < storedFieldId.length; i++) {
         var each_field = storedFieldId[i];
-        $field = $('#' + each_field);
+        var $field = $('#' + each_field);
         if ($field.length > 0 && $field[0].tagName.toLowerCase() == 'img') {
-          var lPhotoList = PhotoList.getPhotos().length;
+          var lPhotoList = PhotoList.count();
+          var fileName = App.DataStore.get("photoName_" + each_field);
           for (var p = 0; p < lPhotoList; p++) {
-            var sId = App.DataStore.get("sId");
-            if (PhotoList.getPhotos()[p].id == each_field && PhotoList.getPhotos()[p].sId == sId) {
-              var fileName = PhotoList.getPhotos()[p].name();
+            alert("lPhotoList : ", lPhotoList);
+            if (PhotoList.getPhotos()[p].name == fileName) {
+              alert("fileName : ", fileName);
               properties[each_field] = fileName;
               files[fileName] = PhotoList.getPhotos()[p].data;
+              App.DataStore.remove("photoName_" + each_field);
               break;
+            }else{
+              alert("no exits");
             }
           }
         }
         else if ($field.length > 0 && $field[0].getAttribute("type") === 'date') {
           var date = $field.val();
-          if (date) 
+          if (date)
             date = convertDateWidgetToParam(date);
           properties["" + each_field + ""] = date;
         }

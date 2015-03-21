@@ -99,7 +99,7 @@ FieldController = {
             data = "";
           propertiesFile.properties[item["idfield"]] = data;
           break;
-        default: 
+        default:
           var nodeId = idHTMLForUpdate + item["idfield"];
           var value = $(nodeId).val();
           if (value == null)
@@ -112,32 +112,34 @@ FieldController = {
   },
   updateFieldPhotoValue: function (item, propertiesFile, fromServer) {
     var idfield = item["idfield"];
-    var lPhotoList = PhotoList.getPhotos().length;
+    var lPhotoList = PhotoList.count();
     var sId = App.DataStore.get("sId");
 
     if (fromServer) {
       var filePath = App.DataStore.get(sId + "_" + idfield);
-      if (filePath == null)
-        propertiesFile.properties[idfield] = "";
-      else
+      if (filePath)
         propertiesFile.properties[idfield] = filePath;
-    } else {
-      var fileData = App.DataStore.get(sId + "_" + idfield + "_fileData");
-      var fileNameLocal = App.DataStore.get(sId + "_" + idfield + "_fileName");
-      if (fileData == null || fileNameLocal == null)
+      else
         propertiesFile.properties[idfield] = "";
-      else {
-        propertiesFile.properties[idfield] = fileNameLocal;
-        propertiesFile.files[fileNameLocal] = fileData;
-      }
-    }
-
-    for (var i = 0; i < lPhotoList; i++) {
-      if (PhotoList.getPhotos()[i].id == idfield && PhotoList.getPhotos()[i].sId == sId) {
-        var fileName = PhotoList.getPhotos()[i].name();
+      App.DataStore.remove(sId + "_" + idfield);
+    } else {
+      var fileName = App.DataStore.get("photoName_" + idfield);
+      if (fileName) {
+        alert('file name update has');
         propertiesFile.properties[idfield] = fileName;
-        propertiesFile.files[fileName] = PhotoList.getPhotos()[i].data;
-        break;
+        for (var i = 0; i < lPhotoList; i++) {
+          alert("lphotolist update ");
+          if (PhotoList.getPhotos()[i].name == fileName) {
+            propertiesFile.properties[idfield] = fileName;
+            propertiesFile.files[fileName] = PhotoList.getPhotos()[i].data;
+            break;
+          }
+        }
+        App.DataStore.remove("photoName_" + idfield);
+      }
+      else {
+        alert("file name update is null");
+        propertiesFile.properties[idfield] = "";
       }
     }
   },

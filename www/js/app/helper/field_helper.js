@@ -200,16 +200,15 @@ FieldHelper = {
       item.__value = SiteCamera.imagePath(value);
     }
     else {
-      
       var files = site.files();
-      var imageId = value;
-      var imageData = files[imageId];
+      var imageData = files[value];
       if (imageData == null) {
+        alert("null data ");
         item.__value = "";
       } else {
+        alert("image data : ", imageData);
         item.__value = SiteCamera.dataWithMimeType(imageData);
-        App.DataStore.set(sId + "_" + item["idfield"] + "_fileName", imageId);
-        App.DataStore.set(sId + "_" + item["idfield"] + "_fileData", imageData);
+        App.DataStore.set("photoName_" + item["idfield"], value);
       }
     }
   },
