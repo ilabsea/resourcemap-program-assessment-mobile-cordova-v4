@@ -263,7 +263,7 @@ SiteController = {
         }
         else if ($field.length > 0 && $field[0].getAttribute("type") === 'date') {
           var date = $field.val();
-          if (date) 
+          if (date)
             date = convertDateWidgetToParam(date);
           properties["" + each_field + ""] = date;
         }
