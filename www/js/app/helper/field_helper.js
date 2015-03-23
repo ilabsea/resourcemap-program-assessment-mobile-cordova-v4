@@ -202,11 +202,9 @@ FieldHelper = {
     else {
       var files = site.files();
       var imageData = files[value];
-      if (imageData == null) {
-        alert("null data ");
+      if (imageData == null) 
         item.__value = "";
-      } else {
-        alert("image data : ", imageData);
+      else {
         item.__value = SiteCamera.dataWithMimeType(imageData);
         var photo = new Photo(item["idfield"], imageData, SiteCamera.format);
         PhotoList.add(photo);
