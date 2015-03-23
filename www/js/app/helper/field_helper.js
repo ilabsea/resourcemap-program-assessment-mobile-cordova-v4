@@ -14,8 +14,8 @@ FieldHelper = {
     if (fromServer) {
       fieldsWrapper.name_wrapper = fieldObj.name;
       fieldsWrapper.id_wrapper = fieldObj.id;
-      if(layerMemberships)
-        $.map(layerMemberships, function(layerMembership){
+      if (layerMemberships)
+        $.map(layerMemberships, function (layerMembership) {
           if (fieldObj.id === layerMembership.layer_id)
             fieldsWrapper.layer_membership = layerMembership;
         });
@@ -180,9 +180,9 @@ FieldHelper = {
           FieldHelper.setFieldHierarchyValue(item, pValue);
           break;
         case "date":
-          if (pValue){
+          if (pValue) {
             var date = pValue.split("T")[0];
-            if(!fromServer)
+            if (!fromServer)
               item.__value = convertDateWidgetToParam(date);
             else
               item.__value = date;
@@ -200,7 +200,6 @@ FieldHelper = {
       item.__value = SiteCamera.imagePath(value);
     }
     else {
-      
       var files = site.files();
       var imageId = value;
       var imageData = files[imageId];
@@ -208,8 +207,8 @@ FieldHelper = {
         item.__value = "";
       } else {
         item.__value = SiteCamera.dataWithMimeType(imageData);
-        App.DataStore.set(sId + "_" + item["idfield"] + "_fileName", imageId);
-        App.DataStore.set(sId + "_" + item["idfield"] + "_fileData", imageData);
+        var photo = new Photo(item["idfield"], imageData, SiteCamera.format);
+        PhotoList.add(photo);
       }
     }
   },

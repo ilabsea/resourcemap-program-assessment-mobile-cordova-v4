@@ -108,8 +108,7 @@ SiteController = {
         site.properties(propertiesFile.properties);
         site.files(propertiesFile.files);
         persistence.flush();
-
-        App.DataStore.clearPartlyAfterCreateSite();
+        PhotoList.clear();
         App.Cache.resetValue();
         App.redirectTo("index.html#page-site-list");
       });
@@ -136,11 +135,7 @@ SiteController = {
         }
       };
       SiteModel.update(data, function () {
-        var sId = App.DataStore.get("sId");
-        $.each(data.site.properties, function (key, idField) {
-          PhotoList.remove(sId, key);
-        });
-        App.DataStore.clearPartlyAfterCreateSite();
+        PhotoList.clear();
         App.Cache.resetValue();
         App.redirectTo("#page-site-list");
       }, function () {
@@ -254,13 +249,12 @@ SiteController = {
       var storedFieldId = JSON.parse(field_id_arr);
       for (var i = 0; i < storedFieldId.length; i++) {
         var each_field = storedFieldId[i];
-        $field = $('#' + each_field);
+        var $field = $('#' + each_field);
         if ($field.length > 0 && $field[0].tagName.toLowerCase() == 'img') {
-          var lPhotoList = PhotoList.getPhotos().length;
+          var lPhotoList = PhotoList.count();
           for (var p = 0; p < lPhotoList; p++) {
-            var sId = App.DataStore.get("sId");
-            if (PhotoList.getPhotos()[p].id == each_field && PhotoList.getPhotos()[p].sId == sId) {
-              var fileName = PhotoList.getPhotos()[p].name();
+            if (PhotoList.getPhotos()[p].id == each_field) {
+              var fileName = PhotoList.getPhotos()[p].name;
               properties[each_field] = fileName;
               files[fileName] = PhotoList.getPhotos()[p].data;
               break;

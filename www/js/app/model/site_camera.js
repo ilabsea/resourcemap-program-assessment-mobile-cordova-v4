@@ -22,10 +22,9 @@ SiteCamera = {
     navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, cameraOptions);
   },
   onSuccess: function(imageData) {
-    var sId = localStorage.getItem("sId");
     var imageId = SiteCamera.imageId();
     var image = document.getElementById(imageId);
-    var photo = new Photo(sId, SiteCamera.id, imageData, SiteCamera.format);
+    var photo = new Photo(SiteCamera.id, imageData, SiteCamera.format);
     image.src = SiteCamera.dataWithMimeType(imageData);
 
     PhotoList.add(photo);

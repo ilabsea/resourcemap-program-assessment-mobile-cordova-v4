@@ -99,7 +99,7 @@ FieldController = {
             data = "";
           propertiesFile.properties[item["idfield"]] = data;
           break;
-        default: 
+        default:
           var nodeId = idHTMLForUpdate + item["idfield"];
           var value = $(nodeId).val();
           if (value == null)
@@ -112,29 +112,17 @@ FieldController = {
   },
   updateFieldPhotoValue: function (item, propertiesFile, fromServer) {
     var idfield = item["idfield"];
-    var lPhotoList = PhotoList.getPhotos().length;
-    var sId = App.DataStore.get("sId");
+    var lPhotoList = PhotoList.count();
 
     if (fromServer) {
-      var filePath = App.DataStore.get(sId + "_" + idfield);
-      if (filePath == null)
-        propertiesFile.properties[idfield] = "";
-      else
-        propertiesFile.properties[idfield] = filePath;
-    } else {
-      var fileData = App.DataStore.get(sId + "_" + idfield + "_fileData");
-      var fileNameLocal = App.DataStore.get(sId + "_" + idfield + "_fileName");
-      if (fileData == null || fileNameLocal == null)
-        propertiesFile.properties[idfield] = "";
-      else {
-        propertiesFile.properties[idfield] = fileNameLocal;
-        propertiesFile.files[fileNameLocal] = fileData;
-      }
+      var sId = App.DataStore.get('sId');
+      var filePath = App.DataStore.get(sId + "_" + item["idfield"]);
+      propertiesFile.properties[idfield] = filePath;
     }
 
     for (var i = 0; i < lPhotoList; i++) {
-      if (PhotoList.getPhotos()[i].id == idfield && PhotoList.getPhotos()[i].sId == sId) {
-        var fileName = PhotoList.getPhotos()[i].name();
+      if (PhotoList.getPhotos()[i].id == idfield) {
+        var fileName = PhotoList.getPhotos()[i].name;
         propertiesFile.properties[idfield] = fileName;
         propertiesFile.files[fileName] = PhotoList.getPhotos()[i].data;
         break;

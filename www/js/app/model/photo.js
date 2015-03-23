@@ -1,13 +1,13 @@
 PhotoList = {
   photos: [],
   add: function(photo) {
-    PhotoList.remove(photo.sId, photo.id);
+    PhotoList.remove(photo.id);
     PhotoList.photos.push(photo);
   },
-  remove: function(sId, id) {
+  remove: function(id) {
     for (var i = 0; i < PhotoList.count(); i++) {
       var photo = PhotoList.getPhotos()[i];
-      if (photo.id === id && photo.sId === sId) {
+      if (photo.id === id) {
         return PhotoList.photos.splice(i, 1);
       }
     }
@@ -23,13 +23,10 @@ PhotoList = {
   }
 };
 
-function Photo(sId, id, data, format) {
-  this.sId = sId;
+function Photo(id, data, format) {
   this.id = id;
   this.data = data;
   this.format = format;
-  this.name = function() {
-    var date = new Date();
-    return "" + date.getTime() + "_" + this.sId + "_" + this.id + "." + this.format;
-  };
+  var date = new Date();
+  this.name = "" + date.getTime() + "_" + this.id + "." + this.format;
 }

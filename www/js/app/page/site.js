@@ -46,6 +46,7 @@ $(function () {
 #btn_back_site_list_all , #btn_back_site_list', 'click', function () {
         if ($(this).attr("id") === "btn_back_site_in_create")
           ValidationHelper.resetFormValidate("#form_create_site");
+        PhotoList.clear();
         App.DataStore.clearPartlyAfterCreateSite();
         App.Cache.resetValue();
       });
