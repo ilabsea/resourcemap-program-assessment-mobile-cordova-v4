@@ -132,7 +132,7 @@ var ValidationHelper = {
   },
   AddClassSelectError: function (element) {
     if ($(element)[0].tagName.toLowerCase() === "select") {
-      if ($(element).val() == "") {
+      if (!$(element).val()) {
         var $parent = $(element).closest('.ui-select');
         $parent.addClass("error");
       }
