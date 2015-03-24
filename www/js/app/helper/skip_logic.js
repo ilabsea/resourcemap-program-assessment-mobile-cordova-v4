@@ -59,7 +59,7 @@ SkipLogic = {
 
       if (configOption.config.field_logics) {
         if ((configOption.id || configOption.idfield) == id) {
-          $.map(configOption.config.field_logics, function(field_logic) {
+          $.each(configOption.config.field_logics, function(index, field_logic) {
             var selectedOptions = field_logic.selected_options;
 
             var b = false;
