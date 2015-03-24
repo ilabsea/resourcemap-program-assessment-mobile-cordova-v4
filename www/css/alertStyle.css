@@ -65,3 +65,7 @@ input[type="checkbox"]{
     color: orange;
     font-weight: normal;
 }
+
+.requiredAsteric{
+    color: red;
+}

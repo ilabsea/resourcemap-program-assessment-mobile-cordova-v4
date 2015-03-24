@@ -8,7 +8,7 @@
  {{#each fields}}
  {{#if config.options}} 
  <div id="wrapper_update_{{idfield}}" tabindex="0">
-  <label>{{name}} {{#if required}} *  {{/if}} </label>
+  <label>{{name}} {{#if required}} <span class="requiredAsteric">*</span> {{/if}} </label>
   <select id="update_{{idfield}}" 
           data-theme="a" 
           name="update_{{idfield}}" 
@@ -41,7 +41,7 @@
  {{else}} 
  {{#if isHierarchy}} 
  <div id="wrapper_update_{{idfield}}" tabindex="0">
-  <label>{{name}} {{#if required}} *  {{/if}} </label>
+  <label>{{name}} {{#if required}}<span class="requiredAsteric">*</span> {{/if}} </label>
   <div id="update_{{idfield}}" 
        class="tree" 
        {{required}}
@@ -51,7 +51,7 @@
  {{else}}
  {{#if isPhoto}}  
  <div id="wrapper_update_{{idfield}}" tabindex="0">
-  <span style='display:inline; margin-top:10px'>{{name}} {{#if required}} *  {{/if}} </span>
+  <span style='display:inline; margin-top:10px'>{{name}} {{#if required}} <span class="requiredAsteric">*</span> {{/if}} </span>
   <div onclick="CameraModel.openCameraDialog({{idfield}}, 'update')" 
        id='property_update_{{idfield}}_container' 
        class="photo" tabindex="0"> 
@@ -64,7 +64,7 @@
  </div>
  {{else}}
  <div id="wrapper_update_{{idfield}}" tabindex="0">
-  <label for='name'>{{name}} {{#if required}} *  {{/if}} </label>
+  <label for='name'>{{name}} {{#if required}} <span class="requiredAsteric">*</span> {{/if}} </label>
   {{#ifCond widgetType "date"}}
   <input type="{{widgetType}}" 
          id="update_{{idfield}}" 

@@ -1,13 +1,12 @@
-URL = "http://192.168.1.120:3000/";
+URL = "http://resourcemap-sea.instedd.org/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
-  DB_NAME: 'resourcemap_db_3_1',
+  DB_NAME: 'resourcemap_db',
   END_POINT: END_POINT,
   IMG_PATH: URL + "photo_field/",
   AUTH_URL: END_POINT + "/users/sign_in.json",
   LIST_COLLECTION: END_POINT + "/collections?auth_token=",
-  URL_SIGNUP: END_POINT + "/users.json",
   URL_LOGOUT: END_POINT + "/users/sign_out.json?auth_token=",
   URL_FIELD: END_POINT + "/v1/collections/",
   URL_SITE: END_POINT + "/v1/collections/",
