@@ -5,6 +5,8 @@
         "save": "Save",
         "lat": "Location'Lat<span class='requiredAsteric'>*</span>",
         "lng": "Location'lng<span class='requiredAsteric'>*</span>",
+        "latitude": "Location'Lat",
+        "longitude": "Location'lng",
         "logout": "Sign out",
         "back": "Back",
         "send_to_server": "Send to server",

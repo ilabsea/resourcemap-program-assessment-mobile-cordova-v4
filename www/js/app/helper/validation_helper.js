@@ -49,10 +49,15 @@ var ValidationHelper = {
     for (var i = 0; i < classHierarchyElement.length; i++) {
       var idElement = classHierarchyElement[i].id;
       var $element = $("#" + idElement);
-      if ($element.attr('require') == "required") {
+      if ($element.attr('required')) {
         var node = $element.tree('getSelectedNode');
-        if (!node.id)
+        if (!node.id) {
           h = false;
+          this.AddClassHierarchyError(idElement);
+        }
+        else {
+          this.removeClassHierarchyError(idElement);
+        }
       }
     }
     return h;
@@ -62,9 +67,13 @@ var ValidationHelper = {
     for (var i = 0; i < classElement.length; i++) {
       var idElement = classElement[i].id;
       var $element = $("#" + idElement);
-      if ($element.attr('required') == "required") {
-        if ($element.attr('src') == '')
+      if ($element.attr('required')) {
+        if ($element.attr('src') == ''){
           b = false;
+          this.AddClassImageError(idElement);
+        }
+        else
+          this.removeClassImageError(idElement);
       }
     }
     return b;
