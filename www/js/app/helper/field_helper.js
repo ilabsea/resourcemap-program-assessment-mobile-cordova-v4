@@ -101,7 +101,7 @@ FieldHelper = {
     $.each(config.options, function (i, option) {
       if (config.field_logics) {
         $.map(config.field_logics, function (field_logic) {
-          if (option.id === field_logic.value)
+          if (option.id === field_logic.value && !config.options[i]["field_id"])
             config.options[i]["field_id"] = field_logic.field_id;
         });
       }
