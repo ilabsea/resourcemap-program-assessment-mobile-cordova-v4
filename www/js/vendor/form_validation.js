@@ -20,29 +20,6 @@ $(document).ready(function () {
     }
   });
 
-  $('#form_signup').validate({
-    invalidHandler: function () {
-      ValidationHelper.setPopUpMsgError("#validation_email_psd_confirm");
-      ValidationHelper.showPopUpErrorMessage();
-    },
-    submitHandler: function () {
-      if (App.isOnline()) {
-        hideElement($("#internet"));
-        var email = $('#signupemail').val();
-        var password = $('#signuppassword').val();
-        var passwordConfirmation = $('#pswConfirm').val();
-        var user = {
-          email: email,
-          password: password,
-          password_confirmation: passwordConfirmation};
-
-        SessionController.signUp(user);
-      }
-      else
-        showElement($("#internet"));
-    }
-  });
-
   $('#form_create_site').validate({
     errorPlacement: function (error, element) {
       ValidationHelper.AddClassSelectError(element);

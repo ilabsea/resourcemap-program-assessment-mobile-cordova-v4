@@ -80,10 +80,6 @@
     </form>              
    </div>
    <div>
-    <center><a href="#page-signup" data-i18n="login_page.creat_new_accotun">
-      Create new account</a></center>
-   </div>
-   <div>
     <p id="validation_email_psd" class="required_data" 
        data-i18n="validation.emailPsd"> Please enter your email and password. </p>
    </div>
@@ -102,47 +98,7 @@
   <!-- initial page -->
   <div data-role="page" id="page-initial" data-theme="b">
   </div>
-
-  <!-- Create new account-->
-  <div data-role="page" id="page-signup" data-theme="b">
-   <div data-role="content">
-    <div>
-     <center><img src="img/logo.png" alt="Resource Map"></center>
-    </div>
-    <center>
-     <span id="internet" data-i18n="signup_page.internet">
-      Unable to connect to the Internet
-     </span>
-    </center>
-    <h2 data-i18n="signup_page.sign_up">Signup</h2>                
-    <form method="post" name="myForm" id="form_signup">                                                   
-     <label for="email" data-i18n="global.email">Email</label>
-     <input type="email" name="user[email]" class="required email" id="signupemail"/>
-     <p id="exitemail" data-i18n="signup_page.exit_email">Email have been already.</p>
-     <label for="psw" data-i18n="global.password">Password</label>
-     <input type="password" name="user[password]" class="required" id="signuppassword"/>
-     <label for="pswf" data-i18n="signup_page.passwrod_confirm">Password confirmation</label>
-     <input type="password" name="user[password_confirmation]" class="required" id="pswConfirm"/>
-     <p id="passmatch" data-i18n="signup_page.pwd_not_match">
-      Password doesn't match confirmation
-     </p>
-     <label for="num" data-i18n="signup_page.phone_number">
-      Phone number<br><i>(+855XXXXXXXXX)</i>
-     </label>
-     <input type="number" name="tel" id="tel"/>
-     <button data-inset="true" data-i18n="global.save">Save</button> 
-    </form>   
-    <center><a href="#page-login" data-i18n="signup_page.already_have_accont"> 
-      Already have an account </a>
-    </center>
-    <div>
-     <p id="validation_email_psd_confirm" class="required_data" 
-        data-i18n="validation.emailPsdConfirm"> Please enter all required fields. 
-     </p>
-    </div>
-   </div>  
-  </div>
-
+  
   <!-- page-collection-list -->
   <div data-role="page" id="page-collection-list" data-theme="b">
    <div data-role="header" >

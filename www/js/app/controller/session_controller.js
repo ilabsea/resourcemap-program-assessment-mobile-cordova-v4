@@ -59,26 +59,6 @@ SessionController = {
     else
       this.authUserOnline(email, password);
   },
-  signUp: function (user) {
-    var data = {user: user};
-    if (user.password === user.password_confirmation) {
-      hideElement($("#passmatch"));
-      ViewBinding.setBusy(true);
-
-      UserModel.create(App.URL_SIGNUP, data, function () {
-        hideElement($("#exitemail"));
-        showElement($("#sign_up_success"));
-        App.redirectTo("#page-login");
-        $('#form_signup')[0].reset();
-      }, function () {
-        $('#exitemail').show().delay(4000).fadeOut();
-        $("#sign_up_success").hide();
-        App.redirectTo("#page-signup");
-      });
-    }
-    else
-      showElement($("#passmatch"));
-  },
   logout: function () {
     $('#form_login')[0].reset();
     if (!App.isOnline()) {

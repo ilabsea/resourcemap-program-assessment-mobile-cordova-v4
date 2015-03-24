@@ -76,7 +76,7 @@ var ValidationHelper = {
   },
   validateHierarchyChange: function (idElement) {
     var $tree = $("#" + idElement);
-    if ($tree.attr('require') === "required") {
+    if ($tree.attr('required')) {
       var node = $tree.tree('getSelectedNode');
       if (!node.id) {
         this.AddClassHierarchyError(idElement);

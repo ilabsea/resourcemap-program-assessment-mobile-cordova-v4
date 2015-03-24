@@ -8,7 +8,7 @@
  {{#each fields}}
  {{#if config.options}} 
  <div id="wrapper_update_online_{{idfield}}" tabindex="0">
-  <label>{{name}}</label>
+  <label>{{name}} {{#if required}} *  {{/if}} </label>
   <select id="update_online_{{idfield}}" 
           name="update_online_{{idfield}}" 
           data-theme="a" 
@@ -40,17 +40,17 @@
  {{else}}  
  {{#if isHierarchy}}
  <div id="wrapper_update_online_{{idfield}}" tabindex="0">
-  <label>{{name}}</label>
+  <label>{{name}} {{#if required}} *  {{/if}}</label>
   <div id="update_online_{{idfield}}" 
        class="tree" 
-       require='{{required}}'>
+       {{required}}>
   </div>
   <label id="label_update_online_{{idfield}}" class="errorHierarchy" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}
  {{#if isPhoto}}
  <div id="wrapper_update_online_{{idfield}}" tabindex="0">
-  <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+  <span style='display:inline; margin-top:10px'>{{name}} {{#if required}} *  {{/if}}</span>
   <div onclick="CameraModel.openCameraDialog({{idfield}}, 'update_online')" 
        id='property_update_online_{{idfield}}_container' 
        class="photo"> 
@@ -63,7 +63,7 @@
  </div>
  {{else}}
  <div id="wrapper_update_online_{{idfield}}" tabindex="0">
-  <label for='name'>{{{name}}}</label>
+  <label for='name'>{{name}} {{#if required}} *  {{/if}} </label>
   {{#ifCond widgetType "date"}}
   <input type="{{widgetType}}" 
          id="update_online_{{idfield}}" 
