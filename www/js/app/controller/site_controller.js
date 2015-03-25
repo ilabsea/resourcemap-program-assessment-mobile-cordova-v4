@@ -226,9 +226,12 @@ SiteController = {
         App.redirectTo("#page-collection-list");
       else
         SiteController.processingToServer(sites);
-    }, function () {
-      showElement($("#info_sign_in"));
-      App.redirectTo("#page-login");
+    }, function (responseError) {
+      App.log("data : ", data["site"]["name"]);
+      App.log("data all response : ", responseError);
+      App.log("data response json : ", responseError["responseJSON"]);
+//      showElement($("#info_sign_in"));
+//      App.redirectTo("#page-login");
     });
   },
   countByUserId: function (userId) {
