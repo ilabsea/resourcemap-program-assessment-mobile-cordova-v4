@@ -1,7 +1,16 @@
-label.error {
+label.error,
+label.errorHierarchy,
+label.errorImage,
+label.errorSelect
+{
     color: red;
-    font-size: 12px;
+    font-size: 10px !important;
     font-weight: normal;
+    margin-top: 5px !important;
+}
+
+div.error{
+  border: 1px solid red;
 }
 
 input.error {

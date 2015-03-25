@@ -8,7 +8,7 @@
  {{#each fields}}
  {{#if config.options}}
  <div id="wrapper_{{idfield}}" tabindex="0">
-  <label>{{name}}</label>
+  <label>{{name}} {{#if required}}<span class="requiredAsteric">*</span>{{/if}} </label>
   <select id="{{idfield}}" 
           data-theme="a" 
           name="{{idfield}}" 
@@ -36,25 +36,28 @@
    {{/config.options}}   
    {{/if}}    
   </select>
+  <label id="label_{{idfield}}" class="errorSelect" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}  
  {{#if isHierarchy}} 
  <div id="wrapper_{{idfield}}" tabindex="0">
-  <label>{{name}}</label>
-  <div id="{{idfield}}" class="tree" require='{{required}}' tabindex="0"></div>
+  <label>{{name}} {{#if required}} <span class="requiredAsteric">*</span> {{/if}} </label>
+  <div id="{{idfield}}" class="tree" {{required}} tabindex="0"></div>
+  <label id="label_{{idfield}}" class="errorHierarchy" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}
  {{#if isPhoto}}  
  <div id="wrapper_{{idfield}}" tabindex="0">
-  <label>{{name}}</label>
+  <label>{{name}} {{#if required}} <span class="requiredAsteric">*</span>  {{/if}} </label>
   <div onclick="CameraModel.openCameraDialog({{idfield}}, 'new');" 
        id='property_{{idfield}}_container' 
        class="photo">
    <img class="image" 
         src='{{__value}}' 
         id='{{idfield}}' 
-        require='{{required}}' /> 
+        {{required}} /> 
   </div>
+  <label id="label_{{idfield}}" class="errorImage" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}
  {{#if config.locations}}
@@ -75,7 +78,7 @@
  </div>
  {{else}}
  <div id="wrapper_{{idfield}}" tabindex="0">
-  <label for='name'>{{{name}}}</label>
+  <label for='name'>{{name}} {{#if required}} <span class="requiredAsteric">*</span>  {{/if}} </label>
   {{#ifCond widgetType "date"}}
   <input type="{{widgetType}}" 
          id="{{idfield}}" 

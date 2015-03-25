@@ -45,8 +45,6 @@ FieldHelper = {
     switch (widgetType) {
       case "numeric":
         widgetType = "number";
-        if (config.range)
-          is_required = "required";
         if (config.field_logics) {
           App.DataStore.set("configNumberSkipLogic_" + id,
               JSON.stringify(config.field_logics));
@@ -109,7 +107,7 @@ FieldHelper = {
     $.each(config.options, function (i, option) {
       if (config.field_logics) {
         $.map(config.field_logics, function (field_logic) {
-          if (option.id === field_logic.value)
+          if (option.id === field_logic.value && !config.options[i]["field_id"])
             config.options[i]["field_id"] = field_logic.field_id;
         });
       }
@@ -231,14 +229,13 @@ FieldHelper = {
     }
     else {
       var files = site.files();
-      var imageId = value;
-      var imageData = files[imageId];
-      if (imageData == null) {
+      var imageData = files[value];
+      if (imageData == null) 
         item.__value = "";
-      } else {
+      else {
         item.__value = SiteCamera.dataWithMimeType(imageData);
-        App.DataStore.set(sId + "_" + item["idfield"] + "_fileName", imageId);
-        App.DataStore.set(sId + "_" + item["idfield"] + "_fileData", imageData);
+        var photo = new Photo(item["idfield"], imageData, SiteCamera.format);
+        PhotoList.add(photo);
       }
     }
   },

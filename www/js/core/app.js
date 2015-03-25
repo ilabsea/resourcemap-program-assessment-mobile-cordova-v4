@@ -7,7 +7,6 @@ App = {
   IMG_PATH: URL + "photo_field/",
   AUTH_URL: END_POINT + "/users/sign_in.json",
   LIST_COLLECTION: END_POINT + "/collections?auth_token=",
-  URL_SIGNUP: END_POINT + "/users.json",
   URL_LOGOUT: END_POINT + "/users/sign_out.json?auth_token=",
   URL_FIELD: END_POINT + "/v1/collections/",
   URL_SITE: END_POINT + "/v1/collections/",

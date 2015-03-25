@@ -8,7 +8,7 @@
  {{#each fields}}
  {{#if config.options}} 
  <div id="wrapper_update_online_{{idfield}}" tabindex="0">
-  <label>{{name}}</label>
+  <label>{{name}} {{#if required}} <span class="requiredAsteric">*</span> {{/if}} </label>
   <select id="update_online_{{idfield}}" 
           name="update_online_{{idfield}}" 
           data-theme="a" 
@@ -35,28 +35,31 @@
    {{/config.options}}
    {{/if}}
   </select>
+  <label id="label_update_online_{{idfield}}" class="errorSelect" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}  
  {{#if isHierarchy}}
  <div id="wrapper_update_online_{{idfield}}" tabindex="0">
-  <label>{{name}}</label>
+  <label>{{name}} {{#if required}} <span class="requiredAsteric">*</span> {{/if}}</label>
   <div id="update_online_{{idfield}}" 
        class="tree" 
-       require='{{required}}'>
+       {{required}}>
   </div>
+  <label id="label_update_online_{{idfield}}" class="errorHierarchy" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}
  {{#if isPhoto}}
  <div id="wrapper_update_online_{{idfield}}" tabindex="0">
-  <span style='display:inline; margin-top:10px'>{{{name}}}</span>
+  <span style='display:inline; margin-top:10px'>{{name}} {{#if required}} <span class="requiredAsteric">*</span>{{/if}}</span>
   <div onclick="CameraModel.openCameraDialog({{idfield}}, 'update_online')" 
        id='property_update_online_{{idfield}}_container' 
        class="photo"> 
    <img class="image" 
         src='{{__value}}' 
         id='update_online_{{idfield}}' 
-        require='{{required}}' />
+        {{required}} />
   </div>
+  <label id="label_update_online_{{idfield}}" class="errorImage" style="display: none">{{t "validation.required"}}</label>
  </div>
  {{else}}
  {{#if config.locations}}
@@ -77,7 +80,7 @@
  </div>
  {{else}}
  <div id="wrapper_update_online_{{idfield}}" tabindex="0">
-  <label for='name'>{{{name}}}</label>
+  <label for='name'>{{name}} {{#if required}} <span class="requiredAsteric">*</span>{{/if}} </label>
   {{#ifCond widgetType "date"}}
   <input type="{{widgetType}}" 
          id="update_online_{{idfield}}" 

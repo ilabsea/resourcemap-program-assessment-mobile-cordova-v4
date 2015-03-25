@@ -9,4 +9,9 @@ $(function() {
   $(document).delegate('#logout', 'click', function() {
     SessionController.logout();
   });
+  
+  $(document).delegate('#page-login', 'pagebeforehide', function() {
+    ValidationHelper.resetFormValidate("#form_login");
+  });
+ 
 });

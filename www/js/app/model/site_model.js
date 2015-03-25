@@ -60,7 +60,7 @@ SiteModel = {
 
 SiteOffline = {
   add: function(data) {
-    var collectionName = localStorage.getItem("collectionName");
+    var collectionName = App.DataStore.get("collectionName");
     var today = new Date();
     var siteParams = data;
     siteParams["created_at"] = today;

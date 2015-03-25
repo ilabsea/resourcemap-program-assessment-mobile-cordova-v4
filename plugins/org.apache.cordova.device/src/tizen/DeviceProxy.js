@@ -17,23 +17,23 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
+*/
 
 var tizen = require('cordova/platform');
 var cordova = require('cordova');
 
 module.exports = {
-  getDeviceInfo: function(success, error) {
-    setTimeout(function() {
-      success({
-        cordova: tizen.cordovaVersion,
-        platform: 'tizen',
-        model: null,
-        version: null,
-        uuid: null
-      });
-    }, 0);
-  }
+    getDeviceInfo: function(success, error) {
+        setTimeout(function () {
+            success({
+                cordova: tizen.cordovaVersion,
+                platform: 'tizen',
+                model: null,
+                version: null,
+                uuid: null
+            });
+        }, 0);
+    }
 };
 
 require("cordova/tizen/commandProxy").add("Device", module.exports);
