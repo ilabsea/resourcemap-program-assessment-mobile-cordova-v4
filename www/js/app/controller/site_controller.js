@@ -223,10 +223,14 @@ SiteController = {
       else
         SiteController.processingToServer(sites);
     }, function (err) {
-      var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"]);
-      App.log("error : ", error);
-      SiteHelper.displayError("site/errorUpload.html", $('#page-error-submit-site'),
-          error);
+      if (err.statusText === "Unauthorized") {
+        showElement($("#info_sign_in"));
+        App.redirectTo("#page-login");
+      } else {
+        var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"]);
+        SiteHelper.displayError("site/errorUpload.html", $('#page-error-submit-site'),
+            error);
+      }
     });
   },
   countByUserId: function (userId) {
