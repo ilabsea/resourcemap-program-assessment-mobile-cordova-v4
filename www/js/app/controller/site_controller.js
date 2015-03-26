@@ -153,7 +153,8 @@ SiteController = {
         lat: site.lat(),
         lng: site.lng()
       };
-      SiteController.displayUpdateLatLng("site/updateOffline.html", $('#div-site-update-name'), siteUpdateData);
+      SiteController.displayUpdateLatLng("site/updateOffline.html",
+          $('#div-site-update-name'), siteUpdateData);
       FieldController.renderUpdateOffline(site);
     });
   },
@@ -165,7 +166,8 @@ SiteController = {
         lat: response.lat,
         lng: response.long
       };
-      SiteController.displayUpdateLatLng("site/updateOnline.html", $('#div-site-update-name-online'), siteOnlineUpdateData);
+      SiteController.displayUpdateLatLng("site/updateOnline.html",
+          $('#div-site-update-name-online'), siteOnlineUpdateData);
       FieldController.renderUpdateOnline(response);
     });
   },
@@ -209,9 +211,11 @@ SiteController = {
         App.redirectTo("#page-collection-list");
       else
         SiteController.processingToServer(sites);
-    }, function () {
-      showElement($("#info_sign_in"));
-      App.redirectTo("#page-login");
+    }, function (err) {
+      var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"]);
+      SiteHelper.displayError("site/errorUpload.html",
+          $('#page-error-submit-site'), error
+          );
     });
   },
   countByUserId: function (userId) {
@@ -247,7 +251,7 @@ SiteController = {
       var storedFieldId = JSON.parse(field_id_arr);
       for (var i = 0; i < storedFieldId.length; i++) {
         var each_field = storedFieldId[i];
-        $field = $('#' + each_field);
+        var $field = $('#' + each_field);
         if ($field.length > 0 && $field[0].tagName.toLowerCase() == 'img') {
           if ($("#wrapper_" + each_field).attr("class") != 'ui-disabled skip-logic-over-img') {
             var lPhotoList = PhotoList.getPhotos().length;

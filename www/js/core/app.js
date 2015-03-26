@@ -1,4 +1,4 @@
-URL = "http://www.cam-monitoring.info:8080/";
+URL = "http://192.168.1.103:3000/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
