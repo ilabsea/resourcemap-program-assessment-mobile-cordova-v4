@@ -132,7 +132,6 @@ SiteController = {
   updateBySiteIdOnline: function () {
     var data;
     ViewBinding.setBusy(true);
-
     VisibleLayersFor.fetch(function (fields) {
       var propertiesFile = {properties: {}, files: {}};
       $.map(fields, function (field) {
@@ -166,7 +165,6 @@ SiteController = {
         lat: site.lat(),
         lng: site.lng()
       };
-
       SiteController.displayUpdateLatLng("site/updateOffline.html",
           $('#div-site-update-name'), "", siteUpdateData);
       FieldController.renderUpdateOffline(site);
@@ -180,10 +178,8 @@ SiteController = {
         lat: response.lat,
         lng: response.lng
       };
-
       SiteController.displayUpdateLatLng("site/updateOnline.html",
           $('#div-site-update-name-online'), "_online", siteOnlineUpdateData);
-
       FieldController.renderUpdateOnline(response);
     });
   },
@@ -226,12 +222,11 @@ SiteController = {
         App.redirectTo("#page-collection-list");
       else
         SiteController.processingToServer(sites);
-    }, function (responseError) {
-      App.log("data : ", data["site"]["name"]);
-      App.log("data all response : ", responseError);
-      App.log("data response json : ", responseError["responseJSON"]);
-//      showElement($("#info_sign_in"));
-//      App.redirectTo("#page-login");
+    }, function (err) {
+      var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"]);
+      App.log("error : ", error);
+      SiteHelper.displayError("site/errorUpload.html", $('#page-error-submit-site'),
+          error);
     });
   },
   countByUserId: function (userId) {
