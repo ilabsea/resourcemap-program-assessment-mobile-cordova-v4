@@ -1,7 +1,7 @@
 App = App || {};
 App.Template = {
   process: function (templateURL, templateData, callback) {
-    var path = "js/app/template/" + templateURL;
+    var path = "template/" + templateURL;
     var templateText = App.Cache.get(templateURL);
 
     if (templateText != null) {

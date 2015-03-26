@@ -1,4 +1,10 @@
-SessionController = {
+var SessionController = {
+  __email: "",
+  __password: "",
+  set: function(email, password){
+    SessionController.__email = email;
+    SessionController.__password = password;
+  },
   signIn: function (user) {
     var currentUser = {id: user.id, password: user.password(), email: user.email()};
     App.DataStore.set("currentUser", JSON.stringify(currentUser));
@@ -100,5 +106,4 @@ SessionController = {
       }
     });
   }
-
 };

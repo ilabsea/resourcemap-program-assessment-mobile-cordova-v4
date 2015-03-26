@@ -153,6 +153,7 @@ FieldController = {
       var id = location_fields_id[i];
       var config = JSON.parse(App.DataStore.get("configLocations_" + id));
       var locationOptions = Location.getLocations(lat, lng, config);
+      App.log("locationOptions : ", locationOptions);
       config.locationOptions = locationOptions;
       var $element = $("#" + prefixId + id);
       FieldHelperView.displayLocationField("field/location.html", $element, {config: config});

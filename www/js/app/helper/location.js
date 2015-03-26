@@ -18,10 +18,12 @@ var Location = {
   getLocations: function (fromLat, fromLng, config) {
     var resultLocations = $.map(config.locations, function (location) {
       var distance = Location.calculateDistance(fromLat, fromLng, location.latitude, location.longitude);
+      App.log("distance : ", distance);
       if (distance < parseFloat(config.maximumSearchLength)) {
         return location;
       }
     });
+    
     return resultLocations;
   }
 };
