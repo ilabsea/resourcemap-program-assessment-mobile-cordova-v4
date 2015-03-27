@@ -48,7 +48,7 @@ $(document).ready(function () {
     submitHandler: function () {
       ValidationHelper.handleSubmitHandler("#validation_update-site",
           function () {
-            SiteController.updateBySiteIdOffline();
+            SiteOfflineController.updateBySiteId();
           });
     }
   });
@@ -64,7 +64,7 @@ $(document).ready(function () {
     submitHandler: function (e) {
       ValidationHelper.handleSubmitHandler("#validation_update-site-online",
           function () {
-            SiteController.updateBySiteIdOnline();
+            SiteOnlineController.updateBySiteId();
           });
     }
   });

@@ -5,7 +5,7 @@ $(function() {
     hideElement($("#info_sign_in"));
     CollectionController.get();
     var currentUser = SessionHelper.currentUser();
-    SiteController.countByUserId(currentUser.id);
+    SiteOfflineController.countByUserId(currentUser.id);
   });
   $(document).delegate('#page-collection-list li', 'click', function() {
     var cId = $(this).attr("data-id");

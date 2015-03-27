@@ -86,11 +86,11 @@ SiteList = {
         SiteController.getAllByCollectionId(cId);
         break;
       case "2":
-        SiteController.getByCollectionIdOffline(cId);
+        SiteOfflineController.getByCollectionId();
         $("#btn_sendToServer").show();
         break;
       case "3":
-        SiteController.getByCollectionIdOnline(cId);
+        SiteOnlineController.getByCollectionId();
         break;
       case "4":
         SessionController.logout();

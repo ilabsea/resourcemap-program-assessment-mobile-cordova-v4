@@ -3,7 +3,7 @@ $(function () {
   $(document).delegate('#page-site-list', 'pagebeforeshow', function () {
     $("#btn_sendToServer").hide();
     var cId = App.DataStore.get("cId");
-    SiteController.countByCollectionId(cId);
+    SiteOfflineController.countByCollectionId(cId);
     SiteController.getAllByCollectionId();
     $("#site-list-menu").get(0).selectedIndex = 0;
   });
@@ -16,16 +16,16 @@ $(function () {
   $(document).delegate('#page-site-list #site-list-online li', 'click', function () {
     var sId = $(this).attr("data-id");
     App.DataStore.set("sId", sId);
-    requireReload(SiteController.renderUpdateSiteFormOnline);
+    requireReload(SiteOnlineController.renderUpdateSiteForm);
   });
   $(document).delegate('#btn_delete-site', 'click', function () {
     var sId = App.DataStore.get("sId");
-    SiteController.deleteBySiteId(sId);
+    SiteOfflineController.deleteBySiteId(sId);
   });
 
   $(document).delegate('#page-site-list-all', 'pagebeforeshow', function () {
     var currentUser = SessionHelper.currentUser();
-    SiteController.getByUserId(currentUser.id);
+    SiteOfflineController.getByUserId(currentUser.id);
   });
 
   $(document).delegate('#page-site-list-all', 'pageshow', function () {
@@ -38,7 +38,7 @@ $(function () {
     App.DataStore.set("sId", sId);
     $("#btn_back_site_list_all").show();
     $("#btn_back_site_list").hide();
-    requireReload(SiteController.renderUpdateSiteFormOffline);
+    requireReload(SiteOfflineController.renderUpdateSiteForm);
   });
 
   $(document).delegate(
@@ -56,7 +56,7 @@ $(function () {
     App.DataStore.set("sId", sId);
     $("#btn_back_site_list_all").hide();
     $("#btn_back_site_list").show();
-    requireReload(SiteController.renderUpdateSiteFormOffline);
+    requireReload(SiteOfflineController.renderUpdateSiteForm);
   });
 
   $(document).delegate('#page-create-site', 'pagebeforeshow', function () {
@@ -65,7 +65,7 @@ $(function () {
         var lat = $("#lat").val();
         var lng = $("#lng").val();
         if (lat == "" && lng == "")
-          SiteController.getCurrentLocation();
+          Location.getCurrentLocation();
       });
     });
   });
