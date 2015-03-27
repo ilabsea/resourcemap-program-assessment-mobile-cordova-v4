@@ -22,6 +22,7 @@ function createTables() {
     collection_id: "INT",
     collection_name: "TEXT",
     user_id: "INT",
+    device_id: "TEXT",
     properties: "JSON",
     files: "JSON"
   });

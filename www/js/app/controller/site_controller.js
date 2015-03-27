@@ -205,6 +205,8 @@ SiteController = {
     var site = sites[0];
     ViewBinding.setBusy(true);
     var data = {site: {
+        device_id: site.device_id(),
+        external_id: site.id,
         collection_id: site.collection_id(),
         name: site.name(),
         lat: site.lat(),

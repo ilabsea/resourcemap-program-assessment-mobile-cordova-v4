@@ -6,6 +6,7 @@ SiteOffline = {
     siteParams["created_at"] = today;
     siteParams["collection_name"] = collectionName;
     siteParams["user_id"] = SessionController.currentUser().id;
+    siteParams["device_id"] = uuid.v1();
     var site = new Site(siteParams);
     persistence.add(site);
     persistence.flush();
