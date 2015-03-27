@@ -11,9 +11,9 @@ LayerMembershipsHelper = {
       FieldModel.fetch(function (layers) {
         var field_collections = FieldHelper.buildFieldsUpdate(layers, siteData,
             true, layerMemberships);
-        FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
+        FieldView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
             {field_collections: field_collections}, "update_online_");
-        FieldHelperView.display("field/updateOnline.html",
+        FieldView.display("field/updateOnline.html",
             $('#div_update_field_collection_online'),
             "update_online_", {field_collections: field_collections}, true);
       });
@@ -45,9 +45,9 @@ LayerMembershipsHelper = {
       var layerMemberships = LayerMembershipsHelper.build(layers, rw);
       var field_collections = FieldHelper.buildFieldsUpdate(layers,
           siteData, true, layerMemberships);
-      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
+      FieldView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
           {field_collections: field_collections}, "update_online_");
-      FieldHelperView.display("field/updateOnline.html",
+      FieldView.display("field/updateOnline.html",
           $('#div_update_field_collection_online'),
           "update_online_", {field_collections: field_collections}, true);
       if (rw === 'none')

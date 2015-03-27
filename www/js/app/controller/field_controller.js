@@ -24,9 +24,9 @@ FieldController = {
         App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
         App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
         FieldController.synForCurrentCollection(field_collections);
-        FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
+        FieldView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
             {field_collections: field_collections}, "");
-        FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
+        FieldView.display("field/add.html", $('#div_field_collection'), "",
             {field_collections: field_collections}, false);
       });
     });
@@ -49,9 +49,9 @@ FieldController = {
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
-      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
+      FieldView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
           {field_collections: field_collections}, "");
-      FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
+      FieldView.display("field/add.html", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
     });
   },
@@ -59,9 +59,9 @@ FieldController = {
     var cId = App.DataStore.get("cId");
     FieldOffline.fetchByCollectionId(cId, function (layers) {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false, "");
-      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
+      FieldView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
           {field_collections: field_collections}, "update_");
-      FieldHelperView.display("field/updateOffline.html",
+      FieldView.display("field/updateOffline.html",
           $('#div_update_field_collection'), "update_",
           {field_collections: field_collections}, true);
     });
@@ -156,7 +156,7 @@ FieldController = {
       App.log("locationOptions : ", locationOptions);
       config.locationOptions = locationOptions;
       var $element = $("#" + prefixId + id);
-      FieldHelperView.displayLocationField("field/location.html", $element, {config: config});
+      FieldView.displayLocationField("field/location.html", $element, {config: config});
     }
   }
 };

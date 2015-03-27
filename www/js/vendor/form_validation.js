@@ -16,7 +16,6 @@ $(document).ready(function () {
     submitHandler: function () {
       var email = $("#email").val();
       var password = $("#password").val();
-      SessionController.set(email, password);
       SessionController.authUser(email, password);
     }
   });

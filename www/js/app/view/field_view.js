@@ -1,11 +1,11 @@
-FieldHelperView = {
+FieldView = {
   display: function (templateURL, element, elementPrefixID, fieldData, update) {
     App.Template.process(templateURL, fieldData, function (content) {
       element.html(content);
-      FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
+      FieldView.displayHierarchy(elementPrefixID, fieldData, update);
 
       element.trigger("create");
-      FieldHelperView.displayUiDisabled(elementPrefixID, fieldData);
+      FieldView.displayUiDisabled(elementPrefixID, fieldData);
     });
   },
   displayLocationField: function (templateURL, element, configData) {

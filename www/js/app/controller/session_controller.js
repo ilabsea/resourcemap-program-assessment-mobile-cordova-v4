@@ -1,9 +1,6 @@
-var SessionController = {
-  __email: "",
-  __password: "",
-  set: function(email, password){
-    SessionController.__email = email;
-    SessionController.__password = password;
+SessionController = {
+  getUser: function (email, password) {
+    return {user: {email: email, password: password}};
   },
   signIn: function (user) {
     var currentUser = {id: user.id, password: user.password(), email: user.email()};
@@ -16,8 +13,7 @@ var SessionController = {
     return {};
   },
   authUserOnline: function (email, password) {
-    var data = {user: {email: email, password: password}};
-    hideElement($('#invalidmail'));
+    var data = SessionController.getUser(email, password);
     ViewBinding.setBusy(true);
 
     UserModel.create(App.AUTH_URL, data, function (response) {
@@ -61,9 +57,9 @@ var SessionController = {
   },
   authUser: function (email, password) {
     if (!App.isOnline())
-      this.authUserOffline(email, password);
+      SessionController.authUserOffline(email, password);
     else
-      this.authUserOnline(email, password);
+      SessionController.authUserOnline(email, password);
   },
   logout: function () {
     $('#form_login')[0].reset();
