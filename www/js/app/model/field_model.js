@@ -10,7 +10,7 @@ FieldModel = {
       error: function(error) {
         App.log("error: ", error);
         if (!App.isOnline())
-          FieldController.renderByCollectionIdOffline();
+          FieldOfflineController.renderByCollectionId();
       }
     });
   }

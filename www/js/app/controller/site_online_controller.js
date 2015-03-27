@@ -64,7 +64,7 @@ var SiteOnlineController = {
       };
       SiteView.displayUpdateLatLng("site/updateOnline.html",
           $('#div-site-update-name-online'), "_online", siteOnlineUpdateData);
-      FieldController.renderUpdateOnline(response);
+      FieldOnlineController.renderUpdate(response);
     });
-  },
+  }
 };
