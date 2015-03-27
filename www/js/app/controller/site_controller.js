@@ -1,19 +1,4 @@
 SiteController = {
-  display: function (element, siteData) {
-    App.Template.process("site/list.html", siteData, function (content) {
-      element.html(content);
-      element.listview("refresh");
-    });
-  },
-  displayUpdateLatLng: function (templateURL, element, suffix, siteUpdateData) {
-    App.Template.process(templateURL, siteUpdateData, function (content) {
-      element.html(content);
-      element.trigger("create");
-      InvisibleLayer.invisibleNameLatLng("update_wrapSiteLocation" + suffix,
-          "update_wrapSiteName" + suffix, function () {
-          });
-    });
-  },
   getCurrentLocation: function () {
     navigator.geolocation.getCurrentPosition(function (pos) {
       var lat = pos.coords.latitude;
@@ -65,7 +50,7 @@ SiteController = {
           link: "#page-update-site"
         });
       });
-      SiteController.display($('#site-list'), {siteList: siteData});
+      SiteView.display($('#site-list'), {siteList: siteData});
     });
   },
   getByCollectionIdOnline: function () {
@@ -84,7 +69,7 @@ SiteController = {
         };
         siteOnlineData.push(item);
         if (key === response["total"] - 1) {
-          SiteController.display($('#site-list-online'), {siteList: siteOnlineData});
+          SiteView.display($('#site-list-online'), {siteList: siteOnlineData});
         }
       });
     });
@@ -102,7 +87,7 @@ SiteController = {
         };
         siteofflineData.push(item);
       });
-      SiteController.display($('#offlinesite-list'), {siteList: siteofflineData});
+      SiteView.display($('#offlinesite-list'), {siteList: siteofflineData});
     });
   },
   deleteBySiteId: function (sId) {
@@ -165,7 +150,7 @@ SiteController = {
         lat: site.lat(),
         lng: site.lng()
       };
-      SiteController.displayUpdateLatLng("site/updateOffline.html",
+      SiteView.displayUpdateLatLng("site/updateOffline.html",
           $('#div-site-update-name'), "", siteUpdateData);
       FieldController.renderUpdateOffline(site);
     });
@@ -178,7 +163,7 @@ SiteController = {
         lat: response.lat,
         lng: response.lng
       };
-      SiteController.displayUpdateLatLng("site/updateOnline.html",
+      SiteView.displayUpdateLatLng("site/updateOnline.html",
           $('#div-site-update-name-online'), "_online", siteOnlineUpdateData);
       FieldController.renderUpdateOnline(response);
     });

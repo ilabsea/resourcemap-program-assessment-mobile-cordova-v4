@@ -1,15 +1,4 @@
 CollectionController = {
-  displayList: function(collectionData) {
-    App.Template.process("collection/list.html", collectionData, function(content) {
-      $('#collection-list').html(content);
-      $('#collection-list').listview('refresh');
-    });
-  },
-  displayName: function(collectionName) {
-    App.Template.process("collection/name.html", collectionName, function(content) {
-      $('.title').html(content);
-    });
-  },
   get: function() {
     var currentUser = SessionController.currentUser();
     if (!App.isOnline()) {
@@ -29,7 +18,7 @@ CollectionController = {
           collectionData.push(item);
 
           if (asyncTotal === collections.length) {
-            CollectionController.displayList({collectionList: collectionData});
+            CollectionView.displayList({collectionList: collectionData});
           }
         });
       });
@@ -44,7 +33,7 @@ CollectionController = {
           collectionData.push(item);
 
           if (key === collections.length - 1) {
-            CollectionController.displayList({collectionList: collectionData});
+            CollectionView.displayList({collectionList: collectionData});
             CollectionController.synCollectionForCurrentUser(collectionData);
           }
         });

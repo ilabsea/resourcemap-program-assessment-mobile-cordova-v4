@@ -1,7 +1,7 @@
 var Location = {
   calculateDistance: function (fromLat, fromLng, toLat, toLng) {
     var R = 6371; // Radius of the earth in km
-    var dLat = this.deg2rad(toLat - fromLat);  
+    var dLat = this.deg2rad(toLat - fromLat);
     var dLon = this.deg2rad(toLng - fromLng);
     var a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -16,14 +16,15 @@ var Location = {
     return deg * (Math.PI / 180);
   },
   getLocations: function (fromLat, fromLng, config) {
+    var i = 0;
     var resultLocations = $.map(config.locations, function (location) {
+      i++;
       var distance = Location.calculateDistance(fromLat, fromLng, location.latitude, location.longitude);
-      App.log("distance : ", distance);
       if (distance < parseFloat(config.maximumSearchLength)) {
         return location;
       }
     });
-    
+
     return resultLocations;
   }
 };
