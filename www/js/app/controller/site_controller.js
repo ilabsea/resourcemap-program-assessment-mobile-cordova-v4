@@ -173,7 +173,7 @@ SiteController = {
     SiteController.processToServer("collection_id", cId);
   },
   submitAllToServerByUserId: function () {
-    var currentUser = SessionController.currentUser();
+    var currentUser = SessionHelper.currentUser();
     SiteController.processToServer("user_id", currentUser.id);
   },
   processToServer: function (key, id) {

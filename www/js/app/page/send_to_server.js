@@ -6,7 +6,7 @@ $(function() {
   });
 
   $(document).delegate('#btn_sendToServerAll', 'click', function() {
-    var currentUser = SessionController.currentUser();
+    var currentUser = SessionHelper.currentUser();
     SiteController.submitAllToServerByUserId("user_id", currentUser.id);
   });
 });

@@ -1,6 +1,6 @@
 CollectionController = {
   get: function() {
-    var currentUser = SessionController.currentUser();
+    var currentUser = SessionHelper.currentUser();
     if (!App.isOnline()) {
       CollectionController.getByUserIdOffline(currentUser);
     } else {
@@ -41,7 +41,7 @@ CollectionController = {
     });
   },
   synCollectionForCurrentUser: function(newCollections) {
-    var currentUser = SessionController.currentUser();
+    var currentUser = SessionHelper.currentUser();
     CollectionOffline.fetchByUserId(currentUser, function(collections) {
       CollectionOffline.remove(collections);
       CollectionOffline.add(newCollections);

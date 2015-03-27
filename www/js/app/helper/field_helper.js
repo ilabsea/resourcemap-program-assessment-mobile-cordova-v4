@@ -6,7 +6,7 @@ FieldHelper = {
     var fieldsBuild = [];
     var fieldsWrapper = {
       cId: localStorage.getItem("cId"),
-      userId: SessionController.currentUser().id,
+      userId: SessionHelper.currentUser().id,
       fields: fieldsBuild,
       name_wrapper: fromServer ? fieldObj.name : fieldObj.name_wrapper,
       id_wrapper: fromServer ? fieldObj.id : fieldObj.id_wrapper

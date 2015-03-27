@@ -4,7 +4,7 @@ $(function() {
     App.emptyHTML();
     hideElement($("#info_sign_in"));
     CollectionController.get();
-    var currentUser = SessionController.currentUser();
+    var currentUser = SessionHelper.currentUser();
     SiteController.countByUserId(currentUser.id);
   });
   $(document).delegate('#page-collection-list li', 'click', function() {

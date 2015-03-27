@@ -24,7 +24,7 @@ $(function () {
   });
 
   $(document).delegate('#page-site-list-all', 'pagebeforeshow', function () {
-    var currentUser = SessionController.currentUser();
+    var currentUser = SessionHelper.currentUser();
     SiteController.getByUserId(currentUser.id);
   });
 
