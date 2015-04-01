@@ -1,6 +1,7 @@
 $(function () {
   $(document).delegate('.skipLogicNumber', 'change', function () {
     SkipLogic.skipLogicNumber(this);
+    NumberField.validateDecimal(this);
   });
 
   $(document).delegate('.validateSelectFields', 'change', function () {
