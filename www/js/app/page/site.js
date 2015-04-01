@@ -47,7 +47,10 @@ $(function () {
         if ($(this).attr("id") === "btn_back_site_in_create")
           ValidationHelper.resetFormValidate("#form_create_site");
         PhotoList.clear();
-        App.DataStore.clearPartlyAfterCreateSite();
+        App.DataStore.clearConfig("configNumberSkipLogic");
+        App.DataStore.clearConfig("configNumber");
+        App.DataStore.clearConfig("configSelectManyForSkipLogic");
+        App.DataStore.clearConfig("configLocations");
         App.Cache.resetValue();
       });
 

@@ -27,22 +27,23 @@ FieldController = {
           FieldController.updateFieldDateValue(idHTMLForUpdate, item, propertiesFile);
           break;
         case "hierarchy":
-          var nodeId = idHTMLForUpdate + item["idfield"];
-          var node = $(nodeId).tree('getSelectedNode');
-          var data = node.id;
-          if (data == null)
-            data = "";
-          propertiesFile.properties[item["idfield"]] = data;
+          FieldController.updateFieldHierarchy(idHTMLForUpdate, item, propertiesFile);
+          break;
+        case "number":
+          FieldController.updateFieldNumberValue(idHTMLForUpdate, item, propertiesFile);
           break;
         default:
-          var nodeId = idHTMLForUpdate + item["idfield"];
-          var value = $(nodeId).val();
-          if (value == null)
-            value = "";
-          propertiesFile.properties[item["idfield"]] = value;
+          FieldController.updateFieldDefaultValue(idHTMLForUpdate, item, propertiesFile);
       }
     });
     return pf;
+  },
+  updateFieldDefaultValue: function (idHTMLForUpdate, item, propertiesFile) {
+    var nodeId = idHTMLForUpdate + item["idfield"];
+    var value = $(nodeId).val();
+    if (value == null)
+      value = "";
+    propertiesFile.properties[item["idfield"]] = value;
   },
   updateFieldPhotoValue: function (item, propertiesFile, fromServer) {
     var idfield = item["idfield"];
@@ -63,6 +64,14 @@ FieldController = {
       }
     }
   },
+  updateFieldHierarchy: function (idHTMLForUpdate, item, propertiesFile) {
+    var nodeId = idHTMLForUpdate + item["idfield"];
+    var node = $(nodeId).tree('getSelectedNode');
+    var data = node.id;
+    if (data == null)
+      data = "";
+    propertiesFile.properties[item["idfield"]] = data;
+  },
   updateFieldDateValue: function (idHTMLForUpdate, item, propertiesFile) {
     var nodeId = idHTMLForUpdate + item["idfield"];
     var value = $(nodeId).val();
@@ -71,6 +80,18 @@ FieldController = {
       value = dateToParam(value);
     }
     propertiesFile.properties[item["idfield"]] = value;
+  },
+  updateFieldNumberValue: function (idHTMLForUpdate, item, propertiesFile) {
+    var config = JSON.parse(App.DataStore.get("configNumber_" + item["idfield"]));
+    var nodeId = idHTMLForUpdate + item["idfield"];
+    var value = $(nodeId).val();
+    if (config.digits_precision) {
+      value = parseInt(value * Math.pow(10, parseInt(config.digits_precision)))
+          / Math.pow(10, parseInt(config.digits_precision));
+    }
+    propertiesFile.properties[item["idfield"]] = value;
+    App.DataStore.remove("configNumber_" + item["idfield"]);
+    App.DataStore.remove("configNumberSkipLogic_" + item["idfield"]);
   },
   renderLocationField: function (textLat, textLng, prefixId) {
     var lat = $(textLat).val();

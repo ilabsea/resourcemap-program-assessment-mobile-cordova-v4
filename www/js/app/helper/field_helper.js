@@ -49,6 +49,10 @@ FieldHelper = {
           App.DataStore.set("configNumberSkipLogic_" + id,
               JSON.stringify(config.field_logics));
         }
+        if (config.allows_decimals) {
+          App.DataStore.set("configNumber_" + id,
+              JSON.stringify(config));
+        }
         break;
       case "select_one":
         if (is_enable_field_logic) {
@@ -230,7 +234,7 @@ FieldHelper = {
     else {
       var files = site.files();
       var imageData = files[value];
-      if (imageData == null) 
+      if (imageData == null)
         item.__value = "";
       else {
         item.__value = SiteCamera.dataWithMimeType(imageData);

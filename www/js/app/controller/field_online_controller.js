@@ -15,6 +15,7 @@ var FieldOnlineController = {
           layerMemberships);
           return fields;
         });
+        
         App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
         App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
         FieldController.synForCurrentCollection(field_collections);

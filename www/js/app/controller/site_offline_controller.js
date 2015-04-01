@@ -67,7 +67,7 @@ var SiteOfflineController = {
       };
       SiteView.displayUpdateLatLng("site/updateOffline.html",
           $('#div-site-update-name'), "", siteUpdateData);
-      FieldController.renderUpdateOffline(site);
+      FieldOfflineController.renderUpdate(site);
     });
   },
   deleteBySiteId: function (sId) {
