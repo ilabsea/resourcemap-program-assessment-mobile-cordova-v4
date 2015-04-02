@@ -16,9 +16,7 @@ var Location = {
     return deg * (Math.PI / 180);
   },
   getLocations: function (fromLat, fromLng, config) {
-    var i = 0;
     var resultLocations = $.map(config.locations, function (location) {
-      i++;
       var distance = Location.calculateDistance(fromLat, fromLng, location.latitude, location.longitude);
       if (distance < parseFloat(config.maximumSearchLength)) {
         location.distance = distance;
