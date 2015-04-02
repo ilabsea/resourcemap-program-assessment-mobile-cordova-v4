@@ -62,7 +62,6 @@ FieldHelper = {
       
       if (widgetType === "location"){
         widgetType = "select_one";
-        config = FieldHelper.buildFieldLocation(config);
         App.DataStore.set("configLocations_" + id,
             JSON.stringify(config));
     }
@@ -108,15 +107,6 @@ FieldHelper = {
       }
     });
     return config;
-  },
-  buildFieldLocation: function (config) {
-    var configLocations = {locations: [], locationOptions: []};
-    $.map(config.locations, function (location) {
-      configLocations.locations.push(location);
-    });
-    configLocations.locationOptions = configLocations.locations;
-    configLocations.maximumSearchLength = config.maximumSearchLength;
-    return configLocations;
   },
   buildFieldYesNo: function (config, fromServer) {
     var field_id0, field_id1;
