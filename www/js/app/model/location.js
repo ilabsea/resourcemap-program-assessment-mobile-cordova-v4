@@ -21,9 +21,15 @@ var Location = {
       i++;
       var distance = Location.calculateDistance(fromLat, fromLng, location.latitude, location.longitude);
       if (distance < parseFloat(config.maximumSearchLength)) {
+        location.distance = distance;
         return location;
       }
     });
+    resultLocations.sort(function (a, b) {
+      return parseFloat(a.distance) - parseFloat(b.distance);
+    });
+
+    resultLocations.splice(20, resultLocations.length);
 
     return resultLocations;
   },
