@@ -47,10 +47,7 @@ $(function () {
         if ($(this).attr("id") === "btn_back_site_in_create")
           ValidationHelper.resetFormValidate("#form_create_site");
         PhotoList.clear();
-        App.DataStore.clearConfig("configNumberSkipLogic");
-        App.DataStore.clearConfig("configNumber");
-        App.DataStore.clearConfig("configSelectManyForSkipLogic");
-        App.DataStore.clearConfig("configLocations");
+        App.DataStore.clearAllSiteFormData();
         App.Cache.resetValue();
       });
 
@@ -67,12 +64,13 @@ $(function () {
       requireReload(function () {
         var lat = $("#lat").val();
         var lng = $("#lng").val();
-        if (lat == "" && lng == "")
+        if (lat == "" && lng == "") {
           Location.getCurrentLocation();
+        } 
       });
     });
   });
-  
+
   $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
     FieldController.renderLocationField("#updatelolat", "#updatelolng", "update_");
   });

@@ -48,6 +48,7 @@ var SiteOnlineController = {
       SiteModel.update(data, function () {
         PhotoList.clear();
         App.Cache.resetValue();
+        App.DataStore.clearAll();
         App.redirectTo("#page-site-list");
       }, function () {
         alert(i18n.t("global.please_reupdate_your_site"));

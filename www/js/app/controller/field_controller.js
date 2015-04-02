@@ -90,8 +90,6 @@ FieldController = {
           / Math.pow(10, parseInt(config.digits_precision));
     }
     propertiesFile.properties[item["idfield"]] = value;
-    App.DataStore.remove("configNumber_" + item["idfield"]);
-    App.DataStore.remove("configNumberSkipLogic_" + item["idfield"]);
   },
   renderLocationField: function (textLat, textLng, prefixId) {
     var lat = $(textLat).val();

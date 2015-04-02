@@ -45,8 +45,6 @@ var SiteHelper = {
                 / Math.pow(10, parseInt(config.digits_precision));
           }
           properties["" + each_field + ""] = value;
-          App.DataStore.remove("configNumber_" + each_field);
-          App.DataStore.remove("configNumberSkipLogic_" + each_field);
         }
         else {
           var data = $field.val();
@@ -88,6 +86,7 @@ var SiteHelper = {
   },
   resetForm: function () {
     PhotoList.clear();
+    App.DataStore.clearAllSiteFormData();
     $('#form_create_site')[0].reset();
     App.redirectTo("#page-site-list");
   }
