@@ -1,4 +1,4 @@
-URL = "http://192.168.1.120:3000/";
+URL = "http://resmap-stg-ilab.instedd.org/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
