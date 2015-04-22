@@ -79,6 +79,9 @@ FieldHelper = {
         App.DataStore.set("configLocations_" + id,
             JSON.stringify(config));
         break;
+      case "site":
+        widgetType = "text";
+        break;
     }
 
     if (is_mandatory)
@@ -102,6 +105,7 @@ FieldHelper = {
           Hierarchy.generateField(fields.config, "", id) : ""),
       is_enable_field_logic: is_enable_field_logic
     };
+    App.log("fieldproperties : ", fieldProperties);
     return fieldProperties;
   },
   buildFieldSelectOne: function (config) {

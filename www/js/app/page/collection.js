@@ -14,5 +14,6 @@ $(function() {
     App.DataStore.set("collectionName", cName);
     CollectionView.displayName({name: cName});
     CollectionController.getOne(cId);
+    MembershipOnlineController.getByCollectionId(cId);
   });
 });

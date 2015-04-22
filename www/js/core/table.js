@@ -35,4 +35,11 @@ function createTables() {
     layer_membership: "JSON",
     fields: "JSON"
   });
+  
+  Membership = persistence.define('memberships', {
+    collection_id: "INT",
+    user_id: "INT",
+    user_email: "TEXT",
+    admin: "BOOL"
+  });
 }
