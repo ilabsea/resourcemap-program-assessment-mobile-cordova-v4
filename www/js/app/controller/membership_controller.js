@@ -8,9 +8,8 @@ var MembershipController = {
   },
   synMembership: function(cId,newMembers){
     MembershipOffline.fetchByCollectionId(cId, function(members) {
-      App.log("members synmembership : ", members);
       MembershipOffline.remove(members);
-      MembershipOffline.add(newMembers);
+      MembershipOffline.add(newMembers, cId);
     });
   }
 };
