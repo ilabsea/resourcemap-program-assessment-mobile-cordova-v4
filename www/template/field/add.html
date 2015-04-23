@@ -80,13 +80,12 @@
  <div id="wrapper_{{idfield}}" tabindex="0">
   <label for='name'>{{name}} {{#if required}} <span class="requiredAsteric">*</span>  {{/if}} </label>
   {{#ifCond widgetType "user"}}
-  <input data-type="search" id="user_autocomplete">
-  <ul data-input="user_autocomplete" 
+  <input id="{{idfield}}" data-type="search">
+  <ul id="user_autocomplete"
       data-role="listview" 
-      data-inset="true" 
       data-filter="true" 
-      data-filter-placeholder="Stadtname" 
-      data-filter-theme="b">
+      data-input="#{{idfield}}"  
+      data-inset="true">
   </ul>
   {{else}}
   {{#ifCond widgetType "date"}}

@@ -71,12 +71,41 @@ $(function () {
     });
   });
 
-//  $(document).delegate("#user_autocomplete", "filterablebeforefilter", function(e, data){
-//    App.log("data : ", data);
-//  });
+  $(document).delegate("#user_autocomplete li", "click", function () {
+    var text = $(this).text();
+    var ul = $(this).closest("ul");
+    var id = $(ul).attr("data-input");
+    $(id).val(text);
+    ul.children().addClass('ui-screen-hidden');
+  });
 
-  $("#user_autocomplete").on("listviewbeforefilter", function (e, data) {
+  $(document).delegate("#user_autocomplete", "filterablebeforefilter", function (e, data) {
     App.log("data : ", data);
+    var $ul = $(this),
+        $input = $(data.input),
+        value = $input.val(),
+        html = "";
+    $ul.html("");
+    if (value && value.length > 2) {
+      $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
+      $ul.listview("refresh");
+      $.ajax({
+        url: "http://gd.geobytes.com/AutoCompleteCity",
+        dataType: "jsonp",
+        crossDomain: true,
+        data: {
+          q: $input.val()
+        }
+      })
+          .then(function (response) {
+            $.each(response, function (i, val) {
+              html += "<li>" + val + "</li>";
+            });
+            $ul.html(html);
+            $ul.listview("refresh");
+            $ul.trigger("updatelayout");
+          });
+    }
   });
 
   $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
@@ -98,4 +127,5 @@ $(function () {
       callback();
     }
   }
-});
+}
+);
