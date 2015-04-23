@@ -66,9 +66,17 @@ $(function () {
         var lng = $("#lng").val();
         if (lat == "" && lng == "") {
           Location.getCurrentLocation();
-        } 
+        }
       });
     });
+  });
+
+//  $(document).delegate("#user_autocomplete", "filterablebeforefilter", function(e, data){
+//    App.log("data : ", data);
+//  });
+
+  $("#user_autocomplete").on("listviewbeforefilter", function (e, data) {
+    App.log("data : ", data);
   });
 
   $(document).delegate('#updatelolat, #updatelolng', 'change', function () {

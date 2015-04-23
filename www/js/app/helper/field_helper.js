@@ -50,7 +50,7 @@ FieldHelper = {
               JSON.stringify(config.field_logics));
         }
         App.DataStore.set("configNumber_" + id,
-              JSON.stringify(config));
+            JSON.stringify(config));
         break;
       case "select_one":
         if (is_enable_field_logic) {
@@ -79,9 +79,6 @@ FieldHelper = {
         App.DataStore.set("configLocations_" + id,
             JSON.stringify(config));
         break;
-      case "site":
-        widgetType = "text";
-        break;
     }
 
     if (is_mandatory)
@@ -105,7 +102,6 @@ FieldHelper = {
           Hierarchy.generateField(fields.config, "", id) : ""),
       is_enable_field_logic: is_enable_field_logic
     };
-    App.log("fieldproperties : ", fieldProperties);
     return fieldProperties;
   },
   buildFieldSelectOne: function (config) {
