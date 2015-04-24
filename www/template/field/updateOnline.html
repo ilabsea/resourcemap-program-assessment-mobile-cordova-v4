@@ -81,13 +81,14 @@
  {{else}}
  <div id="wrapper_update_online_{{idfield}}" tabindex="0">
   <label for='name'>{{name}} {{#if required}} <span class="requiredAsteric">*</span>{{/if}} </label>
-  {{#ifCond widgetType "user"}}
+  {{#ifCond widgetType "search"}}
   <input id="update_online_{{idfield}}" 
          data-type="search"
          value ="{{__value}}" 
          name="{{name}}" 
-         {{required}}>
-  <ul id="user_autocomplete"
+         {{required}}
+         class="search_input">
+  <ul id="{{kind}}_autocomplete"
       data-role="listview" 
       data-filter="true" 
       data-input="#update_online_{{idfield}}"  

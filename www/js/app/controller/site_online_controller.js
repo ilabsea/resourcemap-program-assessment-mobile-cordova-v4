@@ -1,7 +1,8 @@
 var SiteOnlineController = {
   add: function (data, callback) {
     ViewBinding.setBusy(true);
-    SiteModel.create(data, callback, function () {
+    SiteModel.create(data, callback, function (err) {
+      App.log("error ", err)
       ViewBinding.setAlert("Please send data again.");
     });
   },

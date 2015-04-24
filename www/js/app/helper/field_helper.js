@@ -79,6 +79,10 @@ FieldHelper = {
         App.DataStore.set("configLocations_" + id,
             JSON.stringify(config));
         break;
+      case "site":
+      case "user":
+        widgetType = "search";
+        break;
     }
 
     if (is_mandatory)

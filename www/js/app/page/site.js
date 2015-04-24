@@ -71,7 +71,7 @@ $(function () {
     });
   });
 
-  $(document).delegate("#user_autocomplete li", "click", function () {
+  $(document).delegate("#user_autocomplete li, #site_autocomplete li", "click", function () {
     var text = $(this).text();
     var ul = $(this).closest("ul");
     var id = $(ul).attr("data-input");
@@ -79,13 +79,23 @@ $(function () {
     ul.children().addClass('ui-screen-hidden');
   });
 
+  $(document).delegate(".search_input", "focusout", function () {
+    var ul = $(this).parent().next('ul');
+    ul.children().addClass('ui-screen-hidden');
+  });
+
   $(document).delegate("#page-create-site, #page-update-site, #page-update-site-online", "pageshow", function () {
     var cId = App.DataStore.get("cId");
     var members = [];
+    var sites = [];
     MembershipOffline.fetchByCollectionId(cId, function (results) {
       results.forEach(function (result) {
         members.push({user_email: result.user_email()});
       });
+    });
+
+    SiteModel.fetch(cId, function (results) {
+      sites = results;
     });
 
     $(document).delegate("#user_autocomplete", "filterablebeforefilter", function (e, data) {
@@ -94,7 +104,17 @@ $(function () {
           value = $input.val();
       $ul.html("");
       if (value && value.length > 2) {
-        MembershipView.display("field/user.html", $ul, {members: members});
+        AutoComplete.display("field/user.html", $ul, {members: members});
+      }
+    });
+
+    $(document).delegate("#site_autocomplete", "filterablebeforefilter", function (e, data) {
+      var $ul = $(this),
+          $input = $(data.input),
+          value = $input.val();
+      $ul.html("");
+      if (value && value.length > 2) {
+        AutoComplete.display("field/site.html", $ul, sites);
       }
     });
   });
