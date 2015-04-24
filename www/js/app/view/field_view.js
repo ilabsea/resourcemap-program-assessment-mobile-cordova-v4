@@ -10,9 +10,7 @@ FieldView = {
   },
   displayLocationField: function (templateURL, element, configData) {
     App.Template.process(templateURL, configData, function (content) {
-      App.log("configData : ", configData);
       element.html(content);
-      App.log("content : ", content);
       element.selectmenu("refresh");
     });
   },
