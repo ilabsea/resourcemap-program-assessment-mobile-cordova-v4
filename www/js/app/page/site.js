@@ -79,7 +79,7 @@ $(function () {
     ul.children().addClass('ui-screen-hidden');
   });
 
-  $(document).delegate("#page-create-site", "pageshow", function () {
+  $(document).delegate("#page-create-site, #page-update-site, #page-update-site-online", "pageshow", function () {
     var cId = App.DataStore.get("cId");
     var members = [];
     MembershipOffline.fetchByCollectionId(cId, function (results) {
@@ -89,9 +89,10 @@ $(function () {
     });
 
     $(document).delegate("#user_autocomplete", "filterablebeforefilter", function (e, data) {
-      var $ul = $(this);
-      var $input = $(data.input);
-      var value = $input.val();
+      var $ul = $(this),
+          $input = $(data.input),
+          value = $input.val();
+      $ul.html("");
       if (value && value.length > 2) {
         MembershipView.display("field/user.html", $ul, {members: members});
       }

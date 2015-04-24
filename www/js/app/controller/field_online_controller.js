@@ -27,7 +27,7 @@ var FieldOnlineController = {
   },
   renderUpdate: function (siteData) {
     var cId = App.DataStore.get("cId");
-    var sId = localStorage.getItem("sId");
+    var sId = App.DataStore.get("sId");
 
     SitesPermission.fetch(cId, function (site) {
       if ((!site.read && !site.write && !site.none)

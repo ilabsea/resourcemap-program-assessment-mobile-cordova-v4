@@ -82,6 +82,19 @@
  {{else}}
  <div id="wrapper_update_{{idfield}}" tabindex="0">
   <label for='name'>{{name}} {{#if required}} <span class="requiredAsteric">*</span> {{/if}} </label>
+  {{#ifCond widgetType "user"}}
+  <input id="update_{{idfield}}" 
+         data-type="search" 
+         name="{{name}}"
+         value ="{{__value}}"
+         {{required}}>
+  <ul id="user_autocomplete"
+      data-role="listview" 
+      data-filter="true" 
+      data-input="#update_{{idfield}}"  
+      data-inset="true">
+  </ul>
+  {{else}}
   {{#ifCond widgetType "date"}}
   <input type="{{widgetType}}" 
          id="update_{{idfield}}" 
@@ -108,6 +121,7 @@
          name="{{name}}" 
          {{required}} 
          {{readonly}}/> 
+  {{/ifCond}}
   {{/ifCond}}
   {{/ifCond}}
  </div>

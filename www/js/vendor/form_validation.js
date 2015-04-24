@@ -61,7 +61,7 @@ $(document).ready(function () {
     invalidHandler: function (e, validator) {
       ValidationHelper.invalidHandler(validator, "#validation_update-site-online");
     },
-    submitHandler: function (e) {
+    submitHandler: function () {
       ValidationHelper.handleSubmitHandler("#validation_update-site-online",
           function () {
             SiteOnlineController.updateBySiteId();
