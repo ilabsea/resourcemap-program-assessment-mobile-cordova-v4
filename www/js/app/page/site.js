@@ -72,12 +72,7 @@ $(function () {
   });
 
   $(document).delegate("#user_autocomplete li, #site_autocomplete li", "click", function () {
-    var text = $(this).text();
-    var ul = $(this).closest("ul");
-    var id = $(ul).attr("data-input");
-    $(id).val(text);
-    UserList.add(new UserField(id, text));
-    ul.children().addClass('ui-screen-hidden');
+    AutoCompleteController.getLi(this);
   });
 
   $(document).delegate("#site_autocomplete li", "click", function () {
@@ -86,7 +81,6 @@ $(function () {
     var id = $(ul).attr("data-input");
     $(id).val(text);
     ul.children().addClass('ui-screen-hidden');
-    $(id + "_hidden").val(this.id);
   });
 
   $(document).delegate("#page-create-site, \n\
@@ -94,8 +88,7 @@ $(function () {
 #page-update-site-online", "pageshow", function () {
 
     var cId = App.DataStore.get("cId");
-    var members = [];
-    var sites = [];
+    var members = [], sites = [];
     MembershipOffline.fetchByCollectionId(cId, function (results) {
       results.forEach(function (result) {
         members.push({user_email: result.user_email()});
@@ -107,31 +100,7 @@ $(function () {
     });
 
     $(document).delegate("#user_autocomplete", "filterablebeforefilter", function (e, data) {
-      var $ul = $(this),
-          $input = $(data.input),
-          value = $input.val();
-      $ul.html("");
-      var str = $ul.attr("data-input");
-      var id = str.substring(1, str.length);
-      var matches = $.map(members, function (member) {
-        if (member.user_email.toUpperCase().indexOf(value.toUpperCase()) === 0) {
-          return member;
-        }
-      });
-      var match_value = "";
-
-      if (value && value.length > 0) {
-        if (matches.length === 0)
-          ValidationHelper.AddClassUserError(id);
-        else {
-          match_value = matches[0].user_email;
-          ValidationHelper.removeClassUserError(id);
-        }
-        AutoComplete.display("field/user.html", $ul, {members: matches});
-      } else
-        ValidationHelper.removeClassUserError(id);
-      var idfield = id.substring(id.lastIndexOf('_')+1);
-      UserList.add(new UserField(idfield, match_value));
+      AutoCompleteController.handleUser(this, data, members);
     });
 
     $(document).delegate("#site_autocomplete", "filterablebeforefilter", function (e, data) {

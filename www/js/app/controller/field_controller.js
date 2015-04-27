@@ -33,7 +33,7 @@ FieldController = {
           FieldController.updateFieldNumberValue(idHTMLForUpdate, item, propertiesFile);
           break;
         case 'search':
-          FieldController.updateFieldUserValue(idHTMLForUpdate, item, propertiesFile);
+          FieldController.updateFieldUserValue(item, propertiesFile);
           break;
         default:
           FieldController.updateFieldDefaultValue(idHTMLForUpdate, item, propertiesFile);
