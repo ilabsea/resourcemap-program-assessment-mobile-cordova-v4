@@ -212,6 +212,10 @@ FieldHelper = {
               item.__value = date;
           }
           break;
+        case "user":
+          UserList.add(new UserField(item["idfield"], pValue));
+          item.__value = pValue;
+          break;
         default:
           item.__value = pValue;
       }

@@ -47,11 +47,8 @@ var SiteHelper = {
           }
           properties["" + each_field + ""] = value;
         }
-        else if ($field_site.length > 0 && $field_site[0].getAttribute("type") === 'hidden') {
-          var data = $field_site.val();
-          if (data == null)
-            data = "";
-          properties[each_field] = data;
+        else if ($field.length > 0 && $field[0].getAttribute("data-type") === 'search') {
+          properties[each_field] = UserList.getUserValue(each_field);
         }
         else {
           var data = $field.val();
@@ -93,6 +90,7 @@ var SiteHelper = {
   },
   resetForm: function () {
     PhotoList.clear();
+    UserList.clear();
     App.DataStore.clearAllSiteFormData();
     $('#form_create_site')[0].reset();
     App.redirectTo("#page-site-list");

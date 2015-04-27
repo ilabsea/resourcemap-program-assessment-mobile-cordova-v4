@@ -32,11 +32,17 @@ FieldController = {
         case "number":
           FieldController.updateFieldNumberValue(idHTMLForUpdate, item, propertiesFile);
           break;
+        case 'search':
+          FieldController.updateFieldUserValue(idHTMLForUpdate, item, propertiesFile);
+          break;
         default:
           FieldController.updateFieldDefaultValue(idHTMLForUpdate, item, propertiesFile);
       }
     });
     return pf;
+  },
+  updateFieldUserValue: function (item, propertiesFile) {
+    propertiesFile.properties[item["idfield"]] = UserList.getUserValue(item["idfield"]);
   },
   updateFieldDefaultValue: function (idHTMLForUpdate, item, propertiesFile) {
     var nodeId = idHTMLForUpdate + item["idfield"];

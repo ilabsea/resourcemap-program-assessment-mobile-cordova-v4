@@ -76,6 +76,7 @@ $(function () {
     var ul = $(this).closest("ul");
     var id = $(ul).attr("data-input");
     $(id).val(text);
+    UserList.add(new UserField(id, text));
     ul.children().addClass('ui-screen-hidden');
   });
 
@@ -91,6 +92,7 @@ $(function () {
   $(document).delegate("#page-create-site, \n\
 #page-update-site, \n\
 #page-update-site-online", "pageshow", function () {
+
     var cId = App.DataStore.get("cId");
     var members = [];
     var sites = [];
@@ -116,15 +118,20 @@ $(function () {
           return member;
         }
       });
+      var match_value = "";
 
       if (value && value.length > 0) {
-        if (matches.length === 0) 
+        if (matches.length === 0)
           ValidationHelper.AddClassUserError(id);
-        else
+        else {
+          match_value = matches[0].user_email;
           ValidationHelper.removeClassUserError(id);
+        }
         AutoComplete.display("field/user.html", $ul, {members: matches});
       } else
         ValidationHelper.removeClassUserError(id);
+      var idfield = id.substring(id.lastIndexOf('_')+1);
+      UserList.add(new UserField(idfield, match_value));
     });
 
     $(document).delegate("#site_autocomplete", "filterablebeforefilter", function (e, data) {

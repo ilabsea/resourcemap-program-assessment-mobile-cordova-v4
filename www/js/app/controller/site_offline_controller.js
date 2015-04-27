@@ -52,6 +52,7 @@ var SiteOfflineController = {
         site.files(propertiesFile.files);
         persistence.flush();
         PhotoList.clear();
+        UserList.clear();
         App.DataStore.clearAllSiteFormData();
         App.Cache.resetValue();
         App.redirectTo("index.html#page-site-list");

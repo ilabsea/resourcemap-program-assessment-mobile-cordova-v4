@@ -55,12 +55,12 @@ var SiteOnlineController = {
       };
       SiteModel.update(data, function () {
         PhotoList.clear();
+        UserList.clear();
         App.Cache.resetValue();
         App.DataStore.clearAllSiteFormData();
         App.redirectTo("#page-site-list");
       }, function (err) {
         var properties = err.responseJSON.properties;
-        App.log('properties : ', properties);
         if (properties) {
           $.map(properties, function (property) {
             var keys = Object.keys(property);

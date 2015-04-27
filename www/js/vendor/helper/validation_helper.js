@@ -154,7 +154,6 @@ var ValidationHelper = {
     validator.resetForm();
   },
   AddClassUserError: function (id) {
-    App.log("id : ", id);
     $("#" + id).addClass("error");
     $("#label_" + id).css("display", 'block');
   },

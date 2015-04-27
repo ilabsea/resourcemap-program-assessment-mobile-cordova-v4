@@ -86,10 +86,6 @@
          {{required}} 
          class="search_input">
   <label id="label_{{idfield}}" class="errorSearch" style="display: none">{{t "validation.user_email"}}</label>
-  {{#ifCond kind "site"}}
-  <input type="hidden" id="{{idfield}}_hidden" name="{{name}}_hidden">
-  {{/ifCond}}
-  
   <ul id="{{kind}}_autocomplete"
       data-role="listview" 
       data-filter="true" 
