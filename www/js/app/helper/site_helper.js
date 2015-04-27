@@ -12,6 +12,7 @@ var SiteHelper = {
       for (var i = 0; i < storedFieldId.length; i++) {
         var each_field = storedFieldId[i];
         var $field = $('#' + each_field);
+        var $field_site = $("#" + each_field + "_hidden");
         if ($field.length > 0 && $field[0].tagName.toLowerCase() == 'img') {
           var lPhotoList = PhotoList.count();
           for (var p = 0; p < lPhotoList; p++) {
@@ -45,6 +46,12 @@ var SiteHelper = {
                 / Math.pow(10, parseInt(config.digits_precision));
           }
           properties["" + each_field + ""] = value;
+        }
+        else if ($field_site.length > 0 && $field_site[0].getAttribute("type") === 'hidden') {
+          var data = $field_site.val();
+          if (data == null)
+            data = "";
+          properties[each_field] = data;
         }
         else {
           var data = $field.val();

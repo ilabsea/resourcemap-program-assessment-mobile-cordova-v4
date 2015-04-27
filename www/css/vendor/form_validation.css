@@ -1,7 +1,8 @@
 label.error,
 label.errorHierarchy,
 label.errorImage,
-label.errorSelect
+label.errorSelect,
+label.errorSearch
 {
     color: red;
     font-size: 10px !important;

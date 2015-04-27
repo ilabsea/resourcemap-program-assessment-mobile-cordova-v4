@@ -45,9 +45,9 @@ $(document).ready(function () {
     invalidHandler: function (e, validator) {
       ValidationHelper.invalidHandler(validator, "#validation_update-site");
     },
-    submitHandler: function () {
+    submitHandler: function (e) {
       ValidationHelper.handleSubmitHandler("#validation_update-site",
-          function () {
+          function () { 
             SiteOfflineController.updateBySiteId();
           });
     }

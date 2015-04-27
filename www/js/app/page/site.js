@@ -79,12 +79,18 @@ $(function () {
     ul.children().addClass('ui-screen-hidden');
   });
 
-  $(document).delegate(".search_input", "focusout", function () {
-    var ul = $(this).parent().next('ul');
+  $(document).delegate("#site_autocomplete li", "click", function () {
+    var text = $(this).text();
+    var ul = $(this).closest("ul");
+    var id = $(ul).attr("data-input");
+    $(id).val(text);
     ul.children().addClass('ui-screen-hidden');
+    $(id + "_hidden").val(this.id);
   });
 
-  $(document).delegate("#page-create-site, #page-update-site, #page-update-site-online", "pageshow", function () {
+  $(document).delegate("#page-create-site, \n\
+#page-update-site, \n\
+#page-update-site-online", "pageshow", function () {
     var cId = App.DataStore.get("cId");
     var members = [];
     var sites = [];
@@ -103,9 +109,22 @@ $(function () {
           $input = $(data.input),
           value = $input.val();
       $ul.html("");
-      if (value && value.length > 2) {
-        AutoComplete.display("field/user.html", $ul, {members: members});
-      }
+      var str = $ul.attr("data-input");
+      var id = str.substring(1, str.length);
+      var matches = $.map(members, function (member) {
+        if (member.user_email.toUpperCase().indexOf(value.toUpperCase()) === 0) {
+          return member;
+        }
+      });
+
+      if (value && value.length > 0) {
+        if (matches.length === 0) 
+          ValidationHelper.AddClassUserError(id);
+        else
+          ValidationHelper.removeClassUserError(id);
+        AutoComplete.display("field/user.html", $ul, {members: matches});
+      } else
+        ValidationHelper.removeClassUserError(id);
     });
 
     $(document).delegate("#site_autocomplete", "filterablebeforefilter", function (e, data) {

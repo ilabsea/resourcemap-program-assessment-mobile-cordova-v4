@@ -68,7 +68,7 @@ var ValidationHelper = {
       var idElement = classElement[i].id;
       var $element = $("#" + idElement);
       if ($element.attr('required')) {
-        if ($element.attr('src') == ''){
+        if ($element.attr('src') == '') {
           b = false;
           this.AddClassImageError(idElement);
         }
@@ -152,5 +152,15 @@ var ValidationHelper = {
     var $element = $(formElement);
     var validator = $element.validate();
     validator.resetForm();
+  },
+  AddClassUserError: function (id) {
+    App.log("id : ", id);
+    $("#" + id).addClass("error");
+    $("#label_" + id).css("display", 'block');
+  },
+  removeClassUserError: function (id) {
+    if (!$("#" + id).attr('required'))
+      $("#" + id).removeClass("error");
+    $("#label_" + id).css("display", 'none');
   }
 };

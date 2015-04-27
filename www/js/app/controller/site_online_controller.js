@@ -2,8 +2,15 @@ var SiteOnlineController = {
   add: function (data, callback) {
     ViewBinding.setBusy(true);
     SiteModel.create(data, callback, function (err) {
-      App.log("error ", err)
-      ViewBinding.setAlert("Please send data again.");
+      var properties = err.responseJSON.properties;
+      if (properties) {
+        $.map(properties, function (property) {
+          var keys = Object.keys(property);
+          for (var i in keys) {
+            ValidationHelper.AddClassUserError(keys[i]);
+          }
+        });
+      }
     });
   },
   getByCollectionId: function () {
@@ -51,8 +58,17 @@ var SiteOnlineController = {
         App.Cache.resetValue();
         App.DataStore.clearAllSiteFormData();
         App.redirectTo("#page-site-list");
-      }, function () {
-        alert(i18n.t("global.please_reupdate_your_site"));
+      }, function (err) {
+        var properties = err.responseJSON.properties;
+        App.log('properties : ', properties);
+        if (properties) {
+          $.map(properties, function (property) {
+            var keys = Object.keys(property);
+            for (var i in keys) {
+              ValidationHelper.AddClassUserError("update_online_" + keys[i]);
+            }
+          });
+        }
       });
     });
   },

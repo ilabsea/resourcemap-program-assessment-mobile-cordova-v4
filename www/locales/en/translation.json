@@ -65,7 +65,8 @@
         "plsSignIn": "Please sign in.",
         "required": "This field is required.",
         "emailPsd": "Please enter your email and password.",
-        "emailPsdConfirm": "Please enter all required fields."
+        "emailPsdConfirm": "Please enter all required fields.",
+        "user_email": "Non-existent user email address in this field"
     },
     "dialog": {
         "option": "Photo Options",

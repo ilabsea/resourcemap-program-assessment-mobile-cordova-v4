@@ -80,7 +80,16 @@
  <div id="wrapper_{{idfield}}" tabindex="0">
   <label for='name'>{{name}} {{#if required}} <span class="requiredAsteric">*</span>  {{/if}} </label>
   {{#ifCond widgetType "search"}}
-  <input id="{{idfield}}" data-type="search" name="{{name}}" {{required}} class="search_input">
+  <input id="{{idfield}}" 
+         data-type="search" 
+         name="{{name}}" 
+         {{required}} 
+         class="search_input">
+  <label id="label_{{idfield}}" class="errorSearch" style="display: none">{{t "validation.user_email"}}</label>
+  {{#ifCond kind "site"}}
+  <input type="hidden" id="{{idfield}}_hidden" name="{{name}}_hidden">
+  {{/ifCond}}
+  
   <ul id="{{kind}}_autocomplete"
       data-role="listview" 
       data-filter="true" 
