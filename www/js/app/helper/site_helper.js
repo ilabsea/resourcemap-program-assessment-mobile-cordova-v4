@@ -48,7 +48,7 @@ var SiteHelper = {
           properties["" + each_field + ""] = value;
         }
         else if ($field.length > 0 && $field[0].getAttribute("data-type") === 'search') {
-          properties[each_field] = UserList.getUserValue(each_field);
+          properties[each_field] = SearchList.getFieldValue(each_field);
         }
         else {
           var data = $field.val();
@@ -66,6 +66,7 @@ var SiteHelper = {
       properties: properties,
       files: files
     };
+    App.log('data : ', data);
     return data;
   },
   buildSubmitError: function (error, site) {
@@ -90,7 +91,7 @@ var SiteHelper = {
   },
   resetForm: function () {
     PhotoList.clear();
-    UserList.clear();
+    SearchList.clear();
     App.DataStore.clearAllSiteFormData();
     $('#form_create_site')[0].reset();
     App.redirectTo("#page-site-list");

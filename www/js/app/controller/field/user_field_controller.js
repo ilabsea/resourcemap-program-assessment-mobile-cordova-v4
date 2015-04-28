@@ -10,21 +10,18 @@ var UserFieldController = {
     var match_value = "";
 
     if (value && value.length > 0) {
-      UserFieldController.triggerValidation(matches, id);
+      if (matches.length === 0)
+        ValidationHelper.AddClassUserError(id);
+      else {
+        match_value = matches[0].user_email;
+        ValidationHelper.removeClassUserError(id);
+      }
       AutoComplete.display("field/user.html", $ul, {members: matches});
     } else
       ValidationHelper.removeClassUserError(id);
 
     var idfield = id.substring(id.lastIndexOf('_') + 1);
-    UserList.add(new UserField(idfield, match_value));
-  },
-  triggerValidation: function (matches, idElement) {
-    if (matches.length === 0)
-      ValidationHelper.AddClassUserError(idElement);
-    else {
-      match_value = matches[0].user_email;
-      ValidationHelper.removeClassUserError(idElement);
-    }
+    SearchList.add(new SearchField(idfield, match_value));
   },
   getLi: function (liElement) {
     var text = $(liElement).text();
@@ -32,7 +29,7 @@ var UserFieldController = {
     var id = $(ul).attr("data-input");
     $(id).val(text);
     var idfield = id.substring(id.lastIndexOf('_') + 1);
-    UserList.add(new UserField(idfield, text));
+    SearchList.add(new SearchField(idfield, text));
     ul.children().addClass('ui-screen-hidden');
   },
   matchStart: function (members, inputValue) {

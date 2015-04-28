@@ -213,7 +213,7 @@ FieldHelper = {
           }
           break;
         case "user":
-          UserList.add(new UserField(item["idfield"], pValue));
+          SearchList.add(new SearchField(item["idfield"], pValue));
           item.__value = pValue;
           break;
         default:

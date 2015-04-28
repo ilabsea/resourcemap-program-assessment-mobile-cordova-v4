@@ -47,7 +47,7 @@ var SiteOnlineController = {
       };
       SiteModel.update(data, function () {
         PhotoList.clear();
-        UserList.clear();
+        SearchList.clear();
         App.Cache.resetValue();
         App.DataStore.clearAllSiteFormData();
         App.redirectTo("#page-site-list");
