@@ -1,16 +1,8 @@
 var SiteOnlineController = {
   add: function (data, callback) {
     ViewBinding.setBusy(true);
-    SiteModel.create(data, callback, function (err) {
-      var properties = err.responseJSON.properties;
-      if (properties) {
-        $.map(properties, function (property) {
-          var keys = Object.keys(property);
-          for (var i in keys) {
-            ValidationHelper.AddClassUserError(keys[i]);
-          }
-        });
-      }
+    SiteModel.create(data, callback, function () {
+      ViewBinding.setAlert("Please send data again.");
     });
   },
   getByCollectionId: function () {
@@ -59,16 +51,8 @@ var SiteOnlineController = {
         App.Cache.resetValue();
         App.DataStore.clearAllSiteFormData();
         App.redirectTo("#page-site-list");
-      }, function (err) {
-        var properties = err.responseJSON.properties;
-        if (properties) {
-          $.map(properties, function (property) {
-            var keys = Object.keys(property);
-            for (var i in keys) {
-              ValidationHelper.AddClassUserError("update_online_" + keys[i]);
-            }
-          });
-        }
+      }, function () {
+        alert(i18n.t("global.please_reupdate_your_site"));
       });
     });
   },

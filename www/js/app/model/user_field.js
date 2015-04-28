@@ -15,9 +15,7 @@ var UserList = {
   getUserValue: function(id){
     for (var i = 0; i < UserList.count(); i++) {
       var user = UserList.get()[i];
-      App.log("user value : ", user);
       if (user.id === id) {
-        App.log("user value : ", user.value);
         return user.value;
       }
     }
