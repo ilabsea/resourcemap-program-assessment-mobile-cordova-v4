@@ -72,7 +72,7 @@ $(function () {
   });
 
   $(document).delegate("#user_autocomplete li, #site_autocomplete li", "click", function () {
-    AutoCompleteController.getLi(this);
+    UserFieldController.getLi(this);
   });
 
   $(document).delegate("#site_autocomplete li", "click", function () {
@@ -86,32 +86,22 @@ $(function () {
   $(document).delegate("#page-create-site, \n\
 #page-update-site, \n\
 #page-update-site-online", "pageshow", function () {
-
     var cId = App.DataStore.get("cId");
-    var members = [], sites = [];
+    var members = [];
     MembershipOffline.fetchByCollectionId(cId, function (results) {
       results.forEach(function (result) {
         members.push({user_email: result.user_email()});
       });
     });
 
-    SiteModel.fetch(cId, function (results) {
-      sites = results;
-    });
-
     $(document).delegate("#user_autocomplete", "filterablebeforefilter", function (e, data) {
-      AutoCompleteController.handleUser(this, data, members);
+      UserFieldController.autoComplete(this, data, members);
     });
 
     $(document).delegate("#site_autocomplete", "filterablebeforefilter", function (e, data) {
-      var $ul = $(this),
-          $input = $(data.input),
-          value = $input.val();
-      $ul.html("");
-      if (value && value.length > 2) {
-        AutoComplete.display("field/site.html", $ul, sites);
-      }
+      SiteFieldController.autoComplete(this, data);
     });
+
   });
 
   $(document).delegate('#updatelolat, #updatelolng', 'change', function () {

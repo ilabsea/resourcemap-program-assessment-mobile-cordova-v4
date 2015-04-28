@@ -1,19 +1,20 @@
-var AutoCompleteController = {
-  handleUser: function (ulElement, data, members) {
+var UserFieldController = {
+  autoComplete: function (ulElement, data, members) {
     var $ul = $(ulElement),
         $input = $(data.input),
         value = $input.val();
     $ul.html("");
     var str = $ul.attr("data-input");
     var id = str.substring(1, str.length);
-    var matches = AutoCompleteController.matchStart(members, value);
+    var matches = UserFieldController.matchStart(members, value);
     var match_value = "";
 
     if (value && value.length > 0) {
-      AutoCompleteController.triggerValidation(matches, id);
+      UserFieldController.triggerValidation(matches, id);
       AutoComplete.display("field/user.html", $ul, {members: matches});
     } else
       ValidationHelper.removeClassUserError(id);
+
     var idfield = id.substring(id.lastIndexOf('_') + 1);
     UserList.add(new UserField(idfield, match_value));
   },
@@ -35,7 +36,7 @@ var AutoCompleteController = {
     ul.children().addClass('ui-screen-hidden');
   },
   matchStart: function (members, inputValue) {
-    var matches =  $.map(members, function (member) {
+    var matches = $.map(members, function (member) {
       if (member.user_email.toUpperCase().indexOf(inputValue.toUpperCase()) === 0) {
         return member;
       }
