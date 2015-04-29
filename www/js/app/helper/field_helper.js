@@ -216,6 +216,13 @@ FieldHelper = {
           SearchList.add(new SearchField(item["idfield"], pValue));
           item.__value = pValue;
           break;
+        case "site":
+          App.log("pValue : ", pValue);
+          if (pValue) {
+            var site = SiteList.getSite(pValue);
+            item.__value = site.name;
+          }
+          break;
         default:
           item.__value = pValue;
       }

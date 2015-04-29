@@ -20,10 +20,12 @@ var SiteOnlineController = {
           link: "#page-update-site-online"
         };
         siteOnlineData.push(item);
+        SiteList.add(new SiteObj(item.id, item.name));
         if (key === response["total"] - 1) {
           SiteView.display($('#site-list-online'), {siteList: siteOnlineData});
         }
       });
+      App.log("Site list : ", SiteList.sites);
     });
   },
   updateBySiteId: function () {

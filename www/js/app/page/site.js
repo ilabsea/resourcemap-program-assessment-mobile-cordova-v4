@@ -76,11 +76,7 @@ $(function () {
   });
 
   $(document).delegate("#site_autocomplete li", "click", function () {
-    var text = $(this).text();
-    var ul = $(this).closest("ul");
-    var id = $(ul).attr("data-input");
-    $(id).val(text);
-    ul.children().addClass('ui-screen-hidden');
+    SiteFieldController.getLi(this);
   });
 
   $(document).delegate("#page-create-site, \n\

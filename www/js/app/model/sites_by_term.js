@@ -2,7 +2,7 @@ var SitesByTerm = {
   fetch: function (value, success) {
     var cId = App.DataStore.get("cId");
     $.ajax({
-      url: App.URL_FIELD + cId + "/sites_by_term.json",
+      url: App.URL_COLLECTION + cId + "/sites_by_term.json",
       type: "GET",
       crossDomain: true,
       data: {

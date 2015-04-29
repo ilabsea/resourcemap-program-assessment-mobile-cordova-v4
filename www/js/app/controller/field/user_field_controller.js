@@ -28,9 +28,11 @@ var UserFieldController = {
     var ul = $(liElement).closest("ul");
     var id = $(ul).attr("data-input");
     $(id).val(text);
+    ul.children().addClass('ui-screen-hidden');
+    
+    id = id.substring(1, id.length);
     var idfield = id.substring(id.lastIndexOf('_') + 1);
     SearchList.add(new SearchField(idfield, text));
-    ul.children().addClass('ui-screen-hidden');
   },
   matchStart: function (members, inputValue) {
     var matches = $.map(members, function (member) {

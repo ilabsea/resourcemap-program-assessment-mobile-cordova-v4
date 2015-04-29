@@ -2,6 +2,7 @@ $(function() {
 
   $(document).delegate('#page-collection-list', 'pagebeforeshow', function() {
     App.emptyHTML();
+    SiteList.clear();
     hideElement($("#info_sign_in"));
     CollectionController.get();
     var currentUser = SessionHelper.currentUser();

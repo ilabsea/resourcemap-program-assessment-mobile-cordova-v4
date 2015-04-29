@@ -15,8 +15,7 @@ var SearchList = {
   getFieldValue: function(id){
     for (var i = 0; i < SearchList.count(); i++) {
       var field = SearchList.get()[i];
-      if (field.id === id) {
-        App.log('field : ', field.value);
+      if (field.id == id) {
         return field.value;
       }
     }

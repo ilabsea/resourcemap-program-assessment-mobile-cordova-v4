@@ -22,7 +22,7 @@ var SiteFieldController = {
   matchSiteOffline: function (sites, value) {
     var matches = $.map(sites, function (site) {
       var b = false;
-      $.each(site.properties, function (i, p) {
+      $.each(site["properties"], function (i, p) {
         if (site.name.indexOf(value) > -1 || p.indexOf(value) > -1) {
           b = true;
           return;
@@ -37,11 +37,23 @@ var SiteFieldController = {
     var sitesJson = [];
     $.map(sites, function (site) {
       var data = {
+        id: site.id,
         name: site.name(),
         properties: site.properties()
       };
       sitesJson.push(data);
     });
     return sitesJson;
+  },
+  getLi: function (liElement) {
+    var text = $(liElement).text();
+    var ul = $(liElement).closest("ul");
+    var id = $(ul).attr("data-input");
+    $(id).val(text);
+    ul.children().addClass('ui-screen-hidden');
+
+    id = id.substring(1, id.length);
+    var idfield = id.substring(id.lastIndexOf('_') + 1);
+    SearchList.add(new SearchField(idfield, liElement.id));
   }
 };

@@ -75,7 +75,7 @@ ViewBinding = {
   }
 };
 
-SiteList = {
+SiteMenu = {
   menu: function() {
     App.emptyHTML();
     var cId = App.DataStore.get("cId");
@@ -97,3 +97,4 @@ SiteList = {
     }
   }
 };
+
