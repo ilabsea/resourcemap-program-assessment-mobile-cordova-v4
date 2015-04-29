@@ -8,6 +8,7 @@ $(function () {
     $("#site-list-menu").get(0).selectedIndex = 0;
     PhotoList.clear();
     SearchList.clear();
+    ValidList.clear();
   });
 
   $(document).delegate('#btn_create_site', 'click', function () {
@@ -30,6 +31,7 @@ $(function () {
     SiteOfflineController.getByUserId(currentUser.id);
     PhotoList.clear();
     SearchList.clear();
+    ValidList.clear();
   });
 
   $(document).delegate('#page-site-list-all', 'pageshow', function () {
@@ -97,16 +99,17 @@ $(function () {
       SiteFieldController.autoComplete(this, data);
     });
 
-    $(document).delegate("#user_autocomplete li, #site_autocomplete li", "click", function () {
+    $(document).delegate("#user_autocomplete li", "click", function (e) {
       UserFieldController.getLi(this);
+      e.stopPropagation();
     });
 
     $(document).delegate("#site_autocomplete li", "click", function () {
       SiteFieldController.getLi(this);
     });
 
-    $(document).delegate(".wrapper_search", "focusout", function () {
-      $(this).children().closest("ul").addClass('ui-screen-hidden');
+    $(document).delegate("html", "click", function (e) {
+      UserFieldController.hideLi(e);
     });
 
   });

@@ -35,13 +35,29 @@ var ValidationHelper = {
     this.setPopUpMsgError(popUpMsgErrorElement);
     var classImage = $(".image");
     var classHierarchy = $(".tree");
-    var h = true, b = true;
+    var h = true, b = true, user = true;
     h = this.hierarchySubmitHandler(classHierarchy);
     b = this.imageSubmitHandler(classImage);
-    if (b && h) {
+    user = this.userSubmitHandler();
+    if (b && h && user) {
       callback();
     } else {
       this.showPopUpErrorMessage();
+    }
+  },
+  userSubmitHandler: function () {
+    var errors = ValidList.getValid();
+    var valids = $.map(errors, function (err) {
+      if (!err.isValid) {
+        ValidationHelper.AddClassUserError(err.id);
+      }
+      return err.isValid;
+    });
+    App.log('valid : ', valids);
+    if (App.allBooleanTrue(valids)) {
+      return true;
+    } else {
+      return false;
     }
   },
   hierarchySubmitHandler: function (classHierarchyElement) {

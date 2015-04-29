@@ -80,7 +80,7 @@
   </select>
  </div>
  {{else}}
- <div id="wrapper_update_{{idfield}}" tabindex="0">
+ <div id="wrapper_update_{{idfield}}" tabindex="0" class="wrapper_{{widgetType}}">
   <label for='name'>{{name}} {{#if required}} <span class="requiredAsteric">*</span> {{/if}} </label>
   {{#ifCond widgetType "search"}}
   <input id="update_{{idfield}}" 
@@ -94,7 +94,8 @@
       data-role="listview" 
       data-filter="true" 
       data-input="#update_{{idfield}}"  
-      data-inset="true">
+      data-inset="true"
+      class="autocomplete">
   </ul>
   {{else}}
   {{#ifCond widgetType "date"}}

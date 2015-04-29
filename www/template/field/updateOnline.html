@@ -7,7 +7,7 @@
  <h3>{{name_wrapper}}</h3>
  {{#each fields}}
  {{#if config.options}} 
- <div id="wrapper_update_online_{{idfield}}" tabindex="0">
+ <div id="wrapper_update_online_{{idfield}}" tabindex="0" class="wrapper_{{widgetType}}">
   <label>{{name}} {{#if required}} <span class="requiredAsteric">*</span> {{/if}} </label>
   <select id="update_online_{{idfield}}" 
           name="update_online_{{idfield}}" 
@@ -93,7 +93,8 @@
       data-role="listview" 
       data-filter="true" 
       data-input="#update_online_{{idfield}}"  
-      data-inset="true">
+      data-inset="true"
+      class="autocomplete">
   </ul>
   {{else}}
   {{#ifCond widgetType "date"}}
