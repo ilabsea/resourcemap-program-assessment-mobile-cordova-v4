@@ -53,7 +53,6 @@ var ValidationHelper = {
       }
       return err.isValid;
     });
-    App.log('valid : ', valids);
     if (App.allBooleanTrue(valids)) {
       return true;
     } else {

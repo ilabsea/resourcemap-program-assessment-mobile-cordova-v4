@@ -11,16 +11,5 @@ var SiteFieldController = {
         });
       }
     }
-  },
-  getLi: function (liElement) {
-    var text = $(liElement).text();
-    var ul = $(liElement).closest("ul");
-    var id = $(ul).attr("data-input");
-    $(id).val(text);
-    ul.children().addClass('ui-screen-hidden');
-
-    id = id.substring(1, id.length);
-    var idfield = id.substring(id.lastIndexOf('_') + 1);
-    SearchList.add(new SearchField(idfield, liElement.id));
   }
 };

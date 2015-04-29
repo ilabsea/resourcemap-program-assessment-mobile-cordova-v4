@@ -100,16 +100,15 @@ $(function () {
     });
 
     $(document).delegate("#user_autocomplete li", "click", function (e) {
-      UserFieldController.getLi(this);
-      e.stopPropagation();
+      AutoCompleteList.getLi(this);
     });
 
     $(document).delegate("#site_autocomplete li", "click", function () {
-      SiteFieldController.getLi(this);
+      AutoCompleteList.getLi(this);
     });
 
     $(document).delegate("html", "click", function (e) {
-      UserFieldController.hideLi(e);
+      AutoCompleteList.hideLi(e);
     });
 
   });

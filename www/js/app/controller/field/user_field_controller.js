@@ -26,6 +26,25 @@ var UserFieldController = {
 
     SearchList.add(new SearchField(idfield, match_value));
   },
+  matchStart: function (members, inputValue) {
+    var matches = $.map(members, function (member) {
+      if (member.user_email.toUpperCase().indexOf(inputValue.toUpperCase()) === 0) {
+        return member;
+      }
+    });
+    return matches;
+  }
+};
+
+var AutoCompleteList = {
+  hideLi: function (e) {
+    var container = $(".autocomplete");
+
+    if (!container.is(e.target)
+        && container.has(e.target).length === 0) {
+      container.addClass('ui-screen-hidden');
+    }
+  },
   getLi: function (liElement) {
     var text = $(liElement).text();
     var ul = $(liElement).closest("ul");
@@ -35,22 +54,6 @@ var UserFieldController = {
 
     id = id.substring(1, id.length);
     var idfield = id.substring(id.lastIndexOf('_') + 1);
-    SearchList.add(new SearchField(idfield, text));
-  },
-  matchStart: function (members, inputValue) {
-    var matches = $.map(members, function (member) {
-      if (member.user_email.toUpperCase().indexOf(inputValue.toUpperCase()) === 0) {
-        return member;
-      }
-    });
-    return matches;
-  },
-  hideLi: function (e) {
-    var container = $(".autocomplete");
-
-    if (!container.is(e.target)
-        && container.has(e.target).length === 0) {
-      container.addClass('ui-screen-hidden');
-    }
+    SearchList.add(new SearchField(idfield, liElement.id));
   }
 };
