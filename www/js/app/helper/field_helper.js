@@ -83,6 +83,9 @@ FieldHelper = {
       case "user":
         widgetType = "search";
         break;
+      case "identifier":
+        widgetType = "text";
+        break;
     }
 
     if (is_mandatory)
@@ -217,7 +220,6 @@ FieldHelper = {
           item.__value = pValue;
           break;
         case "site":
-          App.log("pValue : ", pValue);
           if (pValue) {
             var site = SiteList.getSite(pValue);
             item.__value = site.name;

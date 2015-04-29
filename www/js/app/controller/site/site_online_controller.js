@@ -25,7 +25,6 @@ var SiteOnlineController = {
           SiteView.display($('#site-list-online'), {siteList: siteOnlineData});
         }
       });
-      App.log("Site list : ", SiteList.sites);
     });
   },
   updateBySiteId: function () {

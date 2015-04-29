@@ -66,7 +66,6 @@ var SiteHelper = {
       properties: properties,
       files: files
     };
-    App.log('data : ', data);
     return data;
   },
   buildSubmitError: function (error, site) {
