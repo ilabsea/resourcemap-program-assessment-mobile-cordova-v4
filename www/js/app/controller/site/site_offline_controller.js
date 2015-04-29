@@ -32,6 +32,7 @@ var SiteOfflineController = {
           date: fullDate,
           link: "#page-update-site"
         };
+        SiteList.add(new SiteObj(site.id, site.name()));
         siteofflineData.push(item);
       });
       SiteView.display($('#offlinesite-list'), {siteList: siteofflineData});

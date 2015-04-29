@@ -2,7 +2,6 @@ var SiteList = {
   sites: [],
   add: function (site) {
     SiteList.remove(site.id);
-    App.log("site : ", site);
     SiteList.sites.push(site);
   },
   remove: function (id) {
@@ -16,7 +15,6 @@ var SiteList = {
   getSite: function (id) {
     for (var i = 0; i < SiteList.count(); i++) {
       var site = SiteList.get()[i];
-      App.log('site : ', site);
       if (site.id == id) {
         return site;
       }

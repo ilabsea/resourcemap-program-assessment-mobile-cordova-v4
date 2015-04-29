@@ -6,6 +6,8 @@ $(function () {
     SiteOfflineController.countByCollectionId(cId);
     SiteController.getAllByCollectionId();
     $("#site-list-menu").get(0).selectedIndex = 0;
+    PhotoList.clear();
+    SearchList.clear();
   });
 
   $(document).delegate('#btn_create_site', 'click', function () {
@@ -26,6 +28,8 @@ $(function () {
   $(document).delegate('#page-site-list-all', 'pagebeforeshow', function () {
     var currentUser = SessionHelper.currentUser();
     SiteOfflineController.getByUserId(currentUser.id);
+    PhotoList.clear();
+    SearchList.clear();
   });
 
   $(document).delegate('#page-site-list-all', 'pageshow', function () {
@@ -47,6 +51,7 @@ $(function () {
         if ($(this).attr("id") === "btn_back_site_in_create")
           ValidationHelper.resetFormValidate("#form_create_site");
         PhotoList.clear();
+        SearchList.clear();
         App.DataStore.clearAllSiteFormData();
         App.Cache.resetValue();
       });
