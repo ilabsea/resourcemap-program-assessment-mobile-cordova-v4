@@ -77,7 +77,7 @@
   </select>
  </div>
  {{else}}
- <div id="wrapper_{{idfield}}" tabindex="0">
+ <div id="wrapper_{{idfield}}" tabindex="0" class="wrapper_{{widgetType}}">
   <label for='name'>{{name}} {{#if required}} <span class="requiredAsteric">*</span>  {{/if}} </label>
   {{#ifCond widgetType "search"}}
   <input id="{{idfield}}" 
