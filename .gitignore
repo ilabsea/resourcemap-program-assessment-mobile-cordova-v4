@@ -2,6 +2,6 @@
 /platforms/*
 /nbproject/*
 *DS_Store*
-/www/ajaxtest.html
+/www/test.html
 /plugins/android.json
 /plugins/ios.json
