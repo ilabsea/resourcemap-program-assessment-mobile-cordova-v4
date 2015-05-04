@@ -65,7 +65,7 @@ var mapObject = {
 
     google.maps.event.addListener(this.map, 'mouseup', function (event) {
       var end = new Date().getTime();
-      longpress = (end - start < 1000) ? false : true;
+      longpress = (end - start < 800) ? false : true;
     });
 
     google.maps.event.addListener(this.map, 'click', function (event) {
