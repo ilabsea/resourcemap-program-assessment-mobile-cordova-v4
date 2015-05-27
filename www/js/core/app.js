@@ -1,4 +1,4 @@
-URL = "http://192.168.1.103:3000/";
+URL = "http://resourcemap-sea.instedd.org/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
@@ -68,7 +68,8 @@ App = {
       complete: function () {
         ViewBinding.setBusy(false);
       },
-      timeout: 120000
+      timeout: 120000,
+      cache:true
     });
   },
   redirectTo: function (url) {
