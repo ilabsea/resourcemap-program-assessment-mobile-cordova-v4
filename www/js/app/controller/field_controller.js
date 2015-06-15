@@ -9,14 +9,18 @@ FieldController = {
     FieldModel.fetch(function (response) {
       var field_id_arr = new Array();
       var field_collections = [];
-      $.each(response, function (key, properties) {
-        $.each(properties.fields, function (i, fieldsInside) {
+      var location_fields_id = new Array();
+      $.map(response, function (properties) {
+        $.map(properties.fields, function (fieldsInside) {
           field_id_arr.push(fieldsInside.id);
+          if (fieldsInside.kind === "location")
+            location_fields_id.push(fieldsInside.id);
         });
         var fields = FieldHelper.buildField(properties, {fromServer: true});
         field_collections.push(fields);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+      App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
       FieldController.synForCurrentCollection(field_collections);
 
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
@@ -50,14 +54,18 @@ FieldController = {
   },
   renderUpdateOffline: function (site) {
     var field_id_arr = [];
+    var location_fields_id = [];
     var cId = App.DataStore.get("cId");
     FieldOffline.fetchByCollectionId(cId, function (layers) {
       $.map(layers, function (layer) {
         $.map(layer._data.fields, function (field) {
           field_id_arr.push(field.idfield);
+          if (field.kind === "location") 
+            location_fields_id.push(field.id);
         });
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+      App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
 
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
@@ -69,13 +77,17 @@ FieldController = {
   },
   renderUpdateOnline: function (site) {
     var field_id_arr = [];
+    var location_fields_id = [];
     FieldModel.fetch(function (layers) {
       $.map(layers, function (fields) {
         $.map(fields.fields, function (field) {
           field_id_arr.push(field.id);
+          if (field.kind === "location") 
+            location_fields_id.push(field.id);
         });
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+      App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
 
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
