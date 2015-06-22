@@ -30,5 +30,16 @@ var Location = {
     resultLocations.splice(20, resultLocations.length);
 
     return resultLocations;
+  },
+  prepareLocation: function () {
+    InvisibleLayer.invisibleNameLatLng("wrapSiteLocation", "wrapSiteName", function () {
+      requireReload(function () {
+        var lat = $("#lat").val();
+        var lng = $("#lng").val();
+        if (lat == "" && lng == "") {
+          Location.getCurrentLocation();
+        }
+      });
+    });
   }
 };

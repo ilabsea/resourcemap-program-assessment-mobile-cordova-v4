@@ -27,6 +27,7 @@ FieldController = {
           {field_collections: field_collections}, "");
       FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
+      Location.prepareLocation();
     });
   },
   renderByCollectionIdOffline: function () {
@@ -50,6 +51,7 @@ FieldController = {
           {field_collections: field_collections}, "");
       FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
+      Location.prepareLocation();
     });
   },
   renderUpdateOffline: function (site) {
