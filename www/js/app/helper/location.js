@@ -31,15 +31,28 @@ var Location = {
 
     return resultLocations;
   },
+  getCurrentLocation: function () {
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      var lat = pos.coords.latitude;
+      var lng = pos.coords.longitude;
+      $("#lat").val(lat);
+      $("#lng").val(lng);
+      $("#mark_lat").val(lat);
+      $("#mark_lng").val(lng);
+      FieldController.renderLocationField("#lat", "#lng", "");
+    }, function () {
+      alert("Location cannot be found.");
+    }, {
+      enableHighAccuracy: true
+    });
+  },
   prepareLocation: function () {
-    InvisibleLayer.invisibleNameLatLng("wrapSiteLocation", "wrapSiteName", function () {
-      requireReload(function () {
-        var lat = $("#lat").val();
-        var lng = $("#lng").val();
-        if (lat == "" && lng == "") {
-          Location.getCurrentLocation();
-        }
-      });
+    requireReload(function () {
+      var lat = $("#lat").val();
+      var lng = $("#lng").val();
+      if (lat == "" && lng == "") {
+        Location.getCurrentLocation();
+      }
     });
   }
 };

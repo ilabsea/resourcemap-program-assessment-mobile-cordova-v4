@@ -55,15 +55,6 @@ $(function () {
     $("#btn_back_site_list").show();
     requireReload(SiteController.renderUpdateSiteFormOffline);
   });
-
-  $(document).delegate('#page-create-site', 'pagebeforeshow', function () {
-    requireReload(function () {
-        var lat = $("#lat").val();
-        var lng = $("#lng").val();
-        if (lat == "" && lng == "")
-          SiteController.getCurrentLocation();
-      });
-  });
   
   $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
     FieldController.renderLocationField("#updatelolat", "#updatelolng", "update_");
@@ -76,12 +67,4 @@ $(function () {
   $(document).delegate('#lat, #lng', 'change', function () {
     FieldController.renderLocationField("#lat", "#lng", "");
   });
-
-  function requireReload(callback) {
-    if (localStorage['no_update_reload'] != undefined)
-      localStorage.removeItem('no_update_reload');
-    else {
-      callback();
-    }
-  }
 });
