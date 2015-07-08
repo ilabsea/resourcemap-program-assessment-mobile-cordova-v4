@@ -100,8 +100,8 @@ FieldHelper = {
   buildFieldSelectOne: function (config) {
     $.each(config.options, function (i, option) {
       if (config.field_logics) {
-        $.each(config.field_logics, function (j, field_logic) {
-          if (option.id === field_logic.value)
+        $.map(config.field_logics, function (field_logic) {
+          if (option.id === field_logic.value && !config.options[i]["field_id"])
             config.options[i]["field_id"] = field_logic.field_id;
         });
       }
