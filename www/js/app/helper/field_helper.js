@@ -59,6 +59,12 @@ FieldHelper = {
 
       if (widgetType === "phone")
         widgetType = "tel";
+      
+      if (widgetType === "location"){
+        widgetType = "select_one";
+        App.DataStore.set("configLocations_" + id,
+            JSON.stringify(config));
+    }
 
       if (widgetType === "calculation") {
         widgetType = "text";
@@ -94,8 +100,8 @@ FieldHelper = {
   buildFieldSelectOne: function (config) {
     $.each(config.options, function (i, option) {
       if (config.field_logics) {
-        $.each(config.field_logics, function (j, field_logic) {
-          if (option.id === field_logic.value)
+        $.map(config.field_logics, function (field_logic) {
+          if (option.id === field_logic.value && !config.options[i]["field_id"])
             config.options[i]["field_id"] = field_logic.field_id;
         });
       }
@@ -134,7 +140,7 @@ FieldHelper = {
   },
   buildFieldsUpdate: function (layers, site, fromServer) {
     var field_collections = [];
-    $.each(layers, function (key, layer) {
+    $.map(layers, function (layer) {
       var item = FieldHelper.buildFieldsLayer(layer, site, fromServer);
       field_collections.push(item);
     });
@@ -151,7 +157,7 @@ FieldHelper = {
     }
 
     for (propertyCode in p) {
-      $.each(itemLayer.fields, function (i, item) {
+      $.map(itemLayer.fields, function (item) {
         var propertyValue = p[propertyCode];
         FieldHelper.setFieldsValue(item, propertyCode,
             propertyValue, site, fromServer);
@@ -162,17 +168,33 @@ FieldHelper = {
   setFieldsValue: function (item, propertyCode, pValue, site, fromServer) {
     if (item.code === propertyCode || parseInt(item["idfield"])
         === parseInt(propertyCode)) {
-      if (item.widgetType === "photo")
-        FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
-      else if (item.widgetType === "select_many"
-          || item.widgetType === "select_one")
-        FieldHelper.setFieldSelectValue(item, pValue);
-      else if (item.widgetType === "hierarchy")
-        FieldHelper.setFieldHierarchyValue(item, pValue);
-      else if (item.widgetType === "date" && pValue)
-        item.__value = convertDateWidgetToParam(pValue);
-      else
-        item.__value = pValue;
+      switch (item.kind) {
+        case "photo" :
+          FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
+          break;
+        case "select_many":
+        case "select_one":
+          FieldHelper.setFieldSelectValue(item, pValue);
+          break;
+        case "location":
+          FieldHelper.buildFieldLocationUpdate(site, item, fromServer);
+          FieldHelper.setFieldLocationValue(item, pValue);
+          break;
+        case "hierarchy":
+          FieldHelper.setFieldHierarchyValue(item, pValue);
+          break;
+        case "date":
+          if (pValue) {
+            var date = pValue.split("T")[0];
+            if (!fromServer)
+              item.__value = convertDateWidgetToParam(date);
+            else
+              item.__value = date;
+          }
+          break;
+        default:
+          item.__value = pValue;
+      }
     }
   },
   setFieldPhotoValue: function (item, value, site, fromServer) {
@@ -191,6 +213,15 @@ FieldHelper = {
         item.__value = SiteCamera.dataWithMimeType(imageData);
         App.DataStore.set(sId + "_" + item["idfield"] + "_fileName", imageId);
         App.DataStore.set(sId + "_" + item["idfield"] + "_fileData", imageData);
+      }
+    }
+  },
+  setFieldLocationValue: function (item, value) {
+    item.__value = value;
+    for (var k = 0; k < item.config.locationOptions.length; k++) {
+      item.config.locationOptions[k]["selected"] = "";
+      if (item.config.locationOptions[k].code == item.__value) {
+        item.config.locationOptions[k]["selected"] = "selected";
       }
     }
   },
@@ -239,5 +270,10 @@ FieldHelper = {
     if(arr_id.length === 0)
       arr_id = arr_code;
     return arr_id;
+  },
+  buildFieldLocationUpdate: function (site, item, fromServer) {
+    var lat = fromServer ? site.lat : site.lat();
+    var lng = fromServer ? site.long : site.lng();
+    item.config.locationOptions = Location.getLocations(lat, lng, item.config);
   }
 };

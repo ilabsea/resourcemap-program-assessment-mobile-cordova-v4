@@ -12,6 +12,10 @@ SkipLogic = {
         if (Operators[op](val, field_logic.value)) {
           SkipLogic.handleSkipLogic(idElement, prefixIdElement + field_logic.field_id);
           return false;
+        } else {
+          if (i == config.length - 1) {
+            SkipLogic.handleSkipLogic(idElement, "");
+          }
         }
       });
     }
@@ -117,8 +121,9 @@ SkipLogic = {
       SkipLogic.highlight("#" + field_id, "select");
     else if ($("#" + field_id)[0].tagName.toLowerCase() === 'img')
       SkipLogic.highlight("#property_" + field_id + "_container", "img");
-    else
+    else {
       SkipLogic.highlight("#" + field_id, "others");
+    }
   },
   highlight: function (element, type) {
     var highlightedElement = App.DataStore.get("highlightedElement");

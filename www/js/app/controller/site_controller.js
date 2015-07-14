@@ -274,9 +274,7 @@ SiteController = {
         }
         else if ($field.length > 0 && $field[0].getAttribute("type") === 'date') {
           var date = $field.val();
-          if (date) {
-            date = convertDateWidgetToParam(date);
-          }
+          date = convertDateWidgetToParam(date);
           properties["" + each_field + ""] = date;
         }
         else if ($field[0].getAttribute("class") === "tree" ||

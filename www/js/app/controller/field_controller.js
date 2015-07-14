@@ -9,20 +9,25 @@ FieldController = {
     FieldModel.fetch(function (response) {
       var field_id_arr = new Array();
       var field_collections = [];
-      $.each(response, function (key, properties) {
-        $.each(properties.fields, function (i, fieldsInside) {
+      var location_fields_id = new Array();
+      $.map(response, function (properties) {
+        $.map(properties.fields, function (fieldsInside) {
           field_id_arr.push(fieldsInside.id);
+          if (fieldsInside.kind === "location")
+            location_fields_id.push(fieldsInside.id);
         });
         var fields = FieldHelper.buildField(properties, {fromServer: true});
         field_collections.push(fields);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+      App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
       FieldController.synForCurrentCollection(field_collections);
 
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
           {field_collections: field_collections}, "");
       FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
+      Location.prepareLocation();
     });
   },
   renderByCollectionIdOffline: function () {
@@ -30,31 +35,39 @@ FieldController = {
     FieldOffline.fetchByCollectionId(cId, function (fields) {
       var field_id_arr = new Array();
       var field_collections = [];
+      var location_fields_id = [];
       fields.forEach(function (field) {
         $.each(field.fields(), function (i, fieldsInfield) {
           field_id_arr.push(fieldsInfield.idfield);
+          if (fieldsInfield.kind === "location")
+            location_fields_id.push(fieldsInfield.idfield);
         });
         var item = FieldHelper.buildField(field._data, {fromServer: false});
         field_collections.push(item);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
-
+      App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
           {field_collections: field_collections}, "");
       FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
+      Location.prepareLocation();
     });
   },
   renderUpdateOffline: function (site) {
     var field_id_arr = [];
+    var location_fields_id = [];
     var cId = App.DataStore.get("cId");
     FieldOffline.fetchByCollectionId(cId, function (layers) {
       $.map(layers, function (layer) {
         $.map(layer._data.fields, function (field) {
           field_id_arr.push(field.idfield);
+          if (field.kind === "location") 
+            location_fields_id.push(field.id);
         });
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+      App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
 
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
@@ -66,13 +79,17 @@ FieldController = {
   },
   renderUpdateOnline: function (site) {
     var field_id_arr = [];
+    var location_fields_id = [];
     FieldModel.fetch(function (layers) {
       $.map(layers, function (fields) {
         $.map(fields.fields, function (field) {
           field_id_arr.push(field.id);
+          if (field.kind === "location") 
+            location_fields_id.push(field.id);
         });
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+      App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
 
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
@@ -122,7 +139,6 @@ FieldController = {
         propertiesFile.properties[item["idfield"]] = value;
       }
     });
-
     return pf;
   },
   updateFieldPhotoValue: function (item, propertiesFile, fromServer) {
@@ -164,5 +180,18 @@ FieldController = {
       value = dateToParam(value);
     }
     propertiesFile.properties[item["idfield"]] = value;
+  },
+  renderLocationField: function (textLat, textLng, prefixId) {
+    var lat = $(textLat).val();
+    var lng = $(textLng).val();
+    var location_fields_id = JSON.parse(App.DataStore.get("location_fields_id"));
+    for (var i in location_fields_id) {
+      var id = location_fields_id[i];
+      var config = JSON.parse(App.DataStore.get("configLocations_" + id));
+      var locationOptions = Location.getLocations(lat, lng, config);
+      config.locationOptions = locationOptions;
+      var $element = $("#" + prefixId + id);
+      FieldHelperView.displayLocationField("field/location.html", $element, {config: config});
+    }
   }
 };

@@ -57,6 +57,23 @@
   </div>
  </div>
  {{else}}
+ {{#if config.locations}}
+ <div id="wrapper_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <select id="{{idfield}}" 
+          data-theme="a" 
+          name="{{idfield}}" 
+          data-native-menu="false"
+          {{required}} 
+          class="validateSelectFields needsclick">
+   <option value="">Option</option>
+   <option value="" selected>(no value)</option>
+   {{#config.locationOptions}}
+   <option value="{{code}}">{{name}}</option>
+   {{/config.locationOptions}}
+  </select>
+ </div>
+ {{else}}
  <div id="wrapper_{{idfield}}" tabindex="0">
   <label for='name'>{{{name}}}</label>
   {{#ifCond widgetType "date"}}
@@ -88,6 +105,7 @@
   {{/ifCond}}
   {{/ifCond}}
  </div>
+ {{/if}}
  {{/if}}
  {{/if}}
  {{/if}}

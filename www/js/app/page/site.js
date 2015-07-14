@@ -55,33 +55,16 @@ $(function () {
     $("#btn_back_site_list").show();
     requireReload(SiteController.renderUpdateSiteFormOffline);
   });
-
-  $(document).delegate('#page-create-site', 'pagebeforeshow', function () {
-    requireReload(function () {
-      var lat = $("#lat").val();
-      var lng = $("#lng").val();
-      if (lat == "" && lng == "") {
-        navigator.geolocation.getCurrentPosition(function (pos) {
-          var lat = pos.coords.latitude;
-          var lng = pos.coords.longitude;
-          $("#lat").val(lat);
-          $("#lng").val(lng);
-          $("#mark_lat").val(lat);
-          $("#mark_lng").val(lng);
-        }, function () {
-          alert("Location cannot be found.");
-        }, {
-          enableHighAccuracy: true
-        });
-      }
-    });
+  
+  $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
+    FieldController.renderLocationField("#updatelolat", "#updatelolng", "update_");
   });
 
-  function requireReload(callback) {
-    if (localStorage['no_update_reload'] != undefined)
-      localStorage.removeItem('no_update_reload');
-    else {
-      callback();
-    }
-  }
+  $(document).delegate('#updatelolat_online, #updatelolng_online', 'change', function () {
+    FieldController.renderLocationField("#updatelolat_online", "#updatelolng_online", "update_online_");
+  });
+
+  $(document).delegate('#lat, #lng', 'change', function () {
+    FieldController.renderLocationField("#lat", "#lng", "");
+  });
 });
