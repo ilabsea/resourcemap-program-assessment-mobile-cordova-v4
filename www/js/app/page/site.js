@@ -21,17 +21,15 @@ $(function () {
     App.DataStore.set("sId", sId);
     requireReload(SiteOnlineController.renderUpdateSiteForm);
   });
+  
   $(document).delegate('#btn_delete-site', 'click', function () {
     var sId = App.DataStore.get("sId");
     SiteOfflineController.deleteBySiteId(sId);
   });
 
   $(document).delegate('#page-site-list-all', 'pagebeforeshow', function () {
-    var currentUser = SessionHelper.currentUser();
-    SiteOfflineController.getByUserId(currentUser.id);
-    PhotoList.clear();
-    SearchList.clear();
-    ValidList.clear();
+    var currentUser = SessionController.currentUser();
+    SiteController.getByUserId(currentUser.id);
   });
 
   $(document).delegate('#page-site-list-all', 'pageshow', function () {
@@ -50,12 +48,7 @@ $(function () {
   $(document).delegate(
       '#btn_back_site_in_create , #btn_back_site_list_online , \n\
 #btn_back_site_list_all , #btn_back_site_list', 'click', function () {
-        if ($(this).attr("id") === "btn_back_site_in_create")
-          ValidationHelper.resetFormValidate("#form_create_site");
-        PhotoList.clear();
-        SearchList.clear();
-        App.DataStore.clearAllSiteFormData();
-        App.Cache.resetValue();
+        App.DataStore.clearPartlyAfterCreateSite();
       });
 
   $(document).delegate('#page-site-list #site-list li', 'click', function () {
@@ -67,64 +60,26 @@ $(function () {
   });
 
   $(document).delegate('#page-create-site', 'pagebeforeshow', function () {
-    InvisibleLayer.invisibleNameLatLng("wrapSiteLocation", "wrapSiteName", function () {
-      requireReload(function () {
-        var lat = $("#lat").val();
-        var lng = $("#lng").val();
-        if (lat == "" && lng == "") {
-          Location.getCurrentLocation();
-        }
-      });
+    requireReload(function () {
+      var lat = $("#lat").val();
+      var lng = $("#lng").val();
+      if (lat == "" && lng == "") {
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          var lat = pos.coords.latitude;
+          var lng = pos.coords.longitude;
+          $("#lat").val(lat);
+          $("#lng").val(lng);
+          $("#mark_lat").val(lat);
+          $("#mark_lng").val(lng);
+        }, function () {
+          alert("Location cannot be found.");
+        }, {
+          enableHighAccuracy: true
+        });
+      }
     });
   });
-
-  $(document).delegate("#page-create-site, \n\
-#page-update-site, \n\
-#page-update-site-online", "pageshow", function () {
-    var cId = App.DataStore.get("cId");
-    var members = [];
-    MembershipOffline.fetchByCollectionId(cId, function (results) {
-      results.forEach(function (result) {
-        members.push({user_email: result.user_email()});
-      });
-    });
-
-    $(document).delegate("#user_autocomplete", "filterablebeforefilter", function (e, data) {
-      $(this).removeClass("ui-screen-hidden");
-      UserFieldController.autoComplete(this, data, members);
-    });
-
-    $(document).delegate("#site_autocomplete", "filterablebeforefilter", function (e, data) {
-      $(this).removeClass("ui-screen-hidden");
-      SiteFieldController.autoComplete(this, data);
-    });
-
-    $(document).delegate("#user_autocomplete li", "click", function (e) {
-      AutoCompleteList.getLi(this);
-    });
-
-    $(document).delegate("#site_autocomplete li", "click", function () {
-      AutoCompleteList.getLi(this);
-    });
-
-    $(document).delegate("html", "click", function (e) {
-      AutoCompleteList.hideLi(e);
-    });
-
-  });
-
-  $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
-    FieldController.renderLocationField("#updatelolat", "#updatelolng", "update_");
-  });
-
-  $(document).delegate('#updatelolat_online, #updatelolng_online', 'change', function () {
-    FieldController.renderLocationField("#updatelolat_online", "#updatelolng_online", "update_online_");
-  });
-
-  $(document).delegate('#lat, #lng', 'change', function () {
-    FieldController.renderLocationField("#lat", "#lng", "");
-  });
-
+  
   function requireReload(callback) {
     if (localStorage['no_update_reload'] != undefined)
       localStorage.removeItem('no_update_reload');

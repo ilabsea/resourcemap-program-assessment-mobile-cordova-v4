@@ -1,4 +1,4 @@
-URL = "http://resourcemap-sea.instedd.org/";
+URL = "http://www.cam-monitoring.info:8080/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
@@ -7,10 +7,10 @@ App = {
   IMG_PATH: URL + "photo_field/",
   AUTH_URL: END_POINT + "/users/sign_in.json",
   LIST_COLLECTION: END_POINT + "/collections?auth_token=",
+  URL_SIGNUP: END_POINT + "/users.json",
   URL_LOGOUT: END_POINT + "/users/sign_out.json?auth_token=",
   URL_FIELD: END_POINT + "/v1/collections/",
   URL_SITE: END_POINT + "/v1/collections/",
-  URL_COLLECTION: END_POINT + "/collections/",
   DEBUG: true,
   userId: "",
   log: function (text, data) {
@@ -20,7 +20,6 @@ App = {
   initialize: function () {
     this.bindEvents();
     this.setUp();
-    App.onBackPress();
   },
   resetDb: function () {
     persistence.reset();
@@ -48,18 +47,6 @@ App = {
       SessionController.storeSessionLogin(email, password);
     }
   },
-  onBackPress: function () {
-    document.addEventListener("backbutton", function () {
-      if ($.mobile.activePage.is("#page-login"))
-        navigator.app.exitApp();
-      else if ($.mobile.activePage.is("#page-collection-list"))
-        navigator.Backbutton.goHome(function () {
-        }, function () {
-        });
-      else
-        navigator.app.backHistory();
-    }, false);
-  },
   emptyHTML: function () {
     $(".clearPreviousDisplay").html("");
   },
@@ -68,15 +55,11 @@ App = {
       complete: function () {
         ViewBinding.setBusy(false);
       },
-      timeout: 120000,
-      cache:true
+      timeout: 120000
     });
   },
   redirectTo: function (url) {
     $.mobile.changePage(url);
-  },
-  replacePage: function (url) {
-    location.replace(url);
   },
   isOnline: function () {
     var online = false;

@@ -20,10 +20,46 @@ $(document).ready(function () {
     }
   });
 
+  $('#form_signup').validate({
+    focusInvalid: false,
+    errorPlacement: function() {
+    },
+    submitHandler: function() {
+      if (App.isOnline()) {
+        hideElement($("#internet"));
+        var email = $('#signupemail').val();
+        var password = $('#signuppassword').val();
+        var passwordConfirmation = $('#pswConfirm').val();
+        var user = {
+          email: email,
+          password: password,
+          password_confirmation: passwordConfirmation};
+
+        SessionController.signUp(user);
+      }
+      else
+        showElement($("#internet"));
+    },
+    invalidHandler: function() {
+      showValidateMessage('#validation_email_psd_confirm');
+    }
+  });
+
   $('#form_create_site').validate({
-    errorPlacement: function (error, element) {
-      ValidationHelper.AddClassSelectError(element);
-      error.insertAfter($(element).parent());
+    ignore:'',
+    focusInvalid: false,
+    errorPlacement: function(error, element) {
+      if (element.attr("type") === "number" &&
+          (element.attr("min") || element.attr("max")))
+        error.insertAfter($(element).parent());
+      addClassError(element);
+
+      var classElement = document.getElementsByClassName("image");
+      var classHierarchyElement = document.getElementsByClassName("tree");
+      if (classHierarchyElement.length != 0)
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_create-site');
+      if (classElement.length != 0)
+        bImage = validateImageSubmitHandler(classElement, '#validation_create-site');
     },
     invalidHandler: function (e, validator) {
       ValidationHelper.invalidHandler(validator, "#validation_create-site");
@@ -38,9 +74,20 @@ $(document).ready(function () {
   });
 
   $('#form_update_site').validate({
-    errorPlacement: function (error, element) {
-      ValidationHelper.AddClassSelectError(element);
-      error.insertAfter($(element).parent());
+    ignore:'',
+    focusInvalid: false,
+    errorPlacement: function(error, element) {
+      if (element.attr("type") === "number" &&
+          (element.attr("min") || element.attr("max")))
+        error.insertAfter($(element).parent());
+      addClassError(element);
+
+      var classElement = document.getElementsByClassName("image");
+      var classHierarchyElement = document.getElementsByClassName("tree");
+      if (classHierarchyElement.length != 0)
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site');
+      if (classElement.length != 0)
+        bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
     },
     invalidHandler: function (e, validator) {
       ValidationHelper.invalidHandler(validator, "#validation_update-site");
@@ -54,9 +101,20 @@ $(document).ready(function () {
   });
 
   $('#form_update_site_online').validate({
-    errorPlacement: function (error, element) {
-      ValidationHelper.AddClassSelectError(element);
-      error.insertAfter($(element).parent());
+    ignore:'',
+    focusInvalid: false,
+    errorPlacement: function(error, element) {
+      if (element.attr("type") === "number" &&
+          (element.attr("min") || element.attr("max")))
+        error.insertAfter($(element).parent());
+      addClassError(element);
+
+      var classElement = document.getElementsByClassName("image");
+      var classHierarchyElement = document.getElementsByClassName("tree");
+      if (classHierarchyElement.length != 0)
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
+      if (classElement.length != 0)
+        bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
     },
     invalidHandler: function (e, validator) {
       ValidationHelper.invalidHandler(validator, "#validation_update-site-online");

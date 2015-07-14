@@ -1,5 +1,5 @@
 FieldHelper = {
-  buildField: function (fieldObj, options, layerMemberships) {
+  buildField: function (fieldObj, options) {
     options = options || {};
     var fromServer = options["fromServer"];
     var pf = null;
@@ -25,22 +25,21 @@ FieldHelper = {
       fieldsWrapper.id_wrapper = fieldObj.id_wrapper;
       fieldsWrapper.layer_membership = fieldObj.layer_membership;
     }
-    $.map(fieldObj.fields, function (fields) {
-      pf = FieldHelper.buildFieldProperties(fields, fromServer);
-      fieldsWrapper.fields.push(pf);
-    });
-    return fieldsWrapper;
-  },
-  buildFieldProperties: function (fields, fromServer) {
-    var id = fromServer ? fields.id : fields.idfield;
-    var kind = fields.kind;
-    var widgetType = kind;
-    var config = fields.config;
-    var slider = "";
-    var ctrue = "";
-    var is_required = "";
-    var is_mandatory = fields.is_mandatory;
-    var is_enable_field_logic = fields.is_enable_field_logic;
+    $.each(fieldObj.fields, function (key, fields) {
+      if (options["fromServer"])
+        id = fields.id;
+      else
+        id = fields.idfield;
+
+      var kind = fields.kind;
+      var widgetType = kind;
+      var config = fields.config;
+      var slider = "";
+      var ctrue = "";
+      var is_required = "";
+      var is_mandatory = fields.is_mandatory;
+      var is_enable_field_logic = fields.is_enable_field_logic;
+      var readonly = '';
 
     switch (widgetType) {
       case "numeric":
@@ -67,7 +66,7 @@ FieldHelper = {
         break;
       case "yes_no":
         widgetType = "select_one";
-        config = FieldHelper.buildFieldYesNo(config, fromServer);
+        config = FieldHelper.buildFieldYesNo(config, options["fromServer"]);
         slider = "slider";
         ctrue = "true";
         break
@@ -87,9 +86,35 @@ FieldHelper = {
         widgetType = "text";
         break;
     }
+    
+      if (widgetType === "calculation") {
+        widgetType = "text";
+        readonly = 'readonly';
+      }
 
-    if (is_mandatory)
-      is_required = "required";
+      if (is_mandatory)
+        is_required = "required";
+
+      fieldsWrapper.fields.push({
+        idfield: id,
+        name: fields.name,
+        kind: kind,
+        code: fields.code,
+        multiple: (kind === "select_many" ? "multiple" : ""),
+        isPhoto: (kind === "photo" ? true : false),
+        widgetType: widgetType,
+        config: config,
+        slider: slider,
+        ctrue: ctrue,
+        is_mandatory: is_mandatory,
+        required: is_required,
+        isHierarchy: (kind === "hierarchy" ? true : false),
+        configHierarchy: (kind === "hierarchy" ?
+            Hierarchy.generateField(fields.config, "", id) : ""),
+        is_enable_field_logic: is_enable_field_logic,
+        readonly: readonly
+      });
+    });
 
     var fieldProperties = {
       idfield: id,
@@ -114,8 +139,8 @@ FieldHelper = {
   buildFieldSelectOne: function (config) {
     $.each(config.options, function (i, option) {
       if (config.field_logics) {
-        $.map(config.field_logics, function (field_logic) {
-          if (option.id === field_logic.value && !config.options[i]["field_id"])
+        $.each(config.field_logics, function (j, field_logic) {
+          if (option.id === field_logic.value)
             config.options[i]["field_id"] = field_logic.field_id;
         });
       }
@@ -152,24 +177,17 @@ FieldHelper = {
 
     return config;
   },
-  buildFieldsUpdate: function (layers, site, fromServer, layerMemberships) {
-    var location_fields_id = [];
-    var field_collections = $.map(layers, function (layer) {
-      var fields = fromServer ? layer.fields : layer.fields();
-      $.map(fields, function (field) {
-        if (field.kind === "location") {
-          var fieldId = fromServer ? field.id : field.idfield;
-          location_fields_id.push(fieldId);
-        }
-      });
-      var item = FieldHelper.buildFieldsLayer(layer, site, fromServer, layerMemberships);
-      return item;
+  buildFieldsUpdate: function (layers, site, fromServer) {
+    var field_collections = [];
+    $.each(layers, function (key, layer) {
+      var item = FieldHelper.buildFieldsLayer(layer, site, fromServer);
+      field_collections.push(item);
     });
     App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
 
     return field_collections;
   },
-  buildFieldsLayer: function (layer, site, fromServer, layerMemberships) {
+  buildFieldsLayer: function (layer, site, fromServer) {
     if (fromServer) {
       var itemLayer = FieldHelper.buildField(layer, {fromServer: fromServer}, layerMemberships);
       var p = site.properties;
@@ -179,8 +197,8 @@ FieldHelper = {
       var p = site.properties();
     }
 
-    for (var propertyCode in p) {
-      $.map(itemLayer.fields, function (item) {
+    for (propertyCode in p) {
+      $.each(itemLayer.fields, function (i, item) {
         var propertyValue = p[propertyCode];
         FieldHelper.setFieldsValue(item, propertyCode,
             propertyValue, site, fromServer);
@@ -261,11 +279,12 @@ FieldHelper = {
     item.__value = value;
     for (var k = 0; k < item.config.options.length; k++) {
       item.config.options[k]["selected"] = "";
-      if (typeof (item.__value) === "boolean") {
+      if (typeof item.__value == "boolean") {
         if (item.config.options[k].id == item.__value
             || item.config.options[k].code == item.__value[j]) {
           item.config.options[k]["selected"] = "selected";
         }
+
       } else {
         if (item.__value instanceof Array) {
           for (var j = 0; j < item.__value.length; j++) {
@@ -289,9 +308,18 @@ FieldHelper = {
         item.idfield);
     item._selected = Hierarchy._selected;
   },
-  buildFieldLocationUpdate: function (site, item, fromServer) {
-    var lat = fromServer ? site.lat : site.lat();
-    var lng = fromServer ? site.lng : site.lng();
-    item.config.locationOptions = Location.getLocations(lat, lng, item.config);
+  
+  generateCodeToIdSelectManyOption: function(field, arr_code){
+    var arr_id = [];
+    $.map(field.config.options, function(option){
+      for(var i in arr_code){
+        if(option.code == arr_code[i]){
+          arr_id.push(option.id);
+        }
+      }
+    });
+    if(arr_id.length === 0)
+      arr_id = arr_code;
+    return arr_id;
   }
 };

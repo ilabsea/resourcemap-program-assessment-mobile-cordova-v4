@@ -1,5 +1,10 @@
-$(function () {
-  $(document).delegate('.skipLogicNumber', 'change', function () {
+$(function() {
+
+  $(document).delegate('.calculation', 'keyup change click', function() {
+    Calculation.calculate(this);
+  });
+  
+  $(document).delegate('.skipLogicNumber', 'change', function() {
     SkipLogic.skipLogicNumber(this);
     NumberField.validateDecimal(this);
   });
@@ -13,8 +18,8 @@ $(function () {
     var start = this.id.search("-");
     var ele = this.id.substring(0, start);
     var element = $("#" + ele);
-    if (element.attr('data-is_enable_field_logic')) {
-      if (element.attr('multiple'))
+    if(element.attr('data-is_enable_field_logic')){
+      if(element.attr('multiple'))
         SkipLogic.skipLogicSelectMany(element);
       else
         SkipLogic.skipLogicSelectOne(ele);

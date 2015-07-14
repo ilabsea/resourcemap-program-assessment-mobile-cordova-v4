@@ -31,6 +31,7 @@ SiteModel = {
       data: {"auth_token": App.Session.getAuthToken()},
       type: "GET",
       datatype: 'json',
+      timeout: 600000,
       success: successCallback,
       timeout: 600000,
       error: function(error, t) {

@@ -191,3 +191,8 @@ h1 {
     -webkit-backface-visibility:hidden; 
     -moz-backface-visibility:hidden; 
 }
+
+.ui-slider-handle-snapping {
+    -webkit-transition: none;
+    -moz-transition: none;
+}
