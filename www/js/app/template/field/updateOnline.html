@@ -76,6 +76,17 @@
   </select>
  </div>
  {{else}}
+ {{#ifCond kind "calculation"}}
+ <div id="wrapper_update_online_{{idfield}}" tabindex="0" class="invisble-div">
+  <label for='name'>{{{name}}}</label>
+  <input type="{{widgetType}}" 
+         id="update_online_{{idfield}}" 
+         value ="{{__value}}" 
+         name="{{name}}" 
+         {{required}} 
+         {{readonly}}>  
+ </div>
+ {{else}}
  <div id="wrapper_update_online_{{idfield}}" tabindex="0">
   <label for='name'>{{{name}}}</label>
   {{#ifCond widgetType "date"}}
@@ -107,6 +118,7 @@
   {{/ifCond}}
   {{/ifCond}}
  </div>
+ {{/ifCond}}
  {{/if}}
  {{/if}}
  {{/if}}

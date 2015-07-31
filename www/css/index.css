@@ -196,3 +196,8 @@ h1 {
     -webkit-transition: none;
     -moz-transition: none;
 }
+
+.invisble-div {
+    position: absolute;
+    left: -9999px;
+}
