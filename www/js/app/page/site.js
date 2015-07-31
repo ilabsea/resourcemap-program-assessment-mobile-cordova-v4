@@ -12,6 +12,10 @@ $(function () {
     FieldController.getByCollectionId();
     $('#form_create_site')[0].reset();
   });
+  
+  $(document).delegate('#page-create-site', 'pageshow', function () {
+    SiteController.setEntryDate();
+  });
 
   $(document).delegate('#page-site-list #site-list-online li', 'click', function () {
     var sId = $(this).attr("data-id");

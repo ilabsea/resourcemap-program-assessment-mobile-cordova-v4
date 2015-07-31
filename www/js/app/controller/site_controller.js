@@ -1,4 +1,8 @@
 SiteController = {
+  setEntryDate: function () {
+    var start_entry_date = new Date().toISOString();
+    $("#start_entry_date").val(start_entry_date);
+  },
   display: function (element, siteData) {
     App.Template.process("site/list.html", siteData, function (content) {
       element.html(content);
@@ -196,6 +200,8 @@ SiteController = {
     var data = {site: {
         device_id: site.device_id(),
         external_id: site.id,
+        start_entry_date: site.start_entry_date,
+        end_entry_date: site.end_entry_date,
         collection_id: site.collection_id(),
         name: site.name(),
         lat: site.lat(),
@@ -250,6 +256,8 @@ SiteController = {
     var sname = $('#sitename').val();
     var slat = $('#lat').val();
     var slng = $('#lng').val();
+    var start_entry_date = $("#start_entry_date").val();
+    var end_entry_date = new Date().toISOString();
     var properties = {};
     var files = {};
     var field_id_arr = App.DataStore.get("field_id_arr");
@@ -299,6 +307,8 @@ SiteController = {
       name: sname,
       lat: slat,
       lng: slng,
+      start_entry_date: start_entry_date,
+      end_entry_date: end_entry_date,
       properties: properties,
       files: files
     };
