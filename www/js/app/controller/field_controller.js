@@ -62,7 +62,7 @@ FieldController = {
       $.map(layers, function (layer) {
         $.map(layer._data.fields, function (field) {
           field_id_arr.push(field.idfield);
-          if (field.kind === "location") 
+          if (field.kind === "location")
             location_fields_id.push(field.id);
         });
       });
@@ -84,7 +84,7 @@ FieldController = {
       $.map(layers, function (fields) {
         $.map(fields.fields, function (field) {
           field_id_arr.push(field.id);
-          if (field.kind === "location") 
+          if (field.kind === "location")
             location_fields_id.push(field.id);
         });
       });
@@ -131,8 +131,11 @@ FieldController = {
           data = "";
         propertiesFile.properties[item["idfield"]] = data;
       }
-      else if(item.widgetType == "number"){
+      else if (item.widgetType == "number") {
         FieldController.updateFieldNumberValue(idHTMLForUpdate, item, propertiesFile);
+      }
+      else if (item.widgetType == "text" && item.kind == "calculation") {
+        FieldController.updateFieldCalculationValue(idHTMLForUpdate, item, propertiesFile);
       }
       else {
         var nodeId = idHTMLForUpdate + item["idfield"];
@@ -144,11 +147,24 @@ FieldController = {
     });
     return pf;
   },
+  updateFieldCalculationValue: function (idHTMLForUpdate, item, propertiesFile) {
+    var config = JSON.parse(App.DataStore.get("configCalculation_" + item["idfield"]));
+    var nodeId = idHTMLForUpdate + item["idfield"];
+    var value = $(nodeId).val();
+    if (config.digits_precision) {
+      if (!isNaN(Number(value))) {
+        value = parseInt(value * Math.pow(10, parseInt(config.digits_precision)))
+            / Math.pow(10, parseInt(config.digits_precision));
+      }
+    }
+    propertiesFile.properties[item["idfield"]] = value;
+    App.DataStore.remove("configCalculation_" + item["idfield"]);
+  },
   updateFieldNumberValue: function (idHTMLForUpdate, item, propertiesFile) {
     var config = JSON.parse(App.DataStore.get("configNumber_" + item["idfield"]));
     var nodeId = idHTMLForUpdate + item["idfield"];
     var value = $(nodeId).val();
-    if (config.digits_precision) {
+    if (config.digits_precision && config.allows_decimals) {
       value = parseInt(value * Math.pow(10, parseInt(config.digits_precision)))
           / Math.pow(10, parseInt(config.digits_precision));
     }
