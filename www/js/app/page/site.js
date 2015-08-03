@@ -12,7 +12,7 @@ $(function () {
     FieldController.getByCollectionId();
     $('#form_create_site')[0].reset();
   });
-  
+
   $(document).delegate('#page-create-site', 'pageshow', function () {
     SiteController.setEntryDate();
   });
@@ -49,7 +49,10 @@ $(function () {
   $(document).delegate(
       '#btn_back_site_in_create , #btn_back_site_list_online , \n\
 #btn_back_site_list_all , #btn_back_site_list', 'click', function () {
-        App.DataStore.clearPartlyAfterCreateSite();
+        App.DataStore.clearConfig("configNumberSkipLogic");
+        App.DataStore.clearConfig("configNumber");
+        App.DataStore.clearConfig("configSelectManyForSkipLogic");
+        App.DataStore.clearConfig("configLocations");
       });
 
   $(document).delegate('#page-site-list #site-list li', 'click', function () {
@@ -59,7 +62,7 @@ $(function () {
     $("#btn_back_site_list").show();
     requireReload(SiteController.renderUpdateSiteFormOffline);
   });
-  
+
   $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
     FieldController.renderLocationField("#updatelolat", "#updatelolng", "update_");
   });

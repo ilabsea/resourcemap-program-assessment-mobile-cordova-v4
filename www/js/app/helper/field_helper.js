@@ -38,6 +38,10 @@ FieldHelper = {
           App.DataStore.set("configNumberSkipLogic_" + id,
               JSON.stringify(config.field_logics));
         }
+        if (config.allows_decimals) {
+          App.DataStore.set("configNumber_" + id,
+              JSON.stringify(config));
+        }
       }
 
       if (widgetType === "select_one" && is_enable_field_logic) {
@@ -59,12 +63,12 @@ FieldHelper = {
 
       if (widgetType === "phone")
         widgetType = "tel";
-      
-      if (widgetType === "location"){
+
+      if (widgetType === "location") {
         widgetType = "select_one";
         App.DataStore.set("configLocations_" + id,
             JSON.stringify(config));
-    }
+      }
 
       if (widgetType === "calculation") {
         widgetType = "text";
@@ -258,16 +262,16 @@ FieldHelper = {
         item.idfield);
     item._selected = Hierarchy._selected;
   },
-  generateCodeToIdSelectManyOption: function(field, arr_code){
+  generateCodeToIdSelectManyOption: function (field, arr_code) {
     var arr_id = [];
-    $.map(field.config.options, function(option){
-      for(var i in arr_code){
-        if(option.code == arr_code[i]){
+    $.map(field.config.options, function (option) {
+      for (var i in arr_code) {
+        if (option.code == arr_code[i]) {
           arr_id.push(option.id);
         }
       }
     });
-    if(arr_id.length === 0)
+    if (arr_id.length === 0)
       arr_id = arr_code;
     return arr_id;
   },
