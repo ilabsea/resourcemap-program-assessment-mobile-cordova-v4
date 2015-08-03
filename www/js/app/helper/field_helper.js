@@ -31,6 +31,7 @@ FieldHelper = {
       var is_mandatory = fields.is_mandatory;
       var is_enable_field_logic = fields.is_enable_field_logic;
       var readonly = '';
+      var invisible = "";
 
       if (widgetType === "numeric") {
         widgetType = "number";
@@ -73,6 +74,8 @@ FieldHelper = {
       if (widgetType === "calculation") {
         widgetType = "text";
         readonly = 'readonly';
+        if(fields.is_display_field )
+          invisible = "invisble-div";
       }
 
       if (is_mandatory)
@@ -86,6 +89,7 @@ FieldHelper = {
         multiple: (kind === "select_many" ? "multiple" : ""),
         isPhoto: (kind === "photo" ? true : false),
         widgetType: widgetType,
+        invisible: invisible,
         config: config,
         slider: slider,
         ctrue: ctrue,

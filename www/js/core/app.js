@@ -1,4 +1,4 @@
-URL = "http://52.74.238.243:8088/";
+URL = "http://localhost:3000/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
