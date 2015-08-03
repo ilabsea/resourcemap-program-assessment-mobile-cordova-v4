@@ -74,7 +74,7 @@ FieldHelper = {
       if (widgetType === "calculation") {
         widgetType = "text";
         readonly = 'readonly';
-        if(fields.is_display_field )
+        if(!fields.is_display_field )
           invisible = "invisble-div";
       }
 
