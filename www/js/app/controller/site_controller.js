@@ -316,7 +316,7 @@ SiteController = {
             value = "";
           else {
             if (config) {
-              if (config.digits_precision) {
+              if (config.digits_precision != null && config.digits_precision) {
                 if (!isNaN(Number(value))) {
                   value = parseInt(value * Math.pow(10, parseInt(config.digits_precision)))
                       / Math.pow(10, parseInt(config.digits_precision));
