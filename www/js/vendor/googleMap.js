@@ -6,6 +6,10 @@ var mapObject = {
       this.loadMap();
     }
     else {
+      var $content = $("#map_canvas");
+
+      var mapCanvasTop = $content.offset().top;
+      $content.height(window.innerHeight - mapCanvasTop);
       this.setMarker();
     }
   },

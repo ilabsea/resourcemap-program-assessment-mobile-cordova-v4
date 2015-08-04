@@ -6,15 +6,34 @@ $(function () {
   $(document).delegate('.skipLogicNumber', 'change', function () {
     SkipLogic.skipLogicNumber(this);
   });
-  $(document).delegate('.skipLogicNumber', 'keypress', function (e) {
+  $(document).delegate('.skipLogicNumber', 'keydown', function (e) {
     var idElement = this.id;
     var id = idElement.substr(idElement.lastIndexOf("_") + 1);
     var config = JSON.parse(
         App.DataStore.get("configNumber_" + id));
     if (config && config.digits_precision) {
+      App.log('allowkeyInput')
       allowKeyInput(".skipLogicNumber", /[0-9\.]*/, config.digits_precision);
     }
   });
+
+  function allowKeyInput(elements, pattern, limit) {
+    $(elements).controlKeyInput({
+      allowChar: pattern,
+      allow: function (input, char) {
+        var val = input.value;
+        var isFirstChar = (val.length == 0); // $.caretPosition(input) != 0
+        if (char == "." && (isFirstChar || val.indexOf(char) != -1))
+          return false;
+        var dec = val.split(".");
+        if (dec.length == 2 && dec[1].length >= limit) {
+          return false;
+        }
+
+        return true;
+      }
+    });
+  }
 
   $(document).delegate('.validateSelectFields', 'change', function () {
     SkipLogic.skipLogicYesNo(this.id);
@@ -56,22 +75,4 @@ $(function () {
         App.DataStore.remove("yesNoField");
       }
   });
-  
-  function allowKeyInput(elements, pattern, limit) {
-    $(elements).controlKeyInput({
-      allowChar: pattern,
-      allow: function (input, char) {
-        var val = input.value;
-        var isFirstChar = (val.length == 0); // $.caretPosition(input) != 0
-        if (char == "." && (isFirstChar || val.indexOf(char) != -1))
-          return false;
-        var dec = val.split(".");
-        if (dec.length == 2 && dec[1].length >= limit) {
-          return false;
-        }
-
-        return true;
-      }
-    });
-  }
 });

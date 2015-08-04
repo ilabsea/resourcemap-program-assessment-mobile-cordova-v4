@@ -32,13 +32,15 @@
 
     return this.each(function(){
 		      $this = $(this);
-		      $this.on('keypress', function(event){
+		      $this.on('keydown', function(event){
 			      var success = true ;	
-			      var key = event.keyCode || event.which ;
-			      
+			      var key =  event.which || event.keyCode  ;
+			      App.log("key : ", key)
+            App.log("key code: ", event.keyCode);
 			      settings.allowKeyCode.indexOf(key);
 
 			      var char = $.trim(String.fromCharCode(key));
+            App.log("char : ", char);
 
 			      if(!char.match(settings.allowChar) ) {
 			      	if(settings.allowKeyCode) {
