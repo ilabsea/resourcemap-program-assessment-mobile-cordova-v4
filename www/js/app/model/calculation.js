@@ -9,7 +9,13 @@ Calculation = {
       var cal_code = Calculation.generateSyntax(field_cal, elementPrefixId);
 
       var cal_ele = $("#" + elementPrefixId + field_cal.idfield);
-      cal_ele.val(eval(cal_code));
+      var value = eval(cal_code);
+      if (field_cal.config.allows_decimals && typeof (value) == "number") {
+        var digit_precision = field_cal.config.digits_precision;
+        if (digit_precision)
+          value = value.toFixed(digit_precision);
+      }
+      cal_ele.val(value);
     });
   },
   generateSyntax: function (field_cal, elementPrefixId) {
