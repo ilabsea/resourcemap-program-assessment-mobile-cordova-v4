@@ -16,18 +16,21 @@ var Location = {
     return deg * (Math.PI / 180);
   },
   getLocations: function (fromLat, fromLng, config) {
-    var resultLocations = $.map(config.locations, function (location) {
-      var distance = Location.calculateDistance(fromLat, fromLng, location.latitude, location.longitude);
-      if (distance < parseFloat(config.maximumSearchLength)) {
-        location.distance = distance;
-        return location;
-      }
-    });
-    resultLocations.sort(function (a, b) {
-      return parseFloat(a.distance) - parseFloat(b.distance);
-    });
+    var resultLocations;
+    if (config.locations) {
+      resultLocations = $.map(config.locations, function (location) {
+        var distance = Location.calculateDistance(fromLat, fromLng, location.latitude, location.longitude);
+        if (distance < parseFloat(config.maximumSearchLength)) {
+          location.distance = distance;
+          return location;
+        }
+      });
+      resultLocations.sort(function (a, b) {
+        return parseFloat(a.distance) - parseFloat(b.distance);
+      });
 
-    resultLocations.splice(20, resultLocations.length);
+      resultLocations.splice(20, resultLocations.length);
+    }
 
     return resultLocations;
   },
