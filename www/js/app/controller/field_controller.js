@@ -130,11 +130,7 @@ FieldController = {
         if (data == null)
           data = "";
         propertiesFile.properties[item["idfield"]] = data;
-      }
-      else if (item.widgetType == "text" && item.kind == "calculation") {
-        FieldController.updateFieldCalculationValue(idHTMLForUpdate, item, propertiesFile);
-      }
-      else {
+      } else {
         var nodeId = idHTMLForUpdate + item["idfield"];
         var value = $(nodeId).val();
         if (value == null)
@@ -143,19 +139,6 @@ FieldController = {
       }
     });
     return pf;
-  },
-  updateFieldCalculationValue: function (idHTMLForUpdate, item, propertiesFile) {
-    var config = JSON.parse(App.DataStore.get("configCalculation_" + item["idfield"]));
-    var nodeId = idHTMLForUpdate + item["idfield"];
-    var value = $(nodeId).val();
-    if (config.digits_precision) {
-      if (!isNaN(Number(value))) {
-        value = parseInt(value * Math.pow(10, parseInt(config.digits_precision)))
-            / Math.pow(10, parseInt(config.digits_precision));
-      }
-    }
-    propertiesFile.properties[item["idfield"]] = value;
-    App.DataStore.remove("configCalculation_" + item["idfield"]);
   },
   updateFieldPhotoValue: function (item, propertiesFile, fromServer) {
     var idfield = item["idfield"];

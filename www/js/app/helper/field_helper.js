@@ -73,10 +73,6 @@ FieldHelper = {
         readonly = 'readonly';
         if (!is_display_field)
           invisible = "invisble-div";
-        if (config.allows_decimals) {
-          App.DataStore.set("configCalculation_" + id,
-              JSON.stringify(config));
-        }
       }
 
       if (is_mandatory)

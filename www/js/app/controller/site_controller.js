@@ -295,21 +295,9 @@ SiteController = {
           properties[each_field] = data;
         }
         else {
-          var config = JSON.parse(App.DataStore.get("configCalculation_" + each_field));
           var value = $field.val();
-          if (value == null || value == "")
+          if (value == null)
             value = "";
-          else {
-            if (config) {
-              if (config.digits_precision) {
-                if (!isNaN(Number(value))) {
-                  value = parseInt(value * Math.pow(10, parseInt(config.digits_precision)))
-                      / Math.pow(10, parseInt(config.digits_precision));
-                }
-              }
-              App.DataStore.remove("configCalculation_" + each_field);
-            }
-          }
           properties[each_field] = value;
         }
       }
