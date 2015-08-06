@@ -40,10 +40,6 @@ FieldHelper = {
           App.DataStore.set("configNumberSkipLogic_" + id,
               JSON.stringify(config.field_logics));
         }
-        if (config.allows_decimals) {
-          App.DataStore.set("configNumber_" + id,
-              JSON.stringify(config));
-        }
       }
 
       if (widgetType === "select_one" && is_enable_field_logic) {
@@ -77,10 +73,6 @@ FieldHelper = {
         readonly = 'readonly';
         if (!is_display_field)
           invisible = "invisble-div";
-        if (config.allows_decimals) {
-          App.DataStore.set("configCalculation_" + id,
-              JSON.stringify(config));
-        }
       }
 
       if (is_mandatory)

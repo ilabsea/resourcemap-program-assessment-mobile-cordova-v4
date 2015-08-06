@@ -2,31 +2,19 @@ var mapObject = {
   map: null,
   marker: null,
   render: function () {
-    if (this.map == null) {
-      this.loadMap();
-    }
-    else {
-      var $content = $("#map_canvas");
-
-      var mapCanvasTop = $content.offset().top;
-      $content.height(window.innerHeight - mapCanvasTop);
-      this.setMarker();
-    }
+    var $content = $("#map_canvas");
+    this.setBoundaryMap($content);
+    this.loadMap();
   },
   setMarker: function () {
     var latlng = this.getLatLng();
     _self = this;
-    if (this.marker) {
-      this.marker.setPosition(latlng);
-    }
-    else {
-      this.marker = new google.maps.Marker({
-        animation: google.maps.Animation.DROP,
-        position: latlng,
-        draggable: true,
-        map: _self.map
-      });
-    }
+    this.marker = new google.maps.Marker({
+      animation: google.maps.Animation.DROP,
+      position: latlng,
+      draggable: true,
+      map: _self.map
+    });
     var point = this.marker.getPosition();
     this.map.panTo(point);
     google.maps.event.trigger(map_canvas, 'resize');
@@ -41,9 +29,6 @@ var mapObject = {
     var $content = $("#map_canvas");
     var mapCanvas = $content[0];
 
-    var mapCanvasTop = $content.offset().top;
-    $content.height(window.innerHeight - mapCanvasTop);
-
     var options = {
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -51,7 +36,6 @@ var mapObject = {
     this.map = new google.maps.Map(mapCanvas, options);
 
     this.setMarker();
-    $.mobile.changePage($("#page-map"));
     _self = this;
 
     google.maps.event.addListener(_self.marker, 'dragend', function () {
@@ -68,6 +52,9 @@ var mapObject = {
       $("#mark_lng").val(lng);
       _self.map.panTo(point);
     });
-    google.maps.event.trigger(map_canvas, 'resize');
+  },
+  setBoundaryMap: function ($content) {
+    var mapCanvasTop = $content.offset().top;
+    $content.height(window.innerHeight - mapCanvasTop);
   }
 };
