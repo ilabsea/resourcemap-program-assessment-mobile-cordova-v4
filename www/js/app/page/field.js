@@ -1,6 +1,4 @@
 $(function () {
-  var previousVal = "";
-
   $(document).delegate('.calculation', 'keyup blur', function () {
     Calculation.calculate(this);
   });
@@ -9,19 +7,9 @@ $(function () {
     SkipLogic.skipLogicNumber(this);
   });
 
-//  $(document).delegate('.skipLogicNumber', 'keyup', function (e) {
-//    App.log("keycode : ", e.keyCode);
-//    var value = $(this).val();
-//    var re = /^([0-9]+[\.]?[0-9]?[0-9]?|[0-9]+)$/g;
-//    var re = /^((\d+\.?|\.(?=\d))?\d{0,3})$/ ;
-//    var re = /^\d*((\d\.)|(\.\d))?\d{0,3}$/g;
-//    App.log('value : ', value);
-//    if (re.test(value)) {
-//      previousVal = value;
-//    } else {
-//      $(this).val(previousVal);
-//    }
-//  });
+  $(document).delegate('.skipLogicNumber', 'keyup', function () {
+    DigitAllowance.handleNumberInput(this);
+  });
 
   $(document).delegate('.validateSelectFields', 'change', function () {
     SkipLogic.skipLogicYesNo(this.id);

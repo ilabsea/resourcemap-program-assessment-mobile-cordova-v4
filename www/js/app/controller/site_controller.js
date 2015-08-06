@@ -294,21 +294,6 @@ SiteController = {
             data = "";
           properties[each_field] = data;
         }
-        else if ($field.length > 0 && $field[0].getAttribute("type") === 'number') {
-          var config = JSON.parse(App.DataStore.get("configNumber_" + each_field));
-          var value = $field.val();
-          if (value == null || value == "")
-            value = "";
-          else {
-            if (config.digits_precision) {
-              value = parseInt(value * Math.pow(10, parseInt(config.digits_precision)))
-                  / Math.pow(10, parseInt(config.digits_precision));
-            }
-          }
-          properties["" + each_field + ""] = value;
-          App.DataStore.remove("configNumber_" + each_field);
-          App.DataStore.remove("configNumberSkipLogic_" + each_field);
-        }
         else {
           var config = JSON.parse(App.DataStore.get("configCalculation_" + each_field));
           var value = $field.val();
