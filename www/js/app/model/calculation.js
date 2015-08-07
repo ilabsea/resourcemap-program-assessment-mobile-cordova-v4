@@ -10,10 +10,11 @@ Calculation = {
 
       var cal_ele = $("#" + elementPrefixId + field_cal.idfield);
       var value = eval(cal_code);
-      if (field_cal.config.allows_decimals && typeof (value) == "number") {
+      if (field_cal.config.allows_decimals) {
         var digit_precision = field_cal.config.digits_precision;
-        if (digit_precision)
+        if (digit_precision) {
           value = value.toFixed(digit_precision);
+        }
       }
       cal_ele.val(value);
     });
@@ -43,11 +44,18 @@ Calculation = {
         var fieldValue;
         switch (dependField["kind"]) {
           case "text":
-          case "calculation":
           case "email":
           case "phone":
           case "date":
             fieldValue = "$('#" + elementPrefixId + dependField["id"] + "').val()";
+            break;
+          case "calculation":
+            fieldValue = $("#" + elementPrefixId + dependField["id"]).val();
+            if (!isNaN(parseFloat(fieldValue))) {
+              fieldValue = "parseFloat($('#" + elementPrefixId + dependField["id"] + "').val())";
+            } else {
+              fieldValue = "$('#" + elementPrefixId + dependField["id"] + "').val()";
+            }
             break;
           case "numeric":
             fieldValue = "parseFloat($('#" + elementPrefixId + dependField["id"] + "').val())";
