@@ -12,11 +12,11 @@ var DigitAllowance = {
     var re, re1;
     if ($(element).attr("data-allows_decimals") == "true") {
       var digit_precision = $(element).attr("data-digits_precision");
-      re = new RegExp("^([0-9]+[\.]?[0-9]{0," + digit_precision + "})$");
-      re1 = new RegExp("^([0-9]+[\.]?[0-9]{0," + digit_precision + "})");
+      re = new RegExp("^-?([0-9]+[\.]?[0-9]{0," + digit_precision + "})$");
+      re1 = new RegExp("^-?([0-9]+[\.]?[0-9]{0," + digit_precision + "})");
     } else {
-      re = /^([0-9]+)$/g;
-      re1 = /^([0-9]+)/g;
+      re = /^-?([0-9]+)$/g;
+      re1 = /^-?([0-9]+)/g;
     }
     DigitAllowance.digitValidate(re, re1, element);
   }
