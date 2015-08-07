@@ -1,20 +1,38 @@
 var mapObject = {
   map: null,
   marker: null,
-  render: function () {
+  heightMapCanvas: "",
+  setHeightContent: function () {
     var $content = $("#map_canvas");
-    this.setBoundaryMap($content);
-    this.loadMap();
+    var mapCanvasTop = $content.offset().top;
+    this.heightMapCanvas = $(window).height() - mapCanvasTop;
+    $content.height(this.heightMapCanvas);
+    if(this.map)
+      this.map.setCenter(this.getLatLng());
+  },
+  render: function () {
+    this.setHeightContent();
+    if (this.map == null) {
+      this.loadMap();
+    }
+    else {
+      this.setMarker();
+    }
   },
   setMarker: function () {
     var latlng = this.getLatLng();
     _self = this;
-    this.marker = new google.maps.Marker({
-      animation: google.maps.Animation.DROP,
-      position: latlng,
-      draggable: true,
-      map: _self.map
-    });
+    if (this.marker) {
+      this.marker.setPosition(latlng);
+    }
+    else {
+      this.marker = new google.maps.Marker({
+        animation: google.maps.Animation.DROP,
+        position: latlng,
+        draggable: true,
+        map: _self.map
+      });
+    }
     var point = this.marker.getPosition();
     this.map.panTo(point);
     google.maps.event.trigger(map_canvas, 'resize');
@@ -52,9 +70,5 @@ var mapObject = {
       $("#mark_lng").val(lng);
       _self.map.panTo(point);
     });
-  },
-  setBoundaryMap: function ($content) {
-    var mapCanvasTop = $content.offset().top;
-    $content.height(window.innerHeight - mapCanvasTop);
   }
 };
