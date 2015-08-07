@@ -198,6 +198,18 @@ FieldHelper = {
               item.__value = date;
           }
           break;
+        case "numeric":
+        case "calculation":
+          if (pValue) {
+            if (item.config.allows_decimals
+                && item.config.digits_precision
+                && !isNaN(parseFloat(pValue))) {
+              pValue = parseFloat(pValue);
+              pValue = pValue.toFixed(item.config.digits_precision);
+            }
+          }
+          item.__value = pValue
+          break;
         default:
           item.__value = pValue;
       }
