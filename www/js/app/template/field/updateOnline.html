@@ -18,7 +18,8 @@
           data-mini="{{ctrue}}" 
           {{required}} 
           data-is_enable_field_logic="{{is_enable_field_logic}}"
-          class="validateSelectFields needsclick">
+          class="validateSelectFields needsclick"
+          {{editable}}>
    {{#if multiple}}
    <option>Options</option>
    {{#config.options}}
@@ -67,7 +68,8 @@
           name="update_online_{{idfield}}" 
           data-native-menu="false"
           {{required}} 
-          class="validateSelectFields needsclick">
+          class="validateSelectFields needsclick"
+          {{editable}}>
    <option value="">Option</option>
    <option value="" selected>(no value)</option>
    {{#config.locationOptions}}
@@ -95,7 +97,8 @@
          value ="{{__value}}" 
          name="{{name}}" 
          class="date" 
-         {{required}} >  
+         {{required}}
+         {{editable}}>  
   {{else}}
   {{#ifCond widgetType "number"}}
   <input type="{{widgetType}}" 
@@ -109,14 +112,16 @@
          data-digits_precision="{{config.digits_precision}}"
          class="skipLogicNumber"
          {{required}} 
-         {{readonly}}>  
+         {{readonly}}
+         {{editable}}>  
   {{else}}
   <input type="{{widgetType}}" 
          id="update_online_{{idfield}}" 
          value ="{{__value}}" 
          name="{{name}}" 
          {{required}} 
-         {{readonly}}>  
+         {{readonly}}
+         {{editable}}>  
   {{/ifCond}}
   {{/ifCond}}
  </div>

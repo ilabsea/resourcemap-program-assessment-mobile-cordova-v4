@@ -162,13 +162,18 @@ FieldHelper = {
       var p = site.properties();
     }
 
-    for (propertyCode in p) {
+    for (var propertyCode in p) {
       $.map(itemLayer.fields, function (item) {
         var propertyValue = p[propertyCode];
         FieldHelper.setFieldsValue(item, propertyCode,
             propertyValue, site, fromServer);
       });
     }
+
+    $.map(itemLayer.fields, function (item) {
+      item.editable = MyMembershipController.canEdit(site) ? "" : "readonly";
+    });
+    
     return itemLayer;
   },
   setFieldsValue: function (item, propertyCode, pValue, site, fromServer) {

@@ -34,8 +34,13 @@ SiteController = {
   },
   getAllByCollectionId: function () {
     SiteController.getByCollectionIdOffline();
-    if (App.isOnline())
+    if (App.isOnline()) {
       SiteController.getByCollectionIdOnline();
+      var cId = localStorage.getItem("cId");
+      CollectionModel.fetchMyMembership(cId, function (membership) {
+        MyMembershipObj.setMembership(membership);
+      });
+    }
   },
   getByCollectionIdOffline: function () {
     var cId = App.DataStore.get("cId");
@@ -164,15 +169,20 @@ SiteController = {
   },
   renderUpdateSiteFormOnline: function () {
     ViewBinding.setBusy(true);
-    SiteModel.fetchOne(function (response) {
+    SiteModel.fetchOne(function (site) {
+      var can_edit = MyMembershipController.canEdit(site);
+      if(!can_edit){
+        $("#btn_submitUpdateSite_online").hide();
+      }
       var siteOnlineUpdateData = {
-        name: response.name,
-        lat: response.lat,
-        lng: response.long
+        editable: (can_edit ? "" : "readonly"),
+        name: site.name,
+        lat: site.lat,
+        lng: site.long
       };
       SiteController.displayUpdateLatLng("site/updateOnline.html",
           $('#div-site-update-name-online'), siteOnlineUpdateData);
-      FieldController.renderUpdateOnline(response);
+      FieldController.renderUpdateOnline(site);
     });
   },
   submitAllToServerByCollectionId: function () {
