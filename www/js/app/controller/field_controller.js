@@ -27,6 +27,7 @@ FieldController = {
           {field_collections: field_collections}, "");
       FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
+      ViewBinding.setBusy(false);
       Location.prepareLocation();
     });
   },
