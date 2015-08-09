@@ -1,16 +1,16 @@
 CollectionController = {
-  displayList: function(collectionData) {
-    App.Template.process("collection/list.html", collectionData, function(content) {
+  displayList: function (collectionData) {
+    App.Template.process("collection/list.html", collectionData, function (content) {
       $('#collection-list').html(content);
       $('#collection-list').listview("refresh");
     });
   },
-  displayName: function(collectionName) {
-    App.Template.process("collection/name.html", collectionName, function(content) {
+  displayName: function (collectionName) {
+    App.Template.process("collection/name.html", collectionName, function (content) {
       $('.title').html(content);
     });
   },
-  get: function() {
+  get: function () {
     var currentUser = SessionController.currentUser();
     if (!App.isOnline()) {
       CollectionController.getByUserIdOffline(currentUser);
@@ -18,12 +18,13 @@ CollectionController = {
       CollectionController.getByUserIdOnline(currentUser);
     }
   },
-  getByUserIdOffline: function(currentUser) {
-    CollectionOffline.fetchByUserId(currentUser, function(collections) {
+  getByUserIdOffline: function (currentUser) {
+    CollectionOffline.fetchByUserId(currentUser, function (collections) {
       var collectionData = [];
       var asyncTotal = 0;
-      collections.forEach(function(collection) {
-        SiteOffline.countByCollectionId(collection.idcollection(), function(count) {
+      collections.forEach(function (collection) {
+        var currentUser = SessionController.currentUser();
+        SiteOffline.countByCollectionIdUserId(collection.idcollection(), currentUser.id, function (count) {
           var item = CollectionController.dataCollection(collection, currentUser, count, false);
           asyncTotal++;
           collectionData.push(item);
@@ -35,11 +36,12 @@ CollectionController = {
       });
     });
   },
-  getByUserIdOnline: function(currentUser) {
-    CollectionModel.fetch(function(response) {
+  getByUserIdOnline: function (currentUser) {
+    CollectionModel.fetch(function (response) {
       var collectionData = [];
-      $.each(response, function(key, collection) {
-        SiteOffline.countByCollectionId(collection.id, function(count) {
+      $.each(response, function (key, collection) {
+        var currentUser = SessionController.currentUser();
+        SiteOffline.countByCollectionIdUserId(collection.id, currentUser.id, function (count) {
           var item = CollectionController.dataCollection(collection, currentUser, count, true);
           collectionData.push(item);
 
@@ -51,14 +53,14 @@ CollectionController = {
       });
     });
   },
-  synCollectionForCurrentUser: function(newCollections) {
+  synCollectionForCurrentUser: function (newCollections) {
     var currentUser = SessionController.currentUser();
-    CollectionOffline.fetchByUserId(currentUser, function(collections) {
+    CollectionOffline.fetchByUserId(currentUser, function (collections) {
       CollectionOffline.remove(collections);
       CollectionOffline.add(newCollections);
     });
   },
-  dataCollection: function(collection, currentUser, count, fromServer) {
+  dataCollection: function (collection, currentUser, count, fromServer) {
     var item = {
       name: collection.name,
       description: collection.description,

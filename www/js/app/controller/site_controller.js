@@ -44,7 +44,8 @@ SiteController = {
   },
   getByCollectionIdOffline: function () {
     var cId = App.DataStore.get("cId");
-    SiteOffline.fetchByCollectionId(cId, function (sites) {
+    var currentUser = SessionController.currentUser();
+    SiteOffline.fetchByCollectionIdUserId(cId, currentUser.id, function (sites) {
       var siteData = [];
       sites.forEach(function (site) {
         var fullDate = dateToParam(site.created_at());
@@ -186,18 +187,30 @@ SiteController = {
       FieldController.renderUpdateOnline(site);
     });
   },
-  submitAllToServerByCollectionId: function () {
+  submitAllToServerByCollectionIdUserId: function () {
     var cId = App.DataStore.get("cId");
-    SiteController.processToServer("collection_id", cId);
+
+    var user = SessionController.currentUser();
+    SiteController.processToServerByCollectionIdUserId(cId, user.id);
   },
   submitAllToServerByUserId: function () {
     var currentUser = SessionController.currentUser();
-    SiteController.processToServer("user_id", currentUser.id);
+    SiteController.processToServerByUserId(currentUser.id);
     ;
   },
-  processToServer: function (key, id) {
+  processToServerByCollectionIdUserId: function (cId, uId) {
     if (App.isOnline()) {
-      Site.all().filter(key, "=", id).list(function (sites) {
+      SiteOffline.fetchByCollectionIdUserId(cId, uId, function (sites) {
+        if (sites.length > 0)
+          SiteController.processingToServer(sites);
+      });
+    }
+    else
+      alert(i18n.t("global.no_internet_connection"));
+  },
+  processToServerByUserId: function (userId) {
+    if (App.isOnline()) {
+      SiteOffline.fetchByUserId(userId, function (sites) {
         if (sites.length > 0)
           SiteController.processingToServer(sites);
       });
@@ -251,7 +264,8 @@ SiteController = {
     });
   },
   countByCollectionId: function (cId) {
-    SiteOffline.countByCollectionId(cId, function (count) {
+    var currentUser = SessionController.currentUser();
+    SiteOffline.countByCollectionIdUserId(cId, currentUser.id, function (count) {
       var offline = "#site-list-menu option[value='2']";
       if (count == 0) {
         $(offline).attr('disabled', true);
