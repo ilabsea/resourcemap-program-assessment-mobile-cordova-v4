@@ -43,7 +43,8 @@
   <label>{{name}}</label>
   <div id="update_online_{{idfield}}" 
        class="tree" 
-       require='{{required}}'>
+       require='{{required}}'
+       {{editable}}>
   </div>
  </div>
  {{else}}
@@ -52,7 +53,8 @@
   <span style='display:inline; margin-top:10px'>{{{name}}}</span>
   <div onclick="CameraModel.openCameraDialog({{idfield}}, 'update_online')" 
        id='property_update_online_{{idfield}}_container' 
-       class="photo"> 
+       class="photo"
+       {{editable}}> 
    <img class="image" 
         src='{{__value}}' 
         id='update_online_{{idfield}}' 
@@ -86,7 +88,8 @@
          value ="{{__value}}" 
          name="{{name}}" 
          {{required}} 
-         {{readonly}}>  
+         {{readonly}}
+         {{editable}}>  
  </div>
  {{else}}
  <div id="wrapper_update_online_{{idfield}}" tabindex="0">

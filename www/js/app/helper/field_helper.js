@@ -171,9 +171,14 @@ FieldHelper = {
     }
 
     $.map(itemLayer.fields, function (item) {
-      item.editable = MyMembershipController.canEdit(site) ? "" : "readonly";
+      var can_edit = MyMembershipController.canEdit(site);
+      if (item.kind == 'yes_no') {
+        item.editable = can_edit ? "" : "disabled";
+      } else {
+        item.editable = can_edit ? "" : "readonly";
+      }
     });
-    
+
     return itemLayer;
   },
   setFieldsValue: function (item, propertyCode, pValue, site, fromServer) {
