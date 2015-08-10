@@ -1,15 +1,10 @@
 CameraModel = {
   openCameraDialog: function (idField, updated) {
     var site = MyMembershipObj.getSite();
-    if (!MyMembershipController.canEdit(site)) {
+    if (site != "" && !MyMembershipController.canEdit(site)) {
       return false;
     } else {
-      $('#currentCameraImage').val(idField);
-      $('#currentCameraImageType').val(updated);
-      localStorage['no_update_reload'] = 1;
-      $.mobile.activePage.addClass("ui-disabled");
-      $("#cameraDialog").show();
-      $("#cameraDialog").css("z-index", 200000);
+      CameraModel.handleOpenCamera(idField, updated);
     }
   },
   invokeCamera: function (cameraType) {
@@ -18,8 +13,16 @@ CameraModel = {
     SiteCamera.takePhoto(idField, updated, cameraType);
     CameraModel.closeDialog();
   },
-  closeDialog: function () {
+  closeDialog: function() {
     $("#cameraDialog").hide();
     $.mobile.activePage.removeClass('ui-disabled');
+  },
+  handleOpenCamera: function (idField, updated) {
+    $('#currentCameraImage').val(idField);
+    $('#currentCameraImageType').val(updated);
+    localStorage['no_update_reload'] = 1;
+    $.mobile.activePage.addClass("ui-disabled");
+    $("#cameraDialog").show();
+    $("#cameraDialog").css("z-index", 200000);
   }
 };

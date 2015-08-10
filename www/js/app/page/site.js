@@ -15,6 +15,7 @@ $(function () {
   });
 
   $(document).delegate('#btn_create_site', 'click', function () {
+    MyMembershipObj.setSite("");
     FieldController.getByCollectionId();
     $('#form_create_site')[0].reset();
   });

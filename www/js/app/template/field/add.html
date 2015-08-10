@@ -47,7 +47,7 @@
  {{#if isPhoto}}  
  <div id="wrapper_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
-  <div onclick="CameraModel.openCameraDialog({{idfield}}, 'new');" 
+  <div onclick="CameraModel.handleOpenCamera({{idfield}}, 'new');" 
        id='property_{{idfield}}_container' 
        class="photo">
    <img class="image" 

@@ -5,7 +5,7 @@ var DigitAllowance = {
       value = re1.exec(value);
       if (value) {
         $(element).val(value[0]);
-      }
+      } 
     }
   },
   handleNumberInput: function (element) {

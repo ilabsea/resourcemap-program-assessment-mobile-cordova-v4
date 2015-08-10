@@ -8,7 +8,8 @@ FieldHelperView = {
 
       FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
       FieldHelperView.displayUiDisabled(elementPrefixID, fieldData, update);
-      FieldHelperView.displayReadOnlyField();
+      if (update)
+        FieldHelperView.displayReadOnlyField();
     });
   },
   displayReadOnlyField: function () {
