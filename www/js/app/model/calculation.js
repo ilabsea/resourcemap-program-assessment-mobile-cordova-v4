@@ -10,16 +10,18 @@ Calculation = {
 
       var cal_ele = $("#" + elementPrefixId + field_cal.idfield);
       var value = eval(cal_code);
-      if(typeof (value) == "string" && value.indexOf("NaN") > -1){
-        value = value.replace("NaN", "");
-      }
       if (field_cal.config.allows_decimals && !isNaN(value)) {
         var digit_precision = field_cal.config.digits_precision;
-        if (digit_precision){
+        if (digit_precision) {
           value = parseFloat(value);
-          value = value.toFixed(parseInt(digit_precision));
+          value = value.toFixed(digit_precision);
         }
       }
+      if ((typeof (value) == "string" && value.indexOf("NaN") > -1))
+        value = value.replace("NaN", "");
+      else if (typeof (value) == "number" && isNaN(value))
+        value = "";
+
       cal_ele.val(value);
     });
   },
