@@ -35,7 +35,8 @@ $(function () {
     if (App.isOnline()) {
       mapObject.render();
       $(window).on('resize', function () {
-        mapObject.setHeightContent();
+        if ($.mobile.activePage.is("#page-map"))
+          mapObject.setHeightContent();
       });
     }
   });
