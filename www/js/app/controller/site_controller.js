@@ -171,7 +171,6 @@ SiteController = {
   renderUpdateSiteFormOnline: function () {
     ViewBinding.setBusy(true);
     SiteModel.fetchOne(function (site) {
-      App.log('site : ' ,site)
       MyMembershipObj.setSite(site);
       var can_edit = MyMembershipController.canEdit(site);
       if (!can_edit) {
