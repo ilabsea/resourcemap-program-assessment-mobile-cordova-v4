@@ -2,7 +2,7 @@ $(function () {
   $(document).delegate('.calculation', 'keyup blur', function () {
     Calculation.calculate(this);
   });
-  
+
   $(document).delegate('.skipLogicNumber', 'change', function () {
     SkipLogic.skipLogicNumber(this);
   });
@@ -41,7 +41,7 @@ $(function () {
     var ele = $(this).children().children()[1].id;
     $("#" + ele).val("");
   });
-  
+
   $('body').click(function (event) {
     var yesNoField = App.DataStore.get("yesNoField");
     var otherField = $(event.target).attr("id");
