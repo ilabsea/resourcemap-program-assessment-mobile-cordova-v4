@@ -1,0 +1,59 @@
+<html>
+ <head>
+  <title>TODO supply a title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <link rel="stylesheet" type="text/css" href="css/form_validation.css" />
+  <link href="css/alertStyle.css" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" type="text/css" href="css/font_style.css"/>
+
+  <link href="css/libs/jquery.mobile-1.4.2.css" rel="stylesheet" type="text/css"/>
+  <link href="css/libs/jqm1.4.2.css" rel="stylesheet" type="text/css"/>
+  <link href="css/libs/jquery.mobile.icons.min.css" rel="stylesheet" type="text/css"/>
+
+  <!--core library-->
+  <script src="js/libs/jquery-1.11.0.min.js"></script>
+
+  <!--Project files-->
+  <script src="js/libs/jquery.mobile-1.4.2.js" type="text/javascript"></script>
+  <script src="js/libs/i18next.js"></script>
+  <script src="js/app/helper/digit_allowance.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div data-role="page" id="page-login" data-theme="b">
+   <div data-role="content">
+    <input type="number" 
+           id="18"  
+           class="skipLogicNumber"/>
+   </div>
+  </div>
+ </body>
+ <script type="text/javascript">
+  var preVal = "";
+  function NumAndTwoDecimals(field) {
+    var val = field.text();
+    console.log("value : ", val);
+    //var re = /^(-?[0-9]+[\.]?[0-9]?[0-9]?|[0-9]+)$/g;
+    //var re1 = /^(-?[0-9]+[\.]?[0-9]?[0-9]?|[0-9]+)/g;
+
+    var re = /^((-?)|(-?[0-9]+[\.]?[0-9]?[0-9]?|[0-9]+))$/g;
+    var re1 = /^((-?)|(-?[0-9]+[\.]?[0-9]?[0-9]?|[0-9]+))/g;
+    if (!re.test(val)) {
+      val = re1.exec(val);
+      if (val) {
+        preVal = val[0];
+        field.val(val[0]);
+      } else {
+        field.val(preVal);
+      }
+    } else {
+      preVal = val;
+    }
+  }
+  document.getElementById("18").addEventListener("input", function () {
+    NumAndTwoDecimals($(this));
+  }, false);
+ </script>
+</html>

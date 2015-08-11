@@ -8,6 +8,9 @@ FieldHelperView = {
 
       FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
       FieldHelperView.displayUiDisabled(elementPrefixID, fieldData, update);
+
+      DigitAllowance.prepareEventListenerOnKeyPress();
+
       if (update)
         FieldHelperView.displayReadOnlyField();
     });

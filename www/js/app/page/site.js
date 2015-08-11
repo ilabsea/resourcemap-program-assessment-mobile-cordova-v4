@@ -7,9 +7,9 @@ $(function () {
     SiteController.getAllByCollectionId();
     $("#site-list-menu").get(0).selectedIndex = 0;
   });
-  
+
   $(document).delegate('#page-site-list', 'pagehide', function () {
-    if($.mobile.activePage.is("#page-create-site")){
+    if ($.mobile.activePage.is("#page-create-site")) {
       ViewBinding.setBusy(true);
     }
   });
