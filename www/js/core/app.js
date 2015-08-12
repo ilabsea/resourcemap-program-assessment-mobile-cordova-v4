@@ -1,4 +1,4 @@
-URL = "http://52.76.21.251/";
+URL = "http://52.76.39.86/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
