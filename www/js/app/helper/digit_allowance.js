@@ -27,5 +27,28 @@ var DigitAllowance = {
         DigitAllowance.handleNumberInput(this);
       }, false);
     });
-  }
+//    DigitAllowance.validateMaxMin();
+  },
+//  validateMaxMin: function () {
+//    $('.skipLogicNumber').each(function (e) {
+//      this.addEventListener("input", function () {
+//        var element = $(this);
+//        if (element.attr("min") || element.attr("max")) {
+//          var value = parseFloat(element.val());
+//          var min = parseFloat(element.attr("min"));
+//          var max = parseFloat(element.attr("max"));
+//          var error = $("<label class='error' ></label>");
+//          if (value < min || value > max) {
+//            App.log("wrong change");
+//            if (!error)
+//              error.insertAfter(element.parent());
+//            element.addClass("error");
+//          } else {
+//            error.remove();
+//            element.removeClass("error");
+//          }
+//        }
+//      }, false);
+//    });
+//  }
 };
