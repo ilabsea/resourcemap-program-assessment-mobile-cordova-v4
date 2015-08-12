@@ -24,36 +24,43 @@
  <body>
   <div data-role="page" id="page-login" data-theme="b">
    <div data-role="content">
-    <input type="number" 
+    <input type="tel" 
            id="18"  
-           class="skipLogicNumber"/>
+           class="skipLogicNumber"
+           data-previous-value =""/>
    </div>
   </div>
  </body>
  <script type="text/javascript">
-  var preVal = "";
-  function NumAndTwoDecimals(field) {
-    var val = field.text();
-    console.log("value : ", val);
-    //var re = /^(-?[0-9]+[\.]?[0-9]?[0-9]?|[0-9]+)$/g;
-    //var re1 = /^(-?[0-9]+[\.]?[0-9]?[0-9]?|[0-9]+)/g;
-
-    var re = /^((-?)|(-?[0-9]+[\.]?[0-9]?[0-9]?|[0-9]+))$/g;
-    var re1 = /^((-?)|(-?[0-9]+[\.]?[0-9]?[0-9]?|[0-9]+))/g;
-    if (!re.test(val)) {
-      val = re1.exec(val);
-      if (val) {
-        preVal = val[0];
-        field.val(val[0]);
-      } else {
-        field.val(preVal);
-      }
+  function NumAndTwoDecimals(element) {
+    var value = $(element).val();
+    var re = /^([-+]?[0-9]+[\.]?[0-9]?[0-9]?|[0-9]+)$/g;
+    if (value == "-" || value == ""|| value == "+") {
+      $(element).prop("data-previous-value", value);
     } else {
-      preVal = val;
+      if (!re.test(value)) {
+        $(element).val($(element).prop("data-previous-value"));
+      } else {
+        $(element).prop("data-previous-value", value);
+      }
     }
+//    if (!re.test(value)) {
+//      value = re1.exec(value);
+//      if (value) {
+//        $(element).prop("data-previous-value", value[0]);
+//        $(element).val(value[0]);
+//      } else {
+//        if ($(element).attr("data-previous-value").length <= 1) {
+//          $(element).val("");
+//          $(element).prop("data-previous-value", "");
+//        } else {
+//          $(element).val($(element).prop("data-previous-value"));
+//        }
+//      }
+//    }
   }
   document.getElementById("18").addEventListener("input", function () {
-    NumAndTwoDecimals($(this));
+    NumAndTwoDecimals(this);
   }, false);
  </script>
 </html>
