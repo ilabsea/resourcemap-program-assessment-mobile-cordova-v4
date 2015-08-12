@@ -6,12 +6,12 @@ $(function () {
   $(document).delegate('.skipLogicNumber', 'change', function () {
     SkipLogic.skipLogicNumber(this);
   });
-  
+
   $(document).delegate('.validateSelectFields', 'change', function () {
     SkipLogic.skipLogicYesNo(this.id);
     validateToRemoveStyle(this);
   });
-  
+
   $(document).delegate('.ui-selectmenu', 'popupafterclose pagehide', function () {
     var start = this.id.search("-");
     var ele = this.id.substring(0, start);
