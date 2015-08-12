@@ -2,12 +2,12 @@ var DigitAllowance = {
   digitValidate: function (re, element) {
     var value = $(element).val();
     if (value == "-" || value == "" || value == "+") {
-      $(element).prop("data-previous-value", value);
+      $(element).attr("data-previous-value", value);
     } else {
       if (!re.test(value)) {
-        $(element).val($(element).prop("data-previous-value"));
+        $(element).val($(element).attr("data-previous-value"));
       } else {
-        $(element).prop("data-previous-value", value);
+        $(element).attr("data-previous-value", value);
       }
     }
   },
