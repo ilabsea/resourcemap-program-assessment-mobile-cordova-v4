@@ -190,6 +190,7 @@ FieldHelper = {
           break;
         case "select_many":
         case "select_one":
+        case "yes_no":
           FieldHelper.setFieldSelectValue(item, pValue);
           break;
         case "location":
@@ -215,7 +216,7 @@ FieldHelper = {
               pValue = pValue.toFixed(item.config.digits_precision);
             }
           }
-          item.__value = pValue
+          item.__value = pValue;
           break;
         default:
           item.__value = pValue;
