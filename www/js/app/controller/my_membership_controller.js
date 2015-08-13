@@ -10,5 +10,11 @@ var MyMembershipController = {
       can_edit = true;
 
     return can_edit;
+  },
+  getMembershipByCollectionId: function () {
+    var cId = localStorage.getItem("cId");
+    CollectionModel.fetchMyMembership(cId, function (membership) {
+      MyMembershipObj.setMembership(membership);
+    });
   }
 };

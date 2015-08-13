@@ -1,13 +1,13 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
   $('#form_login').validate({
     focusInvalid: false,
-    errorPlacement: function() {
+    errorPlacement: function () {
     },
-    invalidHandler: function() {
+    invalidHandler: function () {
       showValidateMessage('#validation_email_psd');
     },
-    submitHandler: function() {
+    submitHandler: function () {
       var email = $("#email").val();
       var password = $("#password").val();
       SessionController.authUser(email, password);
@@ -16,9 +16,9 @@ $(document).ready(function() {
 
   $('#form_signup').validate({
     focusInvalid: false,
-    errorPlacement: function() {
+    errorPlacement: function () {
     },
-    submitHandler: function() {
+    submitHandler: function () {
       if (App.isOnline()) {
         hideElement($("#internet"));
         var email = $('#signupemail').val();
@@ -34,16 +34,16 @@ $(document).ready(function() {
       else
         showElement($("#internet"));
     },
-    invalidHandler: function() {
+    invalidHandler: function () {
       showValidateMessage('#validation_email_psd_confirm');
     }
   });
 
   $('#form_create_site').validate({
-    ignore:'',
+    ignore: '',
     focusInvalid: false,
-    errorPlacement: function(error, element) {
-      if (element.attr("type") === "number" &&
+    errorPlacement: function (error, element) {
+      if (element.attr("type") === "tel" &&
           (element.attr("min") || element.attr("max")))
         error.insertAfter($(element).parent());
       addClassError(element);
@@ -55,10 +55,10 @@ $(document).ready(function() {
       if (classElement.length != 0)
         bImage = validateImageSubmitHandler(classElement, '#validation_create-site');
     },
-    invalidHandler: function() {
+    invalidHandler: function () {
       showValidateMessage('#validation_create-site');
     },
-    submitHandler: function() {
+    submitHandler: function () {
       var classElement = document.getElementsByClassName("image");
       var classHierarchyElement = document.getElementsByClassName("tree");
       var h = true;
@@ -77,10 +77,10 @@ $(document).ready(function() {
   });
 
   $('#form_update_site').validate({
-    ignore:'',
+    ignore: '',
     focusInvalid: false,
-    errorPlacement: function(error, element) {
-      if (element.attr("type") === "number" &&
+    errorPlacement: function (error, element) {
+      if (element.attr("type") === "tel" &&
           (element.attr("min") || element.attr("max")))
         error.insertAfter($(element).parent());
       addClassError(element);
@@ -92,10 +92,10 @@ $(document).ready(function() {
       if (classElement.length != 0)
         bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
     },
-    invalidHandler: function() {
+    invalidHandler: function () {
       showValidateMessage('#validation_update-site');
     },
-    submitHandler: function() {
+    submitHandler: function () {
       var classElement = document.getElementsByClassName("image");
       var classHierarchyElement = document.getElementsByClassName("tree");
       var h = true;
@@ -105,16 +105,16 @@ $(document).ready(function() {
         h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site');
       if (classElement.length != 0)
         bImage = validateImageSubmitHandler(classElement, '#validation_update-site', SiteController.updateBySiteIdOffline);
-      if (h && bImage) 
+      if (h && bImage)
         SiteController.updateBySiteIdOffline();
     }
   });
 
   $('#form_update_site_online').validate({
-    ignore:'',
+    ignore: '',
     focusInvalid: false,
-    errorPlacement: function(error, element) {
-      if (element.attr("type") === "number" &&
+    errorPlacement: function (error, element) {
+      if (element.attr("type") === "tel" &&
           (element.attr("min") || element.attr("max")))
         error.insertAfter($(element).parent());
       addClassError(element);
@@ -126,10 +126,10 @@ $(document).ready(function() {
       if (classElement.length != 0)
         bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
     },
-    invalidHandler: function() {
+    invalidHandler: function () {
       showValidateMessage('#validation_update-site-online');
     },
-    submitHandler: function() {
+    submitHandler: function () {
       var classElement = document.getElementsByClassName("image");
       var classHierarchyElement = document.getElementsByClassName("tree");
       var h = true;
@@ -139,7 +139,7 @@ $(document).ready(function() {
         h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
       if (classElement.length != 0)
         bImage = validateImageSubmitHandler(classElement, '#validation_update-site-online', SiteController.updateBySiteIdOnline);
-      if (h && bImage) 
+      if (h && bImage)
         SiteController.updateBySiteIdOnline();
     }
   });

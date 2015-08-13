@@ -7,10 +7,6 @@ $(function () {
     SkipLogic.skipLogicNumber(this);
   });
 
-  $(document).delegate('.skipLogicNumber', 'keyup', function () {
-    DigitAllowance.handleNumberInput(this);
-  });
-
   $(document).delegate('.validateSelectFields', 'change', function () {
     SkipLogic.skipLogicYesNo(this.id);
     validateToRemoveStyle(this);
@@ -41,7 +37,6 @@ $(function () {
     var ele = $(this).children().children()[1].id;
     $("#" + ele).val("");
   });
-
   $('body').click(function (event) {
     var yesNoField = App.DataStore.get("yesNoField");
     var otherField = $(event.target).attr("id");

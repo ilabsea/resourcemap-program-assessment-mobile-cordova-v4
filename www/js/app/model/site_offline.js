@@ -1,4 +1,6 @@
 SiteOffline = {
+  limit: 15,
+  sitePage: 0,
   add: function (data) {
     var collectionName = App.DataStore.get("collectionName");
     var today = new Date();
@@ -11,17 +13,23 @@ SiteOffline = {
     persistence.add(site);
     persistence.flush();
   },
-  fetchByCollectionIdUserId: function (cId, userId, callback) {
+  fetchByCollectionIdUserId: function (cId, userId, offset, callback) {
     Site.all()
         .filter('collection_id', "=", cId)
         .filter('user_id', '=', userId)
+        .limit(SiteOffline.limit)
+        .skip(offset)
         .list(null, callback);
   },
-  fetchBySiteId: function(sId, callback) {
+  fetchBySiteId: function (sId, callback) {
     Site.all().filter('id', "=", sId).one(callback);
   },
-  fetchByUserId: function (userId, callback) {
-    Site.all().filter('user_id', '=', userId).list(null, callback);
+  fetchByUserId: function (userId, offset, callback) {
+    Site.all()
+        .filter('user_id', '=', userId)
+        .limit(SiteOffline.limit)
+        .skip(offset)
+        .list(null, callback);
   },
   deleteBySiteId: function (sId) {
     SiteOffline.fetchBySiteId(sId, function (site) {

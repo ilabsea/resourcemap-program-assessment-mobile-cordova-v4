@@ -100,7 +100,7 @@
          {{required}} >  
   {{else}}
   {{#ifCond widgetType "number"}}
-  <input type="{{widgetType}}" 
+  <input type="tel" 
          id="update_{{idfield}}" 
          value ="{{__value}}" 
          name="{{name}}" 
@@ -109,6 +109,7 @@
          data-is_enable_field_logic="{{is_enable_field_logic}}"
          data-allows_decimals= {{config.allows_decimals}} 
          data-digits_precision="{{config.digits_precision}}"
+         data-previous-value ="{{__value}}"
          class="skipLogicNumber"
          {{required}}
          {{readonly}}/>
