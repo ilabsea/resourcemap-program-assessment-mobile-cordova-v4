@@ -81,8 +81,8 @@ $(function () {
   });
 
   $(document).delegate(
-      '#btn_back_site_in_create , #btn_back_site_list_online , \n\
-#btn_back_site_list_all , #btn_back_site_list', 'click', function () {
+      '#page-site-list , #page-collection-list , \n\
+#page-site-list-all ', 'pageshow', function () {
         App.DataStore.clearConfig("configNumberSkipLogic");
         App.DataStore.clearConfig("configNumber");
         App.DataStore.clearConfig("configSelectManyForSkipLogic");
