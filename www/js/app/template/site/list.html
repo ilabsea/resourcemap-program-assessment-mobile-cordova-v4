@@ -1,5 +1,5 @@
 {{#each siteList}}
-<li id='{{id}}' data-name='{{name}}'>
+<li data-id='{{id}}' data-name='{{name}}'>
  <a href='{{link}}'> {{name}}
   {{#if collectionName}}
   <p class='ui-li-desc'> {{collectionName}} </p>
@@ -9,7 +9,7 @@
 </li>
 {{/each}}
 {{#if hasMoreSites}}
-<li class="load-more" id="load-more-site-{{state}}">
+<li class="load-more" data-id="load-more-site-{{state}}" id="load-more-site-{{state}}">
  <a href="#">Load More Sites ...</a>
 </li>
 {{/if}}

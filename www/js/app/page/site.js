@@ -28,7 +28,7 @@ $(function () {
   });
 
   $(document).delegate('#page-site-list #site-list-online li', 'click', function () {
-    var sId = this.id;
+    var sId = $(this).attr('data-id');
     if (sId == "load-more-site-online") {
       $("#" + sId).remove();
       SiteModel.sitePage++;
@@ -40,7 +40,7 @@ $(function () {
   });
 
   $(document).delegate('#page-site-list #site-list li', 'click', function () {
-    var sId = this.id;
+    var sId = $(this).attr('data-id');
     if (sId == "load-more-site-offline") {
       $("#" + sId).remove();
       SiteOffline.sitePage++;
@@ -54,7 +54,7 @@ $(function () {
   });
 
   $(document).delegate('#page-site-list-all li', 'click', function () {
-    var sId = this.id;
+    var sId = $(this).attr('data-id');
     var uId = SessionController.currentUser().id;
     if (sId == "load-more-site-all") {
       $("#" + sId).remove();
