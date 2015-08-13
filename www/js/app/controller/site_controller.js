@@ -227,11 +227,12 @@ SiteController = {
   submitAllToServerByUserId: function () {
     var currentUser = SessionController.currentUser();
     SiteController.processToServerByUserId(currentUser.id);
-    ;
   },
   processToServerByCollectionIdUserId: function (cId, uId) {
     if (App.isOnline()) {
-      SiteOffline.fetchByCollectionIdUserId(cId, uId, function (sites) {
+      Site.all()
+          .filter('collection_id', "=", cId)
+          .filter('user_id', '=', uId).list(function (sites) {
         if (sites.length > 0)
           SiteController.processingToServer(sites);
       });
@@ -241,7 +242,7 @@ SiteController = {
   },
   processToServerByUserId: function (userId) {
     if (App.isOnline()) {
-      SiteOffline.fetchByUserId(userId, function (sites) {
+      Site.all().filter('user_id', '=', userId).list(function (sites) {
         if (sites.length > 0)
           SiteController.processingToServer(sites);
       });
