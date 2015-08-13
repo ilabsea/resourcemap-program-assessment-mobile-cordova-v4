@@ -202,10 +202,7 @@ FieldHelper = {
         case "date":
           if (pValue) {
             var date = pValue.split("T")[0];
-            if (!fromServer)
-              item.__value = convertDateWidgetToParam(date);
-            else
-              item.__value = date;
+            item.__value = convertDateWidgetToParam(date);
           }
           break;
         case "numeric":

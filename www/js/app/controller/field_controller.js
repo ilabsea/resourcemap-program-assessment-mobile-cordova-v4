@@ -177,8 +177,7 @@ FieldController = {
     var nodeId = idHTMLForUpdate + item["idfield"];
     var value = $(nodeId).val();
     if (value != "") {
-      value = new Date(value);
-      value = dateToParam(value);
+      value = convertDateWidgetToParam(value);
     }
     propertiesFile.properties[item["idfield"]] = value;
   },
