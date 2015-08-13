@@ -1,6 +1,7 @@
 $(function () {
 
-  $(document).delegate('#page-site-list', 'pagebeforeshow', function () {
+  $(document).delegate('#page-site-list', 'pageshow', function () {
+    App.emptyHTML();
     $("#btn_sendToServer").hide();
     var cId = App.DataStore.get("cId");
     SiteController.countByCollectionId(cId);
@@ -73,14 +74,10 @@ $(function () {
   });
 
   $(document).delegate('#page-site-list-all', 'pagebeforeshow', function () {
+    App.emptyHTML();
     var currentUser = SessionController.currentUser();
     SiteOffline.sitePage = 0;
     SiteController.getByUserId(currentUser.id);
-  });
-
-  $(document).delegate('#page-site-list-all', 'pageshow', function () {
-    $("#offlinesite-list").show();
-    $("#offlinesite-list").listview("refresh");
   });
 
   $(document).delegate(
