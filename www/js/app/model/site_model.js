@@ -1,5 +1,5 @@
 SiteModel = {
-  limit: 2,
+  limit: 15,
   sitePage: 0,
   create: function (attr, successCallback, errorCallback) {
     var cId = attr.collection_id;

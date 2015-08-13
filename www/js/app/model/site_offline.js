@@ -1,5 +1,5 @@
 SiteOffline = {
-  limit: 2,
+  limit: 15,
   sitePage: 0,
   add: function (data) {
     var collectionName = App.DataStore.get("collectionName");
