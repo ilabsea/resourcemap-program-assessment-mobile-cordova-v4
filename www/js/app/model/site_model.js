@@ -1,5 +1,5 @@
 SiteModel = {
-  limit: 15,
+  limit: 2,
   sitePage: 0,
   create: function (attr, successCallback, errorCallback) {
     var cId = attr.collection_id;
@@ -15,7 +15,7 @@ SiteModel = {
     });
   },
   fetch: function (collectionID, offset, successCallback) {
-    var url = App.URL_SITE + collectionID +
+    var url = App.URL_SITE + collectionID 
         +"/sites.json?offset=" + offset + "&limit="
         + SiteModel.limit + "&auth_token="
         + App.Session.getAuthToken();

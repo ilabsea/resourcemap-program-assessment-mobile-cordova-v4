@@ -43,7 +43,9 @@ $(document).ready(function () {
     ignore: '',
     focusInvalid: false,
     errorPlacement: function (error, element) {
-      error.insertAfter(element.parent());
+      if (element.attr("type") === "tel" &&
+          (element.attr("min") || element.attr("max")))
+        error.insertAfter($(element).parent());
       addClassError(element);
 
       var classElement = document.getElementsByClassName("image");

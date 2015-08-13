@@ -43,7 +43,7 @@ $(function () {
     if (sId == "load-more-site-offline") {
       $("#" + sId).remove();
       SiteOffline.sitePage++;
-      SiteOfflineController.getByCollectionId();
+      SiteController.getByCollectionIdOffline();
     } else {
       App.DataStore.set("sId", sId);
       $("#btn_back_site_list_all").hide();
@@ -54,11 +54,11 @@ $(function () {
 
   $(document).delegate('#page-site-list-all li', 'click', function () {
     var sId = this.id;
-    var uId = SessionHelper.currentUser().id;
+    var uId = SessionController.currentUser().id;
     if (sId == "load-more-site-all") {
       $("#" + sId).remove();
       SiteOffline.sitePage++;
-      SiteOfflineController.getByUserId(uId);
+      SiteController.getByUserId(uId);
     } else {
       App.DataStore.set("sId", sId);
       $("#btn_back_site_list_all").show();

@@ -55,7 +55,6 @@ SiteController = {
           link: "#page-update-site"
         });
       });
-      SiteController.display($('#site-list'), {siteList: siteData});
       SiteOffline.countByCollectionIdUserId(cId, uId, function (count) {
         var siteLength = sites.length + offset;
         var hasMoreSites = false;
