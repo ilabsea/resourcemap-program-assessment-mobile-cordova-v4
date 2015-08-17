@@ -7,6 +7,7 @@ Calculation = {
 
     $.map(fields_cal, function (field_cal) {
       var cal_code = Calculation.generateSyntax(field_cal, elementPrefixId);
+      App.log('cal_code : ', cal_code);
 
       var cal_ele = $("#" + elementPrefixId + field_cal.idfield);
       var value = eval(cal_code);
@@ -46,7 +47,7 @@ Calculation = {
         }
       }
       $.map(dependentFields, function (dependField) {
-        var fieldName = "$" + dependField["code"];
+        var fieldName = "${" + dependField["code"] + "}";
         var fieldValue;
         switch (dependField["kind"]) {
           case "text":
