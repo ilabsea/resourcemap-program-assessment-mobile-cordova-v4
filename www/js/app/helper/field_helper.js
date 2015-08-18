@@ -161,6 +161,12 @@ FieldHelper = {
       var itemLayer = FieldHelper.buildField(layer._data, {fromServer: fromServer});
       var p = site.properties();
     }
+    
+    $.map(itemLayer.fields, function (item) {
+      if (item.kind == 'location') {
+        FieldHelper.buildFieldLocationUpdate(site, item, fromServer);
+      }
+    });
 
     for (var propertyCode in p) {
       $.map(itemLayer.fields, function (item) {
@@ -182,8 +188,8 @@ FieldHelper = {
     return itemLayer;
   },
   setFieldsValue: function (item, propertyCode, pValue, site, fromServer) {
-    if (item.code === propertyCode || parseInt(item["idfield"])
-        === parseInt(propertyCode)) {
+    if (item.code === propertyCode
+        || parseInt(item["idfield"]) === parseInt(propertyCode)) {
       switch (item.kind) {
         case "photo" :
           FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
@@ -194,7 +200,6 @@ FieldHelper = {
           FieldHelper.setFieldSelectValue(item, pValue);
           break;
         case "location":
-          FieldHelper.buildFieldLocationUpdate(site, item, fromServer);
           FieldHelper.setFieldLocationValue(item, pValue);
           break;
         case "hierarchy":
