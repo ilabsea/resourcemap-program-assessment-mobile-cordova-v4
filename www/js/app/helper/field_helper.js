@@ -161,7 +161,7 @@ FieldHelper = {
       var itemLayer = FieldHelper.buildField(layer._data, {fromServer: fromServer});
       var p = site.properties();
     }
-    
+
     $.map(itemLayer.fields, function (item) {
       if (item.kind == 'location') {
         FieldHelper.buildFieldLocationUpdate(site, item, fromServer);
@@ -214,11 +214,11 @@ FieldHelper = {
         case "numeric":
         case "calculation":
           if (pValue) {
-            if (item.config.allows_decimals
+            if (item.config.allows_decimals == "true"
                 && item.config.digits_precision
                 && !isNaN(parseFloat(pValue))) {
               pValue = parseFloat(pValue);
-              pValue = pValue.toFixed(item.config.digits_precision);
+              pValue = Number(pValue.toFixed(parseInt((item.config.digits_precision))));
             }
           }
           item.__value = pValue;
