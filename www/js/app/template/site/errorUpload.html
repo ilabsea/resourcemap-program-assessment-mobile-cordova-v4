@@ -5,7 +5,7 @@
   </h1>
  </div>
  <div data-role="content" class="ui-content ui-body-b" role="main"> 
-  Site " {{name}} " has errors: 
+  {{#if isSubmitSites}}Site " {{name}} " has errors: {{/if}}
   <ul>
    {{#if isLat}}
    <li> latitude {{lat}}</li>

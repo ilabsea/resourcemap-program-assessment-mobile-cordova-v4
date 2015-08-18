@@ -179,8 +179,12 @@ SiteController = {
         App.DataStore.clearPartlyAfterCreateSite();
 
         App.redirectTo("#page-site-list");
-      }, function () {
-        alert(i18n.t("global.please_reupdate_your_site"));
+      }, function (err) {
+        if (err["responseJSON"]) {
+          var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], false);
+          SiteHelper.displayError("site/errorUpload.html", $('#page-error-submit-site'),
+              error);
+        }
       });
     });
   },
@@ -280,7 +284,7 @@ SiteController = {
         showElement($("#info_sign_in"));
         App.redirectTo("#page-login");
       } else {
-        var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"]);
+        var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], true);
         SiteHelper.displayError("site/errorUpload.html", $('#page-error-submit-site'),
             error);
       }
