@@ -8,7 +8,7 @@ SiteModel = {
     $.ajax({
       url: url,
       type: "POST",
-      data: {site: attr},
+      data: {site: attr, rm_wfp_version: App.VERSION},
       datatype: 'json',
       success: successCallback,
       error: errorCallback
