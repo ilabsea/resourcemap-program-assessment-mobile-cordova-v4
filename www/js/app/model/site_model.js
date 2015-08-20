@@ -15,8 +15,8 @@ SiteModel = {
     });
   },
   fetch: function (collectionID, offset, successCallback) {
-    var url = App.URL_SITE + collectionID 
-        +"/sites.json?offset=" + offset + "&limit="
+    var url = App.URL_SITE + collectionID
+        + "/sites.json?offset=" + offset + "&limit="
         + SiteModel.limit + "&auth_token="
         + App.Session.getAuthToken();
     $.ajax({
@@ -35,7 +35,8 @@ SiteModel = {
     var sId = localStorage.getItem("sId");
     $.ajax({
       url: App.END_POINT + "/v1/collections/" + cId + "/sites/" + sId + ".json",
-      data: {"auth_token": App.Session.getAuthToken()},
+      data: {"auth_token": App.Session.getAuthToken(),
+        "rm_wfp_version": App.VERSION},
       type: "GET",
       datatype: 'json',
       timeout: 600000,

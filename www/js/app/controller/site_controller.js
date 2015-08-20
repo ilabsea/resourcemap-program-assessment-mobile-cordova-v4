@@ -162,6 +162,7 @@ SiteController = {
       data = {
         "_method": "put",
         "auth_token": App.Session.getAuthToken(),
+        "rm_wfp_version": App.VERSION,
         "site": {
           "name": $("#updatesitename_online").val(),
           "lat": $("#updatelolat_online").val(),
