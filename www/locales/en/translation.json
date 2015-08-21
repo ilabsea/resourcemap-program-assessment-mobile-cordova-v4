@@ -28,7 +28,7 @@
         "login": "Login",
         "creat_new_accotun": "Create new account",
         "invalide_email": "Please enter a valid email address.",
-        "about":"About"
+        "about": "About"
     },
     "signup_page": {
         "sign_up": "SignUp",
@@ -69,10 +69,14 @@
         "option": "Photo Options",
         "take": "Take Photo",
         "choose": "Choose Existing",
-        "signupsuccess": "Sign up successfully."
+        "signupsuccess": "Sign up successfully.",
+        "notification": "Notification"
     },
     "nav": {
         "online": "Online",
         "offline": "Offline"
+    },
+    "fields": {
+        "no_fields": "There is no fields for this collection, or fields have not been yet downloaded from server."
     }
 }

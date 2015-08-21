@@ -28,7 +28,7 @@
         "login": "ការចូល",
         "creat_new_accotun": "បង្កើតគណនីថ្មី",
         "invalide_email": "សូមបញ្ចូលអីុម៉ែលអោយបានត្រឹមត្រូវ",
-        "about":"អំពី"
+        "about": "អំពី"
     },
     "signup_page": {
         "sign_up": "ចុះឈ្មោះ",
@@ -68,10 +68,14 @@
         "take": "ថតរូប",
         "choose": "ជ្រើសរើសរូបថតដែលមានស្រាប់",
         "plsSignIn": "សូមចូល",
-        "signupsuccess": "ចុះឈ្មោះដោយជោគជ័យ"
+        "signupsuccess": "ចុះឈ្មោះដោយជោគជ័យ",
+        "notification": "Notification"
     },
     "nav": {
         "online": "អនឡាញ",
         "offline": "ក្រៅបណ្តាញ"
+    },
+    "fields": {
+        "no_fields": "There is no fields for this collection, or fields haven’t been yet downloaded from server."
     }
 }
