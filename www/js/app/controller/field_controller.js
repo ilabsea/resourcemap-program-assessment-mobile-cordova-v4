@@ -60,7 +60,7 @@ FieldController = {
             {field_collections: field_collections}, false);
         ViewBinding.setBusy(false);
       }
-      Location.prepareLocation(fields);
+      Location.prepareLocation();
     });
   },
   renderUpdateOffline: function (site) {
