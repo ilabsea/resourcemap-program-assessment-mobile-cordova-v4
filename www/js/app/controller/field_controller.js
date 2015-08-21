@@ -42,6 +42,7 @@ FieldController = {
         App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
         App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
       } else {
+        var field_collections = [];
         fields.forEach(function (field) {
           $.each(field.fields(), function (i, fieldsInfield) {
             field_id_arr.push(fieldsInfield.idfield);
