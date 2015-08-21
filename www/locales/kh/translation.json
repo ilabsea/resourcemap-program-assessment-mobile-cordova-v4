@@ -69,13 +69,13 @@
         "choose": "ជ្រើសរើសរូបថតដែលមានស្រាប់",
         "plsSignIn": "សូមចូល",
         "signupsuccess": "ចុះឈ្មោះដោយជោគជ័យ",
-        "notification": "Notification"
+        "notification": "ការជូនដំណឹង"
     },
     "nav": {
         "online": "អនឡាញ",
         "offline": "ក្រៅបណ្តាញ"
     },
     "fields": {
-        "no_fields": "There is no fields for this collection, or fields haven’t been yet downloaded from server."
+        "no_fields": "ទិន្នន័យតបន់នេះមិនមានហ្វៀល ឬ ហ្វៀលមិនបានទទួលពីមា៉សីុនមេ។"
     }
 }
