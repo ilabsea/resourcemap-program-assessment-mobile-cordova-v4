@@ -2,7 +2,9 @@ FieldHelperView = {
   displayNoFields: function (templateURL, element) {
     App.Template.process(templateURL, {}, function (content) {
       element.html(content);
-      Dialog.showDialog("page-pop-up-no-fields");
+      setTimeout(function () {
+        Dialog.showDialog("page-pop-up-no-fields");
+      }, 50);
       element.css("z-index", 200000);
     });
   },
