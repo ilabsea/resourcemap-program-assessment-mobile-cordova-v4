@@ -8,8 +8,11 @@ $(function () {
   });
 
   $(document).delegate('.validateSelectFields', 'change', function () {
-    SkipLogic.skipLogicYesNo(this.id);
-    validateToRemoveStyle(this);
+    if ($(this).attr('data-role') === "slider") {
+      SkipLogic.skipLogicYesNo(this.id);
+    } else {
+      validateToRemoveStyle(this);
+    }
   });
 
   $(document).delegate('.ui-selectmenu', 'popupafterclose pagehide', function () {
