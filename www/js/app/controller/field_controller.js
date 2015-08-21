@@ -59,8 +59,8 @@ FieldController = {
         FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
             {field_collections: field_collections}, false);
         ViewBinding.setBusy(false);
-        Location.prepareLocation();
       }
+      Location.prepareLocation(fields);
     });
   },
   renderUpdateOffline: function (site) {

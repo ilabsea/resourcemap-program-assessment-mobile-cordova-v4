@@ -49,7 +49,7 @@ var Location = {
       enableHighAccuracy: true
     });
   },
-  prepareLocation: function () {
+  prepareLocation: function (fields) {
     requireReload(function () {
       var lat = $("#lat").val();
       var lng = $("#lng").val();
