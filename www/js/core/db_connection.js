@@ -4,6 +4,5 @@ function connectionDB(dbName, size) {
   }
   else
     alert("Your device must support a database connection");
-//    persistence.reset();
   persistence.schemaSync();
 }
