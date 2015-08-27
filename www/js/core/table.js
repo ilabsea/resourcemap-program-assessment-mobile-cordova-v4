@@ -37,10 +37,38 @@ function createTables() {
 
   persistence.defineMigration(1, {
     up: function () {
-      this.addColumn('sites', 'start_entry_date', 'TEXT');
-      this.addColumn('sites', 'end_entry_date', 'TEXT');
-      this.executeSql('UPDATE sites SET start_entry_date = ""');
-      this.executeSql('UPDATE sites SET end_entry_date = ""');
+      this.executeSql('DROP TABLE oldSites');
+      // rename current table
+      this.executeSql('ALTER TABLE sites RENAME TO oldSites');
+      // create new table with required columns
+      this.executeSql(
+          'CREATE TABLE IF NOT EXISTS sites (id VARCHAR(32) PRIMARY KEY, \n\
+idsite INT, name TEXT, lat INT, lng INT, created_at DATE, start_entry_date TEXT, \n\
+end_entry_date TEXT, collection_id INT, collection_name TEXT, user_id INT, \n\
+device_id TEXT,properties JSON, files JSON)');
+      // copy contents from old table to new table
+      this.executeSql('INSERT INTO sites(id, idsite, name, lat, lng, created_at, \n\
+start_entry_date, end_entry_date, collection_id, collection_name, user_id, device_id,\n\
+properties , files) SELECT id, idsite, name, lat, lng, created_at, \n\
+start_entry_date, end_entry_date, collection_id, collection_name, user_id, device_id,\n\
+properties , files FROM oldSites');
+      // delete current table
+      this.executeSql('DROP TABLE oldSites');
+    },
+    down: function () {
+      this.executeSql('DROP TABLE oldSites');
+      this.executeSql('ALTER TABLE sites RENAME TO oldSites');
+      this.executeSql(
+          'CREATE TABLE sites (id VARCHAR(32) PRIMARY KEY, \n\
+idsite INT, name TEXT, lat INT, lng INT, created_at DATE, start_entry_date TEXT, \n\
+end_entry_date TEXT, collection_id INT, collection_name TEXT, user_id INT, \n\
+device_id TEXT,properties JSON, files JSON)');
+      this.executeSql('INSERT INTO sites(id, idsite, name, lat, lng, created_at, \n\
+start_entry_date, end_entry_date, collection_id, collection_name, user_id, device_id,\n\
+properties , files) SELECT id, idsite, name, lat, lng, created_at, \n\
+start_entry_date, end_entry_date, collection_id, collection_name, user_id, device_id,\n\
+properties , files FROM oldSites');
+      this.executeSql('DROP TABLE oldSites');
     }
   });
   migrate();
