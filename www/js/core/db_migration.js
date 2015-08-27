@@ -22,7 +22,8 @@ function migrate(  ){
     persistence.migrations.init( function(){
         console.log('migration init');
         persistence.migrate( function(){
+          persistence.schemaSync();
             console.debug('migration complete!');
-        } );
+        });
     });
 };

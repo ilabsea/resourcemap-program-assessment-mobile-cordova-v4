@@ -35,7 +35,6 @@ App = {
   onDeviceReady: function () {
     connectionDB(App.DB_NAME, App.DB_SIZE);
     createTables();
-    migrate();
     App.Cache.clearTemplate();
     FastClick.attach(document.body);
     App.initialPage();
