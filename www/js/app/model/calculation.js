@@ -10,11 +10,18 @@ Calculation = {
 
       var cal_ele = $("#" + elementPrefixId + field_cal.idfield);
       var value = eval(cal_code);
-      if (field_cal.config.allows_decimals && typeof (value) == "number") {
+      if (field_cal.config.allows_decimals == "true" && !isNaN(value)) {
         var digit_precision = field_cal.config.digits_precision;
-        if (digit_precision)
-          value = value.toFixed(digit_precision);
+        if (digit_precision) {
+          value = parseFloat(value);
+          value = Number(value.toFixed(parseInt(digit_precision)));
+        }
       }
+      if ((typeof (value) == "string" && value.indexOf("NaN") > -1))
+        value = value.replace("NaN", "");
+      else if (typeof (value) == "number" && isNaN(value))
+        value = "";
+
       cal_ele.val(value);
     });
   },
@@ -39,15 +46,22 @@ Calculation = {
         }
       }
       $.map(dependentFields, function (dependField) {
-        var fieldName = "$" + dependField["code"];
+        var fieldName = "${" + dependField["code"] + "}";
         var fieldValue;
         switch (dependField["kind"]) {
           case "text":
-          case "calculation":
           case "email":
           case "phone":
           case "date":
             fieldValue = "$('#" + elementPrefixId + dependField["id"] + "').val()";
+            break;
+          case "calculation":
+            fieldValue = $("#" + elementPrefixId + dependField["id"]).val();
+            if (!isNaN(parseFloat(fieldValue))) {
+              fieldValue = "parseFloat($('#" + elementPrefixId + dependField["id"] + "').val())";
+            } else {
+              fieldValue = "$('#" + elementPrefixId + dependField["id"] + "').val()";
+            }
             break;
           case "numeric":
             fieldValue = "parseFloat($('#" + elementPrefixId + dependField["id"] + "').val())";

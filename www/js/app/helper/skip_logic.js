@@ -116,8 +116,7 @@ SkipLogic = {
       var slider_id = $(slider).attr("id");
 
       SkipLogic.highlight("#" + slider_id, 'slider');
-    }
-    else if ($("#" + field_id)[0].tagName.toLowerCase() === 'select')
+    }else if ($("#" + field_id)[0].tagName.toLowerCase() === 'select')
       SkipLogic.highlight("#" + field_id, "select");
     else if ($("#" + field_id)[0].tagName.toLowerCase() === 'img')
       SkipLogic.highlight("#property_" + field_id + "_container", "img");

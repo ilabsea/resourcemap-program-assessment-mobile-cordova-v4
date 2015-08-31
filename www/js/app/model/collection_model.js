@@ -1,17 +1,27 @@
 CollectionModel = {
-  fetch: function(successCallback) {
+  fetch: function (successCallback) {
     $.ajax({
       type: "get",
       url: App.LIST_COLLECTION + App.Session.getAuthToken(),
       dataType: "json",
       success: successCallback
     });
+  },
+  fetchMyMembership: function (cId, success) {
+    var url = App.END_POINT + "/collections/" + cId + "/my_membership.json?auth_token="
+        + App.Session.getAuthToken();
+    $.ajax({
+      type: "get",
+      url: url,
+      dataType: "json",
+      success: success
+    });
   }
 };
 
 CollectionOffline = {
-  add: function(collections) {
-    $.each(collections, function(index, collection) {
+  add: function (collections) {
+    $.each(collections, function (index, collection) {
       var collectionParams = {
         idcollection: collection.idcollection,
         name: collection.name,
@@ -23,13 +33,13 @@ CollectionOffline = {
     });
     persistence.flush();
   },
-  remove: function(collections) {
-    collections.forEach(function(collection) {
+  remove: function (collections) {
+    collections.forEach(function (collection) {
       persistence.remove(collection);
     });
     persistence.flush();
   },
-  fetchByUserId: function(user, callback) {
+  fetchByUserId: function (user, callback) {
     Collection.all().filter('user_id', '=', user.id).list(null, callback);
   }
 };

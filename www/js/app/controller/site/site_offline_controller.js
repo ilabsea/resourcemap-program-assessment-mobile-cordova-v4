@@ -5,7 +5,9 @@ var SiteOfflineController = {
   },
   getByCollectionId: function () {
     var cId = App.DataStore.get("cId");
-    SiteOffline.fetchByCollectionId(cId, function (sites) {
+    var uId = SessionController.currentUser().id;
+    var offset = SiteOffline.sitePage * SiteOffline.limit;
+    SiteOffline.fetchByCollectionIdUserId(cId, uId, offset, function (sites) {
       var siteData = [];
       sites.forEach(function (site) {
         var fullDate = dateToParam(site.created_at());
@@ -17,7 +19,18 @@ var SiteOfflineController = {
           link: "#page-update-site"
         });
       });
-      SiteView.display($('#site-list'), {siteList: siteData});
+      SiteOffline.countByCollectionIdUserId(cId, uId, function (count) {
+        var siteLength = sites.length + offset;
+        var hasMoreSites = false;
+        if (siteLength < count) {
+          hasMoreSites = true;
+        }
+        var sitesRender = {
+          hasMoreSites: hasMoreSites,
+          state: "offline",
+          siteList: siteData};
+        SiteView.display($('#site-list'), sitesRender);
+      });
     });
   },
   getByUserId: function (userId) {
@@ -139,7 +152,8 @@ var SiteOfflineController = {
     });
   },
   countByCollectionId: function (cId) {
-    SiteOffline.countByCollectionId(cId, function (count) {
+    var currentUser = SessionController.currentUser();
+    SiteOffline.countByCollectionIdUserId(cId, currentUser.id, function (count) {
       var offline = "#site-list-menu option[value='2']";
       if (count == 0) {
         $(offline).attr('disabled', true);

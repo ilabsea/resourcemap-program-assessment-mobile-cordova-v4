@@ -30,6 +30,6 @@ function Photo(sId, id, data, format) {
   this.format = format;
   this.name = function() {
     var date = new Date();
-    return "" + date.getTime() + "_" + this.sId + "_" + this.id + "." + this.format;
+    return "" + date.getTime() + "_" + this.id + "." + this.format;
   };
 }

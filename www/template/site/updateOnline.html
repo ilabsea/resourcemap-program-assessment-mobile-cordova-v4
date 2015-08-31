@@ -3,7 +3,9 @@
        name="updatesitename_online" 
        id="updatesitename_online" 
        class="required" 
-       value='{{name}}'/><br>
+       value='{{name}}'
+       {{editable}}
+       /><br>
 <div>
  <a href="#page-map">
   <img src="img/map.png" 
@@ -17,11 +19,13 @@
        id="updatelolat_online" 
        class="required" 
        value='{{lat}}'
-       readonly/>
+       readonly
+       {{editable}}/>
 <label for="updatelolng_online"> {{t "global.lng"}} </label>
 <input type="number" 
        name="updatelolng_online" 
        id="updatelolng_online" 
        class="required" 
        value='{{lng}}'
-       readonly/>
+       readonly
+       {{editable}}/>

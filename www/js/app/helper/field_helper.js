@@ -162,28 +162,44 @@ FieldHelper = {
       var p = site.properties();
     }
 
-    for (propertyCode in p) {
+    $.map(itemLayer.fields, function (item) {
+      if (item.kind == 'location') {
+        FieldHelper.buildFieldLocationUpdate(site, item, fromServer);
+      }
+    });
+
+    for (var propertyCode in p) {
       $.map(itemLayer.fields, function (item) {
         var propertyValue = p[propertyCode];
         FieldHelper.setFieldsValue(item, propertyCode,
             propertyValue, site, fromServer);
       });
     }
+
+    $.map(itemLayer.fields, function (item) {
+      var can_edit = MyMembershipController.canEdit(site);
+      if (item.kind == 'yes_no') {
+        item.editable = can_edit ? "" : "disabled";
+      } else {
+        item.editable = can_edit ? "" : "readonly";
+      }
+    });
+
     return itemLayer;
   },
   setFieldsValue: function (item, propertyCode, pValue, site, fromServer) {
-    if (item.code === propertyCode || parseInt(item["idfield"])
-        === parseInt(propertyCode)) {
+    if (item.code === propertyCode
+        || parseInt(item["idfield"]) === parseInt(propertyCode)) {
       switch (item.kind) {
         case "photo" :
           FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
           break;
         case "select_many":
         case "select_one":
+        case "yes_no":
           FieldHelper.setFieldSelectValue(item, pValue);
           break;
         case "location":
-          FieldHelper.buildFieldLocationUpdate(site, item, fromServer);
           FieldHelper.setFieldLocationValue(item, pValue);
           break;
         case "hierarchy":
@@ -192,11 +208,20 @@ FieldHelper = {
         case "date":
           if (pValue) {
             var date = pValue.split("T")[0];
-            if (!fromServer)
-              item.__value = convertDateWidgetToParam(date);
-            else
-              item.__value = date;
+            item.__value = convertDateWidgetToParam(date);
           }
+          break;
+        case "numeric":
+        case "calculation":
+          if (pValue) {
+            if (item.config.allows_decimals == "true"
+                && item.config.digits_precision
+                && !isNaN(parseFloat(pValue))) {
+              pValue = parseFloat(pValue);
+              pValue = Number(pValue.toFixed(parseInt((item.config.digits_precision))));
+            }
+          }
+          item.__value = pValue;
           break;
         default:
           item.__value = pValue;
