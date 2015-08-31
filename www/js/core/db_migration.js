@@ -1,13 +1,3 @@
-function migrate() {
-  console.log('migrating...');
-  persistence.migrations.init(function () {
-    console.log('migration init');
-    persistence.migrate(function () {
-      console.debug('migration complete!');
-    });
-  });
-}
-
 function migrationDefine() {
   persistence.defineMigration(1, {
     up: function () {
@@ -20,3 +10,14 @@ function migrationDefine() {
     }
   });
 }
+
+function migrate() {
+  console.log('migrating...');
+  persistence.migrations.init(function () {
+    console.log('migration init');
+    persistence.migrate(function () {
+      console.debug('migration complete!');
+    });
+  });
+}
+
