@@ -306,5 +306,78 @@ FieldHelper = {
     var lat = fromServer ? site.lat : site.lat();
     var lng = fromServer ? site.long : site.lng();
     item.config.locationOptions = Location.getLocations(lat, lng, item.config);
-  }
+  },
+  updateFieldValueBySiteId: function (propertiesFile, field, idHTMLForUpdate, fromServer) {
+    var pf = propertiesFile;
+    var itemLayer;
+    if (fromServer)
+      itemLayer = FieldHelper.buildField(field, {fromServer: fromServer});
+    else
+      itemLayer = FieldHelper.buildField(field._data, {fromServer: fromServer});
+
+    var items = itemLayer.fields;
+
+    $.each(items, function (i, item) {
+      if (item.isPhoto) {
+        FieldController.updateFieldPhotoValue(item, propertiesFile, fromServer);
+      }
+      else if (item.widgetType === "date") {
+        FieldController.updateFieldDateValue(idHTMLForUpdate, item, propertiesFile);
+      }
+      else if (item.widgetType === "hierarchy") {
+        var nodeId = idHTMLForUpdate + item["idfield"];
+        var node = $(nodeId).tree('getSelectedNode');
+        var data = node.id;
+        if (data == null)
+          data = "";
+        propertiesFile.properties[item["idfield"]] = data;
+      } else {
+        var nodeId = idHTMLForUpdate + item["idfield"];
+        var value = $(nodeId).val();
+        if (value == null)
+          value = "";
+        propertiesFile.properties[item["idfield"]] = value;
+      }
+    });
+    return pf;
+  },
+  updateFieldPhotoValue: function (item, propertiesFile, fromServer) {
+    var idfield = item["idfield"];
+    var lPhotoList = PhotoList.getPhotos().length;
+    var sId = App.DataStore.get("sId");
+
+    if (fromServer) {
+      var filePath = App.DataStore.get(sId + "_" + idfield);
+      if (filePath == null)
+        propertiesFile.properties[idfield] = "";
+      else
+        propertiesFile.properties[idfield] = filePath;
+    } else {
+      var fileData = App.DataStore.get(sId + "_" + idfield + "_fileData");
+      var fileNameLocal = App.DataStore.get(sId + "_" + idfield + "_fileName");
+      if (fileData == null || fileNameLocal == null)
+        propertiesFile.properties[idfield] = "";
+      else {
+        propertiesFile.properties[idfield] = fileNameLocal;
+        propertiesFile.files[fileNameLocal] = fileData;
+      }
+    }
+
+    for (var i = 0; i < lPhotoList; i++) {
+      if (PhotoList.getPhotos()[i].id == idfield && PhotoList.getPhotos()[i].sId == sId) {
+        var fileName = PhotoList.getPhotos()[i].name();
+        propertiesFile.properties[idfield] = fileName;
+        propertiesFile.files[fileName] = PhotoList.getPhotos()[i].data;
+        break;
+      }
+    }
+  },
+  updateFieldDateValue: function (idHTMLForUpdate, item, propertiesFile) {
+    var nodeId = idHTMLForUpdate + item["idfield"];
+    var value = $(nodeId).val();
+    if (value != "") {
+      value = convertDateWidgetToParam(value);
+    }
+    propertiesFile.properties[item["idfield"]] = value;
+  },
 };

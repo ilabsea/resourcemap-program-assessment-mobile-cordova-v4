@@ -1,10 +1,10 @@
 $(function () {
 
   $(document).delegate('#btn_sendToServer', 'click', function () {
-    SiteController.submitAllToServerByCollectionIdUserId();
+    SiteOfflineController.submitAllToServerByCollectionIdUserId();
   });
 
   $(document).delegate('#btn_sendToServerAll', 'click', function () {
-    SiteController.submitAllToServerByUserId();
+    SiteOfflineController.submitAllToServerByUserId();
   });
 });

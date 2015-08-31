@@ -4,7 +4,7 @@ $(function () {
     App.emptyHTML();
     $("#btn_sendToServer").hide();
     var cId = App.DataStore.get("cId");
-    SiteController.countByCollectionId(cId);
+    SiteOfflineController.countByCollectionId(cId);
     SiteModel.sitePage = 0;
     SiteOffline.sitePage = 0;
     SiteController.getAllByCollectionId();
@@ -32,10 +32,10 @@ $(function () {
     if (sId == "load-more-site-online") {
       $("#" + sId).remove();
       SiteModel.sitePage++;
-      SiteController.getByCollectionIdOnline();
+      SiteOnlineController.getByCollectionId();
     } else {
       App.DataStore.set("sId", sId);
-      requireReload(SiteController.renderUpdateSiteFormOnline);
+      requireReload(SiteOnlineController.renderUpdateSiteForm);
     }
   });
 
@@ -44,12 +44,12 @@ $(function () {
     if (sId == "load-more-site-offline") {
       $("#" + sId).remove();
       SiteOffline.sitePage++;
-      SiteController.getByCollectionIdOffline();
+      SiteOfflineController.getByCollectionId();
     } else {
       App.DataStore.set("sId", sId);
       $("#btn_back_site_list_all").hide();
       $("#btn_back_site_list").show();
-      requireReload(SiteController.renderUpdateSiteFormOffline);
+      requireReload(SiteOfflineController.renderUpdateSiteForm);
     }
   });
 
@@ -64,13 +64,13 @@ $(function () {
       App.DataStore.set("sId", sId);
       $("#btn_back_site_list_all").show();
       $("#btn_back_site_list").hide();
-      requireReload(SiteController.renderUpdateSiteFormOffline);
+      requireReload(SiteOfflineController.renderUpdateSiteForm);
     }
   });
 
   $(document).delegate('#btn_delete-site', 'click', function () {
     var sId = App.DataStore.get("sId");
-    SiteController.deleteBySiteId(sId);
+    SiteOfflineController.deleteBySiteId(sId);
   });
 
   $(document).delegate('#page-site-list-all', 'pagebeforeshow', function () {
