@@ -106,7 +106,7 @@ $(document).ready(function () {
       if (classElement.length != 0)
         bImage = validateImageSubmitHandler(classElement, '#validation_update-site', SiteController.updateBySiteIdOffline);
       if (h && bImage)
-        SiteController.updateBySiteIdOffline();
+        SiteOfflineController.updateBySiteId();
     }
   });
 
@@ -138,9 +138,9 @@ $(document).ready(function () {
       if (classHierarchyElement.length != 0)
         h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
       if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_update-site-online', SiteController.updateBySiteIdOnline);
+        bImage = validateImageSubmitHandler(classElement, '#validation_update-site-online', SiteOnlineController.updateBySiteId);
       if (h && bImage)
-        SiteController.updateBySiteIdOnline();
+        SiteOnlineController.updateBySiteId();
     }
   });
 

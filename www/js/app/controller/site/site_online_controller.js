@@ -40,7 +40,7 @@ var SiteOnlineController = {
     FieldModel.fetch(function (fields) {
       var propertiesFile = {properties: {}, files: {}};
       $.map(fields, function (field) {
-        propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
+        propertiesFile = FieldHelper.updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
       });
       data = {
         "_method": "put",
@@ -90,7 +90,7 @@ var SiteOnlineController = {
       };
       SiteView.displayUpdateLatLng("site/updateOnline.html",
           $('#div-site-update-name-online'), siteOnlineUpdateData);
-      FieldController.renderUpdateOnline(site);
+      FieldOnlineController.renderUpdate(site);
     });
   },
 };

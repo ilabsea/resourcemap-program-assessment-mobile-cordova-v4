@@ -46,7 +46,7 @@ var SiteOfflineController = {
       FieldOffline.fetchByCollectionId(cId, function (fields) {
         var propertiesFile = {properties: {}, files: {}};
         fields.forEach(function (field) {
-          propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_", false);
+          propertiesFile = FieldHelper.updateFieldValueBySiteId(propertiesFile, field, "#update_", false);
         });
         site.properties(propertiesFile.properties);
         site.files(propertiesFile.files);
@@ -68,18 +68,18 @@ var SiteOfflineController = {
       };
       SiteView.displayUpdateLatLng("site/updateOffline.html",
           $('#div-site-update-name'), siteUpdateData);
-      FieldController.renderUpdateOffline(site);
+      FieldOfflineController.renderUpdate(site);
     });
   },
   submitAllToServerByCollectionIdUserId: function () {
     var cId = App.DataStore.get("cId");
 
     var user = SessionController.currentUser();
-    SiteController.processToServerByCollectionIdUserId(cId, user.id);
+    SiteOfflineController.processToServerByCollectionIdUserId(cId, user.id);
   },
   submitAllToServerByUserId: function () {
     var currentUser = SessionController.currentUser();
-    SiteController.processToServerByUserId(currentUser.id);
+    SiteOfflineController.processToServerByUserId(currentUser.id);
   },
   processToServerByCollectionIdUserId: function (cId, uId) {
     if (App.isOnline()) {
@@ -87,7 +87,7 @@ var SiteOfflineController = {
           .filter('collection_id', "=", cId)
           .filter('user_id', '=', uId).list(function (sites) {
         if (sites.length > 0)
-          SiteController.processingToServer(sites);
+          SiteOfflineController.processingToServer(sites);
       });
     }
     else
@@ -97,7 +97,7 @@ var SiteOfflineController = {
     if (App.isOnline()) {
       Site.all().filter('user_id', '=', userId).list(function (sites) {
         if (sites.length > 0)
-          SiteController.processingToServer(sites);
+          SiteOfflineController.processingToServer(sites);
       });
     }
     else
