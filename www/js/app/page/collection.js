@@ -5,7 +5,7 @@ $(function() {
     hideElement($("#info_sign_in"));
     CollectionController.get();
     var currentUser = SessionController.currentUser();
-    SiteController.countByUserId(currentUser.id);
+    SiteOfflineController.countByUserId(currentUser.id);
   });
 
   $(document).delegate('#page-collection-list li', 'click', function() {
@@ -13,6 +13,6 @@ $(function() {
     App.DataStore.set("cId", cId);
     var cName = $(this).attr("data-name");
     App.DataStore.set("collectionName", cName);
-    CollectionController.displayName({name: cName});
+    CollectionView.displayName({name: cName});
   });
 });

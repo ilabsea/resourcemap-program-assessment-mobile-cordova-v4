@@ -24,11 +24,11 @@ $(function () {
   });
 
   $(document).delegate('#btn_back_create_site', 'click', function () {
-    FieldController.renderLocationField("#lat", "#lng", "");
+    FieldHelper.renderLocationField("#lat", "#lng", "");
   });
 
   $(document).delegate('#btn_back_update_site_online', 'click', function () {
-    FieldController.renderLocationField("#updatelolat_online", "#updatelolng_online", "update_online_");
+    FieldHelper.renderLocationField("#updatelolat_online", "#updatelolng_online", "update_online_");
   });
 
   $(document).delegate('#page-map', 'pageshow', function () {
