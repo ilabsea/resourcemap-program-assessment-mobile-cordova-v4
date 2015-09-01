@@ -1,25 +1,23 @@
 CameraModel = {
-  openCameraDialog: function (idField, updated) {
+  openCameraDialog: function (idField) {
     var site = MyMembershipObj.getSite();
     if (site != "" && !MyMembershipController.canEdit(site)) {
       return false;
     } else {
-      CameraModel.handleOpenCamera(idField, updated);
+      CameraModel.handleOpenCamera(idField);
     }
   },
   invokeCamera: function (cameraType) {
     var idField = $('#currentCameraImage').val();
-    var updated = $('#currentCameraImageType').val();
-    SiteCamera.takePhoto(idField, updated, cameraType);
+    SiteCamera.takePhoto(idField, cameraType);
     CameraModel.closeDialog();
   },
   closeDialog: function() {
     $("#cameraDialog").hide();
     $.mobile.activePage.removeClass('ui-disabled');
   },
-  handleOpenCamera: function (idField, updated) {
+  handleOpenCamera: function (idField) {
     $('#currentCameraImage').val(idField);
-    $('#currentCameraImageType').val(updated);
     localStorage['no_update_reload'] = 1;
     $.mobile.activePage.addClass("ui-disabled");
     $("#cameraDialog").show();
