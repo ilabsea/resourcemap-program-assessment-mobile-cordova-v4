@@ -39,7 +39,7 @@ var SiteOfflineController = {
   updateBySiteId: function () {
     var sId = App.DataStore.get("sId");
     SiteOffline.fetchBySiteId(sId, function (site) {
-      site.name($("#lat").val());
+      site.name($("#name").val());
       site.lat($("#lat").val());
       site.lng($("#lng").val());
       var cId = App.DataStore.get("cId");
@@ -61,13 +61,13 @@ var SiteOfflineController = {
   renderUpdateSiteForm: function () {
     var sId = App.DataStore.get("sId");
     SiteOffline.fetchBySiteId(sId, function (site) {
-      var siteUpdateData = {
+      var siteData = {
         name: site.name(),
         lat: site.lat(),
         lng: site.lng()
       };
-      SiteView.displayUpdateLatLng("site/update.html",
-          $('#div-site-update-name'), siteUpdateData);
+      SiteView.displayUpdateLatLng("site/form.html",
+          $('#div_default_layer'), siteData);
       FieldOfflineController.renderUpdate(site);
     });
   },

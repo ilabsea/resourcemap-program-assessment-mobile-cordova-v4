@@ -23,8 +23,8 @@ var FieldOfflineController = {
         App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
         App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
         FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
-            {field_collections: field_collections}, "");
-        FieldHelperView.display("field/form.html", $('#div_field_collection'), "",
+            {field_collections: field_collections});
+        FieldHelperView.display("field/form.html", $('#div_field_collection'), 
             {field_collections: field_collections}, false);
         ViewBinding.setBusy(false);
       }
@@ -52,6 +52,7 @@ var FieldOfflineController = {
       FieldHelperView.display("field/form.html",
           $('#div_field_collection'), 
           {field_collections: field_collections}, true);
+          ViewBinding.setBusy(false);
     });
   },
 };

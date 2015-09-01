@@ -35,7 +35,7 @@ $(document).ready(function () {
           SiteController.add();
         else if(SiteController.form == 'update_online')
           SiteOnlineController.updateBySiteId();
-        else if(SiteController.form == 'update')
+        else if(SiteController.form == 'update_offline')
           SiteOfflineController.updateBySiteId();
       }
     }

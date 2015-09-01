@@ -18,8 +18,8 @@ var FieldOnlineController = {
       FieldController.synForCurrentCollection(field_collections);
 
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
-          {field_collections: field_collections}, "");
-      FieldHelperView.display("field/form.html", $('#div_field_collection'), "",
+          {field_collections: field_collections});
+      FieldHelperView.display("field/form.html", $('#div_field_collection'), 
           {field_collections: field_collections}, false);
       ViewBinding.setBusy(false);
       Location.prepareLocation();
