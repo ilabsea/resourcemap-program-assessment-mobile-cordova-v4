@@ -38,7 +38,7 @@ $(function () {
     } else {
       App.DataStore.set("sId", sId);
       SiteController.form = "update_online";
-      requireReload(SiteOnlineController.renderUpdateSiteForm);
+      SiteOnlineController.renderUpdateSiteForm();
     }
   });
 
@@ -53,7 +53,7 @@ $(function () {
       App.DataStore.set("sId", sId);
       $("#btn_back_site_list_all").hide();
       $("#btn_back_site_list").show();
-      requireReload(SiteOfflineController.renderUpdateSiteForm);
+      SiteOfflineController.renderUpdateSiteForm();
     }
   });
 
@@ -68,7 +68,7 @@ $(function () {
       App.DataStore.set("sId", sId);
       $("#btn_back_site_list_all").show();
       $("#btn_back_site_list").hide();
-      requireReload(SiteOfflineController.renderUpdateSiteForm);
+      SiteOfflineController.renderUpdateSiteForm();
     }
   });
 
@@ -92,8 +92,4 @@ $(function () {
         App.DataStore.clearConfig("configSelectManyForSkipLogic");
         App.DataStore.clearConfig("configLocations");
       });
-
-  $(document).delegate('#lat, #lng', 'change', function () {
-    FieldController.renderLocationField("#lat", "#lng", "");
-  });
 });

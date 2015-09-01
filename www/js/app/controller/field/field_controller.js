@@ -12,9 +12,9 @@ FieldController = {
       FieldOffline.add(newFields);
     });
   },
-  renderLocationField: function (textLat, textLng, prefixId) {
-    var lat = $(textLat).val();
-    var lng = $(textLng).val();
+  renderLocationField: function () {
+    var lat = $("#lat").val();
+    var lng = $("#lng").val();
     var location_fields_id = JSON.parse(App.DataStore.get("location_fields_id"));
     for (var i in location_fields_id) {
       var id = location_fields_id[i];
@@ -22,7 +22,7 @@ FieldController = {
       var locationOptions = Location.getLocations(lat, lng, config);
       if (locationOptions)
         config.locationOptions = locationOptions;
-      var $element = $("#" + prefixId + id);
+      var $element = $("#" + id);
       FieldHelperView.displayLocationField("field/location.html", $element, {config: config});
     }
   }

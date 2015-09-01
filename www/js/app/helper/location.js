@@ -42,7 +42,7 @@ var Location = {
       $("#lng").val(lng);
       $("#mark_lat").val(lat);
       $("#mark_lng").val(lng);
-      FieldController.renderLocationField("#lat", "#lng", "");
+      FieldController.renderLocationField();
     }, function () {
       alert("Location cannot be found.");
     }, {
