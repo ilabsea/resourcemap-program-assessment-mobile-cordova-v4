@@ -1,4 +1,5 @@
 SiteController = {
+  form: "",
   setEntryDate: function () {
     var start_entry_date = new Date().toISOString();
     $("#start_entry_date").val(start_entry_date);
@@ -58,7 +59,7 @@ SiteController = {
   },
   resetForm: function () {
     PhotoList.clear();
-    $('#form_create_site')[0].reset();
+    $('#form_site')[0].reset();
     App.redirectTo("#page-site-list");
   }
 };

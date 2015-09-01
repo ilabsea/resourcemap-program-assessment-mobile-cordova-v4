@@ -1,7 +1,7 @@
 var SiteHelper = {
   buildDataForSite: function () {
     var cId = App.DataStore.get("cId");
-    var sname = $('#sitename').val();
+    var sname = $('#name').val();
     var slat = $('#lat').val();
     var slng = $('#lng').val();
     var start_entry_date = $("#start_entry_date").val();

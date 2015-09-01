@@ -40,7 +40,7 @@ var SiteOnlineController = {
     FieldModel.fetch(function (fields) {
       var propertiesFile = {properties: {}, files: {}};
       $.map(fields, function (field) {
-        propertiesFile = FieldHelper.updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
+        propertiesFile = FieldHelper.updateFieldValueBySiteId(propertiesFile, field, true);
       });
       data = {
         "_method": "put",

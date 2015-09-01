@@ -307,7 +307,7 @@ FieldHelper = {
     var lng = fromServer ? site.long : site.lng();
     item.config.locationOptions = Location.getLocations(lat, lng, item.config);
   },
-  updateFieldValueBySiteId: function (propertiesFile, field, idHTMLForUpdate, fromServer) {
+  updateFieldValueBySiteId: function (propertiesFile, field, fromServer) {
     var pf = propertiesFile;
     var itemLayer;
     if (fromServer)
@@ -317,22 +317,22 @@ FieldHelper = {
 
     var items = itemLayer.fields;
 
-    $.each(items, function (i, item) {
+    $.map(items, function (item) {
       if (item.isPhoto) {
         FieldController.updateFieldPhotoValue(item, propertiesFile, fromServer);
       }
       else if (item.widgetType === "date") {
-        FieldController.updateFieldDateValue(idHTMLForUpdate, item, propertiesFile);
+        FieldController.updateFieldDateValue(item, propertiesFile);
       }
       else if (item.widgetType === "hierarchy") {
-        var nodeId = idHTMLForUpdate + item["idfield"];
+        var nodeId = "#" + item["idfield"];
         var node = $(nodeId).tree('getSelectedNode');
         var data = node.id;
         if (data == null)
           data = "";
         propertiesFile.properties[item["idfield"]] = data;
       } else {
-        var nodeId = idHTMLForUpdate + item["idfield"];
+        var nodeId = "#" + item["idfield"];
         var value = $(nodeId).val();
         if (value == null)
           value = "";
@@ -342,7 +342,7 @@ FieldHelper = {
     return pf;
   },
   updateFieldPhotoValue: function (item, propertiesFile, fromServer) {
-    var idfield = item["idfield"];
+    var idfield = "#" + item["idfield"];
     var lPhotoList = PhotoList.getPhotos().length;
     var sId = App.DataStore.get("sId");
 
@@ -372,8 +372,8 @@ FieldHelper = {
       }
     }
   },
-  updateFieldDateValue: function (idHTMLForUpdate, item, propertiesFile) {
-    var nodeId = idHTMLForUpdate + item["idfield"];
+  updateFieldDateValue: function (item, propertiesFile) {
+    var nodeId = "#" + item["idfield"];
     var value = $(nodeId).val();
     if (value != "") {
       value = convertDateWidgetToParam(value);

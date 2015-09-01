@@ -1,5 +1,46 @@
 $(document).ready(function () {
 
+  $('#form_site').validate({
+    ignore: '',
+    focusInvalid: false,
+    errorPlacement: function (error, element) {
+      if (element.attr("type") === "tel" &&
+          (element.attr("min") || element.attr("max")))
+        error.insertAfter($(element).parent());
+      addClassError(element);
+
+      var classElement = document.getElementsByClassName("image");
+      var classHierarchyElement = document.getElementsByClassName("tree");
+      if (classHierarchyElement.length != 0)
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_create-site');
+      if (classElement.length != 0)
+        bImage = validateImageSubmitHandler(classElement, '#validation_form_site');
+    },
+    invalidHandler: function () {
+      showValidateMessage('#validation_form_site');
+    },
+    submitHandler: function () {
+      var classElement = document.getElementsByClassName("image");
+      var classHierarchyElement = document.getElementsByClassName("tree");
+      var h = true;
+      var bImage = true;
+
+      if (classHierarchyElement.length != 0)
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_form_site');
+      if (classElement.length != 0)
+        bImage = validateImageSubmitHandler(classElement, '#validation_form_site');
+
+      if (h && bImage) {
+        if (SiteController.form == 'new')
+          SiteController.add();
+        else if(SiteController.form == 'update_online')
+          SiteOnlineController.updateBySiteId();
+        else if(SiteController.form == 'update')
+          SiteOfflineController.updateBySiteId();
+      }
+    }
+  });
+
   $('#form_login').validate({
     focusInvalid: false,
     errorPlacement: function () {
@@ -36,111 +77,6 @@ $(document).ready(function () {
     },
     invalidHandler: function () {
       showValidateMessage('#validation_email_psd_confirm');
-    }
-  });
-
-  $('#form_create_site').validate({
-    ignore: '',
-    focusInvalid: false,
-    errorPlacement: function (error, element) {
-      if (element.attr("type") === "tel" &&
-          (element.attr("min") || element.attr("max")))
-        error.insertAfter($(element).parent());
-      addClassError(element);
-
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_create-site');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_create-site');
-    },
-    invalidHandler: function () {
-      showValidateMessage('#validation_create-site');
-    },
-    submitHandler: function () {
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      var h = true;
-      var bImage = true;
-
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_create-site');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_create-site');
-
-      if (h && bImage) {
-        SiteController.add();
-        App.DataStore.clearPartlyAfterCreateSite();
-      }
-    }
-  });
-
-  $('#form_update_site').validate({
-    ignore: '',
-    focusInvalid: false,
-    errorPlacement: function (error, element) {
-      if (element.attr("type") === "tel" &&
-          (element.attr("min") || element.attr("max")))
-        error.insertAfter($(element).parent());
-      addClassError(element);
-
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
-    },
-    invalidHandler: function () {
-      showValidateMessage('#validation_update-site');
-    },
-    submitHandler: function () {
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      var h = true;
-      var bImage = true;
-
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_update-site', SiteController.updateBySiteIdOffline);
-      if (h && bImage)
-        SiteOfflineController.updateBySiteId();
-    }
-  });
-
-  $('#form_update_site_online').validate({
-    ignore: '',
-    focusInvalid: false,
-    errorPlacement: function (error, element) {
-      if (element.attr("type") === "tel" &&
-          (element.attr("min") || element.attr("max")))
-        error.insertAfter($(element).parent());
-      addClassError(element);
-
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
-    },
-    invalidHandler: function () {
-      showValidateMessage('#validation_update-site-online');
-    },
-    submitHandler: function () {
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      var h = true;
-      var bImage = true;
-
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_update-site-online', SiteOnlineController.updateBySiteId);
-      if (h && bImage)
-        SiteOnlineController.updateBySiteId();
     }
   });
 

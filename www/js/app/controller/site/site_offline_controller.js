@@ -39,14 +39,14 @@ var SiteOfflineController = {
   updateBySiteId: function () {
     var sId = App.DataStore.get("sId");
     SiteOffline.fetchBySiteId(sId, function (site) {
-      site.name($("#updatesitename").val());
-      site.lat($("#updatelolat").val());
-      site.lng($("#updatelolng").val());
+      site.name($("#lat").val());
+      site.lat($("#lat").val());
+      site.lng($("#lng").val());
       var cId = App.DataStore.get("cId");
       FieldOffline.fetchByCollectionId(cId, function (fields) {
         var propertiesFile = {properties: {}, files: {}};
         fields.forEach(function (field) {
-          propertiesFile = FieldHelper.updateFieldValueBySiteId(propertiesFile, field, "#update_", false);
+          propertiesFile = FieldHelper.updateFieldValueBySiteId(propertiesFile, field, false);
         });
         site.properties(propertiesFile.properties);
         site.files(propertiesFile.files);

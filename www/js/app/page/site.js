@@ -18,6 +18,7 @@ $(function () {
   });
 
   $(document).delegate('#btn_create_site', 'click', function () {
+    SiteController.form = "new";
     App.redirectTo('#page-form-site');
     MyMembershipObj.setSite("");
     SiteController.renderSiteForm();
@@ -36,6 +37,7 @@ $(function () {
       SiteOnlineController.getByCollectionId();
     } else {
       App.DataStore.set("sId", sId);
+      SiteController.form = "update_online";
       requireReload(SiteOnlineController.renderUpdateSiteForm);
     }
   });
@@ -47,6 +49,7 @@ $(function () {
       SiteOffline.sitePage++;
       SiteOfflineController.getByCollectionId();
     } else {
+      SiteController.form = "update_offline";
       App.DataStore.set("sId", sId);
       $("#btn_back_site_list_all").hide();
       $("#btn_back_site_list").show();
