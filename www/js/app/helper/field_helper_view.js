@@ -8,15 +8,15 @@ FieldHelperView = {
       element.css("z-index", 200000);
     });
   },
-  display: function (templateURL, element, elementPrefixID, fieldData, update) {
+  display: function (templateURL, element, fieldData, update) {
     App.Template.process(templateURL, fieldData, function (content) {
       element.html(content);
-      FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
+      FieldHelperView.displayHierarchy(fieldData, update);
 
       element.trigger("create");
 
-      FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
-      FieldHelperView.displayUiDisabled(elementPrefixID, fieldData, update);
+      FieldHelperView.displayCalculationField(fieldData);
+      FieldHelperView.displayUiDisabled(fieldData, update);
 
       DigitAllowance.prepareEventListenerOnKeyPress();
 
@@ -40,27 +40,26 @@ FieldHelperView = {
       element.selectmenu("refresh");
     });
   },
-  displayLayerMenu: function (path, element, layers_collection, current_page) {
-    layers_collection.field_collections.current_page = current_page;
+  displayLayerMenu: function (path, element, layers_collection) {
     App.Template.process(path, layers_collection, function (content) {
       element.html(content);
       element.trigger("create");
     });
   },
-  displayHierarchy: function (elementPrefixID, fieldData, update) {
+  displayHierarchy: function (fieldData, update) {
     $.map(fieldData.field_collections, function (properties) {
       $.map(properties.fields, function (fieldsInside) {
         if (fieldsInside.kind === "hierarchy") {
           var data = fieldsInside.configHierarchy;
           var id = fieldsInside.idfield;
-          Hierarchy.renderDisplay(elementPrefixID + id, data);
+          Hierarchy.renderDisplay(id, data);
           if (update)
-            Hierarchy.selectedNode(elementPrefixID + id, fieldsInside._selected);
+            Hierarchy.selectedNode(id, fieldsInside._selected);
         }
       });
     });
   },
-  displayCalculationField: function (elementPrefixID, fieldData) {
+  displayCalculationField: function (fieldData) {
     var fieldCal = [];
 
     $.map(fieldData.field_collections, function (properties) {
@@ -68,7 +67,7 @@ FieldHelperView = {
         if (fieldsInside.kind === "calculation") {
           if (fieldsInside.config.dependent_fields) {
             $.each(fieldsInside.config.dependent_fields, function (i, dependent_field) {
-              var e = "#" + elementPrefixID + dependent_field.id;
+              var e = "#" + dependent_field.id;
               $(e).addClass('calculation');
             });
           }
@@ -78,11 +77,11 @@ FieldHelperView = {
       App.DataStore.set('fields_cal', JSON.stringify(fieldCal));
     });
   },
-  displayUiDisabled: function (prefixId, fieldData, update) {
+  displayUiDisabled: function (fieldData, update) {
     $.map(fieldData.field_collections, function (layer) {
       $.map(layer.fields, function (field) {
         if (update)
-          SkipLogic.disableUIEditSite(field, prefixId);
+          SkipLogic.disableUIEditSite(field);
         else
           SkipLogic.disableUIAddSite(field);
       });

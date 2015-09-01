@@ -41,10 +41,9 @@ var FieldOnlineController = {
 
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
-          {field_collections: field_collections}, "update_online_");
+          {field_collections: field_collections});
       FieldHelperView.display("field/form.html",
-          $('#div_field_collection'),
-          "update_online_", {field_collections: field_collections}, true);
+          $('#div_field_collection'), {field_collections: field_collections}, true);
     });
   },
 };

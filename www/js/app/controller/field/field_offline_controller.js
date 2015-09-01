@@ -48,9 +48,9 @@ var FieldOfflineController = {
 
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
-          {field_collections: field_collections}, "update_");
+          {field_collections: field_collections});
       FieldHelperView.display("field/form.html",
-          $('#div_field_collection'), "update_",
+          $('#div_field_collection'), 
           {field_collections: field_collections}, true);
     });
   },
