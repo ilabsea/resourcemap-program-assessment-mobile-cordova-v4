@@ -37,10 +37,8 @@ SkipLogic = {
   },
   skipLogicSelectMany: function (element) {
     var selectedValue = element.val();
-    var idElement = element.attr('id');
-    var id = idElement.substr(idElement.lastIndexOf("_") + 1);
-    var wrapper_skip = idElement.slice(0, idElement.lastIndexOf("_") + 1);
     if (selectedValue) {
+      var id = element.attr('id');
       var configOption = JSON.parse(
           App.DataStore.get("configSelectManyForSkipLogic_" + id));
 
@@ -74,19 +72,19 @@ SkipLogic = {
               }
             }
             if (all_condi) {
-              var field_id = wrapper_skip + field_logic.field_id;
-              SkipLogic.handleSkipLogic(idElement, field_id);
+              var field_id = "wrapper_" + field_logic.field_id;
+              SkipLogic.handleSkipLogic(id, field_id);
               return false;
             } else {
               if (k === configOption.config.field_logics.length - 1) {
-                SkipLogic.getDisabledId(idElement, idElement);
+                SkipLogic.getDisabledId(id, id);
               }
             }
           });
         }
       }
     } else
-      SkipLogic.getDisabledId(idElement, idElement);
+      SkipLogic.getDisabledId(id, id);
   },
   handleSkipLogic: function (element, field_id) {
     var id = "";
@@ -169,9 +167,7 @@ SkipLogic = {
     var field_id_arr = JSON.parse(App.DataStore.get("field_id_arr"));
     var disabled_id, enabled_id;
     var startIndex, endIndex;
-    var prefixId = fieldId.substr(0, fieldId.lastIndexOf("_") + 1);
     $.each(field_id_arr, function (i, field_id) {
-      field_id = prefixId + field_id;
       if (field_id === fieldId)
         startIndex = i + 1;
       if (field_id === field_focus) {
@@ -180,7 +176,7 @@ SkipLogic = {
       }
     });
     for (var i = startIndex; i < endIndex; i++) {
-      disabled_id = prefixId + field_id_arr[i];
+      disabled_id = field_id_arr[i];
       if ($("#" + disabled_id).attr('require') === "required"
           || $("#" + disabled_id).attr("required")) {
         $("#" + disabled_id).attr('require', "");
@@ -190,7 +186,7 @@ SkipLogic = {
       SkipLogic.setValueToEmpty(disabled_id);
     }
     for (var j = endIndex; j < field_id_arr.length; j++) {
-      enabled_id = prefixId + field_id_arr[j];
+      enabled_id = field_id_arr[j];
       SkipLogic.enableElement(enabled_id);
     }
   },
