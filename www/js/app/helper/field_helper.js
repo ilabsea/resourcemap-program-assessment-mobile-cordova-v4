@@ -322,10 +322,10 @@ FieldHelper = {
 
     $.map(items, function (item) {
       if (item.isPhoto) {
-        FieldController.updateFieldPhotoValue(item, propertiesFile, fromServer);
+        FieldHelper.updateFieldPhotoValue(item, propertiesFile, fromServer);
       }
       else if (item.widgetType === "date") {
-        FieldController.updateFieldDateValue(item, propertiesFile);
+        FieldHelper.updateFieldDateValue(item, propertiesFile);
       }
       else if (item.widgetType === "hierarchy") {
         var nodeId = "#" + item["idfield"];
@@ -345,7 +345,7 @@ FieldHelper = {
     return pf;
   },
   updateFieldPhotoValue: function (item, propertiesFile, fromServer) {
-    var idfield = "#" + item["idfield"];
+    var idfield = item["idfield"];
     var lPhotoList = PhotoList.getPhotos().length;
     var sId = App.DataStore.get("sId");
 

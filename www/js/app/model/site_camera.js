@@ -3,7 +3,7 @@ SiteCamera = {
   dataWithMimeType: function(data) {
     return 'data:image/jpeg;base64,' + data;
   },
-  takePhoto: function(idField, updated, cameraType) {
+  takePhoto: function(idField, cameraType) {
     var type;
     if (cameraType === "camera") {
       type = Camera.PictureSourceType.CAMERA;
@@ -12,7 +12,6 @@ SiteCamera = {
       type = Camera.PictureSourceType.SAVEDPHOTOALBUM;
     }
     SiteCamera.id = idField;
-    SiteCamera.updated = updated;
     var cameraOptions = {
       quality: 50,
       destinationType: Camera.DestinationType.DATA_URL,
