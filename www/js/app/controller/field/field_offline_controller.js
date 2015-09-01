@@ -24,7 +24,7 @@ var FieldOfflineController = {
         App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
         FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
             {field_collections: field_collections}, "");
-        FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
+        FieldHelperView.display("field/form.html", $('#div_field_collection'), "",
             {field_collections: field_collections}, false);
         ViewBinding.setBusy(false);
       }
@@ -49,8 +49,8 @@ var FieldOfflineController = {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
           {field_collections: field_collections}, "update_");
-      FieldHelperView.display("field/updateOffline.html",
-          $('#div_update_field_collection'), "update_",
+      FieldHelperView.display("field/form.html",
+          $('#div_field_collection'), "update_",
           {field_collections: field_collections}, true);
     });
   },

@@ -27,7 +27,7 @@ SiteController = {
           name: site.name(),
           collectionName: site.collection_name(),
           date: fullDate,
-          link: "#page-update-site"
+          link: "#page-form-site"
         };
         siteofflineData.push(item);
       });
@@ -44,6 +44,17 @@ SiteController = {
         SiteController.display($('#offlinesite-list'), sitesRender);
       });
     });
+  },
+  renderSiteForm: function () {
+    var form = {
+      editable: "",
+      name: "",
+      lat: "",
+      lng: ""
+    };
+    SiteView.displayUpdateLatLng("site/form.html",
+        $('#div_default_layer'), form);
+    FieldController.getByCollectionId();
   },
   resetForm: function () {
     PhotoList.clear();

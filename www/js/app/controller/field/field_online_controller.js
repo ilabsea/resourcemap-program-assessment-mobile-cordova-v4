@@ -19,7 +19,7 @@ var FieldOnlineController = {
 
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
           {field_collections: field_collections}, "");
-      FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
+      FieldHelperView.display("field/form.html", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
       ViewBinding.setBusy(false);
       Location.prepareLocation();
@@ -42,8 +42,8 @@ var FieldOnlineController = {
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
       FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
           {field_collections: field_collections}, "update_online_");
-      FieldHelperView.display("field/updateOnline.html",
-          $('#div_update_field_collection_online'),
+      FieldHelperView.display("field/form.html",
+          $('#div_field_collection'),
           "update_online_", {field_collections: field_collections}, true);
     });
   },

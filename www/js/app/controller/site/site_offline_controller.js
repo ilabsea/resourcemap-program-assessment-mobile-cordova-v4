@@ -16,7 +16,7 @@ var SiteOfflineController = {
           name: site.name(),
           collectionName: "offline",
           date: fullDate,
-          link: "#page-update-site"
+          link: "#page-form-site"
         });
       });
       SiteOffline.countByCollectionIdUserId(cId, uId, function (count) {
@@ -66,7 +66,7 @@ var SiteOfflineController = {
         lat: site.lat(),
         lng: site.lng()
       };
-      SiteView.displayUpdateLatLng("site/updateOffline.html",
+      SiteView.displayUpdateLatLng("site/update.html",
           $('#div-site-update-name'), siteUpdateData);
       FieldOfflineController.renderUpdate(site);
     });

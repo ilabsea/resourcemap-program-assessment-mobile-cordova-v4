@@ -224,7 +224,7 @@
     </div> 
    </div>
    <div data-role="content" id="sitelist">
-    <div> <a data-role="button" id="btn_create_site" href="#page-create-site" 
+    <div> <a data-role="button" id="btn_create_site"
              data-icon="plus" data-i18n="global.add">Add new site</a>
     </div>	   
     <ul class="clearPreviousDisplay" data-role='listview' id="site-list" 
@@ -240,8 +240,8 @@
    </div>
   </div>
 
-  <!--page-create-site-->
-  <div data-role="page" id="page-create-site" data-theme="b">
+  <!--page-form-site-->
+  <div data-role="page" id="page-form-site" data-theme="b">
    <div data-role="header">
     <a data-role="button" data-theme="a" href="#page-site-list" 
        id='btn_back_site_in_create' data-icon="carat-l" class="ui-btn-left" 
@@ -251,25 +251,16 @@
     <div class="ui-btn-right" id="ui-btn-layer-menu"></div> 
    </div>
    <div data-role="content"> 
-    <form method="post" id="form_create_site" enctype="multipart/form-data">                  
+    <form id="form_site"> 
      <div>
-      <label for="sname" data-i18n="global.name"> Name </label>
-      <input type="text" name="sitename" id="sitename" class="required"/>
-     </div><br>
-     <a href="#page-map"><img id="create-icon-map" src="img/map.png" 
-                              alt="map icon" width="50" height="50"></a>
-     <div>
-      <label for="lolat" data-i18n="global.lat"> Location'Lat </label>
-      <input type="number" name="lat" id="lat" class="required" readonly/>
-      <label for="lolng" data-i18n="global.lng"> Location'Lng </label>
-      <input type="number" name="lng" id="lng" class="required" readonly/>
       <input type="hidden" name="start_entry_date" id="start_entry_date"/>
      </div>
-     <div class="clearPreviousDisplay" id="div_field_collection"></div> 
-     <button id="btn_submitAddSite" data-inset="true" 
+     <div id="div_default_layer" class="clearPreviousDisplay"></div>
+     <div id="div_field_collection" class="clearPreviousDisplay" ></div> 
+     <button data-inset="true" 
              data-i18n="global.save_site">Save Site
      </button>
-     <p id="validation_create-site" class="required_data"  tabindex="200" 
+     <p id="validation_form_site" class="required_data"  tabindex="200" 
         data-i18n="validation.emailPsdConfirm"> Please enter all required fields. 
      </p>
     </form>  
@@ -306,63 +297,7 @@
    </div>
   </div>
 
-  <!-- update site within a collection in local database-->
-  <div data-role="page" id="page-update-site" data-theme="b">
-   <div data-role="header">
-    <div><a href="#page-site-list" id="btn_back_site_list" 
-            data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" 
-            class="ui-btn-left" data-i18n="global.back">Back</a></div>
-    <div><a href="#page-site-list-all" id="btn_back_site_list_all" 
-            data-role="button" data-theme="a" data-inline="true" data-icon="carat-l" 
-            class="ui-btn-left" data-i18n="global.back">Back</a></div>
-    <h1 class="title"> </h1>
-    <div class="ui-btn-right" id="ui-btn-layer-menu-update"></div>
-   </div>
-   <div data-role="content">
-    <form  method="post" id="form_update_site">
-     <div id="div-site-update-name"></div>
-     <div class="clearPreviousDisplay" id="div_update_field_collection"> </div>
-     <div class="ui-grid-a">
-      <div class="ui-block-a"><button id="btn_submitUpdateSite" 
-                                      data-i18n="global.update">Update</button>
-      </div>
-      <div class="ui-block-b">
-       <a data-role="button" href="#confirm_delete_site" data-rel="dialog" 
-          data-i18n="global.delete">Delete</a>
-      </div>	   
-     </div>
-     <p id="validation_update-site" class="required_data" tabindex="200" 
-        data-i18n="validation.emailPsdConfirm"> Please enter all required fields. 
-     </p>
-    </form> 
-   </div>
-  </div>
-
-  <!--update site within a collection in server database-->
-  <div data-role="page" id="page-update-site-online" data-theme="b">
-   <div data-role="header">
-    <a href="#page-site-list" id="btn_back_site_list_online" data-role="button" 
-       data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left" 
-       data-i18n="global.back">Back
-    </a>
-    <h1 class="title"> </h1>
-    <div class="ui-btn-right" id="ui-btn-layer-menu-update-online"></div>
-   </div>
-   <div data-role="content">
-    <form id="form_update_site_online">
-     <div id="div-site-update-name-online"> </div>
-     <div class="clearPreviousDisplay" id="div_update_field_collection_online"></div>
-     <div>
-      <button id="btn_submitUpdateSite_online"  data-i18n="global.update">Update
-      </button>
-     </div>
-     <p id="validation_update-site-online" class="required_data" tabindex="200" 
-        data-i18n="validation.emailPsdConfirm"> Please enter all required fields. 
-     </p>
-    </form>
-   </div>
-  </div>
-
+  
   <!-- delete site within a collection -->
   <div data-dom-cache="false" data-role="page" id="confirm_delete_site" data-theme="b">
    <div data-role="header">

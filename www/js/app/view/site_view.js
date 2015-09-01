@@ -5,8 +5,8 @@ var SiteView = {
       element.listview("refresh");
     });
   },
-  displayUpdateLatLng: function (templateURL, element, siteUpdateData) {
-    App.Template.process(templateURL, siteUpdateData, function (content) {
+  displayUpdateLatLng: function (templateURL, element, siteData) {
+    App.Template.process(templateURL, siteData, function (content) {
       element.html(content);
       element.trigger("create");
     });

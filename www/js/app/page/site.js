@@ -12,18 +12,19 @@ $(function () {
   });
 
   $(document).delegate('#page-site-list', 'pagehide', function () {
-    if ($.mobile.activePage.is("#page-create-site")) {
+    if ($.mobile.activePage.is("#page-form-site")) {
       ViewBinding.setBusy(true);
     }
   });
 
   $(document).delegate('#btn_create_site', 'click', function () {
+    App.redirectTo('#page-form-site');
     MyMembershipObj.setSite("");
-    FieldController.getByCollectionId();
-    $('#form_create_site')[0].reset();
+    SiteController.renderSiteForm();
+    $('#form_site')[0].reset();
   });
 
-  $(document).delegate('#page-create-site', 'pageshow', function () {
+  $(document).delegate('#page-form-site', 'pageshow', function () {
     SiteController.setEntryDate();
   });
 

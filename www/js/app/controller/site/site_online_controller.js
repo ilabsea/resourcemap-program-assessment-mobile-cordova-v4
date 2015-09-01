@@ -18,7 +18,7 @@ var SiteOnlineController = {
           name: data.name,
           collectionName: "",
           date: date,
-          link: "#page-update-site-online"
+          link: "#page-form-site"
         };
         siteOnlineData.push(item);
       });
@@ -47,9 +47,9 @@ var SiteOnlineController = {
         "auth_token": App.Session.getAuthToken(),
         "rm_wfp_version": App.VERSION,
         "site": {
-          "name": $("#updatesitename_online").val(),
-          "lat": $("#updatelolat_online").val(),
-          "lng": $("#updatelolng_online").val(),
+          "name": $("#name").val(),
+          "lat": $("#lat").val(),
+          "lng": $("#lng").val(),
           "properties": propertiesFile.properties,
           "files": propertiesFile.files
         }
@@ -82,14 +82,14 @@ var SiteOnlineController = {
       } else {
         $("#btn_submitUpdateSite_online").show();
       }
-      var siteOnlineUpdateData = {
+      var siteData = {
         editable: (can_edit ? "" : "readonly"),
         name: site.name,
         lat: site.lat,
         lng: site.long
       };
-      SiteView.displayUpdateLatLng("site/updateOnline.html",
-          $('#div-site-update-name-online'), siteOnlineUpdateData);
+      SiteView.displayUpdateLatLng("site/form.html",
+          $('#div_default_layer'), siteData);
       FieldOnlineController.renderUpdate(site);
     });
   },
