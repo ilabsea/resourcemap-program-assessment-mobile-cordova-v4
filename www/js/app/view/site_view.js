@@ -5,10 +5,13 @@ var SiteView = {
       element.listview("refresh");
     });
   },
-  displayUpdateLatLng: function (templateURL, element, siteData) {
+  displayDefaultLayer: function (templateURL, element, siteData) {
     App.Template.process(templateURL, siteData, function (content) {
       element.html(content);
       element.trigger("create");
+      if (SiteController.form == 'new'){
+        Location.prepareLocation();
+      }
     });
   },
   displayError: function (templateURL, element, fieldData) {

@@ -66,7 +66,7 @@ var SiteOfflineController = {
         lat: site.lat(),
         lng: site.lng()
       };
-      SiteView.displayUpdateLatLng("site/form.html",
+      SiteView.displayDefaultLayer("site/form.html",
           $('#div_default_layer'), siteData);
       FieldOfflineController.renderUpdate(site);
     });

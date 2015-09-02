@@ -53,7 +53,7 @@ SiteController = {
       lat: "",
       lng: ""
     };
-    SiteView.displayUpdateLatLng("site/form.html",
+    SiteView.displayDefaultLayer("site/form.html",
         $('#div_default_layer'), form);
     FieldController.getByCollectionId();
   },

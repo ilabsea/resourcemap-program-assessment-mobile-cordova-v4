@@ -22,7 +22,6 @@ var FieldOnlineController = {
       FieldHelperView.display("field/form.html", $('#div_field_collection'), 
           {field_collections: field_collections}, false);
       ViewBinding.setBusy(false);
-      Location.prepareLocation();
     });
   },
   renderUpdate: function (site) {

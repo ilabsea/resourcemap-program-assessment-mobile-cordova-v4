@@ -88,7 +88,7 @@ var SiteOnlineController = {
         lat: site.lat,
         lng: site.long
       };
-      SiteView.displayUpdateLatLng("site/form.html",
+      SiteView.displayDefaultLayer("site/form.html",
           $('#div_default_layer'), siteData);
       FieldOnlineController.renderUpdate(site);
     });

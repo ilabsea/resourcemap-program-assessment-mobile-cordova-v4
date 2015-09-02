@@ -54,6 +54,7 @@ var Location = {
       var lat = $("#lat").val();
       var lng = $("#lng").val();
       if (lat == "" && lng == "") {
+        App.log('get current location')
         Location.getCurrentLocation();
       }
     });

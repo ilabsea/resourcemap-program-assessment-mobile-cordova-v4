@@ -28,7 +28,6 @@ var FieldOfflineController = {
             {field_collections: field_collections}, false);
         ViewBinding.setBusy(false);
       }
-      Location.prepareLocation();
     });
   },
   renderUpdate: function (site) {
