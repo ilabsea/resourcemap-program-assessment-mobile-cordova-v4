@@ -1,6 +1,7 @@
 SiteOffline = {
-  limit: 15,
+  limit: 7,
   sitePage: 0,
+  nbSites: 0,
   add: function (data) {
     var collectionName = App.DataStore.get("collectionName");
     var today = new Date();

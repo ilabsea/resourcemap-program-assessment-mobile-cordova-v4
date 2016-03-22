@@ -224,40 +224,51 @@ SiteController = {
     });
   },
   submitAllToServerByCollectionIdUserId: function () {
-    var cId = App.DataStore.get("cId");
-
-    var user = SessionController.currentUser();
-    SiteController.processToServerByCollectionIdUserId(cId, user.id);
+    ViewBinding.setBusy(true);
+    if (App.isOnline()) {
+      SiteController.processToServerByCollectionIdUserId();
+    }
+    else{
+      ViewBinding.setBusy(false);
+      alert(i18n.t("global.no_internet_connection"));
+    }
   },
   submitAllToServerByUserId: function () {
-    var currentUser = SessionController.currentUser();
-    SiteController.processToServerByUserId(currentUser.id);
-  },
-  processToServerByCollectionIdUserId: function (cId, uId) {
-    if (App.isOnline()) {
-      Site.all()
-          .filter('collection_id', "=", cId)
-          .filter('user_id', '=', uId).list(function (sites) {
-        if (sites.length > 0)
-          SiteController.processingToServer(sites);
-      });
-    }
-    else
-      alert(i18n.t("global.no_internet_connection"));
-  },
-  processToServerByUserId: function (userId) {
-    if (App.isOnline()) {
-      Site.all().filter('user_id', '=', userId).list(function (sites) {
-        if (sites.length > 0)
-          SiteController.processingToServer(sites);
-      });
-    }
-    else
-      alert(i18n.t("global.no_internet_connection"));
-  },
-  processingToServer: function (sites) {
-    var site = sites[0];
     ViewBinding.setBusy(true);
+    if (App.isOnline()) {
+      SiteController.processToServerByUserId();
+    }
+    else
+      alert(i18n.t("global.no_internet_connection"));
+  },
+  processToServerByUserId: function(){
+    var uId = SessionController.currentUser().id;
+    var offset = 0;
+    SiteOffline.limit = 7;
+    SiteOffline.countByUserId(uId, function(nbSites){
+      SiteOffline.nbSites = nbSites;
+      SiteOffline.fetchByUserId(uId, offset, function(sites){
+        if (sites.length > 0)
+          SiteController.processingToServer(sites, false);
+      });
+    });
+  },
+  processToServerByCollectionIdUserId: function () {
+    var cId = App.DataStore.get("cId");
+    var uId = SessionController.currentUser().id;
+    var offset = 0;
+    SiteOffline.limit = 7;
+    SiteOffline.countByCollectionIdUserId(cId, uId, function(nbSites){
+      SiteOffline.nbSites = nbSites;
+      SiteOffline.fetchByCollectionIdUserId(cId, uId, offset, function(sites){
+        if (sites.length > 0){
+          SiteController.processingToServer(sites, true);
+        }
+      });
+    }); 
+  },
+  processingToServer: function (sites, isAllByCollectionId) {
+    var site = sites[0];
     var data = {site: {
         device_id: site.device_id(),
         external_id: site.id,
@@ -276,10 +287,18 @@ SiteController = {
       persistence.flush();
       $('#sendToServer').show();
       sites.splice(0, 1);
-      if (sites.length === 0)
-        App.redirectTo("#page-collection-list");
+      if (sites.length === 0){
+        if(SiteOffline.nbSites - SiteOffline.limit > 0){
+          if(isAllByCollectionId)
+            SiteController.processToServerByCollectionIdUserId();
+          else
+            SiteController.processToServerByUserId();
+        }else{
+          App.redirectTo("#page-collection-list");
+        }
+      }
       else
-        SiteController.processingToServer(sites);
+        SiteController.processingToServer(sites, isAllByCollectionId);
     }, function (err) {
       if (err.statusText === "Unauthorized") {
         showElement($("#info_sign_in"));

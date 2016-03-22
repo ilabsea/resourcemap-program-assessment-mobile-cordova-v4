@@ -94,6 +94,7 @@ SiteList = {
         SiteController.getAllByCollectionId(cId);
         break;
       case "2":
+        SiteOffline.sitePage = 0;
         SiteController.getByCollectionIdOffline(cId);
         $("#btn_sendToServer").show();
         break;
