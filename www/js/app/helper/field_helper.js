@@ -32,10 +32,15 @@ FieldHelper = {
       var is_enable_field_logic = fields.is_enable_field_logic;
       var readonly = '';
       var is_display_field = fields.is_display_field;
+      var is_mapped_to_widget = fields.custom_widgeted;
       var invisible = "";
 
       if (widgetType === "numeric") {
+        console.log('field : ', fields);
+        console.log(is_mapped_to_widget);
         widgetType = "number";
+        if (is_mapped_to_widget)
+          invisible = "invisble-div";        
         if (config.field_logics) {
           App.DataStore.set("configNumberSkipLogic_" + id,
               JSON.stringify(config.field_logics));
@@ -74,6 +79,10 @@ FieldHelper = {
         if (!is_display_field)
           invisible = "invisble-div";
       }
+      
+      if (widgetType === "custom_widget"){
+        config = FieldHelper.buildFieldCustomWidget(config, options["fromServer"]);
+      }
 
       if (is_mandatory)
         is_required = "required";
@@ -94,6 +103,8 @@ FieldHelper = {
         is_mandatory: is_mandatory,
         required: is_required,
         isHierarchy: (kind === "hierarchy" ? true : false),
+        isCustomWidget: (kind === "custom_widget" ? true : false),
+        isMappedToWidget: is_mapped_to_widget,
         configHierarchy: (kind === "hierarchy" ?
             Hierarchy.generateField(fields.config, "", id) : ""),
         is_enable_field_logic: is_enable_field_logic,
@@ -102,6 +113,15 @@ FieldHelper = {
     });
 
     return fieldsWrapper;
+  },
+  buildFieldCustomWidget: function (config){
+    widgetContent = config["widget_content"];
+    regExp = /\{([^}]*)\}/g;
+    replaceBy = '<input type="tel" placeholder="$1" name="custom-widget-$1"'+
+                        'id="custom-widget-$1"/>';
+
+    config.widget_content = widgetContent.replace(regExp, replaceBy);  
+    return config;
   },
   buildFieldSelectOne: function (config) {
     $.each(config.options, function (i, option) {

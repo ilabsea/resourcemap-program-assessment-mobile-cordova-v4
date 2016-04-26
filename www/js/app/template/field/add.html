@@ -38,13 +38,21 @@
   </select>
  </div>
  {{else}}  
+ {{#if isCustomWidget}} 
+ <div id="wrapper_{{idfield}}" tabindex="0">
+  <label>{{name}}</label>
+  <div id="{{idfield}}" class="widget" require='{{required}}' tabindex="0">
+      {{{config.widget_content}}}
+  </div>
+ </div>
+ {{else}}
  {{#if isHierarchy}} 
  <div id="wrapper_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
   <div id="{{idfield}}" class="tree" require='{{required}}' tabindex="0"></div>
  </div>
  {{else}}
- {{#if isPhoto}}  
+ {{#if isPhoto}}
  <div id="wrapper_{{idfield}}" tabindex="0">
   <label>{{name}}</label>
   <div onclick="CameraModel.handleOpenCamera({{idfield}}, 'new');" 
@@ -85,7 +93,7 @@
          {{readonly}}/>
  </div>
  {{else}}
- <div id="wrapper_{{idfield}}" tabindex="0">
+ <div id="wrapper_{{idfield}}" tabindex="0" class="{{invisible}}">
   <label for='name'>{{{name}}}</label>
   {{#ifCond widgetType "date"}}
   <input type="{{widgetType}}" 
@@ -113,13 +121,15 @@
   <input type="{{widgetType}}" 
          id="{{idfield}}" 
          value ="{{__value}}" 
-         name="{{name}}" 
+         name="{{name}}"
+         title="{{isCustomWidget}}"
          {{required}}
          {{readonly}}/>
   {{/ifCond}}
   {{/ifCond}}
  </div>
  {{/ifCond}}
+ {{/if}}
  {{/if}}
  {{/if}}
  {{/if}}
