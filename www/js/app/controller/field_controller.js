@@ -17,9 +17,7 @@ FieldController = {
             location_fields_id.push(fieldsInside.id);
         });
         var fields = FieldHelper.buildField(properties, {fromServer: true});
-        console.log('*****************Field*********************');
-        console.log(fields);
-        field_collections.push(fields);//.filter(!this.isCustomWidgeted)
+        field_collections.push(fields);
       });
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
@@ -32,11 +30,6 @@ FieldController = {
       ViewBinding.setBusy(false);
       Location.prepareLocation();
     });
-  },
-  isCustomWidgeted: function(field){
-    if(field.custom_widgeted == true){
-        return field;
-    }
   },
   renderByCollectionIdOffline: function () {
     var cId = App.DataStore.get("cId");

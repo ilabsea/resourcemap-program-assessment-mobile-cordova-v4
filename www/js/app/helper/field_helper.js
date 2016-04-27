@@ -36,8 +36,6 @@ FieldHelper = {
       var invisible = "";
 
       if (widgetType === "numeric") {
-        console.log('field : ', fields);
-        console.log(is_mapped_to_widget);
         widgetType = "number";
         if (is_mapped_to_widget)
           invisible = "invisble-div";        
@@ -81,7 +79,7 @@ FieldHelper = {
       }
       
       if (widgetType === "custom_widget"){
-        config = FieldHelper.buildFieldCustomWidget(config, options["fromServer"]);
+        config = FieldHelper.buildFieldCustomWidget(config);
       }
 
       if (is_mandatory)
@@ -118,7 +116,7 @@ FieldHelper = {
     widgetContent = config["widget_content"];
     regExp = /\{([^}]*)\}/g;
     replaceBy = '<input type="tel" placeholder="$1" name="custom-widget-$1"'+
-                        'id="custom-widget-$1"/>';
+                        'data-custom-widget-code="$1"/>';
 
     config.widget_content = widgetContent.replace(regExp, replaceBy);  
     return config;

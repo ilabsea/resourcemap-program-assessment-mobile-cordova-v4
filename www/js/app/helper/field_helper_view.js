@@ -12,8 +12,7 @@ FieldHelperView = {
     console.log('template url : ', templateURL);    
     App.Template.process(templateURL, fieldData, function (content) {
       element.html(content);
-      console.log('display');
-      console.log(fieldData);
+      FieldHelperView.displayCustomWidget(fieldData);
       FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
 
       element.trigger("create");
@@ -90,5 +89,14 @@ FieldHelperView = {
           SkipLogic.disableUIAddSite(field);
       });
     });
+  },
+  displayCustomWidget: function(fieldData){
+    $.map(fieldData.field_collections, function (layer) {
+      $.map(layer.fields, function (field) {
+        if (field.isMappedToWidget){
+            CustomWidget.setInputNodeId(field);
+        }
+      });
+    });      
   }
 };
