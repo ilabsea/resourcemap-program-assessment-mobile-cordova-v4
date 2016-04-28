@@ -32,7 +32,7 @@ FieldHelper = {
       var is_enable_field_logic = fields.is_enable_field_logic;
       var readonly = '';
       var is_display_field = fields.is_display_field;
-      var is_mapped_to_widget = fields.custom_widgeted;
+      var is_mapped_to_widget = fields.isMappedToWidget; //isMappedToWidget  custom_widgeted
       var invisible = "";
 
       if (widgetType === "numeric") {

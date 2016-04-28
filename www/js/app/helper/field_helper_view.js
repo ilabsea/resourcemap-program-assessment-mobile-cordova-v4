@@ -12,7 +12,7 @@ FieldHelperView = {
     console.log('template url : ', templateURL);    
     App.Template.process(templateURL, fieldData, function (content) {
       element.html(content);
-      FieldHelperView.displayCustomWidget(fieldData);
+      FieldHelperView.displayCustomWidget(elementPrefixID, fieldData);
       FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
 
       element.trigger("create");
@@ -90,11 +90,11 @@ FieldHelperView = {
       });
     });
   },
-  displayCustomWidget: function(fieldData){
+  displayCustomWidget: function(elementPrefixID, fieldData){
     $.map(fieldData.field_collections, function (layer) {
       $.map(layer.fields, function (field) {
         if (field.isMappedToWidget){
-            CustomWidget.setInputNodeId(field);
+            CustomWidget.setInputNodeId(elementPrefixID, field);
         }
       });
     });      
