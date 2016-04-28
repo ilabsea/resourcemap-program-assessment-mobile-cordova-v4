@@ -32,12 +32,13 @@ FieldHelper = {
       var is_enable_field_logic = fields.is_enable_field_logic;
       var readonly = '';
       var is_display_field = fields.is_display_field;
-      var is_mapped_to_widget = fields.isMappedToWidget; //isMappedToWidget  custom_widgeted
+      var custom_widgeted = fields.custom_widgeted; //isMappedToWidget  custom_widgeted
       var invisible = "";
-
+      console.log(fields);
+      console.log(custom_widgeted);
       if (widgetType === "numeric") {
         widgetType = "number";
-        if (is_mapped_to_widget)
+        if (custom_widgeted)
           invisible = "invisble-div";        
         if (config.field_logics) {
           App.DataStore.set("configNumberSkipLogic_" + id,
@@ -102,7 +103,7 @@ FieldHelper = {
         required: is_required,
         isHierarchy: (kind === "hierarchy" ? true : false),
         isCustomWidget: (kind === "custom_widget" ? true : false),
-        isMappedToWidget: is_mapped_to_widget,
+        custom_widgeted: custom_widgeted,
         configHierarchy: (kind === "hierarchy" ?
             Hierarchy.generateField(fields.config, "", id) : ""),
         is_enable_field_logic: is_enable_field_logic,

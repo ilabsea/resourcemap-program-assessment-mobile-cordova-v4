@@ -93,7 +93,7 @@ FieldHelperView = {
   displayCustomWidget: function(elementPrefixID, fieldData){
     $.map(fieldData.field_collections, function (layer) {
       $.map(layer.fields, function (field) {
-        if (field.isMappedToWidget){
+        if (field.custom_widgeted){
             CustomWidget.setInputNodeId(elementPrefixID, field);
         }
       });
