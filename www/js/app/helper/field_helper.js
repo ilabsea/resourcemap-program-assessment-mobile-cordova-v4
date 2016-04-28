@@ -34,8 +34,6 @@ FieldHelper = {
       var is_display_field = fields.is_display_field;
       var custom_widgeted = fields.custom_widgeted; //isMappedToWidget  custom_widgeted
       var invisible = "";
-      console.log(fields);
-      console.log(custom_widgeted);
       if (widgetType === "numeric") {
         widgetType = "number";
         if (custom_widgeted)
@@ -81,6 +79,11 @@ FieldHelper = {
       
       if (widgetType === "custom_widget"){
         config = FieldHelper.buildFieldCustomWidget(config);
+      }
+
+      if (widgetType === "custom_aggregator") {
+        if (custom_widgeted)
+          invisible = "invisble-div"; 
       }
 
       if (is_mandatory)
