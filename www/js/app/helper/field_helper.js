@@ -32,7 +32,8 @@ FieldHelper = {
       var is_enable_field_logic = fields.is_enable_field_logic;
       var readonly = '';
       var is_display_field = fields.is_display_field;
-      var custom_widgeted = fields.custom_widgeted; //isMappedToWidget  custom_widgeted
+      var custom_widgeted = fields.custom_widgeted;
+      var readonly_custom_widgeted = fields.readonly_custom_widgeted;
       var invisible = "";
       if (widgetType === "numeric") {
         widgetType = "number";
@@ -78,7 +79,9 @@ FieldHelper = {
       }
       
       if (widgetType === "custom_widget"){
-        config = FieldHelper.buildFieldCustomWidget(config);
+        if (readonly_custom_widgeted)
+          readonly = 'readonly';
+        config = FieldHelper.buildFieldCustomWidget(config, readonly);
       }
 
       if (widgetType === "custom_aggregator") {
@@ -107,6 +110,7 @@ FieldHelper = {
         isHierarchy: (kind === "hierarchy" ? true : false),
         isCustomWidget: (kind === "custom_widget" ? true : false),
         custom_widgeted: custom_widgeted,
+        readonly_custom_widgeted: readonly_custom_widgeted,
         configHierarchy: (kind === "hierarchy" ?
             Hierarchy.generateField(fields.config, "", id) : ""),
         is_enable_field_logic: is_enable_field_logic,
@@ -116,11 +120,11 @@ FieldHelper = {
 
     return fieldsWrapper;
   },
-  buildFieldCustomWidget: function (config){
+  buildFieldCustomWidget: function (config, readonly){
     widgetContent = config["widget_content"];
     regExp = /\{([^}]*)\}/g;
     replaceBy = '<input type="tel" placeholder="$1" name="custom-widget-$1"'+
-                        'data-custom-widget-code="$1"/>';
+                        'data-custom-widget-code="$1" '+readonly+' />';
 
     config.widget_content = widgetContent.replace(regExp, replaceBy);  
     return config;
