@@ -211,4 +211,9 @@ h1 {
 
 .widget tr, td{
     border: 1px solid grey;
+    height: auto;
+}
+
+.widget td{
+    width: auto !important;
 }
