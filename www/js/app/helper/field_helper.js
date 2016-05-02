@@ -79,9 +79,7 @@ FieldHelper = {
       }
       
       if (widgetType === "custom_widget"){
-        if (readonly_custom_widgeted)
-          readonly = 'readonly';
-        config = FieldHelper.buildFieldCustomWidget(config, readonly);
+        config = FieldHelper.buildFieldCustomWidget(config, readonly_custom_widgeted);
       }
 
       if (widgetType === "custom_aggregator") {
@@ -123,8 +121,12 @@ FieldHelper = {
   buildFieldCustomWidget: function (config, readonly){
     widgetContent = config["widget_content"];
     regExp = /\{([^}]*)\}/g;
-    replaceBy = '<input type="tel" placeholder="$1" name="custom-widget-$1"'+
-                        'data-custom-widget-code="$1" '+readonly+' />';
+    if(readonly){
+        replaceBy = '<span data-custom-widget-code="$1" data-readonly="readonly"></span>';
+    }else{
+        replaceBy = '<input type="tel" placeholder="$1" name="custom-widget-$1"'+
+                        'data-custom-widget-code="$1" />';
+    }
 
     config.widget_content = widgetContent.replace(regExp, replaceBy);  
     return config;
