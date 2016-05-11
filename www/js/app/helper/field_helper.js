@@ -37,13 +37,13 @@ FieldHelper = {
       var invisible = "";
       if (widgetType === "numeric") {
         widgetType = "number";
-        if (custom_widgeted)
-          invisible = "invisble-div";        
         if (config.field_logics) {
           App.DataStore.set("configNumberSkipLogic_" + id,
               JSON.stringify(config.field_logics));
         }
       }
+      if(custom_widgeted)
+        widgetType = 'custom_widget_tokenizer'
 
       if (widgetType === "select_one" && is_enable_field_logic) {
         config = FieldHelper.buildFieldSelectOne(config);
@@ -77,14 +77,9 @@ FieldHelper = {
         if (!is_display_field)
           invisible = "invisble-div";
       }
-      
+
       if (widgetType === "custom_widget"){
         config = FieldHelper.buildFieldCustomWidget(config, readonly_custom_widgeted);
-      }
-
-      if (widgetType === "custom_aggregator") {
-        if (custom_widgeted)
-          invisible = "invisble-div"; 
       }
 
       if (is_mandatory)
@@ -126,18 +121,14 @@ FieldHelper = {
         if(replace === "&nbsp;")
           replaceBy = '';
         else{
-            if(readonly)
-                replaceBy = '<span data-custom-widget-code="' 
-                          + replace + '" data-readonly="readonly"></span>';
-            else
-                replaceBy = '<input type="tel" placeholder="'
-                          + replace + '" name="custom-widget-' 
-                          + replace + '" data-custom-widget-code="'
-                          + replace + '" />';
+            isReadOnly = readonly ? " data-readonly='readonly' " : ""
+            replaceBy = '<div data-custom-widget-code="'
+                          + replace +'" ' + isReadOnly +  '></div>';
+
         }
        return replaceBy;
     });
-    
+
     config.widget_content = widgetContent;
     return config;
   },
