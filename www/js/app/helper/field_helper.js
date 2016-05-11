@@ -120,15 +120,25 @@ FieldHelper = {
   },
   buildFieldCustomWidget: function (config, readonly){
     widgetContent = config["widget_content"];
-    regExp = /\{([^}]*)\}/g;
-    if(readonly){
-        replaceBy = '<span data-custom-widget-code="$1" data-readonly="readonly"></span>';
-    }else{
-        replaceBy = '<input type="tel" placeholder="$1" name="custom-widget-$1"'+
-                        'data-custom-widget-code="$1" />';
-    }
-
-    config.widget_content = widgetContent.replace(regExp, replaceBy);  
+    regExp = /(&nbsp;)|\{([^}]*)\}/mg ;
+    widgetContent = widgetContent.replace(regExp, function(match, space, token) {
+        replace = space || token ;
+        if(replace === "&nbsp;")
+          replaceBy = '';
+        else{
+            if(readonly)
+                replaceBy = '<span data-custom-widget-code="' 
+                          + replace + '" data-readonly="readonly"></span>';
+            else
+                replaceBy = '<input type="tel" placeholder="'
+                          + replace + '" name="custom-widget-' 
+                          + replace + '" data-custom-widget-code="'
+                          + replace + '" />';
+        }
+       return replaceBy;
+    });
+    
+    config.widget_content = widgetContent;
     return config;
   },
   buildFieldSelectOne: function (config) {
