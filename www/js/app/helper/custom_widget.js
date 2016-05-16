@@ -9,11 +9,19 @@ CustomWidget = {
             $wrapper.text(value);
         else{
           if(field.kind == 'numeric'){
-            var $node = $('<input />').attr('id', id).attr('name', id).val(value);
+            var $node = $('<input type="number" required />').attr('id', id)
+                                                    .attr('name', id)
+                                                    .attr('data-allows_decimals', field.config.allows_decimals)
+                                                    .val(value)
+
+            if(field.config.range)
+              $node.attr('max', field.config.range.maximum)
+                   .attr('min', field.config.range.minimum)
+
             $wrapper.append($node);
           }
           else if(field.kind == 'select_one') {
-            var $node = $("<select></select>").attr('id', id).attr('name', id);
+            var $node = $("<select data-theme='a' data-native-menu='false' class='validateSelectFields needsclick'></select>").attr('id', id).attr('name', id);
             $.each(field.config.options, function(index, option) {
                 var $option = $("<option></option>")
                                          .attr('value', option['id'])

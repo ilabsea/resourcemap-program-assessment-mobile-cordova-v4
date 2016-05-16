@@ -24,7 +24,7 @@ body {
     margin:0px;
     padding:0px;
     text-transform:none;
-    width:100%; 
+    width:100%;
 }
 
 /* Portrait layout (default) */
@@ -89,7 +89,7 @@ h1 {
     from { opacity: 1.0; }
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
-}  
+}
 
 .blink {
     animation:fade 3000ms infinite;
@@ -116,7 +116,7 @@ h1 {
     width: 40px;
     height: 39px;
     float: left;
-    display: block; 
+    display: block;
     margin: 2px 2px 13px 0px;
 }
 .camera_icon1{
@@ -126,8 +126,8 @@ h1 {
     margin-top: 30px;
 }
 #div-language {
-    float: right; 
-    margin-right:0.5em; 
+    float: right;
+    margin-right:0.5em;
 }
 
 #div-language .ui-select{
@@ -188,8 +188,8 @@ h1 {
 
 .ui-page{
     backface-visibility:hidden;
-    -webkit-backface-visibility:hidden; 
-    -moz-backface-visibility:hidden; 
+    -webkit-backface-visibility:hidden;
+    -moz-backface-visibility:hidden;
 }
 
 .ui-slider-handle-snapping {
@@ -210,10 +210,11 @@ h1 {
 }
 
 .widget tr, td{
-    border: 1px solid grey;
+    border: 1px solid #ccc;
     height: auto;
 }
 
 .widget td{
-    width: auto !important;
+  width: auto !important;
+  padding: 0px 5px;
 }
