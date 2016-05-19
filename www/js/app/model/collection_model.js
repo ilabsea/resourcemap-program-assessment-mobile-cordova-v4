@@ -41,5 +41,10 @@ CollectionOffline = {
   },
   fetchByUserId: function (user, callback) {
     Collection.all().filter('user_id', '=', user.id).list(null, callback);
+  },
+
+  destroyAllByUserId: function(userId, callback) {
+    Collection.all().filter('user_id', '=', userId)
+                    .destroyAll(null, callback);
   }
 };

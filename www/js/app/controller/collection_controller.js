@@ -37,15 +37,15 @@ CollectionController = {
     });
   },
   getByUserIdOnline: function (currentUser) {
-    CollectionModel.fetch(function (response) {
-      var collectionData = [];
-      $.each(response, function (key, collection) {
-        var currentUser = SessionController.currentUser();
-        SiteOffline.countByCollectionIdUserId(collection.id, currentUser.id, function (count) {
-          var item = CollectionController.dataCollection(collection, currentUser, count, true);
+    CollectionModel.fetch(function (collections) {
+      var userCollection = {user: currentUser, collections: collections };
+      SiteOffline.countSiteOfflineByUserCollections(userCollection, function(result){
+        var collectionData = [];
+        $.each(collections, function(index, collection){
+          var countSiteOffline = result[collection.id] || '';
+          var item = CollectionController.dataCollection(collection, currentUser, countSiteOffline, true);
           collectionData.push(item);
-
-          if (key === response.length - 1) {
+          if (index === collections.length - 1) {
             CollectionController.displayList({collectionList: collectionData});
             CollectionController.synCollectionForCurrentUser(collectionData);
           }
@@ -55,10 +55,10 @@ CollectionController = {
   },
   synCollectionForCurrentUser: function (newCollections) {
     var currentUser = SessionController.currentUser();
-    CollectionOffline.fetchByUserId(currentUser, function (collections) {
-      CollectionOffline.remove(collections);
+    CollectionOffline.destroyAllByUserId(currentUser.id, function(){
       CollectionOffline.add(newCollections);
-    });
+    })
+
   },
   dataCollection: function (collection, currentUser, count, fromServer) {
     var item = {

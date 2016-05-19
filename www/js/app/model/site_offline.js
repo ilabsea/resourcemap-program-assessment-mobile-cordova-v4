@@ -39,7 +39,25 @@ SiteOffline = {
       App.redirectTo("#page-site-list");
     });
   },
+  countSiteOfflineByUserCollections: function(userCollection, callback){
+    var collectionIds = $.map(userCollection.collections, function(collection) {return collection.id});
+    console.log('collectionIds: ', collectionIds);
+    Site.all()
+        .filter('collection_id', "in", collectionIds)
+        .filter('user_id', '=', userCollection.user.id)
+        .list(null, function (sites) {
+          var result = {};
+          $.each(sites, function(index, siteOffline){
+            var collectionId = siteOffline.collection_id();
+            result[collectionId] = result[collectionId] || 0;
+            result[collectionId] +=1;
+          });
+          callback(result);
+        });
+  },
+
   countByCollectionIdUserId: function (idcollection, userId, callback) {
+    console.log("user id", userId);
     Site.all()
         .filter('collection_id', "=", idcollection)
         .filter('user_id', '=', userId)

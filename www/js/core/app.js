@@ -12,7 +12,7 @@ App = {
   URL_FIELD: END_POINT + "/v1/collections/",
   URL_SITE: END_POINT + "/v1/collections/",
   VERSION: "1.3",
-  DEBUG: false,
+  DEBUG: true,
   userId: "",
   log: function (text, data) {
     if (App.DEBUG)
