@@ -9,7 +9,6 @@ FieldHelperView = {
     });
   },
   display: function (templateURL, element, elementPrefixID, fieldData, update) {
-    console.log('template url : ', templateURL);    
     App.Template.process(templateURL, fieldData, function (content) {
       element.html(content);
       FieldHelperView.displayCustomWidget(elementPrefixID, fieldData);
@@ -97,6 +96,6 @@ FieldHelperView = {
             CustomWidget.setInputNodeId(elementPrefixID, field);
         }
       });
-    });      
+    });
   }
 };

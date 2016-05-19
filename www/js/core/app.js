@@ -12,7 +12,7 @@ App = {
   URL_FIELD: END_POINT + "/v1/collections/",
   URL_SITE: END_POINT + "/v1/collections/",
   VERSION: "1.3",
-  DEBUG: true,
+  DEBUG: false,
   userId: "",
   log: function (text, data) {
     if (App.DEBUG)
@@ -21,6 +21,7 @@ App = {
   initialize: function () {
     this.bindEvents();
     this.setUp();
+    persistence.debug = App.DEBUG;
   },
   resetDb: function () {
     persistence.reset();

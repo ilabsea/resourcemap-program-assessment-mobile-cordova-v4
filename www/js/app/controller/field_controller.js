@@ -118,10 +118,9 @@ FieldController = {
   updateFieldValueBySiteId: function (propertiesFile, field, idHTMLForUpdate, fromServer) {
     var pf = propertiesFile;
     var itemLayer;
-    if (fromServer){
-      console.log("fromServer: ", fromServer);
+    if (fromServer)
       itemLayer = FieldHelper.buildField(field, {fromServer: fromServer});
-  }else
+    else
       itemLayer = FieldHelper.buildField(field._data, {fromServer: fromServer});
 
     var items = itemLayer.fields;
@@ -146,7 +145,7 @@ FieldController = {
           value = "";
         propertiesFile.properties[item["idfield"]] = value;
       }
-    }); 
+    });
     return pf;
   },
   updateFieldPhotoValue: function (item, propertiesFile, fromServer) {
