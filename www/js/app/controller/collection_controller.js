@@ -1,6 +1,6 @@
 CollectionController = {
   displayList: function (collectionData) {
-    App.Template.process("collection/list.html", collectionData, function (content) {
+    App.Template.process("list.html", collectionData, function (content) {
       $('#collection-list').html(content);
       $('#collection-list').listview("refresh");
     });

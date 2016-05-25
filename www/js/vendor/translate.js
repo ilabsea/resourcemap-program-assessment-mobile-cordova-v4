@@ -25,7 +25,7 @@ Translation = {
     Translation.setLang($('#' + ele).val());
   },
   displayTemplate: function(language) {
-    App.Template.process("language/menu.html", language, function(content) {
+    App.Template.process("menu.html", language, function(content) {
       $('#div-language').html(content);
       $('#div-language').trigger("create");
     });

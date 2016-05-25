@@ -2,6 +2,12 @@
 /platforms/*
 /nbproject/*
 *DS_Store*
+
 /www/ajaxtest.html
+/www/js/core/setting.js
+
+
+*precompile.js
+
 /plugins/android.json
 /plugins/ios.json
