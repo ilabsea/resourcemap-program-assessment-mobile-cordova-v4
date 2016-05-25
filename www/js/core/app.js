@@ -1,4 +1,4 @@
-URL = "http://192.168.1.148:3000/";
+URL = "http://192.168.1.143:3000/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
@@ -36,7 +36,7 @@ App = {
   onDeviceReady: function () {
     connectionDB(App.DB_NAME, App.DB_SIZE);
     createTables();
-    FastClick.attach(document.body);
+    // FastClick.attach(document.body);
     App.initialPage();
   },
   initialPage: function () {
