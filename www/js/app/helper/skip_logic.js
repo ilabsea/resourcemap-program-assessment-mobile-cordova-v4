@@ -217,11 +217,12 @@ SkipLogic = {
   },
   disableUIEditSite: function (field, prefixId) {
     if (field.is_enable_field_logic) {
-      var config = field.config;
-      if (config) {
+      if (field.config) {
         switch (field.kind) {
           case "numeric":
-            $.map(config.field_logics, function (field_logic) {
+            // Server side can have field logic enable but no data bug
+            var configFieldLogics =  field.config.field_logics || [];
+            $.map(configFieldLogics, function (field_logic) {
               var op = field_logic.condition_type;
               var elementId = prefixId + field.idfield;
               var elementIdToFocus = prefixId + field_logic.field_id;
@@ -232,9 +233,9 @@ SkipLogic = {
             });
             break;
           case "select_one":
-            for (var i = 0; i < config.options.length; i++) {
+            for (var i = 0; i < field.config.options.length; i++) {
               var elementId = prefixId + field.idfield;
-              var elementIdToFocus = prefixId + config.options[i].field_id;
+              var elementIdToFocus = prefixId + field.config.options[i].field_id;
               if (field.config.options[i].id == field.__value
                   || field.config.options[i].code == field.__value) {
                 SkipLogic.getDisabledId(elementId, elementIdToFocus);
@@ -244,7 +245,9 @@ SkipLogic = {
           case "select_many":
             if (field.__value) {
               var value = FieldHelper.generateCodeToIdSelectManyOption(field, field.__value);
-              $.map(field.config.field_logics, function (field_logic) {
+              // Server side can have field logic enable but no data bug
+              var configFieldLogics =  field.config.field_logics || [];
+              $.map(configFieldLogics, function (field_logic) {
                 var selectedOptions = field_logic.selected_options;
 
                 var b = false;
@@ -281,10 +284,10 @@ SkipLogic = {
             }
             break;
           case "yes_no":
-            for (var i = 0; i < config.options.length; i++) {
-              if (field.__value == config.options[i].id) {
+            for (var i = 0; i < field.config.options.length; i++) {
+              if (field.__value == field.config.options[i].id) {
                 var elementId = prefixId + field.idfield;
-                var elementIdToFocus = prefixId + config.options[i].field_id;
+                var elementIdToFocus = prefixId + field.config.options[i].field_id;
                 SkipLogic.getDisabledId(elementId, elementIdToFocus);
               }
             }

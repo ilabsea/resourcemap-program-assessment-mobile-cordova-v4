@@ -1,11 +1,13 @@
 /nbproject/private/
+
 /platforms/*
+/plugins/*
+
 /nbproject/*
 *DS_Store*
 
 /www/ajaxtest.html
 /www/js/core/setting.js
-
 
 *precompile.js
 
