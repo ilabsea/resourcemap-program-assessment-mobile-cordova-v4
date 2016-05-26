@@ -23,9 +23,9 @@ FieldController = {
       App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
       FieldController.synForCurrentCollection(field_collections);
 
-      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
+      FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu'),
           {field_collections: field_collections}, "");
-      FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
+      FieldHelperView.display("field_add", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
       ViewBinding.setBusy(false);
       Location.prepareLocation();
@@ -38,7 +38,7 @@ FieldController = {
       var location_fields_id = [];
       if (fields.length == 0) {
         ViewBinding.setBusy(false);
-        FieldHelperView.displayNoFields("field/no_field_pop_up.html", $('#page-pop-up-no-fields'));
+        FieldHelperView.displayNoFields("field_no_field_pop_up", $('#page-pop-up-no-fields'));
         App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
         App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
       } else {
@@ -54,9 +54,9 @@ FieldController = {
         });
         App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
         App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
-        FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu'),
+        FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu'),
             {field_collections: field_collections}, "");
-        FieldHelperView.display("field/add.html", $('#div_field_collection'), "",
+        FieldHelperView.display("field_add", $('#div_field_collection'), "",
             {field_collections: field_collections}, false);
         ViewBinding.setBusy(false);
       }
@@ -79,9 +79,9 @@ FieldController = {
       App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
 
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
-      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update'),
+      FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu-update'),
           {field_collections: field_collections}, "update_");
-      FieldHelperView.display("field/updateOffline.html",
+      FieldHelperView.display("field_updateOffline",
           $('#div_update_field_collection'), "update_",
           {field_collections: field_collections}, true);
     });
@@ -101,9 +101,9 @@ FieldController = {
       App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
 
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
-      FieldHelperView.displayLayerMenu("layer/menu.html", $('#ui-btn-layer-menu-update-online'),
+      FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu-update-online'),
           {field_collections: field_collections}, "update_online_");
-      FieldHelperView.display("field/updateOnline.html",
+      FieldHelperView.display("field_update_online",
           $('#div_update_field_collection_online'),
           "update_online_", {field_collections: field_collections}, true);
     });
@@ -198,7 +198,7 @@ FieldController = {
       if (locationOptions)
         config.locationOptions = locationOptions;
       var $element = $("#" + prefixId + id);
-      FieldHelperView.displayLocationField("field/location.html", $element, {config: config});
+      FieldHelperView.displayLocationField("field_location", $element, {config: config});
     }
   }
 };

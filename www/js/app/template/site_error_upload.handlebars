@@ -1,0 +1,28 @@
+<div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">
+ <div data-role="header" role="banner" class="ui-header ui-bar-inherit">
+  <h1 data-i18n="dialog.option" class="ui-title" role="heading" aria-level="1">
+   Error
+  </h1>
+ </div>
+ <div data-role="content" class="ui-content ui-body-b" role="main">
+  {{#if isSubmitSites}}Site " {{name}} " has errors: {{/if}}
+  <ul>
+   {{#if isLat}}
+   <li> latitude {{lat}}</li>
+   {{/if}}
+   {{#if isLng}}
+   <li> longitude {{lng}}</li>
+   {{/if}}
+   {{#each errorProperties}}
+   <li>{{msg}}</li>
+   {{/each}}
+  </ul>
+  <center>
+   <a onclick="Dialog.closeDialog('page-error-submit-site');" data-theme="a" data-role="button"
+      data-inline="true" data-inset="true" class="ui-link ui-btn ui-btn-a ui-btn-inline ui-shadow ui-corner-all"
+      role="button">
+    Ok
+   </a>
+  </center>
+ </div>
+</div>

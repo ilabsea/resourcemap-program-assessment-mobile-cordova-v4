@@ -4,7 +4,7 @@ SiteController = {
     $("#start_entry_date").val(start_entry_date);
   },
   display: function (element, siteData) {
-    App.Template.process("site/list.html", siteData, function (content) {
+    App.Template.process("site_list", siteData, function (content) {
       element.append(content);
       element.listview("refresh");
     });
@@ -183,7 +183,7 @@ SiteController = {
       }, function (err) {
         if (err["responseJSON"]) {
           var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], false);
-          SiteHelper.displayError("site/errorUpload.html", $('#page-error-submit-site'),
+          SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'),
               error);
         }
       });
@@ -197,7 +197,7 @@ SiteController = {
         lat: site.lat(),
         lng: site.lng()
       };
-      SiteController.displayUpdateLatLng("site/updateOffline.html",
+      SiteController.displayUpdateLatLng("site_update_offline",
           $('#div-site-update-name'), siteUpdateData);
       FieldController.renderUpdateOffline(site);
     });
@@ -218,7 +218,7 @@ SiteController = {
         lat: site.lat,
         lng: site.long
       };
-      SiteController.displayUpdateLatLng("site/updateOnline.html",
+      SiteController.displayUpdateLatLng("site_update_online",
           $('#div-site-update-name-online'), siteOnlineUpdateData);
       FieldController.renderUpdateOnline(site);
     });
@@ -265,7 +265,7 @@ SiteController = {
           SiteController.processingToServer(sites, true);
         }
       });
-    }); 
+    });
   },
   processingToServer: function (sites, isAllByCollectionId) {
     var site = sites[0];
@@ -305,7 +305,7 @@ SiteController = {
         App.redirectTo("#page-login");
       } else {
         var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], true);
-        SiteHelper.displayError("site/errorUpload.html", $('#page-error-submit-site'),
+        SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'),
             error);
       }
     });
@@ -381,7 +381,7 @@ SiteController = {
               if (value == null)
                 value = "";
               properties[each_field] = value;
-    
+
             }
         }
       }

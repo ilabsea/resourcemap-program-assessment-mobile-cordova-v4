@@ -1,12 +1,13 @@
 CollectionController = {
   displayList: function (collectionData) {
-    App.Template.process("list.html", collectionData, function (content) {
-      $('#collection-list').html(content);
-      $('#collection-list').listview("refresh");
+    App.Template.process("collection_list", collectionData, function (content) {
+      var $updateNode = $("#collection-list");
+      $updateNode.html(content);
+      $updateNode.listview("refresh");
     });
   },
   displayName: function (collectionName) {
-    App.Template.process("collection/name.html", collectionName, function (content) {
+    App.Template.process("collection_name", collectionName, function (content) {
       $('.title').html(content);
     });
   },
