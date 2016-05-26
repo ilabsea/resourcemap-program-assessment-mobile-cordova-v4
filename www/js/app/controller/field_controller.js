@@ -6,27 +6,33 @@ FieldController = {
       this.renderByCollectionIdOffline();
   },
   renderByCollectionIdOnline: function () {
-    FieldModel.fetch(function (response) {
+    FieldModel.fetch(function (layers) {
       var field_id_arr = new Array();
       var field_collections = [];
       var location_fields_id = new Array();
-      $.map(response, function (properties) {
-        $.map(properties.fields, function (fieldsInside) {
-          field_id_arr.push(fieldsInside.id);
-          if (fieldsInside.kind === "location")
-            location_fields_id.push(fieldsInside.id);
-        });
-        var fields = FieldHelper.buildField(properties, {fromServer: true});
+
+      for(var i=0; i<layers.length; i++){
+        var layer = layers[i];
+        for(var j=0; j<layer.fields.length; j++){
+          var field = layer.fields[j];
+          field_id_arr.push(field.id);
+          if (field.kind === "location")
+            location_fields_id.push(field.id);
+        }
+        var fields = FieldHelper.buildField(layer, {fromServer: true});
         field_collections.push(fields);
-      });
+      }
+
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
       FieldController.synForCurrentCollection(field_collections);
 
       FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu'),
           {field_collections: field_collections}, "");
+
       FieldHelperView.display("field_add", $('#div_field_collection'), "",
           {field_collections: field_collections}, false);
+
       ViewBinding.setBusy(false);
       Location.prepareLocation();
     });

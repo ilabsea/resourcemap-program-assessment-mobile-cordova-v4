@@ -41,7 +41,6 @@ SiteOffline = {
   },
   countSiteOfflineByUserCollections: function(userCollection, callback){
     var collectionIds = $.map(userCollection.collections, function(collection) {return collection.id});
-    console.log('collectionIds: ', collectionIds);
     Site.all()
         .filter('collection_id', "in", collectionIds)
         .filter('user_id', '=', userCollection.user.id)
@@ -57,7 +56,6 @@ SiteOffline = {
   },
 
   countByCollectionIdUserId: function (idcollection, userId, callback) {
-    console.log("user id", userId);
     Site.all()
         .filter('collection_id', "=", idcollection)
         .filter('user_id', '=', userId)

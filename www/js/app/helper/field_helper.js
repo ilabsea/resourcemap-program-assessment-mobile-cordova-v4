@@ -1,5 +1,5 @@
 FieldHelper = {
-  buildField: function (fieldObj, options) {
+  buildField: function (layer, options) {
     options = options || {};
     var id = null;
     var fieldsBuild = [];
@@ -9,14 +9,14 @@ FieldHelper = {
       fields: fieldsBuild
     };
     if (options["fromServer"]) {
-      fieldsWrapper.name_wrapper = fieldObj.name;
-      fieldsWrapper.id_wrapper = fieldObj.id;
+      fieldsWrapper.name_wrapper = layer.name;
+      fieldsWrapper.id_wrapper = layer.id;
     }
     else {
-      fieldsWrapper.name_wrapper = fieldObj.name_wrapper;
-      fieldsWrapper.id_wrapper = fieldObj.id_wrapper;
+      fieldsWrapper.name_wrapper = layer.name_wrapper;
+      fieldsWrapper.id_wrapper = layer.id_wrapper;
     }
-    $.each(fieldObj.fields, function (key, fields) {
+    $.each(layer.fields, function (key, fields) {
       if (options["fromServer"])
         id = fields.id;
       else
