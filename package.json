@@ -1,7 +1,7 @@
 {
   "name": "resourcemap-mobile",
   "version": "1.0.0",
-  "description": "",
+  "description": "Mobile client for Resource map http://resourcemap.instedd.org",
   "main": "index.js",
   "dependencies": {
     "ansi": "^0.3.1",
@@ -23,7 +23,15 @@
     "string_decoder": "^0.10.31",
     "util-deprecate": "^1.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "glob": "^7.0.3",
+    "grunt-contrib-cssmin": "^1.0.1",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-exec": "^0.4.7",
+    "handlebars": "^4.0.5",
+    "npm": "^3.9.3"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

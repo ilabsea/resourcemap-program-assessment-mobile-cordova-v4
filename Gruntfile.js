@@ -1,8 +1,88 @@
 module.exports = function(grunt) {
-  var sourceFiles = [
+
+  var sourceJsFiles = [
        "www/js/libs/jquery-1.11.0.min.js",
        "www/js/libs/jquery.mobile-1.4.2.js",
-       "www/js/libs/i18next.js"
+       "www/js/libs/tree.jquery.js",
+       "www/js/libs/jquery.validate.js",
+       "www/js/libs/jquery.validation_form.js",
+
+       "www/js/libs/i18next.js",
+       "www/js/libs/handlebars.runtime-v4.0.5.js",
+
+       "www/js/vendor/persistence/persistence.js",
+       "www/js/vendor/persistence/persistence.sync.js",
+       "www/js/vendor/persistence/persistence.store.sql.js",
+       "www/js/vendor/persistence/persistence.store.sqlite_web.js",
+       "www/js/vendor/persistence/persistence.store.memory.js",
+       "www/js/vendor/persistence/persistence.jquery.js",
+
+       "www/js/vendor/form_validation.js",
+       "www/js/vendor/googleMap.js",
+       "www/js/vendor/translate.js",
+       "www/js/vendor/node-uuid/uuid.js",
+
+       "www/js/core/db_connection.js",
+       "www/js/core/table.js",
+       "www/js/core/setting.js",
+       "www/js/core/app.js",
+       "www/js/core/app_template.js",
+       "www/js/core/app_data_store.js",
+       "www/js/core/app_cache.js",
+       "www/js/core/session.js",
+
+       "www/js/app/controller/collection_controller.js",
+       "www/js/app/controller/field_controller.js",
+       "www/js/app/controller/site_controller.js",
+       "www/js/app/controller/session_controller.js",
+       "www/js/app/controller/my_membership_controller.js",
+
+       "www/js/app/model/collection_model.js",
+       "www/js/app/model/field_model.js",
+       "www/js/app/model/hierarchy_model.js",
+       "www/js/app/model/site_model.js",
+       "www/js/app/model/user_model.js",
+       "www/js/app/model/photo.js",
+       "www/js/app/model/camera_model.js",
+       "www/js/app/model/site_camera.js",
+       "www/js/app/model/calculation.js",
+       "www/js/app/model/site_offline.js",
+       "www/js/app/model/my_membership_obj.js",
+
+       "www/js/app/helper/field_helper.js",
+       "www/js/app/helper/spinner.js",
+       "www/js/app/helper/date.js",
+       "www/js/app/helper/custom_widget.js",
+       "www/js/app/helper/handlebarhelper.js",
+       "www/js/app/helper/skip_logic.js",
+       "www/js/app/helper/field_helper_view.js",
+       "www/js/app/helper/operator.js",
+       "www/js/app/helper/dialog.js",
+       "www/js/app/helper/site_helper.js",
+       "www/js/app/helper/location.js",
+       "www/js/app/helper/require_reload.js",
+       "www/js/app/helper/digit_allowance.js",
+
+       "www/js/app/page/cross_domain.js",
+       "www/js/app/page/collection.js",
+       "www/js/app/page/site.js",
+       "www/js/app/page/map.js",
+       "www/js/app/page/hierarchy.js",
+       "www/js/app/page/field.js",
+       "www/js/app/page/send_to_server.js",
+       "www/js/app/page/session.js"
+  ]
+
+  var sourceCssFiles = [
+    "www/css/index.css",
+    "www/css/form_validation.css",
+    "www/css/alert_style.css",
+    "www/css/font_style.css",
+
+    "www/css/libs/jquery.mobile-1.4.2.css",
+    "www/css/libs/jqm1.4.2.css",
+    "www/css/libs/jquery.mobile.icons.min.css",
+    "www/css/libs/jqtree.css.css"
   ]
 
   var templateFiles = [
@@ -25,6 +105,8 @@ module.exports = function(grunt) {
       "www/js/app/template/site_update_online.handlebars"
   ]
 
+  var watchFiles = sourceCssFiles.concat(sourceJsFiles).concat(templateFiles)
+
   function outputPrecompiles(sources) {
     var outputFiles = []
     for(var i=0; i<sources.length; i++) {
@@ -35,7 +117,6 @@ module.exports = function(grunt) {
   }
 
   grunt.initConfig({
-
     uglify: {
       app: {
         options: {
@@ -43,7 +124,7 @@ module.exports = function(grunt) {
           sourceMapName: 'www/js/dist/app.map'
         },
         files: {
-          'www/js/dist/app.min.js': sourceFiles
+          'www/js/dist/app.min.js': sourceJsFiles
         }
       },
       template: {
@@ -57,10 +138,23 @@ module.exports = function(grunt) {
       }
     },
 
+    cssmin: {
+      options: {
+        sourceMap: true,
+        shorthandCompacting: false,
+        roundingPrecision: -1
+      },
+      target: {
+        files: {
+          'www/css/dist/app.min.css': sourceCssFiles
+        }
+      }
+    },
+
     exec: {
       precompile: {
         cmd: function() {
-          var commands = []
+          var commands = ["echo 'Precompiling template' \n"]
           var outputFiles =  outputPrecompiles(templateFiles)
           for(var i=0; i<templateFiles.length; i++) {
             var inputFile = templateFiles[i]
@@ -72,21 +166,30 @@ module.exports = function(grunt) {
           return commands.join("\n")
         }
       }
-
     },
 
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint']
+      css: {
+        files: sourceCssFiles ,
+        tasks: ['cssmin'],
+      },
+      template: {
+        files: templateFiles ,
+        tasks: ['exec', 'uglify:template'],
+      },
+      js: {
+        files: sourceJsFiles,
+        tasks: ['uglify'],
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-handlebars');
 
-
-  grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('build', ['cssmin', 'exec', 'uglify']);
+  grunt.registerTask('default', ['build']);
 
 };

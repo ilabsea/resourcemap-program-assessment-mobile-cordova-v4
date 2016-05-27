@@ -1,4 +1,4 @@
-FieldHelperView = {
+var FieldHelperView = {
   displayNoFields: function (templateURL, element) {
     App.Template.process(templateURL, {}, function (content) {
       element.html(content);
