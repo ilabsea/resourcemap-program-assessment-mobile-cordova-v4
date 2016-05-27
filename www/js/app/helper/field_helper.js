@@ -8,6 +8,7 @@ FieldHelper = {
       userId: SessionController.currentUser().id,
       fields: fieldsBuild
     };
+    
     if (options["fromServer"]) {
       fieldsWrapper.name_wrapper = layer.name;
       fieldsWrapper.id_wrapper = layer.id;
@@ -16,6 +17,7 @@ FieldHelper = {
       fieldsWrapper.name_wrapper = layer.name_wrapper;
       fieldsWrapper.id_wrapper = layer.id_wrapper;
     }
+
     $.each(layer.fields, function (key, fields) {
       if (options["fromServer"])
         id = fields.id;
