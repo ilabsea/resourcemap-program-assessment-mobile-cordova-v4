@@ -179,7 +179,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: sourceJsFiles,
-        tasks: ['uglify'],
+        tasks: ['uglify:app'],
       }
     }
   });

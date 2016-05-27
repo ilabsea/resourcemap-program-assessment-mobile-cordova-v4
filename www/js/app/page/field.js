@@ -1,4 +1,10 @@
 $(function () {
+  //handle collapsible in site page
+  $(document).on("collapsibleexpand", "[data-role=collapsible]", function () {
+    var position = $(this).offset().top;
+    $.mobile.silentScroll(position);
+  });
+
   $(document).delegate('.calculation', 'keyup blur', function () {
     Calculation.calculate(this);
   });
