@@ -42,6 +42,8 @@ $(document).ready(function () {
   $('#form_create_site').validate({
     ignore: '',
     focusInvalid: false,
+    onkeyup: false,
+    onfocusin: false,
     errorPlacement: function (error, element) {
       if (element.attr("type") === "tel" &&
           (element.attr("min") || element.attr("max")))
@@ -79,6 +81,8 @@ $(document).ready(function () {
   $('#form_update_site').validate({
     ignore: '',
     focusInvalid: false,
+    onkeyup: false,
+    onfocusin: false,
     errorPlacement: function (error, element) {
       if (element.attr("type") === "tel" &&
           (element.attr("min") || element.attr("max")))
@@ -113,6 +117,8 @@ $(document).ready(function () {
   $('#form_update_site_online').validate({
     ignore: '',
     focusInvalid: false,
+    onkeyup: false,
+    onfocusin: false,
     errorPlacement: function (error, element) {
       if (element.attr("type") === "tel" &&
           (element.attr("min") || element.attr("max")))
