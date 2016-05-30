@@ -81,13 +81,13 @@ $(function () {
   });
 
   $(document).delegate(
-      '#page-site-list , #page-collection-list , \n\
-#page-site-list-all ', 'pageshow', function () {
+    '#page-site-list , #page-collection-list , \n\
+      #page-site-list-all ', 'pageshow', function () {
         App.DataStore.clearConfig("configNumberSkipLogic");
         App.DataStore.clearConfig("configNumber");
         App.DataStore.clearConfig("configSelectManyForSkipLogic");
         App.DataStore.clearConfig("configLocations");
-      });
+  });
 
   $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
     FieldController.renderLocationField("#updatelolat", "#updatelolng", "update_");
@@ -100,25 +100,5 @@ $(function () {
   $(document).delegate('#lat, #lng', 'change', function () {
     FieldController.renderLocationField("#lat", "#lng", "");
   });
-  
-  // $(document).delegate('.ui-collapsible-heading-toggle', 'click', function(){
-  //   if ($(this).hasClass("ui-icon-minus")) {
-  //     $(this).removeClass("ui-icon-minus");
-  //   } else {
-  //     var prev = $(this).parent().parent().prev();
-  //     var prevTop = prev.length > 0 ? prev.offset().top : 0;
-
-  //     var openDiv = $(".ui-collapsible-heading-toggle.ui-icon-minus").first();
-  //     var openDivTop = openDiv.length > 0 ? openDiv.offset().top : 10000;
-
-  //     $('html, body').animate({
-  //         scrollTop: Math.min.apply(null,[prevTop, openDivTop])
-  //     }, 20);
-  //   }
-
-  //   $(".ui-collapsible-heading-toggle.ui-icon-minus").each(function() {
-  //     $( this ).click();
-  //   });
-  // });
 
 });
