@@ -221,4 +221,6 @@ h1 {
 
 .loading {
   text-align: center;
+  min-height: 50px;
+  background: url('/img/content-loader.gif') no-repeat center center;
 }

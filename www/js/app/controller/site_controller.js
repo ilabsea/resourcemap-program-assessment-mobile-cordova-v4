@@ -222,7 +222,7 @@ SiteController = {
         lng: site.long
       };
       SiteController.displayUpdateLatLng("site_update_online",
-          $('#div-site-update-name-online'), siteOnlineUpdateData);
+      $('#div-site-update-name-online'), siteOnlineUpdateData);
       FieldController.renderUpdateOnline(site);
     });
   },
