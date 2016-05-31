@@ -76,10 +76,10 @@ $(function () {
 
   var selector = '#page-site-list , #page-collection-list , #page-site-list-all';
   $(document).delegate(selector, 'pageshow', function () {
-        App.DataStore.clearConfig("configNumberSkipLogic");
-        App.DataStore.clearConfig("configNumber");
-        App.DataStore.clearConfig("configSelectManyForSkipLogic");
-        App.DataStore.clearConfig("configLocations");
+    App.DataStore.clearConfig("configNumberSkipLogic");
+    App.DataStore.clearConfig("configNumber");
+    App.DataStore.clearConfig("configSelectManyForSkipLogic");
+    App.DataStore.clearConfig("configLocations");
   });
 
   $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
@@ -93,6 +93,5 @@ $(function () {
   $(document).delegate('#lat, #lng', 'change', function () {
     FieldController.renderLocationField("#lat", "#lng", "");
   });
-
 
 });
