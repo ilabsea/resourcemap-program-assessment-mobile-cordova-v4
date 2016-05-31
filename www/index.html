@@ -36,10 +36,7 @@
              data-i18n="login_page.login">Log in</button>
     </form>
    </div>
-   <div>
-    <center><a href="#page-signup" data-i18n="login_page.creat_new_accotun">
-      Create new account</a></center>
-   </div>
+
    <div>
     <p id="validation_email_psd" class="required_data"
        data-i18n="validation.emailPsd"> Please enter your email and password. </p>
@@ -129,7 +126,9 @@
     <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r"
             class="ui-btn-right" data-i18n="global.logout">Sign out</button>
    </div>
+
    <div data-role="content" id="sitelistview">
+
     <ul id="offlinesite-list"
         data-role="listview"
         data-inset="true"
@@ -159,8 +158,8 @@
      <select data-theme="a" data-native-menu="false" data-iconpos="notext"
              data-icon="bullets" name="site-list-menu" id="site-list-menu"
              onchange="SiteList.menu()" >
-      <option value="" data-i18n="global.menu"></option>
-      <option value="1" selected data-i18n="global.viewAll">View all</option>
+      <option value=""  data-i18n="global.menu" selected='selected'></option>
+      <option value="1" data-i18n="global.viewAll">View all</option>
       <option value="2" data-i18n="global.viewOffline">View offline</option>
       <option value="3" data-i18n="global.viewOnline">View online</option>
       <option value="4" data-i18n="global.logout">Logout</option>
@@ -168,19 +167,24 @@
     </div>
    </div>
    <div data-role="content" id="sitelist">
+
     <div> <a data-role="button" id="btn_create_site" href="#page-create-site"
              data-icon="plus" data-i18n="global.add">Add new site</a>
     </div>
+
     <ul class="clearPreviousDisplay" data-role='listview' id="site-list"
         data-inset="true" data-theme="c">
     </ul>
-    <button id="btn_sendToServer" data-icon="forward"
+
+    <button id="btn_sendToServer" data-icon="forward" style="display:none;"
             data-i18n="global.send_to_server">
      Send to server
     </button>
+
     <ul class="clearPreviousDisplay" data-role='listview'
         id="site-list-online" data-inset="true" data-theme="c">
     </ul>
+
    </div>
   </div>
 
@@ -209,7 +213,10 @@
       <input type="number" name="lng" id="lng" class="required" readonly/>
       <input type="hidden" name="start_entry_date" id="start_entry_date"/>
      </div>
-     <div class="clearPreviousDisplay" id="div_field_collection"></div>
+
+     <div class="clearPreviousDisplay loading" id="div_field_collection">
+       <img src="img/content-loader.gif" alt="Fetching info ..." width="50" height="50" >
+     </div>
      <button id="btn_submitAddSite" data-inset="true"
              data-i18n="global.save_site">Save Site
      </button>
@@ -295,7 +302,11 @@
    <div data-role="content">
     <form id="form_update_site_online">
      <div id="div-site-update-name-online"> </div>
-     <div class="clearPreviousDisplay" id="div_update_field_collection_online"></div>
+
+     <div class="clearPreviousDisplay loading" id="div_update_field_collection_online">
+       <img src="img/content-loader.gif" alt="Fetching info ..." width="50" height="50" >
+     </div>
+
      <div>
       <button id="btn_submitUpdateSite_online"  data-i18n="global.update">Update
       </button>

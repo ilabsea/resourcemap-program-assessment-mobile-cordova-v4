@@ -50,7 +50,7 @@ FieldController = {
       } else {
         var field_collections = [];
         fields.forEach(function (field) {
-          $.each(field.fields(), function (i, fieldsInfield) {
+          $.each(field.fields, function (i, fieldsInfield) {
             field_id_arr.push(fieldsInfield.idfield);
             if (fieldsInfield.kind === "location")
               location_fields_id.push(fieldsInfield.idfield);
@@ -72,7 +72,9 @@ FieldController = {
   renderUpdateOffline: function (site) {
     var field_id_arr = [];
     var location_fields_id = [];
-    var cId = App.DataStore.get("cId");
+    var cId = site.collection_id;
+    App.DataStore.set('cId', site.collection_id)
+
     FieldOffline.fetchByCollectionId(cId, function (layers) {
       $.map(layers, function (layer) {
         $.map(layer._data.fields, function (field) {
@@ -81,13 +83,14 @@ FieldController = {
             location_fields_id.push(field.id);
         });
       });
+
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
 
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, false);
       FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu-update'),
           {field_collections: field_collections}, "update_");
-      FieldHelperView.display("field_updateOffline",
+      FieldHelperView.display("field_update_offline",
           $('#div_update_field_collection'), "update_",
           {field_collections: field_collections}, true);
     });
@@ -95,6 +98,8 @@ FieldController = {
   renderUpdateOnline: function (site) {
     var field_id_arr = [];
     var location_fields_id = [];
+    App.DataStore.set("cId", site.collection_id);
+
     FieldModel.fetch(function (layers) {
       $.map(layers, function (fields) {
         $.map(fields.fields, function (field) {
@@ -107,8 +112,10 @@ FieldController = {
       App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
 
       var field_collections = FieldHelper.buildFieldsUpdate(layers, site, true);
+
       FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu-update-online'),
           {field_collections: field_collections}, "update_online_");
+
       FieldHelperView.display("field_update_online",
           $('#div_update_field_collection_online'),
           "update_online_", {field_collections: field_collections}, true);

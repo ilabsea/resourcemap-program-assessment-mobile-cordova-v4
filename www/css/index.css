@@ -218,3 +218,7 @@ h1 {
   width: auto !important;
   padding: 0px 5px;
 }
+
+.loading {
+  text-align: center;
+}

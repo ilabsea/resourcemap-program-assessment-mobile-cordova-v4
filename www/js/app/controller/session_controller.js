@@ -1,28 +1,26 @@
 SessionController = {
   signIn: function (user) {
-    var currentUser = {id: user.id, password: user.password(), email: user.email()};
-    App.DataStore.set("currentUser", JSON.stringify(currentUser));
+    UserSession.setUser(user)
   },
   currentUser: function () {
-    var u = App.DataStore.get("currentUser");
-    if (u)
-      return JSON.parse(u);
-    return {};
+    return UserSession.getUser()
   },
-  authUserOnline: function (email, password) {
-    var data = {user: {email: email, password: password}};
+  authUserOnline: function (userParams) {
+    var data = {user: userParams};
     hideElement($('#invalidmail'));
     ViewBinding.setBusy(true);
 
     UserModel.create(App.AUTH_URL, data, function (response) {
       App.Session.setAuthToken(response.auth_token);
 
-      UserOffline.fetchByEmail(email, function (user) {
-        if (user === null)
-          SessionController.signIn(UserOffline.add(email, password));
+      UserOffline.fetchByEmail(userParams.email, function (user) {
+        if (user === null){
+          var user = UserOffline.add(userParams)
+          SessionController.signIn(user);
+        }
         else {
-          if (user.password() !== password) {
-            user.password(password);
+          if (user.password !== userParams.password) {
+            user.password = userParams.password
             persistence.flush();
           }
           SessionController.signIn(user);
@@ -37,12 +35,12 @@ SessionController = {
       }
     });
   },
-  authUserOffline: function (email, password) {
-    UserOffline.fetchByEmail(email, function (user) {
+  authUserOffline: function (userParams) {
+    UserOffline.fetchByEmail(userParams.email, function (user) {
       if (user === null) {
         showElement($('#noMailInDb'));
       }
-      if (user.password() === password) {
+      if (user.password === userParams.password) {
         SessionController.signIn(user);
         App.redirectTo("#page-collection-list");
       }
@@ -53,11 +51,11 @@ SessionController = {
       hideElement($('#invalidmail'));
     });
   },
-  authUser: function (email, password) {
+  authUser: function (userParams) {
     if (!App.isOnline())
-      this.authUserOffline(email, password);
+      this.authUserOffline(userParams);
     else
-      this.authUserOnline(email, password);
+      this.authUserOnline(userParams);
   },
   signUp: function (user) {
     var data = {user: user};
@@ -81,29 +79,29 @@ SessionController = {
   },
   logout: function () {
     $('#form_login')[0].reset();
-    if (!App.isOnline()) {
-      App.Session.resetState();
-      App.redirectTo("#page-login");
-    }
-    else {
+    if (App.isOnline()) {
       UserModel.delete(function () {
         App.Session.resetState();
         App.redirectTo("#page-login");
       });
     }
+    else {
+      App.Session.resetState();
+      App.redirectTo("#page-login");
+    }
   },
-  storeSessionLogin: function (email, password) {
+  storeSessionLogin: function (userParams) {
     var isOnline;
     setTimeout(function () {
       isOnline = App.isOnline();
       if (!isOnline)
-        SessionController.storeSessionOffline(email, password);
+        SessionController.storeSessionOffline(userParams);
       else
-        SessionController.storeSessionOnline(email, password);
+        SessionController.storeSessionOnline(userParams);
     }, 500);
   },
-  storeSessionOnline: function (email, password) {
-    var data = {user: {email: email, password: password}};
+  storeSessionOnline: function (userParams) {
+    var data = {user: userParams};
 
     UserModel.create(App.AUTH_URL, data, function () {
       App.redirectTo("#page-collection-list");
@@ -116,9 +114,9 @@ SessionController = {
       }
     });
   },
-  storeSessionOffline: function (email, password) {
-    UserOffline.fetchByEmail(email, function (user) {
-      if (user.password() === password) {
+  storeSessionOffline: function (userParams) {
+    UserOffline.fetchByEmail(userParams.email, function (user) {
+      if (user.password === userParams.password) {
         App.redirectTo("#page-collection-list");
       }
     });

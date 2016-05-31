@@ -46,9 +46,6 @@ SiteModel = {
           alert('Internet connection problem.');
           App.redirectTo('#page-site-list');
         }
-      },
-      complete: function () {
-        ViewBinding.setBusy(true);
       }
     });
   },
@@ -63,46 +60,5 @@ SiteModel = {
       success: successCallback,
       error: errorCallback
     });
-  }
-};
-
-ViewBinding = {
-  __busy: false,
-  __msg: "",
-  setBusy: function (status) {
-    this.__busy = status;
-    if (this.__busy)
-      Spinner.show();
-    else
-      Spinner.hide();
-  },
-  setAlert: function (msg) {
-    this.__msg = msg;
-    if (!this.__msg)
-      alert(this.__msg);
-  }
-};
-
-SiteList = {
-  menu: function () {
-    App.emptyHTML();
-    var cId = App.DataStore.get("cId");
-    var value = $('#site-list-menu').val();
-    $("#btn_sendToServer").hide();
-    switch (value) {
-      case "1":
-        SiteController.getAllByCollectionId(cId);
-        break;
-      case "2":
-        SiteOffline.sitePage = 0;
-        SiteController.getByCollectionIdOffline(cId);
-        $("#btn_sendToServer").show();
-        break;
-      case "3":
-        SiteController.getByCollectionIdOnline(cId);
-        break;
-      case "4":
-        SessionController.logout();
-    }
   }
 };

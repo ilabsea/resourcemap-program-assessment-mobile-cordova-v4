@@ -5,10 +5,10 @@ FieldHelper = {
     var fieldsBuild = [];
     var fieldsWrapper = {
       cId: localStorage.getItem("cId"),
-      userId: SessionController.currentUser().id,
+      userId: UserSession.getUser().id,
       fields: fieldsBuild
     };
-    
+
     if (options["fromServer"]) {
       fieldsWrapper.name_wrapper = layer.name;
       fieldsWrapper.id_wrapper = layer.id;
@@ -190,7 +190,7 @@ FieldHelper = {
     }
     else {
       var itemLayer = FieldHelper.buildField(layer._data, {fromServer: fromServer});
-      var p = site.properties();
+      var p = site.properties;
     }
 
     $.map(itemLayer.fields, function (item) {
@@ -266,7 +266,7 @@ FieldHelper = {
       item.__value = SiteCamera.imagePath(value);
     }
     else {
-      var files = site.files();
+      var files = site.files;
       var imageId = value;
       var imageData = files[imageId];
       if (imageData == null) {
@@ -334,8 +334,8 @@ FieldHelper = {
     return arr_id;
   },
   buildFieldLocationUpdate: function (site, item, fromServer) {
-    var lat = fromServer ? site.lat : site.lat();
-    var lng = fromServer ? site.long : site.lng();
+    var lat = fromServer ? site.lat : site.lat;
+    var lng = fromServer ? site.long : site.lng;
     item.config.locationOptions = Location.getLocations(lat, lng, item.config);
   }
 };

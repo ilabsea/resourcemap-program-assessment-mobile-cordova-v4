@@ -11,73 +11,78 @@ CollectionController = {
       $('.title').html(content);
     });
   },
-  get: function () {
-    var currentUser = SessionController.currentUser();
-    if (!App.isOnline()) {
-      CollectionController.getByUserIdOffline(currentUser);
-    } else {
-      CollectionController.getByUserIdOnline(currentUser);
-    }
+  renderList: function () {
+    App.isOnline() ? CollectionController.getByUserIdOnline() : CollectionController.getByUserIdOffline();
   },
-  getByUserIdOffline: function (currentUser) {
-    CollectionOffline.fetchByUserId(currentUser, function (collections) {
-      var collectionData = [];
-      var asyncTotal = 0;
-      collections.forEach(function (collection) {
-        var currentUser = SessionController.currentUser();
-        SiteOffline.countByCollectionIdUserId(collection.idcollection(), currentUser.id, function (count) {
-          var item = CollectionController.dataCollection(collection, currentUser, count, false);
-          asyncTotal++;
-          collectionData.push(item);
 
-          if (asyncTotal === collections.length) {
-            CollectionController.displayList({collectionList: collectionData});
-          }
-        });
-      });
+  // countByUser: function (userId) {
+  //   var userId = UserSession.getUser().id;
+  //   SiteOffline.countByUserId(userId, function (count) {
+  //     if (count == 0) {
+  //       $('#btn_viewOfflineSite').hide();
+  //     } else {
+  //       $('#btn_viewOfflineSite').show();
+  //     }
+  //   });
+  // },
+
+  getByUserIdOffline: function () {
+    CollectionOffline.fetchByUser(function (collections) {
+      CollectionController.renderCollectionListByUser(collections)
     });
   },
-  getByUserIdOnline: function (currentUser) {
+  getByUserIdOnline: function () {
     CollectionModel.fetch(function (collections) {
-      var userCollection = {user: currentUser, collections: collections };
-      SiteOffline.countSiteOfflineByUserCollections(userCollection, function(result){
-        var collectionData = [];
-        $.each(collections, function(index, collection){
-          var countSiteOffline = result[collection.id] || '';
-          var item = CollectionController.dataCollection(collection, currentUser, countSiteOffline, true);
-          collectionData.push(item);
-          if (index === collections.length - 1) {
-            CollectionController.displayList({collectionList: collectionData});
-            CollectionController.synCollectionForCurrentUser(collectionData);
-          }
-        });
-      });
+      CollectionController.renderCollectionListByUser(collections);
+      CollectionController.synCollectionByUser(collections);
     });
   },
-  synCollectionForCurrentUser: function (newCollections) {
-    var currentUser = SessionController.currentUser();
-    CollectionOffline.destroyAllByUserId(currentUser.id, function(){
+
+  renderCollectionListByUser: function(collections) {
+
+    var collectionIds = $.map(collections, function(collection){
+      return CollectionController.collectionId(collection)
+    })
+    var userId = UserSession.getUser().id;
+    var options = {userId: userId, collectionIds: collectionIds}
+
+    SiteOffline.countSiteOfflineByUserCollections(options, function(result){
+      var collectionDatas = [];
+
+      for(var i=0; i<collections.length; i++){
+        var collection = collections[i]
+        var collectionId = CollectionController.collectionId(collection)
+        var countSiteOffline = result[collectionId] || '';
+        var collectionData = CollectionController.prepareCollection(collection, userId, countSiteOffline);
+        collectionDatas.push(collectionData);
+
+        if (i === collections.length - 1) {
+          CollectionController.displayList({collectionList: collectionDatas});
+        }
+      }
+    });
+  },
+
+  collectionId: function(collection) {
+    return collection.idcollection || collection.id
+  },
+
+
+  synCollectionByUser: function (newCollections) {
+    CollectionOffline.destroyAllByUser(function(){
       CollectionOffline.add(newCollections);
     })
 
   },
-  dataCollection: function (collection, currentUser, count, fromServer) {
+  prepareCollection: function (collection, userId, count) {
     var item = {
       name: collection.name,
       description: collection.description,
-      user_id: currentUser.id,
+      user_id: userId,
       linkpagesite: "#page-site-list"
     };
-    if (fromServer)
-      item.idcollection = collection.id;
-    else
-      item.idcollection = collection.idcollection;
-
-    if (count == 0)
-      item.displayCount = "";
-    else
-      item.displayCount = count;
-
+    item.idcollection = collection.idcollection || collection.id;
+    item.displayCount = (count == 0) ?  "" : count;
     return item;
   }
 };

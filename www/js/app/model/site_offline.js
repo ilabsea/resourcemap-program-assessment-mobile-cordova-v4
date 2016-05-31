@@ -8,7 +8,7 @@ SiteOffline = {
     var siteParams = data;
     siteParams["created_at"] = today;
     siteParams["collection_name"] = collectionName;
-    siteParams["user_id"] = SessionController.currentUser().id;
+    siteParams["user_id"] = UserSession.getUser().id;
     siteParams["device_id"] = uuid.v1();
     var site = new Site(siteParams);
     persistence.add(site);
@@ -39,15 +39,14 @@ SiteOffline = {
       App.redirectTo("#page-site-list");
     });
   },
-  countSiteOfflineByUserCollections: function(userCollection, callback){
-    var collectionIds = $.map(userCollection.collections, function(collection) {return collection.id});
+  countSiteOfflineByUserCollections: function(options, callback){
     Site.all()
-        .filter('collection_id', "in", collectionIds)
-        .filter('user_id', '=', userCollection.user.id)
+        .filter('collection_id', "in", options.collectionIds)
+        .filter('user_id', '=', options.userId)
         .list(null, function (sites) {
           var result = {};
           $.each(sites, function(index, siteOffline){
-            var collectionId = siteOffline.collection_id();
+            var collectionId = siteOffline.collection_id;
             result[collectionId] = result[collectionId] || 0;
             result[collectionId] +=1;
           });

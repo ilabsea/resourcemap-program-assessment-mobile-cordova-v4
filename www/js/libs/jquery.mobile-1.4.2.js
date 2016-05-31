@@ -1445,7 +1445,7 @@
   /*!
    * jQuery hashchange event - v1.3 - 7/21/2010
    * http://benalman.com/projects/jquery-hashchange-plugin/
-   * 
+   *
    * Copyright (c) 2010 "Cowboy" Ben Alman
    * Dual licensed under the MIT and GPL licenses.
    * http://benalman.com/about/license/
@@ -1454,59 +1454,59 @@
 // Script: jQuery hashchange event
 //
 // *Version: 1.3, Last updated: 7/21/2010*
-// 
+//
 // Project Home - http://benalman.com/projects/jquery-hashchange-plugin/
 // GitHub       - http://github.com/cowboy/jquery-hashchange/
 // Source       - http://github.com/cowboy/jquery-hashchange/raw/master/jquery.ba-hashchange.js
 // (Minified)   - http://github.com/cowboy/jquery-hashchange/raw/master/jquery.ba-hashchange.min.js (0.8kb gzipped)
-// 
+//
 // About: License
-// 
+//
 // Copyright (c) 2010 "Cowboy" Ben Alman,
 // Dual licensed under the MIT and GPL licenses.
 // http://benalman.com/about/license/
-// 
+//
 // About: Examples
-// 
+//
 // These working examples, complete with fully commented code, illustrate a few
 // ways in which this plugin can be used.
-// 
+//
 // hashchange event - http://benalman.com/code/projects/jquery-hashchange/examples/hashchange/
 // document.domain - http://benalman.com/code/projects/jquery-hashchange/examples/document_domain/
-// 
+//
 // About: Support and Testing
-// 
+//
 // Information about what version or versions of jQuery this plugin has been
 // tested with, what browsers it has been tested in, and where the unit tests
 // reside (so you can test it yourself).
-// 
+//
 // jQuery Versions - 1.2.6, 1.3.2, 1.4.1, 1.4.2
 // Browsers Tested - Internet Explorer 6-8, Firefox 2-4, Chrome 5-6, Safari 3.2-5,
 //                   Opera 9.6-10.60, iPhone 3.1, Android 1.6-2.2, BlackBerry 4.6-5.
 // Unit Tests      - http://benalman.com/code/projects/jquery-hashchange/unit/
-// 
+//
 // About: Known issues
-// 
+//
 // While this jQuery hashchange event implementation is quite stable and
 // robust, there are a few unfortunate browser bugs surrounding expected
 // hashchange event-based behaviors, independent of any JavaScript
 // window.onhashchange abstraction. See the following examples for more
 // information:
-// 
+//
 // Chrome: Back Button - http://benalman.com/code/projects/jquery-hashchange/examples/bug-chrome-back-button/
 // Firefox: Remote XMLHttpRequest - http://benalman.com/code/projects/jquery-hashchange/examples/bug-firefox-remote-xhr/
 // WebKit: Back Button in an Iframe - http://benalman.com/code/projects/jquery-hashchange/examples/bug-webkit-hash-iframe/
 // Safari: Back Button from a different domain - http://benalman.com/code/projects/jquery-hashchange/examples/bug-safari-back-from-diff-domain/
-// 
-// Also note that should a browser natively support the window.onhashchange 
+//
+// Also note that should a browser natively support the window.onhashchange
 // event, but not report that it does, the fallback polling loop will be used.
-// 
+//
 // About: Release History
-// 
+//
 // 1.3   - (7/21/2010) Reorganized IE6/7 Iframe code to make it more
 //         "removable" for mobile-only development. Added IE6/7 document.title
 //         support. Attempted to make Iframe as hidden as possible by using
-//         techniques from http://www.paciellogroup.com/blog/?p=604. Added 
+//         techniques from http://www.paciellogroup.com/blog/?p=604. Added
 //         support for the "shortcut" format $(window).hashchange( fn ) and
 //         $(window).hashchange() like jQuery provides for built-in events.
 //         Renamed jQuery.hashchangeDelay to <jQuery.fn.hashchange.delay> and
@@ -1553,17 +1553,17 @@
     ;
 
     // Method: jQuery.fn.hashchange
-    // 
+    //
     // Bind a handler to the window.onhashchange event or trigger all bound
     // window.onhashchange event handlers. This behavior is consistent with
     // jQuery's built-in event handlers.
-    // 
+    //
     // Usage:
-    // 
+    //
     // > jQuery(window).hashchange( [ handler ] );
-    // 
+    //
     // Arguments:
-    // 
+    //
     //  handler - (Function) Optional handler to be bound to the hashchange
     //    event. This is a "shortcut" for the more verbose form:
     //    jQuery(window).bind( 'hashchange', handler ). If handler is omitted,
@@ -1571,9 +1571,9 @@
     //    is a shortcut for the more verbose
     //    jQuery(window).trigger( 'hashchange' ). These forms are described in
     //    the <hashchange event> section.
-    // 
+    //
     // Returns:
-    // 
+    //
     //  (jQuery) The initial jQuery collection of elements.
 
     // Allow the "shortcut" format $(elem).hashchange( fn ) for binding and
@@ -1583,38 +1583,38 @@
     };
 
     // Property: jQuery.fn.hashchange.delay
-    // 
+    //
     // The numeric interval (in milliseconds) at which the <hashchange event>
     // polling loop executes. Defaults to 50.
 
     // Property: jQuery.fn.hashchange.domain
-    // 
+    //
     // If you're setting document.domain in your JavaScript, and you want hash
     // history to work in IE6/7, not only must this property be set, but you must
     // also set document.domain BEFORE jQuery is loaded into the page. This
     // property is only applicable if you are supporting IE6/7 (or IE8 operating
     // in "IE7 compatibility" mode).
-    // 
+    //
     // In addition, the <jQuery.fn.hashchange.src> property must be set to the
     // path of the included "document-domain.html" file, which can be renamed or
     // modified if necessary (note that the document.domain specified must be the
     // same in both your main JavaScript as well as in this file).
-    // 
+    //
     // Usage:
-    // 
+    //
     // jQuery.fn.hashchange.domain = document.domain;
 
     // Property: jQuery.fn.hashchange.src
-    // 
+    //
     // If, for some reason, you need to specify an Iframe src file (for example,
     // when setting document.domain as in <jQuery.fn.hashchange.domain>), you can
     // do so using this property. Note that when using this property, history
     // won't be recorded in IE6/7 until the Iframe src file loads. This property
     // is only applicable if you are supporting IE6/7 (or IE8 operating in "IE7
     // compatibility" mode).
-    // 
+    //
     // Usage:
-    // 
+    //
     // jQuery.fn.hashchange.src = 'path/to/file.html';
 
     $.fn[ str_hashchange ].delay = 50;
@@ -1624,43 +1624,43 @@
      */
 
     // Event: hashchange event
-    // 
+    //
     // Fired when location.hash changes. In browsers that support it, the native
     // HTML5 window.onhashchange event is used, otherwise a polling loop is
     // initialized, running every <jQuery.fn.hashchange.delay> milliseconds to
     // see if the hash has changed. In IE6/7 (and IE8 operating in "IE7
     // compatibility" mode), a hidden Iframe is created to allow the back button
     // and hash-based history to work.
-    // 
+    //
     // Usage as described in <jQuery.fn.hashchange>:
-    // 
+    //
     // > // Bind an event handler.
     // > jQuery(window).hashchange( function(e) {
     // >   var hash = location.hash;
     // >   ...
     // > });
-    // > 
+    // >
     // > // Manually trigger the event handler.
     // > jQuery(window).hashchange();
-    // 
+    //
     // A more verbose usage that allows for event namespacing:
-    // 
+    //
     // > // Bind an event handler.
     // > jQuery(window).bind( 'hashchange', function(e) {
     // >   var hash = location.hash;
     // >   ...
     // > });
-    // > 
+    // >
     // > // Manually trigger the event handler.
     // > jQuery(window).trigger( 'hashchange' );
-    // 
+    //
     // Additional Notes:
-    // 
+    //
     // * The polling loop and Iframe are not created until at least one handler
     //   is actually bound to the 'hashchange' event.
     // * If you need the bound handler(s) to execute immediately, in cases where
     //   a location.hash exists on page load, via bookmark or page refresh for
-    //   example, use jQuery(window).hashchange() or the more verbose 
+    //   example, use jQuery(window).hashchange() or the more verbose
     //   jQuery(window).trigger( 'hashchange' ).
     // * The event can be bound before DOM ready, but since it won't be usable
     //   before then in IE6/7 (due to the necessary Iframe), recommended usage is
@@ -5033,6 +5033,7 @@
                       },
                       // TODO make private once change has been defined in the widget
                       _cssTransition: function(to, from, options) {
+                        return false
                         var transition = options.transition,
                             reverse = options.reverse,
                             deferred = options.deferred,

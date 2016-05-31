@@ -46,7 +46,7 @@ var Location = {
     }, function () {
       alert("Location cannot be found.");
     }, {
-      enableHighAccuracy: true
+      enableHighAccuracy: false
     });
   },
   prepareLocation: function () {

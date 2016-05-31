@@ -9,6 +9,8 @@
 
 /www/ajaxtest.html
 /www/js/core/setting.js
+/www/js/dist/*
+/www/css/dist/*
 
 *precompile.js
 

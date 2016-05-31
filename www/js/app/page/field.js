@@ -32,20 +32,19 @@ $(function () {
         SkipLogic.skipLogicSelectOne(ele);
     }
   });
-  $(document).delegate('#layer-list-menu-dialog, \n\
-#update_layer-list-menu-dialog, \n\
-#update_online_layer-list-menu-dialog', 'pagehide', function () {
+  var selector = '#layer-list-menu-dialog,#update_layer-list-menu-dialog,#update_online_layer-list-menu-dialog';
+  $(document).delegate(selector, 'pagehide', function () {
     var idElement = this.id;
     var index = idElement.indexOf("-dialog");
     var ele = idElement.substr(0, index);
     scrollToLayer($('#' + ele).val());
   });
-  $(document).delegate('#ui-btn-layer-menu, \n\
-#ui-btn-layer-menu-update, \n\
-#ui-btn-layer-menu-update-online', 'click', function () {
+  var selector = "#ui-btn-layer-menu, #ui-btn-layer-menu-update, #ui-btn-layer-menu-update-online";
+  $(document).delegate(selector, 'click', function () {
     var ele = $(this).children().children()[1].id;
     $("#" + ele).val("");
   });
+
   $('body').click(function (event) {
     var yesNoField = App.DataStore.get("yesNoField");
     var otherField = $(event.target).attr("id");

@@ -1,6 +1,6 @@
 function requireReload(callback) {
-  if (localStorage['no_update_reload'] != undefined)
-    localStorage.removeItem('no_update_reload');
+  if (App.DataStore.get('no_update_reload') != undefined)
+    App.DataStore.remove('no_update_reload');
   else {
     callback();
   }

@@ -38,13 +38,11 @@ App = {
     App.initialPage();
   },
   initialPage: function () {
-    var currentUser = JSON.parse(App.DataStore.get("currentUser"));
+    var currentUser = UserSession.getUser()
     if (currentUser) {
-      var email = currentUser.email;
-      var password = currentUser.password;
       $("#page-initial").prependTo("body");
       Spinner.spinner();
-      SessionController.storeSessionLogin(email, password);
+      SessionController.storeSessionLogin(currentUser);
     }
   },
   emptyHTML: function () {

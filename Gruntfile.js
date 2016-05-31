@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
   var sourceJsFiles = [
        "www/js/libs/jquery-1.11.0.min.js",
-       "www/js/libs/jquery.mobile-1.4.2.js",
+       "www/js/libs/jquery.mobile-1.4.5.js",
        "www/js/libs/tree.jquery.js",
        "www/js/libs/jquery.validate.js",
        "www/js/libs/jquery.validation_form.js",
@@ -11,14 +11,14 @@ module.exports = function(grunt) {
        "www/js/libs/handlebars.runtime-v4.0.5.js",
 
        "www/js/vendor/persistence/persistence.js",
-       "www/js/vendor/persistence/persistence.sync.js",
+      //  "www/js/vendor/persistence/persistence.sync.js",
        "www/js/vendor/persistence/persistence.store.sql.js",
        "www/js/vendor/persistence/persistence.store.sqlite_web.js",
-       "www/js/vendor/persistence/persistence.store.memory.js",
-       "www/js/vendor/persistence/persistence.jquery.js",
+      //  "www/js/vendor/persistence/persistence.store.memory.js",
+      //  "www/js/vendor/persistence/persistence.jquery.js",
 
        "www/js/vendor/form_validation.js",
-       "www/js/vendor/googleMap.js",
+       "www/js/vendor/google_map.js",
        "www/js/vendor/translate.js",
        "www/js/vendor/node-uuid/uuid.js",
 
@@ -37,12 +37,18 @@ module.exports = function(grunt) {
        "www/js/app/controller/session_controller.js",
        "www/js/app/controller/my_membership_controller.js",
 
+       "www/js/app/model/user_session.js",
        "www/js/app/model/collection_model.js",
+       "www/js/app/model/collection_offline.js",
        "www/js/app/model/field_model.js",
        "www/js/app/model/hierarchy_model.js",
        "www/js/app/model/site_model.js",
+       "www/js/app/model/site_list.js",
+       "www/js/app/model/view_binding.js",
+       "www/js/app/model/user_offline.js",
        "www/js/app/model/user_model.js",
        "www/js/app/model/photo.js",
+       "www/js/app/model/photo_list.js",
        "www/js/app/model/camera_model.js",
        "www/js/app/model/site_camera.js",
        "www/js/app/model/calculation.js",
@@ -70,7 +76,8 @@ module.exports = function(grunt) {
        "www/js/app/page/hierarchy.js",
        "www/js/app/page/field.js",
        "www/js/app/page/send_to_server.js",
-       "www/js/app/page/session.js"
+       "www/js/app/page/session.js",
+       "www/js/app/page/event-list.js"
   ]
 
   var sourceCssFiles = [
@@ -190,6 +197,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('build', ['cssmin', 'exec', 'uglify']);
-  grunt.registerTask('default', ['build']);
+  grunt.registerTask('default', ['watch']);
 
 };
