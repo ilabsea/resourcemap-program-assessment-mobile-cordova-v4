@@ -15,7 +15,7 @@ SessionController = {
 
       UserOffline.fetchByEmail(userParams.email, function (user) {
         if (user === null){
-          var user = UserOffline.add(userParams)
+          var user = UserOffline.add(userParams);
           SessionController.signIn(user);
         }
         else {

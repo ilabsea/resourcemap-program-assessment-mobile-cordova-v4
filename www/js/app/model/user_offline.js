@@ -1,8 +1,8 @@
 UserOffline = {
   add: function(userParams) {
-    user = new User(userParams);
+    var user = new User(userParams);
     persistence.add(user);
-    var user = persistence.flush()
+    persistence.flush()
     return user;
 
   },
