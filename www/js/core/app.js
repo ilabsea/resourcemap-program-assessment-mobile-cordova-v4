@@ -48,6 +48,10 @@ App = {
   emptyHTML: function () {
     $(".clearPreviousDisplay").html("");
   },
+  checkNodeTargetSuccess: function(node, callback) {
+    if(node.tagName.toLowerCase() == 'a' && node.parentNode.tagName.toLowerCase() == 'li')
+      callback(node)
+  },
   setUp: function () {
     $.ajaxSetup({
       complete: function () {

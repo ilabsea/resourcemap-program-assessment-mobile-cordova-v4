@@ -1,3 +1,9 @@
+{{#if field_collections }}
+  <div></div>
+{{else}}
+  <div class='empty-content'></div>
+{{/if}}
+
 <div data-role="collapsible-set">
   {{#each field_collections}}
     <div  data-role="collapsible"
@@ -5,7 +11,7 @@
           data-theme="a"
           data-mini="true"
           data-collapsed="true"
-    id="collapsable_update_online_{{id_wrapper}}">
+          id="collapsable_update_online_{{id_wrapper}}">
       <h3>{{name_wrapper}}</h3>
       {{#each fields}}
         {{#ifCond widgetType "custom_widget_tokenizer"}}

@@ -42,30 +42,29 @@ FieldController = {
     FieldOffline.fetchByCollectionId(cId, function (fields) {
       var field_id_arr = new Array();
       var location_fields_id = [];
-      if (fields.length == 0) {
-        ViewBinding.setBusy(false);
+
+      if(fields.length == 0)
         FieldHelperView.displayNoFields("field_no_field_pop_up", $('#page-pop-up-no-fields'));
-        App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
-        App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
-      } else {
-        var field_collections = [];
-        fields.forEach(function (field) {
-          $.each(field.fields, function (i, fieldsInfield) {
-            field_id_arr.push(fieldsInfield.idfield);
-            if (fieldsInfield.kind === "location")
-              location_fields_id.push(fieldsInfield.idfield);
-          });
-          var item = FieldHelper.buildField(field._data, {fromServer: false});
-          field_collections.push(item);
+
+      var field_collections = [];
+      fields.forEach(function (field) {
+        $.each(field.fields, function (i, fieldsInfield) {
+          field_id_arr.push(fieldsInfield.idfield);
+          if (fieldsInfield.kind === "location")
+            location_fields_id.push(fieldsInfield.idfield);
         });
-        App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
-        App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
-        FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu'),
-            {field_collections: field_collections}, "");
-        FieldHelperView.display("field_add", $('#div_field_collection'), "",
-            {field_collections: field_collections}, false);
-        ViewBinding.setBusy(false);
-      }
+        var item = FieldHelper.buildField(field._data, {fromServer: false});
+        field_collections.push(item);
+      });
+
+      App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
+      App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
+      FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu'),
+          {field_collections: field_collections}, "");
+      FieldHelperView.display("field_add", $('#div_field_collection'), "",
+          {field_collections: field_collections}, false);
+      ViewBinding.setBusy(false);
+
       Location.prepareLocation();
     });
   },

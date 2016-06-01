@@ -314,15 +314,10 @@ SkipLogic = {
 };
 
 function scrollToLayer(selectedValue) {
-  var element = ("#collapsable_" + selectedValue);
   if (selectedValue === 'logout')
-    setTimeout(function () {
-      SessionController.logout();
-    }, 50);
-  else {
-    triggerExpand($(element));
-    scrollToHash(element);
-  }
+    setTimeout(function () { SessionController.logout(); }, 50);
+  else
+    triggerExpand("#collapsable_" + selectedValue);
 }
 
 function scrollToHash(element) {
@@ -332,11 +327,9 @@ function scrollToHash(element) {
     }, 800);
 }
 
-function triggerExpand(parent) {
-  parent.find(".ui-collapsible-heading").
-      removeClass("ui-collapsible-heading-collapsed");
-  parent.find(".ui-collapsible-content").
-      removeClass("ui-collapsible-content-collapsed");
-  parent.find(".ui-collapsible-heading a").
-      addClass("ui-icon-minus").removeClass("ui-icon-plus");
+function triggerExpand(element) {
+  var $active = $(element).parent().find("[data-collapsed=true]");
+  if($active.length > 0)
+    $active.collapsible('collapse');
+  $(element).collapsible('expand');
 }

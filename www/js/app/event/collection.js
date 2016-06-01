@@ -6,16 +6,16 @@ $(function() {
     CollectionController.renderList();
   });
 
-  $(document).delegate('#page-collection-list', 'click', function(e) {
-    var $target = $(e.target);
-    if( e.target.tagName.toLowerCase() == 'a'){
-      var cId = $target.attr("data-id");
-      var cName = $target.attr("data-name");
+  $(document).delegate('#page-collection-list', 'click', function(event) {
+    App.checkNodeTargetSuccess(event.target, function(a) {
+      var li = a.parentNode;
+      var cId = li.getAttribute("data-id");
+      var cName = li.getAttribute("data-name");
 
       App.DataStore.set("cId", cId);
       App.DataStore.set("collectionName", cName);
       CollectionController.displayName({name: cName});
-    }
+    })
   });
 
 });

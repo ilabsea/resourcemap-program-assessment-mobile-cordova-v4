@@ -3,12 +3,12 @@
 templates['collection_list'] = template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<li >\n <a href='"
-    + alias4(((helper = (helper = helpers.linkpagesite || (depth0 != null ? depth0.linkpagesite : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"linkpagesite","hash":{},"data":data}) : helper)))
-    + "' data-id='"
+  return "<li data-id='"
     + alias4(((helper = (helper = helpers.idcollection || (depth0 != null ? depth0.idcollection : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idcollection","hash":{},"data":data}) : helper)))
     + "' data-name='"
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
+    + "'>\n <a href='"
+    + alias4(((helper = (helper = helpers.linkpagesite || (depth0 != null ? depth0.linkpagesite : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"linkpagesite","hash":{},"data":data}) : helper)))
     + "'> "
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
     + "\n"

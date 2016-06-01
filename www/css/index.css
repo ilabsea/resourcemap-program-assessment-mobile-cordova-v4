@@ -221,6 +221,14 @@ h1 {
 
 .loading {
   text-align: center;
-  min-height: 50px;
-  background: url('/img/content-loader.gif') no-repeat center center;
+  min-height: 30px;
+  background: url('/img/content-loader.gif') no-repeat center 0;
+}
+.no-click {
+  pointer-events: none;
+}
+
+.empty-content {
+  background-color: #f3f3f3;
+  min-height: 32px;
 }

@@ -19,32 +19,38 @@ $(function () {
     SiteController.setEntryDate();
   });
 
-  $(document).delegate('#page-site-list #site-list-online li', 'click', function () {
-    var sId = $(this).attr('data-id');
-    if (sId == "load-more-site-online") {
-      $("#" + sId).remove();
-      SiteModel.sitePage++;
-      SiteController.getByCollectionIdOnline();
-    }
-    else {
-      App.DataStore.set("sId", sId);
-      requireReload(SiteController.renderUpdateSiteFormOnline);
-    }
+  $(document).delegate('#page-site-list #site-list-online', 'click', function (event) {
+    App.checkNodeTargetSuccess(event.target, function(a) {
+      var li = a.parentNode;
+      var sId = li.getAttribute('data-id');
+      if (sId == "load-more-site-online") {
+        li.remove()
+        SiteModel.sitePage++;
+        SiteController.getByCollectionIdOnline();
+      }
+      else {
+        App.DataStore.set("sId", sId);
+        requireReload(SiteController.renderUpdateSiteFormOnline);
+      }
+    })
   });
 
-  $(document).delegate('#page-site-list #site-list li', 'click', function () {
-    var sId = $(this).attr('data-id');
-    if (sId == "load-more-site-offline") {
-      $("#" + sId).remove();
-      SiteOffline.sitePage++;
-      SiteController.getByCollectionIdOffline();
-    }
-    else {
-      App.DataStore.set("sId", sId);
-      $("#btn_back_site_list_all").hide();
-      $("#btn_back_site_list").show();
-      requireReload(SiteController.renderUpdateSiteFormOffline);
-    }
+  $(document).delegate('#page-site-list #site-list', 'click', function (event) {
+    App.checkNodeTargetSuccess(event.target, function(a) {
+      var li = a.parentNode;
+      var sId = li.getAttribute('data-id');
+      if (sId == "load-more-site-offline") {
+        li.remove()
+        SiteOffline.sitePage++;
+        SiteController.getByCollectionIdOffline();
+      }
+      else {
+        App.DataStore.set("sId", sId);
+        $("#btn_back_site_list_all").hide();
+        $("#btn_back_site_list").show();
+        requireReload(SiteController.renderUpdateSiteFormOffline);
+      }
+    })
   });
 
   $(document).delegate('#btn_delete-site', 'click', function () {
@@ -52,21 +58,25 @@ $(function () {
     SiteController.deleteBySiteId(sId);
   });
 
-  $(document).delegate('#page-site-list-all li', 'click', function () {
-    var sId = $(this).attr('data-id');
-    var uId = UserSession.getUser().id;
-    if (sId == "load-more-site-all") {
-      $("#" + sId).remove();
-      SiteOffline.sitePage++;
-      SiteController.getByUser();
-    }
-    else {
-      App.DataStore.set("sId", sId);
-      $("#btn_back_site_list_all").show();
-      $("#btn_back_site_list").hide();
-      requireReload(SiteController.renderUpdateSiteFormOffline);
-    }
+  $(document).delegate('#page-site-list-all', 'click', function (event) {
+    App.checkNodeTargetSuccess(event.target, function(a) {
+      var li = a.parentNode;
+      var sId = li.getAttribute('data-id');
+      if (sId == "load-more-site-all") {
+        li.remove()
+        SiteOffline.sitePage++;
+        SiteController.getByUser();
+      }
+      else {
+        App.DataStore.set("sId", sId);
+        $("#btn_back_site_list_all").show();
+        $("#btn_back_site_list").hide();
+        requireReload(SiteController.renderUpdateSiteFormOffline);
+      }
+    })
   });
+
+
 
   $(document).delegate('#page-site-list-all', 'pagebeforeshow', function () {
     SiteOffline.sitePage = 0;

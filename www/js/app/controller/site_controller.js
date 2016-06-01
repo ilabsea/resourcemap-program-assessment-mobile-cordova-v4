@@ -23,7 +23,6 @@ SiteController = {
       SiteController.addOffline(data);
   },
   addOnline: function (data, callback) {
-    ViewBinding.setBusy(true);
     SiteModel.create(data, callback, function () {
       ViewBinding.setAlert("Please send data again.");
     });
@@ -156,7 +155,6 @@ SiteController = {
   },
   updateBySiteIdOnline: function () {
     var data;
-    ViewBinding.setBusy(true);
     FieldModel.fetch(function (fields) {
       var propertiesFile = {properties: {}, files: {}};
       $.map(fields, function (field) {
@@ -206,7 +204,6 @@ SiteController = {
     });
   },
   renderUpdateSiteFormOnline: function () {
-    ViewBinding.setBusy(true);
     SiteModel.fetchOne(function (site) {
       MyMembershipObj.setSite(site);
       var can_edit = MyMembershipController.canEdit(site);

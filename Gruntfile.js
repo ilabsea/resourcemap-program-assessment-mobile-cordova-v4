@@ -69,15 +69,15 @@ module.exports = function(grunt) {
        "www/js/app/helper/require_reload.js",
        "www/js/app/helper/digit_allowance.js",
 
-       "www/js/app/page/cross_domain.js",
-       "www/js/app/page/collection.js",
-       "www/js/app/page/site.js",
-       "www/js/app/page/map.js",
-       "www/js/app/page/hierarchy.js",
-       "www/js/app/page/field.js",
-       "www/js/app/page/send_to_server.js",
-       "www/js/app/page/session.js",
-       "www/js/app/page/event-list.js"
+       "www/js/app/event/mobile_init.js",
+       "www/js/app/event/collection.js",
+       "www/js/app/event/site.js",
+       "www/js/app/event/map.js",
+       "www/js/app/event/hierarchy.js",
+       "www/js/app/event/field.js",
+       "www/js/app/event/send_to_server.js",
+       "www/js/app/event/session.js",
+       "www/js/app/event/event-list.js"
   ]
 
   var sourceCssFiles = [
