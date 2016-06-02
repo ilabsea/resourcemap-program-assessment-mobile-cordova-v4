@@ -222,7 +222,7 @@ h1 {
 .loading {
   text-align: center;
   min-height: 30px;
-  background: url('/img/content-loader.gif') no-repeat center 0;
+  background: url('../../img/content-loader.gif') no-repeat center 0;
 }
 .no-click {
   pointer-events: none;
