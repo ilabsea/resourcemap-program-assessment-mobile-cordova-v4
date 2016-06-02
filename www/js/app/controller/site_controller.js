@@ -23,6 +23,7 @@ SiteController = {
       SiteController.addOffline(data);
   },
   addOnline: function (data, callback) {
+    ViewBinding.setBusy(true);
     SiteModel.create(data, callback, function () {
       ViewBinding.setAlert("Please send data again.");
     });
@@ -155,6 +156,7 @@ SiteController = {
   },
   updateBySiteIdOnline: function () {
     var data;
+    ViewBinding.setBusy(true)
     FieldModel.fetch(function (fields) {
       var propertiesFile = {properties: {}, files: {}};
       $.map(fields, function (field) {

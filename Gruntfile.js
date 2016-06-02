@@ -90,7 +90,7 @@ module.exports = function(grunt) {
     "www/css/libs/jqm1.4.2.css",
     "www/css/libs/jquery.mobile.icons.min.css",
     "www/css/libs/jqtree.css.css",
-    "www/css/shadow.override.css"
+    "www/css/override.css"
   ]
 
   var templateFiles = [
