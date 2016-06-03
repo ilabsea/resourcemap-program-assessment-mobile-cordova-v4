@@ -1,12 +1,10 @@
 SiteList = {
   menu: function () {
-    console.log('changed')
     App.emptyHTML();
     var cId = App.DataStore.get("cId");
     var value = $('#site-list-menu').val();
     $("#btn_sendToServer").hide();
 
-    console.log('option: ', value)
     switch (value) {
       case "1":
         SiteController.getAllByCollectionId(cId);
@@ -23,7 +21,7 @@ SiteList = {
         SessionController.logout();
 
       default:
-        console.log("no value");
+        App.log("no value");
     }
   }
 };

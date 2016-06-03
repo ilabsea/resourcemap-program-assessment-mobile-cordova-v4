@@ -91,10 +91,8 @@ SessionController = {
     }
   },
   storeSessionLogin: function (userParams) {
-    var isOnline;
     setTimeout(function () {
-      isOnline = App.isOnline();
-      if (!isOnline)
+      if (!App.isOnline())
         SessionController.storeSessionOffline(userParams);
       else
         SessionController.storeSessionOnline(userParams);

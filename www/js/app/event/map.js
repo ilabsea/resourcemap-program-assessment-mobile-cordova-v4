@@ -1,4 +1,4 @@
-$(function () {
+$(document).on("mobileinit", function() {
   $(document).delegate('#create-icon-map', 'click', function () {
     $("#btn_back_create_site").show();
     $("#btn_back_update_site").hide();

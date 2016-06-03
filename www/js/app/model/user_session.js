@@ -6,6 +6,10 @@ UserSession = {
     return App.Session.getUser()
   },
 
+  isLoggedIn: function() {
+    return App.Session.getAuthToken()
+  },
+
   clearUser: function(){
     App.Session.clearUser()
   }

@@ -7,6 +7,7 @@
 
  </head>
  <body>
+
   <!--page-login-->
   <div data-role="page" id="page-login" data-theme="b">
    <div data-role="header">
@@ -51,9 +52,7 @@
    </div>
   </div>
 
-  <!-- initial page -->
-  <div data-role="page" id="page-initial" data-theme="b">
-  </div>
+
 
   <!-- Create new account-->
   <div data-role="page" id="page-signup" data-theme="b">
@@ -98,8 +97,8 @@
   <!-- page-collection-list -->
   <div data-role="page" id="page-collection-list" data-theme="b">
    <div data-role="header" >
-    <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r"
-            class="ui-btn-right" data-i18n="global.logout">Sign out</button>
+    <button id="logout" class="ui-btn-right logout" data-theme="a" data-inline="true" data-icon="carat-r"
+             data-i18n="global.logout">Sign out</button>
     <h2 data-i18n="collection_page.collection">My Collections</h2>
    </div>
    <div data-role="content">
@@ -124,7 +123,7 @@
     </a>
     <h1 data-i18n="global.site">Sites</h1>
     <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r"
-            class="ui-btn-right" data-i18n="global.logout">Sign out</button>
+             class="ui-btn-right logout" data-i18n="global.logout">Sign out</button>
    </div>
 
    <div data-role="content" id="sitelistview">
@@ -242,8 +241,8 @@
        class="ui-btn-left" data-i18n="global.back">Back
     </a>
     <h1 data-i18n="map_page.map">Map</h1>
-    <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r"
-            class="ui-btn-right" data-i18n="global.logout">Sign out</button>
+    <button id="logout" class="ui-btn-right logout" data-theme="a" data-inline="true" data-icon="carat-r"
+             data-i18n="global.logout">Sign out</button>
    </div>
    <div data-role="content" id="content_map">
     <div id="latlng_canvas">

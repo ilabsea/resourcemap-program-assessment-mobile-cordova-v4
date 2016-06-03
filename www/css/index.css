@@ -157,7 +157,7 @@ h1 {
     top: -15px;
 }
 .date{
-    background: url("../img/calendar.png") !important;
+    background: url("../../img/calendar.png") !important;
     background-position: 99.50% center !important;
     background-repeat: no-repeat !important;
     margin-right: 31px !important;

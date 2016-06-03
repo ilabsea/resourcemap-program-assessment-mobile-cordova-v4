@@ -1,10 +1,10 @@
-$(function() {
+$(document).on("mobileinit", function() {
 
   $(document).delegate('#page-collection-list', 'pagebeforeshow', function() {
     App.emptyHTML();
-    hideElement($("#info_sign_in"));
     CollectionController.renderList();
   });
+
 
   $(document).delegate('#page-collection-list', 'click', function(event) {
     App.checkNodeTargetSuccess(event.target, function(a) {

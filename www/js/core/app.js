@@ -12,14 +12,24 @@ App = {
   VERSION: "1.3",
   DEBUG: RmSetting.DEBUG,
   userId: "",
+  defaultPage: "#page-collection-list",
+
   log: function (text, data) {
     if (App.DEBUG)
       console.log(text, data);
   },
   initialize: function () {
     this.bindEvents();
-    this.setUp();
+    this.setUpConfig()
+  },
+  setUpConfig: function(){
     persistence.debug = App.DEBUG;
+    jQuery.validator.setDefaults({
+      debug: true,
+      success: "valid",
+      ignore: ":hidden:not(select)"
+    });
+
   },
   resetDb: function () {
     persistence.reset();
@@ -34,16 +44,6 @@ App = {
   onDeviceReady: function () {
     connectionDB(App.DB_NAME, App.DB_SIZE);
     createTables();
-    // FastClick.attach(document.body);
-    App.initialPage();
-  },
-  initialPage: function () {
-    var currentUser = UserSession.getUser()
-    if (currentUser) {
-      $("#page-initial").prependTo("body");
-      Spinner.spinner();
-      SessionController.storeSessionLogin(currentUser);
-    }
   },
   emptyHTML: function () {
     $(".clearPreviousDisplay").html("");
@@ -52,16 +52,9 @@ App = {
     if(node.tagName.toLowerCase() == 'a' && node.parentNode.tagName.toLowerCase() == 'li')
       callback(node)
   },
-  setUp: function () {
-    $.ajaxSetup({
-      complete: function () {
-        ViewBinding.setBusy(false);
-      },
-      timeout: 120000
-    });
-  },
-  redirectTo: function (url) {
-    $.mobile.changePage(url);
+  redirectTo: function (nextPage) {
+    App.log("Redirect to ", nextPage);
+    $.mobile.pageContainer.pagecontainer('change', nextPage);
   },
   isOnline: function () {
     var online = false;
@@ -79,3 +72,6 @@ App = {
     return true;
   }
 };
+
+App.initialize();
+App.onDeviceReady();

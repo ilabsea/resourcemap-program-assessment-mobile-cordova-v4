@@ -1,4 +1,4 @@
-$(function () {
+$(document).on("mobileinit", function() {
   //handle collapsible in site page
   $(document).on("collapsibleexpand", "[data-role=collapsible]", function () {
     var position = $(this).offset().top;

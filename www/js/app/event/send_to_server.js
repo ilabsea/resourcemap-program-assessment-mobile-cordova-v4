@@ -1,4 +1,4 @@
-$(function () {
+$(document).on("mobileinit", function() {
 
   $(document).delegate('#btn_sendToServer', 'click', function () {
     SiteController.submitAllToServerByCollectionIdUserId();

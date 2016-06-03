@@ -2,22 +2,33 @@ module.exports = function(grunt) {
 
   var sourceJsFiles = [
        "www/js/libs/jquery-1.11.0.min.js",
+       "www/js/libs/jquery.validate.js",
+       
+       "www/js/app/event/mobile_init.js",
+       "www/js/app/event/session.js",
+       "www/js/app/event/registration.js",
+       "www/js/app/event/collection.js",
+       "www/js/app/event/site.js",
+       "www/js/app/event/map.js",
+       "www/js/app/event/hierarchy.js",
+       "www/js/app/event/field.js",
+       "www/js/app/event/send_to_server.js",
+
+
+
        "www/js/libs/jquery.mobile-1.4.5.js",
        "www/js/libs/tree.jquery.js",
-       "www/js/libs/jquery.validate.js",
+
        "www/js/libs/jquery.validation_form.js",
 
        "www/js/libs/i18next.js",
        "www/js/libs/handlebars.runtime-v4.0.5.js",
 
        "www/js/vendor/persistence/persistence.js",
-      //  "www/js/vendor/persistence/persistence.sync.js",
        "www/js/vendor/persistence/persistence.store.sql.js",
        "www/js/vendor/persistence/persistence.store.sqlite_web.js",
-      //  "www/js/vendor/persistence/persistence.store.memory.js",
-      //  "www/js/vendor/persistence/persistence.jquery.js",
 
-       "www/js/vendor/form_validation.js",
+
        "www/js/vendor/google_map.js",
        "www/js/vendor/translate.js",
        "www/js/vendor/node-uuid/uuid.js",
@@ -68,16 +79,9 @@ module.exports = function(grunt) {
        "www/js/app/helper/location.js",
        "www/js/app/helper/require_reload.js",
        "www/js/app/helper/digit_allowance.js",
+       "www/js/app/helper/validation.js",
 
-       "www/js/app/event/mobile_init.js",
-       "www/js/app/event/collection.js",
-       "www/js/app/event/site.js",
-       "www/js/app/event/map.js",
-       "www/js/app/event/hierarchy.js",
-       "www/js/app/event/field.js",
-       "www/js/app/event/send_to_server.js",
-       "www/js/app/event/session.js",
-       "www/js/app/event/event-list.js"
+
   ]
 
   var sourceCssFiles = [
