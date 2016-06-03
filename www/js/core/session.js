@@ -15,11 +15,12 @@ App.Session = {
     App.DataStore.remove("currentUser")
   },
 
-  setAuthToken: function(authToken) {
-    App.DataStore.set("authToken", authToken);
-  },
   getAuthToken: function() {
-    return App.DataStore.get("authToken");
+    var user = App.Session.getUser()
+    if(user)
+     return user['auth_token']
+    else
+      return false
   },
   create: function(user) {
     var currentUser = {id: user.id, password: user.password, email: user.email};
@@ -28,8 +29,6 @@ App.Session = {
 
   resetState: function() {
     App.DataStore.remove("currentUser");
-
-    App.DataStore.remove("authToken");
     App.DataStore.remove("cId");
     App.DataStore.remove("collectionName");
     App.DataStore.remove("field_id_arr");

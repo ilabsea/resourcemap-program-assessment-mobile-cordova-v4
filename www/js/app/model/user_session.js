@@ -7,6 +7,10 @@ UserSession = {
   },
 
   isLoggedIn: function() {
+    return UserSession.getAuthToken()
+  },
+
+  getAuthToken: function() {
     return App.Session.getAuthToken()
   },
 

@@ -11,8 +11,7 @@ SessionController = {
     ViewBinding.setBusy(true);
 
     UserModel.create(App.AUTH_URL, data, function (response) {
-      App.Session.setAuthToken(response.auth_token);
-
+      userParams["auth_token"] = response.auth_token;
       UserOffline.fetchByEmail(userParams.email, function (user) {
         if (user === null){
           var user = UserOffline.add(userParams);
@@ -21,6 +20,7 @@ SessionController = {
         else {
           if (user.password !== userParams.password) {
             user.password = userParams.password
+            user['auth_token'] = userParams['auth_token']
             persistence.flush();
           }
           SessionController.signIn(user);

@@ -8,7 +8,8 @@ function createTables() {
 
   User = persistence.define('users', {
     email: "TEXT",
-    password: "TEXT"
+    password: "TEXT",
+    auth_token: "TEXT"
   });
 
   Site = persistence.define('sites', {
