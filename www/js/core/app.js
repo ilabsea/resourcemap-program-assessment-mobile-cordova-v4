@@ -20,7 +20,10 @@ App = {
   },
   initialize: function () {
     this.bindEvents();
-    this.setUpConfig()
+    this.setUpConfig();
+    //for mobile web testing without platform
+    if(typeof cordova == "undefined" )
+      App.onDeviceReady();
   },
   setUpConfig: function(){
     persistence.debug = App.DEBUG;
@@ -42,8 +45,7 @@ App = {
     document.addEventListener('deviceready', this.onDeviceReady, false);
   },
   onDeviceReady: function () {
-    connectionDB(App.DB_NAME, App.DB_SIZE);
-    createTables();
+    App.connectDB(App.DB_NAME, App.DB_SIZE);
   },
   emptyHTML: function () {
     $(".clearPreviousDisplay").html("");
@@ -70,8 +72,55 @@ App = {
       if (!arr[i])
         return false;
     return true;
+  },
+
+  connectDB: function(dbName, size) {
+    if (window.openDatabase || window.sqlitePlugin)
+      persistence.store.websql.config(persistence, dbName, 'database', size);
+    else
+      alert("Your device must support a database connection");
+
+    App.defineSchema()
+    persistence.schemaSync();
+  },
+  defineSchema: function(){
+    Collection = persistence.define('collections', {
+      idcollection: "INT",
+      name: "TEXT",
+      description: "TEXT",
+      user_id: "INT"
+    });
+
+    User = persistence.define('users', {
+      email: "TEXT",
+      password: "TEXT",
+      auth_token: "TEXT"
+    });
+
+    Site = persistence.define('sites', {
+      idsite: "INT",
+      name: "TEXT",
+      lat: "INT",
+      lng: "INT",
+      start_entry_date: "TEXT",
+      end_entry_date: "TEXT",
+      created_at: "DATE",
+      collection_id: "INT",
+      collection_name: "TEXT",
+      user_id: "INT",
+      device_id: "TEXT",
+      properties: "JSON",
+      files: "JSON"
+    });
+
+    Field = persistence.define('fields', {
+      collection_id: "INT",
+      user_id: "INT",
+      name_wrapper: "TEXT",
+      id_wrapper: "INT",
+      fields: "JSON"
+    });
   }
 };
 
 App.initialize();
-App.onDeviceReady();

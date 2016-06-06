@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   var sourceJsFiles = [
        "www/js/libs/jquery-1.11.0.min.js",
        "www/js/libs/jquery.validate.js",
-       
+
        "www/js/app/event/mobile_init.js",
        "www/js/app/event/session.js",
        "www/js/app/event/registration.js",
@@ -25,6 +25,7 @@ module.exports = function(grunt) {
        "www/js/libs/handlebars.runtime-v4.0.5.js",
 
        "www/js/vendor/persistence/persistence.js",
+       "www/js/vendor/persistence/persistence.sync.js",
        "www/js/vendor/persistence/persistence.store.sql.js",
        "www/js/vendor/persistence/persistence.store.sqlite_web.js",
 
@@ -33,10 +34,9 @@ module.exports = function(grunt) {
        "www/js/vendor/translate.js",
        "www/js/vendor/node-uuid/uuid.js",
 
-       "www/js/core/db_connection.js",
-       "www/js/core/table.js",
        "www/js/core/setting.js",
        "www/js/core/app.js",
+       "www/js/core/app_db.js",
        "www/js/core/app_template.js",
        "www/js/core/app_data_store.js",
        "www/js/core/app_cache.js",

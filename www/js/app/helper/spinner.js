@@ -19,7 +19,7 @@ var Spinner = {
 };
 
 function showElement(element) {
-  element.show().delay(4000).fadeOut();
+  element.show();
 }
 
 function hideElement(element) {
