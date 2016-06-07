@@ -181,7 +181,7 @@ SiteController = {
         });
 
         App.DataStore.clearPartlyAfterCreateSite();
-
+        ViewBinding.setBusy(false)
         App.redirectTo("#page-site-list");
       }, function (err) {
         if (err["responseJSON"]) {
