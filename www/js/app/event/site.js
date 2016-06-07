@@ -1,9 +1,11 @@
 $(document).on("mobileinit", function() {
   $(document).delegate('#page-site-list', 'pageshow', function () {
     App.emptyHTML()
-    SiteModel.sitePage = 0;
-    SiteOffline.sitePage = 0;
-    SiteController.getAllByCollectionId();
+    App.validateDbConnection(function() {
+      SiteModel.sitePage = 0;
+      SiteOffline.sitePage = 0;
+      SiteController.getAllByCollectionId();
+    });
   });
 
   $(document).delegate('#btn_create_site', 'click', function () {
@@ -13,7 +15,9 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('#page-create-site', 'pageshow', function () {
-    SiteController.setEntryDate();
+    App.validateDbConnection(function() {
+      SiteController.setEntryDate();
+    });
   });
 
   $(document).delegate('#page-site-list #site-list-online', 'click', function (event) {
@@ -76,9 +80,11 @@ $(document).on("mobileinit", function() {
 
 
   $(document).delegate('#page-site-list-all', 'pagebeforeshow', function () {
-    SiteOffline.sitePage = 0;
     App.emptyHTML();
-    SiteController.getByUser();
+    SiteOffline.sitePage = 0;
+    App.validateDbConnection(function() {
+      SiteController.getByUser();
+    });
   });
 
   var selector = '#page-site-list , #page-collection-list , #page-site-list-all';

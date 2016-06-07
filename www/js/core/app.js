@@ -12,6 +12,7 @@ App = {
   VERSION: "1.3",
   DEBUG: RmSetting.DEBUG,
   userId: "",
+  dbConnected: false,
   defaultPage: "#page-collection-list",
 
   log: function (text, data) {
@@ -35,8 +36,13 @@ App = {
 
   },
   resetDb: function () {
-    persistence.reset();
-    persistence.schemaSync();
+    if(App.dbConnected) {
+      persistence.reset();
+      persistence.schemaSync();
+    }
+    else {
+      App.log("Db connection is not ready");
+    }
   },
   resetCache: function () {
     App.Cache.clearAll();
@@ -44,6 +50,15 @@ App = {
   bindEvents: function () {
     document.addEventListener('deviceready', this.onDeviceReady, false);
   },
+  validateDbConnection: function(callbackAction) {
+    if(App.dbConnected)
+      callbackAction()
+    else {
+      App.connectDB(App.DB_NAME, App.DB_SIZE);
+      callbackAction();
+    }
+  },
+
   onDeviceReady: function () {
     App.connectDB(App.DB_NAME, App.DB_SIZE);
   },
@@ -82,6 +97,7 @@ App = {
 
     App.defineSchema()
     persistence.schemaSync();
+    App.dbConnected = true
   },
   defineSchema: function(){
     Collection = persistence.define('collections', {

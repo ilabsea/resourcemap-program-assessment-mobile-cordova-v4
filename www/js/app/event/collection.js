@@ -2,11 +2,14 @@ $(document).on("mobileinit", function() {
 
   $(document).delegate('#page-collection-list', 'pagebeforeshow', function() {
     App.emptyHTML();
-    CollectionController.renderList();
+    App.validateDbConnection(function() {
+      CollectionController.renderList();
+    });
   });
 
 
   $(document).delegate('#page-collection-list', 'click', function(event) {
+    //db should be ready before page rendering
     App.checkNodeTargetSuccess(event.target, function(a) {
       var li = a.parentNode;
       var cId = li.getAttribute("data-id");
