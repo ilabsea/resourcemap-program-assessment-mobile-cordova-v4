@@ -1,9 +1,9 @@
 $(document).on("mobileinit", function() {
   //handle collapsible in site page
   $(document).on("collapsibleexpand", "[data-role=collapsible]", function () {
-    var position = $(this).offset().top;
-    fields = FieldController.findFieldsInLayer($(this).attr('data-id'));
-    console.log(fields);
+    var $this = $(this);
+    var position = $this.offset().top;
+    FieldController.prepareLayerFields($this)
     $.mobile.silentScroll(position);
   });
 

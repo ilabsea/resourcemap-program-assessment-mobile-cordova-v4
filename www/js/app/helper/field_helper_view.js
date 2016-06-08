@@ -9,6 +9,7 @@ var FieldHelperView = {
       element.css("z-index", 200000);
     });
   },
+
   display: function (templateURL, element, elementPrefixID, fieldData, update) {
     App.Template.process(templateURL, fieldData, function (content) {
       element.html(content);

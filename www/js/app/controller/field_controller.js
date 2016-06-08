@@ -40,6 +40,27 @@ FieldController = {
     });
   },
 
+  prepareLayerFields: function($layerNode) {
+    window.node = $layerNode;
+    var layerValue = $layerNode.attr('data-id')
+    console.log("layernode", $layerNode)
+
+    var layerData = FieldController.findFieldsInLayer(layerValue);
+    console.log(layerData);
+    var rendered = $layerNode.attr("data-rendered")
+
+    if(!rendered){
+      $layerNode.attr('data-rendered', true);
+      var $layerBody = $layerNode.find(".ui-collapsible-content")
+      console.time("layer")
+      App.Template.process("layer_fields_add", {fields: layerData.fields} , function (content) {
+        $layerBody.html(content);
+        $layerBody.enhanceWithin();
+        console.timeEnd("layer")
+      })
+    }
+  },
+
   findFieldsInLayer: function(layerId) {
     for(var i=0; i<this.layers.length; i++){
       if(this.layers[i].id_wrapper == layerId){
