@@ -77,15 +77,19 @@ SessionController = {
     $('#form_login')[0].reset();
     if (App.isOnline()) {
       UserModel.delete(function () {
-        App.Session.resetState();
-        App.redirectTo("#page-login");
+        SessionController.resetSession()
       });
     }
-    else {
-      App.Session.resetState();
-      App.redirectTo("#page-login");
-    }
+    else
+      SessionController.resetSession()
   },
+
+  resetSession: function(){
+    App.Cache.clearAll()
+    App.Session.resetState();
+    App.redirectTo("#page-login");
+  },
+
   storeSessionLogin: function (userParams) {
     setTimeout(function () {
       if (!App.isOnline())

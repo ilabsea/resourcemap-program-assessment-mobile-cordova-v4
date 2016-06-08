@@ -15,17 +15,6 @@ CollectionController = {
     App.isOnline() ? CollectionController.getByUserIdOnline() : CollectionController.getByUserIdOffline();
   },
 
-  // countByUser: function (userId) {
-  //   var userId = UserSession.getUser().id;
-  //   SiteOffline.countByUserId(userId, function (count) {
-  //     if (count == 0) {
-  //       $('#btn_viewOfflineSite').hide();
-  //     } else {
-  //       $('#btn_viewOfflineSite').show();
-  //     }
-  //   });
-  // },
-
   getByUserIdOffline: function () {
     CollectionOffline.fetchByUser(function (collections) {
       CollectionController.renderCollectionListByUser(collections)

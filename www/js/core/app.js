@@ -136,6 +136,16 @@ App = {
       id_wrapper: "INT",
       fields: "JSON"
     });
+
+
+    CacheData = persistence.define('cache_datas', {
+      key: "TEXT",
+      value: "TEXT",
+      user: "TEXT"
+    });
+
+
+
   }
 };
 

@@ -1,12 +1,34 @@
-App = App || {};
 App.Cache = {
-  get: function(template) {
-    return App.DataStore.get(template);
+  get: function(key, callback) {
+    CacheData.all().filter('key', '=', key).one(null, function(cache){
+      callback(cache.value)
+      return cache;
+    })
   },
-  set: function(templateURL, content) {
-    App.DataStore.set(templateURL, content);
+  set: function(key, value) {
+    CacheData.all().filter('key', '=', key).one(null, function(cache){
+      if(cache)
+        cache.value = value
+      else{
+        cache = new CacheData({key: key, value: value})
+        persistence.add(cache);
+      }
+      persistence.flush()
+      return cache;
+    });
+
   },
+
   clearAll: function() {
-    App.DataStore.clearAll();
+    CacheData.all().destroyAll(null, null);
+  },
+
+  remove: function(key) {
+    CacheData.all().filter('key', '=', key).one(null, function(cache){
+      var value = cache.value;
+      persistence.remove(cache)
+      persistence.flush()
+      return value;
+    })
   }
 };
