@@ -11,7 +11,6 @@ var FieldHelperView = {
   },
   display: function (templateURL, element, elementPrefixID, fieldData, update) {
     App.Template.process(templateURL, fieldData, function (content) {
-      debugger
       element.html(content);
       FieldHelperView.displayCustomWidget(elementPrefixID, fieldData);
       FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);

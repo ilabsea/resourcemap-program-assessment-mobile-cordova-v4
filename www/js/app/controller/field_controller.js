@@ -1,4 +1,5 @@
 FieldController = {
+  layers: [],
   getByCollectionId: function () {
     if (App.isOnline())
       this.renderByCollectionIdOnline();
@@ -6,9 +7,10 @@ FieldController = {
       this.renderByCollectionIdOffline();
   },
   renderByCollectionIdOnline: function () {
+    var self = this;
     FieldModel.fetch(function (layers) {
       var field_id_arr = new Array();
-      var field_collections = [];
+
       var location_fields_id = new Array();
 
       for(var i=0; i<layers.length; i++){
@@ -20,23 +22,32 @@ FieldController = {
             location_fields_id.push(field.id);
         }
         var fields = FieldHelper.buildField(layer, {fromServer: true});
-        field_collections.push(fields);
+        self.layers.push(fields);
       }
 
       App.DataStore.set("field_id_arr", JSON.stringify(field_id_arr));
       App.DataStore.set("location_fields_id", JSON.stringify(location_fields_id));
-      FieldController.synForCurrentCollection(field_collections);
+      FieldController.synForCurrentCollection(self.layers);
 
       FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu'),
-          {field_collections: field_collections}, "");
+          {field_collections: self.layers}, "");
 
       FieldHelperView.display("field_add", $('#div_field_collection'), "",
-          {field_collections: field_collections}, false);
+          {field_collections: self.layers}, false);
 
       ViewBinding.setBusy(false);
       Location.prepareLocation();
     });
   },
+
+  findFieldsInLayer: function(layerId) {
+    for(var i=0; i<this.layers.length; i++){
+      if(this.layers[i].id_wrapper == layerId){
+        return this.layers[i];
+      }
+    }
+  },
+
   renderByCollectionIdOffline: function () {
     var cId = App.DataStore.get("cId");
     FieldOffline.fetchByCollectionId(cId, function (fields) {
