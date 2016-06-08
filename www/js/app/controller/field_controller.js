@@ -8,6 +8,7 @@ FieldController = {
   },
   renderByCollectionIdOnline: function () {
     var self = this;
+    self.layers = [];
     FieldModel.fetch(function (layers) {
       var field_id_arr = new Array();
 
