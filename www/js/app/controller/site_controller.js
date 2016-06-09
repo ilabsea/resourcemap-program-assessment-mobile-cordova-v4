@@ -74,7 +74,7 @@ SiteController = {
     var offset = SiteModel.sitePage * SiteModel.limit;
     SiteModel.fetch(cId, offset, function (response) {
       var siteOnlineData = [];
-      $.map(response["sites"], function (data) {
+      $.each(response["sites"], function (_, data) {
         var date = data.created_at;
         date = new Date(date);
         date = dateToParam(date);
@@ -159,7 +159,7 @@ SiteController = {
     ViewBinding.setBusy(true)
     FieldModel.fetch(function (fields) {
       var propertiesFile = {properties: {}, files: {}};
-      $.map(fields, function (field) {
+      $.each(fields, function (_, field) {
         propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
       });
       data = {
@@ -192,6 +192,11 @@ SiteController = {
       });
     });
   },
+
+  renderNewSiteByForm: function(){
+    FieldController.renderByCollectionId()
+  },
+
   renderUpdateSiteFormOffline: function () {
     var sId = App.DataStore.get("sId");
     SiteOffline.fetchBySiteId(sId, function (site) {

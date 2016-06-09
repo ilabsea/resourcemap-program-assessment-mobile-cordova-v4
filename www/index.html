@@ -201,21 +201,21 @@
     <form method="post" id="form_create_site" enctype="multipart/form-data">
      <div>
       <label for="sname" data-i18n="global.name"> Name </label>
-      <input type="text" name="sitename" id="sitename" class="required"/>
+      <input type="text" name="sitename" id="sitename" class="required" required="true"/>
      </div><br>
      <a href="#page-map"><img id="create-icon-map" src="img/map.png"
                               alt="map icon" width="50" height="50"></a>
      <div>
-      <label for="lolat" data-i18n="global.lat"> Location'Lat </label>
-      <input type="number" name="lat" id="lat" class="required" readonly/>
+      <label for="lolat" data-i18n="global.lat" > Location'Lat </label>
+      <input type="number" name="lat" id="lat" class="required" required="true" readonly/>
       <label for="lolng" data-i18n="global.lng"> Location'Lng </label>
-      <input type="number" name="lng" id="lng" class="required" readonly/>
+      <input type="number" name="lng" id="lng" class="required" required="true" readonly/>
       <input type="hidden" name="start_entry_date" id="start_entry_date"/>
      </div>
 
      <div class="clearPreviousDisplay loading" id="div_field_collection">
      </div>
-     <button id="btn_submitAddSite" data-inset="true"
+     <button type="button" id="btn_submitAddSite" data-inset="true"
              data-i18n="global.save_site">Save Site
      </button>
      <p id="validation_create-site" class="required_data"  tabindex="200"
@@ -272,8 +272,8 @@
      <div id="div-site-update-name"></div>
      <div class="clearPreviousDisplay" id="div_update_field_collection"> </div>
      <div class="ui-grid-a">
-      <div class="ui-block-a"><button id="btn_submitUpdateSite"
-                                      data-i18n="global.update">Update</button>
+      <div class="ui-block-a">
+        <button type='button' id="btn_submitUpdateSite" data-i18n="global.update">Update</button>
       </div>
       <div class="ui-block-b">
        <a data-role="button" href="#confirm_delete_site" data-rel="dialog"
@@ -305,7 +305,7 @@
      </div>
 
      <div>
-      <button id="btn_submitUpdateSite_online"  data-i18n="global.update">Update
+      <button type='button' id="btn_submitUpdateSite_online"  data-i18n="global.update">Update
       </button>
      </div>
      <p id="validation_update-site-online" class="required_data" tabindex="200"

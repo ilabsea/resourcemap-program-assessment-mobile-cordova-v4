@@ -11,12 +11,13 @@ var FieldHelperView = {
   },
 
   display: function (templateURL, element, elementPrefixID, fieldData, update) {
+
     App.Template.process(templateURL, fieldData, function (content) {
       element.html(content);
       FieldHelperView.displayCustomWidget(elementPrefixID, fieldData);
       FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
 
-      element.trigger("create");
+      element.enhanceWithin();
 
       FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
       FieldHelperView.displayUiDisabled(elementPrefixID, fieldData, update);
@@ -51,8 +52,8 @@ var FieldHelperView = {
     });
   },
   displayHierarchy: function (elementPrefixID, fieldData, update) {
-    $.map(fieldData.field_collections, function (properties) {
-      $.map(properties.fields, function (fieldsInside) {
+    $.each(fieldData.field_collections, function (_, properties) {
+      $.each(properties.fields, function (_, fieldsInside) {
         if (fieldsInside.kind === "hierarchy") {
           var data = fieldsInside.configHierarchy;
           var id = fieldsInside.idfield;
@@ -66,8 +67,8 @@ var FieldHelperView = {
   displayCalculationField: function (elementPrefixID, fieldData) {
     var fieldCal = [];
 
-    $.map(fieldData.field_collections, function (properties) {
-      $.map(properties.fields, function (fieldsInside) {
+    $.each(fieldData.field_collections, function (_, properties) {
+      $.each(properties.fields, function (_, fieldsInside) {
         if (fieldsInside.kind === "calculation") {
           if (fieldsInside.config.dependent_fields) {
             $.each(fieldsInside.config.dependent_fields, function (i, dependent_field) {
@@ -82,8 +83,8 @@ var FieldHelperView = {
     });
   },
   displayUiDisabled: function (prefixId, fieldData, update) {
-    $.map(fieldData.field_collections, function (layer) {
-      $.map(layer.fields, function (field) {
+    $.each(fieldData.field_collections, function (_, layer) {
+      $.each(layer.fields, function (_, field) {
         if (update)
           SkipLogic.disableUIEditSite(field, prefixId);
         else
@@ -92,8 +93,8 @@ var FieldHelperView = {
     });
   },
   displayCustomWidget: function(elementPrefixID, fieldData){
-    $.map(fieldData.field_collections, function (layer) {
-      $.map(layer.fields, function (field) {
+    $.each(fieldData.field_collections, function (_, layer) {
+      $.each(layer.fields, function (_, field) {
         if (field.custom_widgeted){
             CustomWidget.setInputNodeId(elementPrefixID, field);
         }

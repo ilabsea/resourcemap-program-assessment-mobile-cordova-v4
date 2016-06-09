@@ -100,6 +100,9 @@ module.exports = function(grunt) {
       "www/js/app/template/collection_name.handlebars",
 
       "www/js/app/template/layer_fields_add.handlebars",
+      "www/js/app/template/layer_field_update_online.handlebars",
+      "www/js/app/template/layer_field_update_offline.handlebars",
+
       "www/js/app/template/field_add.handlebars",
       "www/js/app/template/field_location.handlebars",
       "www/js/app/template/field_no_field_pop_up.handlebars",

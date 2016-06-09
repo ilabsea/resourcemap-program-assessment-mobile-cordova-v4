@@ -4,16 +4,17 @@
   <div class='empty-content'></div>
 {{/if}}
 
-<div data-role="collapsible-set">
+<div data-role="collapsible-set" id='site-layers-wrapper'>
   {{#each field_collections}}
     <div  data-role="collapsible"
           data-inset="true"
           data-theme="a"
           data-mini="true"
           data-collapsed="true"
+          data-id="{{id_wrapper}}"
           id="collapsable_update_online_{{id_wrapper}}">
       <h3>{{name_wrapper}}</h3>
-      {{#each fields}}
+      {{!-- {{#each fields}}
         {{#ifCond widgetType "custom_widget_tokenizer"}}
         {{else}}
         {{#if config.options}}
@@ -155,7 +156,7 @@
         {{/if}}
         {{/if}}
         {{/ifCond}}
-      {{/each}}
+      {{/each}} --}}
     </div>
   {{/each}}
 </div>

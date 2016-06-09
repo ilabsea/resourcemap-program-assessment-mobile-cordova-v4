@@ -18,7 +18,7 @@ templates['field_add'] = template({"1":function(container,depth0,helpers,partial
     var stack1, alias1=depth0 != null ? depth0 : {};
 
   return ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.field_collections : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
-    + "\n<div data-role=\"collapsible-set\">\n"
+    + "\n<div data-role=\"collapsible-set\" id='site-layers-wrapper'>\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.field_collections : depth0),{"name":"each","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</div>\n";
 },"useData":true});

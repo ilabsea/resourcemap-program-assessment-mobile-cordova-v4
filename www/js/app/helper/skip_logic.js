@@ -88,26 +88,38 @@ SkipLogic = {
     } else
       SkipLogic.getDisabledId(idElement, idElement);
   },
-  handleSkipLogic: function (element, field_id) {
-    var id = "";
-    if (field_id)
-      id = field_id.substr(field_id.lastIndexOf("_") + 1);
-    if (id) {
-      var skipToId = "#wrapper_" + field_id;
-      var $parent = $(skipToId).parent().parent();
-      triggerExpand($parent);
 
-      scrollToHash(skipToId);
+  prepareSkip: function(nodeFieldId){
+    var $parent = $skipToNode.parent().parent();
+    triggerExpand($parent);
+
+    scrollToHash($skipToNode);
+
+    setTimeout(function () {
+      $("#" + nodeFieldId).focus();
+    }, 500);
+  },
+
+  handleSkipLogic: function (element, nodeFieldId) {
+
+    var fieldId = "";
+    if (nodeFieldId)
+      fieldId = nodeFieldId.substr(nodeFieldId.lastIndexOf("_") + 1);
+    if (fieldId) {
+      var $parent = FieldController.lazyLayerFields(fieldId)
+      triggerExpand($parent);
+      var $skipToNode = $("#wrapper_" + nodeFieldId)
+      scrollToHash($skipToNode);
 
       setTimeout(function () {
-        $("#" + field_id).focus();
+        $("#" + nodeFieldId).focus();
       }, 500);
     }
     else {
-      field_id = element;
+      nodeFieldId = element;
     }
-    SkipLogic.getDisabledId(element, field_id);
-    SkipLogic.handleHighlightElement(field_id);
+    SkipLogic.getDisabledId(element, nodeFieldId);
+    SkipLogic.handleHighlightElement(nodeFieldId);
   },
   handleHighlightElement: function (field_id) {
     if ($("#" + field_id).attr('data-role') === "slider") {
@@ -320,10 +332,10 @@ function scrollToLayer(selectedValue) {
     triggerExpand("#collapsable_" + selectedValue);
 }
 
-function scrollToHash(element) {
-  if ($(element).length > 0)
+function scrollToHash($element) {
+  if ($element.length > 0)
     $(document.body).animate({
-      'scrollTop': $(element).offset().top
+      'scrollTop': $element.offset().top
     }, 800);
 }
 

@@ -10,7 +10,7 @@ $(document).on("mobileinit", function() {
 
   $(document).delegate('#btn_create_site', 'click', function () {
     MyMembershipObj.setSite("");
-    FieldController.getByCollectionId();
+    SiteController.renderNewSiteByForm();
     $('#form_create_site')[0].reset();
   });
 
@@ -108,7 +108,8 @@ $(document).on("mobileinit", function() {
   });
 })
 
-$(function(){
+function submitAndValidateCreateSite() {
+
   $('#form_create_site').validate({
     ignore: '',
     focusInvalid: false,
@@ -131,6 +132,7 @@ $(function(){
       showValidateMessage('#validation_create-site');
     },
     submitHandler: function () {
+
       var classElement = document.getElementsByClassName("image");
       var classHierarchyElement = document.getElementsByClassName("tree");
       var h = true;
@@ -147,7 +149,9 @@ $(function(){
       }
     }
   });
+}
 
+function submitAndValidateSiteOffline(){
   $('#form_update_site').validate({
     ignore: '',
     focusInvalid: false,
@@ -183,7 +187,9 @@ $(function(){
         SiteController.updateBySiteIdOffline();
     }
   });
+}
 
+function submitAndValidateSiteOnline() {
   $('#form_update_site_online').validate({
     ignore: '',
     focusInvalid: false,
@@ -219,5 +225,22 @@ $(function(){
         SiteController.updateBySiteIdOnline();
     }
   });
+}
+
+function submitSiteForm() {
+  $('#btn_submitAddSite, #btn_submitUpdateSite, #btn_submitUpdateSite_online').on('click', function() {
+    if(!FieldController.layersRenderedCompletely())
+      FieldController.lazyRenderLayers()
+
+    window.el = this
+    $(this.form).submit()
+  })
+}
+
+$(function(){
+  submitSiteForm();
+  submitAndValidateCreateSite();
+  submitAndValidateSiteOffline();
+  submitAndValidateSiteOnline();
 
 });
