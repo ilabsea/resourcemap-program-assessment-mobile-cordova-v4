@@ -32,12 +32,9 @@ SiteOffline = {
         .skip(offset)
         .list(null, callback);
   },
-  deleteBySiteId: function (sId) {
-    SiteOffline.fetchBySiteId(sId, function (site) {
-      persistence.remove(site);
-      persistence.flush();
-      App.redirectTo("#page-site-list");
-    });
+  deleteBySiteId: function (sId, callback) {
+    Site.all().filter('id', "=", sId)
+                    .destroyAll(null, callback);
   },
   countSiteOfflineByUserCollections: function(options, callback){
     Site.all()

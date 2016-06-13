@@ -1,5 +1,6 @@
 FieldController = {
   layers: [],
+  submited: false,
   templateName: "",
 
   lazyRenderLayers: function(){
@@ -56,11 +57,18 @@ FieldController = {
 
   layersRenderedCompletely: function(){
     for(var i=0; i<this.layers.length; i++){
-      if(!this.layers[i].rendered){
-        return false
-      }
+      if(!this.layers[i].rendered)
+        return false;
     }
-    return true
+    return true;
+  },
+
+  layerDirty: function() {
+    for(var i=0; i<this.layers.length; i++){
+      if(this.layers[i].rendered)
+        return true
+    }
+    return false
   },
 
   renderByCollectionId: function () {

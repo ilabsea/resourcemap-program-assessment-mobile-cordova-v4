@@ -1,4 +1,5 @@
 SiteController = {
+  safe: false,
   setEntryDate: function () {
     var start_entry_date = new Date().toISOString();
     $("#start_entry_date").val(start_entry_date);
@@ -20,7 +21,7 @@ SiteController = {
     if (App.isOnline())
       SiteController.addOnline(data, SiteController.resetForm);
     else
-      SiteController.addOffline(data);
+      SiteController.addOffline(data, SiteController.resetForm);
   },
   addOnline: function (data, callback) {
     ViewBinding.setBusy(true);
@@ -28,9 +29,9 @@ SiteController = {
       ViewBinding.setAlert("Please send data again.");
     });
   },
-  addOffline: function (data) {
+  addOffline: function (data, callback) {
     SiteOffline.add(data);
-    SiteController.resetForm();
+    callback()
   },
   getAllByCollectionId: function () {
     SiteController.getByCollectionIdOffline();
@@ -130,7 +131,9 @@ SiteController = {
     });
   },
   deleteBySiteId: function (sId) {
-    SiteOffline.deleteBySiteId(sId);
+    SiteOffline.deleteBySiteId(sId, function(){
+      SiteController.redirectSafe("#page-site-list")
+    });
   },
   updateBySiteIdOffline: function () {
     var sId = App.DataStore.get("sId");
@@ -149,8 +152,7 @@ SiteController = {
         persistence.flush();
 
         App.DataStore.clearPartlyAfterCreateSite();
-
-        App.redirectTo("index.html#page-site-list");
+        SiteController.redirectSafe("#page-site-list")
       });
     });
   },
@@ -182,7 +184,7 @@ SiteController = {
 
         App.DataStore.clearPartlyAfterCreateSite();
         ViewBinding.setBusy(false)
-        App.redirectTo("#page-site-list");
+        SiteController.redirectSafe("#page-site-list")
       }, function (err) {
         if (err["responseJSON"]) {
           var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], false);
@@ -387,6 +389,10 @@ SiteController = {
   resetForm: function () {
     PhotoList.clear();
     $('#form_create_site')[0].reset();
-    App.redirectTo("#page-site-list");
+    this.redirectSafe("#page-site-list")
+  },
+  redirectSafe: function(url){
+    this.safe = true;
+    App.redirectTo(url);
   }
 };

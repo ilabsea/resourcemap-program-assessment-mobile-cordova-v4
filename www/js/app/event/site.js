@@ -55,8 +55,11 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('#btn_delete-site', 'click', function () {
-    var sId = App.DataStore.get("sId");
-    SiteController.deleteBySiteId(sId);
+    if(confirm("Are you sure you want to delete the site?")) {
+      var sId = App.DataStore.get("sId");
+      console.log('sId', sId);
+      SiteController.deleteBySiteId(sId);
+    }
   });
 
   $(document).delegate('#page-site-list-all', 'click', function (event) {
@@ -132,7 +135,6 @@ function submitAndValidateCreateSite() {
       showValidateMessage('#validation_create-site');
     },
     submitHandler: function () {
-
       var classElement = document.getElementsByClassName("image");
       var classHierarchyElement = document.getElementsByClassName("tree");
       var h = true;

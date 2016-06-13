@@ -69,9 +69,9 @@ App = {
     if(node.tagName.toLowerCase() == 'a' && node.parentNode.tagName.toLowerCase() == 'li')
       callback(node)
   },
-  redirectTo: function (nextPage) {
+  redirectTo: function (nextPage, options) {
     App.log("Redirect to ", nextPage);
-    $.mobile.pageContainer.pagecontainer('change', nextPage);
+    $.mobile.pageContainer.pagecontainer('change', nextPage, options);
   },
   isOnline: function () {
     var online = false;
