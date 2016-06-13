@@ -152,13 +152,13 @@ SiteController = {
         persistence.flush();
 
         App.DataStore.clearPartlyAfterCreateSite();
-        SiteController.redirectSafe("#page-site-list")
+        ViewBinding.setBusy(false);
+        SiteController.redirectSafe("#page-site-list");
       });
     });
   },
   updateBySiteIdOnline: function () {
     var data;
-    ViewBinding.setBusy(true)
     FieldModel.fetch(function (fields) {
       var propertiesFile = {properties: {}, files: {}};
       $.each(fields, function (_, field) {
@@ -183,10 +183,11 @@ SiteController = {
         });
 
         App.DataStore.clearPartlyAfterCreateSite();
-        ViewBinding.setBusy(false)
+        ViewBinding.setBusy(false);
         SiteController.redirectSafe("#page-site-list")
       }, function (err) {
         if (err["responseJSON"]) {
+          console.log('error');
           var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], false);
           SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'),
               error);
@@ -389,7 +390,7 @@ SiteController = {
   resetForm: function () {
     PhotoList.clear();
     $('#form_create_site')[0].reset();
-    this.redirectSafe("#page-site-list")
+    SiteController.redirectSafe("#page-site-list");
   },
   redirectSafe: function(url){
     this.safe = true;

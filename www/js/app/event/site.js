@@ -132,6 +132,7 @@ function submitAndValidateCreateSite() {
         bImage = validateImageSubmitHandler(classElement, '#validation_create-site');
     },
     invalidHandler: function () {
+      ViewBinding.setBusy(false);
       showValidateMessage('#validation_create-site');
     },
     submitHandler: function () {
@@ -211,6 +212,7 @@ function submitAndValidateSiteOnline() {
         bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
     },
     invalidHandler: function () {
+      ViewBinding.setBusy(false);
       showValidateMessage('#validation_update-site-online');
     },
     submitHandler: function () {
@@ -231,11 +233,13 @@ function submitAndValidateSiteOnline() {
 
 function submitSiteForm() {
   $('#btn_submitAddSite, #btn_submitUpdateSite, #btn_submitUpdateSite_online').on('click', function() {
-    if(!FieldController.layersRenderedCompletely())
-      FieldController.lazyRenderLayers()
-
-    window.el = this
-    $(this.form).submit()
+    console.log('load lazy rendering');
+    ViewBinding.setBusy(true);
+    if(!FieldController.layersRenderedCompletely()){
+      FieldController.lazyRenderLayers();
+    }
+    window.el = this;
+    $(this.form).submit();
   })
 }
 

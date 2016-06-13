@@ -5,10 +5,9 @@ FieldController = {
 
   lazyRenderLayers: function(){
     var $layerNodeContents = $("#site-layers-wrapper div.ui-collapsible-content");
-
     for(var i=0; i< this.layers.length; i++) {
-      var $nodeBody = $($layerNodeContents.get(i))
-      this.renderLayer(this.layers[i], $nodeBody)
+      var $nodeBody = $($layerNodeContents.get(i));
+      this.renderLayer(this.layers[i], $nodeBody);
     }
   },
 
@@ -16,8 +15,10 @@ FieldController = {
     if(!layerData.rendered){
       layerData.rendered = true;
       App.Template.process(this.templateName, {fields: layerData.fields} , function (content) {
-        $layerNodeContent.html(content);
-        $layerNodeContent.enhanceWithin();
+        setTimeout(function () {
+          $layerNodeContent.html(content);
+          $layerNodeContent.enhanceWithin();
+        }, 5);
       })
     }
   },
