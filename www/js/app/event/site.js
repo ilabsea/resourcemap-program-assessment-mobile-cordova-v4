@@ -1,6 +1,7 @@
 $(document).on("mobileinit", function() {
   $(document).delegate('#page-site-list', 'pageshow', function () {
-    App.emptyHTML()
+    resetRightMenuItem();
+    App.emptyHTML();
     App.validateDbConnection(function() {
       SiteModel.sitePage = 0;
       SiteOffline.sitePage = 0;
@@ -240,6 +241,12 @@ function submitSiteForm() {
     window.el = this;
     $(this.form).submit();
   })
+}
+
+//reset the right menu bar
+function resetRightMenuItem(){
+  $("#site-list-menu").get(0).selectedIndex = 0;
+  SiteList.menu();
 }
 
 $(function(){

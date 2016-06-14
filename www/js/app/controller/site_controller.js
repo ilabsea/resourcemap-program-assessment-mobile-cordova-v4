@@ -185,7 +185,6 @@ SiteController = {
         SiteController.redirectSafe("#page-site-list")
       }, function (err) {
         if (err["responseJSON"]) {
-          console.log('error');
           var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], false);
           SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'),
               error);
