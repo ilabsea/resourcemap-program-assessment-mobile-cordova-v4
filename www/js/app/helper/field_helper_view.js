@@ -1,32 +1,30 @@
 var FieldHelperView = {
   displayNoFields: function (templateURL, element) {
-    App.Template.process(templateURL, {}, function (content) {
-      element.html(content);
+    var content = App.Template.process(templateURL, {});
+    element.html(content);
 
-      setTimeout(function () {
-        Dialog.showDialog("page-pop-up-no-fields");
-      }, 50);
-      element.css("z-index", 200000);
-    });
+    setTimeout(function () {
+      Dialog.showDialog("page-pop-up-no-fields");
+    }, 50);
+    element.css("z-index", 200000);
   },
 
   display: function (templateURL, element, elementPrefixID, fieldData, update) {
 
-    App.Template.process(templateURL, fieldData, function (content) {
-      element.html(content);
-      FieldHelperView.displayCustomWidget(elementPrefixID, fieldData);
-      FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
+    var content = App.Template.process(templateURL, fieldData);
+    element.html(content);
+    FieldHelperView.displayCustomWidget(elementPrefixID, fieldData);
+    FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
 
-      element.enhanceWithin();
+    element.enhanceWithin();
 
-      FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
-      FieldHelperView.displayUiDisabled(elementPrefixID, fieldData, update);
+    FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
+    FieldHelperView.displayUiDisabled(elementPrefixID, fieldData, update);
 
-      DigitAllowance.prepareEventListenerOnKeyPress();
+    DigitAllowance.prepareEventListenerOnKeyPress();
 
-      if (update)
-        FieldHelperView.displayReadOnlyField();
-    });
+    if (update)
+      FieldHelperView.displayReadOnlyField();
   },
   displayReadOnlyField: function () {
     var site = MyMembershipObj.getSite();
@@ -39,17 +37,15 @@ var FieldHelperView = {
     }
   },
   displayLocationField: function (templateURL, element, configData) {
-    App.Template.process(templateURL, configData, function (content) {
-      element.html(content);
-      element.selectmenu("refresh");
-    });
+    var content = App.Template.process(templateURL, configData);
+    element.html(content);
+    element.selectmenu("refresh");
   },
   displayLayerMenu: function (path, element, layers_collection, current_page) {
     layers_collection.field_collections.current_page = current_page;
-    App.Template.process(path, layers_collection, function (content) {
-      element.html(content);
-      element.trigger("create");
-    });
+    var content = App.Template.process(path, layers_collection);
+    element.html(content);
+    element.trigger("create");
   },
   displayHierarchy: function (elementPrefixID, fieldData, update) {
     $.each(fieldData.field_collections, function (_, properties) {

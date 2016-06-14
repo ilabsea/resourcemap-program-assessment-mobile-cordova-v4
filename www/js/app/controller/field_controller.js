@@ -14,12 +14,9 @@ FieldController = {
   renderLayer: function(layerData, $layerNodeContent){
     if(!layerData.rendered){
       layerData.rendered = true;
-      App.Template.process(this.templateName, {fields: layerData.fields} , function (content) {
-        setTimeout(function () {
-          $layerNodeContent.html(content);
-          $layerNodeContent.enhanceWithin();
-        }, 5);
-      })
+      var content = App.Template.process(this.templateName, {fields: layerData.fields});
+      $layerNodeContent.html(content);
+      $layerNodeContent.enhanceWithin();
     }
   },
 

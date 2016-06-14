@@ -1,15 +1,13 @@
 CollectionController = {
   displayList: function (collectionData) {
-    App.Template.process("collection_list", collectionData, function (content) {
-      var $updateNode = $("#collection-list");
-      $updateNode.html(content);
-      $updateNode.listview("refresh");
-    });
+    var content = App.Template.process("collection_list", collectionData);
+    var $updateNode = $("#collection-list");
+    $updateNode.html(content);
+    $updateNode.listview("refresh");
   },
   displayName: function (collectionName) {
-    App.Template.process("collection_name", collectionName, function (content) {
-      $('.title').html(content);
-    });
+    var content = App.Template.process("collection_name", collectionName);
+    $('.title').html(content);
   },
   renderList: function () {
     App.isOnline() ? CollectionController.getByUserIdOnline() : CollectionController.getByUserIdOffline();

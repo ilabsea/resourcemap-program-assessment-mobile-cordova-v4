@@ -5,16 +5,14 @@ SiteController = {
     $("#start_entry_date").val(start_entry_date);
   },
   display: function (element, siteData) {
-    App.Template.process("site_list", siteData, function (content) {
-      element.append(content);
-      element.listview("refresh");
-    });
+    var content = App.Template.process("site_list", siteData);
+    element.append(content);
+    element.listview("refresh");
   },
   displayUpdateLatLng: function (templateURL, element, siteUpdateData) {
-    App.Template.process(templateURL, siteUpdateData, function (content) {
-      element.html(content);
-      element.trigger("create");
-    });
+    var content = App.Template.process(templateURL, siteUpdateData);
+    element.html(content);
+    element.trigger("create");
   },
   add: function () {
     var data = SiteController.buildDataForSite();

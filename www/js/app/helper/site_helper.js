@@ -21,12 +21,11 @@ var SiteHelper = {
     return result;
   },
   displayError: function (templateURL, element, fieldData) {
-    App.Template.process(templateURL, fieldData, function (content) {
-      element.html(content);
-      setTimeout(function () {
-        Dialog.showDialog("page-error-submit-site");
-      }, 50);
-      element.css("z-index", 200000);
-    });
+    var content = App.Template.process(templateURL, fieldData);
+    element.html(content);
+    setTimeout(function () {
+      Dialog.showDialog("page-error-submit-site");
+    }, 50);
+    element.css("z-index", 200000);
   }
 };

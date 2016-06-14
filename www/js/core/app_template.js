@@ -1,7 +1,7 @@
 App = App || {};
 App.Template = {
-  process: function (templateName, templateData, callback) {
+  process: function (templateName, templateData) {
     var content = Handlebars.templates[templateName](templateData);
-    callback(content);
+    return content;
   }
 };

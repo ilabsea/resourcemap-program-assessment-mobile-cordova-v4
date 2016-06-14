@@ -57,7 +57,6 @@ $(document).on("mobileinit", function() {
   $(document).delegate('#btn_delete-site', 'click', function () {
     if(confirm("Are you sure you want to delete the site?")) {
       var sId = App.DataStore.get("sId");
-      console.log('sId', sId);
       SiteController.deleteBySiteId(sId);
     }
   });
@@ -112,7 +111,6 @@ $(document).on("mobileinit", function() {
 })
 
 function submitAndValidateCreateSite() {
-
   $('#form_create_site').validate({
     ignore: '',
     focusInvalid: false,
@@ -136,6 +134,7 @@ function submitAndValidateCreateSite() {
       showValidateMessage('#validation_create-site');
     },
     submitHandler: function () {
+      console.log('submit site online');
       var classElement = document.getElementsByClassName("image");
       var classHierarchyElement = document.getElementsByClassName("tree");
       var h = true;
@@ -174,6 +173,7 @@ function submitAndValidateSiteOffline(){
         bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
     },
     invalidHandler: function () {
+      ViewBinding.setBusy(false);
       showValidateMessage('#validation_update-site');
     },
     submitHandler: function () {
@@ -233,7 +233,6 @@ function submitAndValidateSiteOnline() {
 
 function submitSiteForm() {
   $('#btn_submitAddSite, #btn_submitUpdateSite, #btn_submitUpdateSite_online').on('click', function() {
-    console.log('load lazy rendering');
     ViewBinding.setBusy(true);
     if(!FieldController.layersRenderedCompletely()){
       FieldController.lazyRenderLayers();
