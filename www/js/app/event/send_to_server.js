@@ -14,7 +14,6 @@ $(document).on("mobileinit", function() {
     if(!$.mobile.activePage)
       return true;
 
-
     var currentPageId = $.mobile.activePage.attr('id')
 
     var redirect = false

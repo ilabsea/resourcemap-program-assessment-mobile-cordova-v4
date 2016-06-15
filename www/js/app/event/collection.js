@@ -2,9 +2,11 @@ $(document).on("mobileinit", function() {
 
   $(document).delegate('#page-collection-list', 'pagebeforeshow', function() {
     App.emptyHTML();
-    App.validateDbConnection(function() {
-      CollectionController.renderList();
-    });
+    setTimeout(function(){
+      App.validateDbConnection(function() {
+        CollectionController.renderList();
+      });
+    }, 500);
   });
 
 
