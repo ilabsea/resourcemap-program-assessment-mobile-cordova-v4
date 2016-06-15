@@ -245,8 +245,10 @@ SiteController = {
     if (App.isOnline()) {
       SiteController.processToServerByUserId();
     }
-    else
+    else{
+      ViewBinding.setBusy(false);
       alert(i18n.t("global.no_internet_connection"));
+    }
   },
   processToServerByUserId: function(){
     var uId = UserSession.getUser().id;
@@ -257,6 +259,10 @@ SiteController = {
       SiteOffline.fetchByUserId(uId, offset, function(sites){
         if (sites.length > 0)
           SiteController.processingToServer(sites, false);
+        else{
+          ViewBinding.setBusy(false);
+          alert('There is no site to submit');
+        }
       });
     });
   },
@@ -270,6 +276,9 @@ SiteController = {
       SiteOffline.fetchByCollectionIdUserId(cId, uId, offset, function(sites){
         if (sites.length > 0){
           SiteController.processingToServer(sites, true);
+        }else{
+          ViewBinding.setBusy(false);
+          alert('There is no site to submit');
         }
       });
     });
@@ -301,6 +310,7 @@ SiteController = {
           else
             SiteController.processToServerByUserId();
         }else{
+          ViewBinding.setBusy(false);
           App.redirectTo("#page-collection-list");
         }
       }
