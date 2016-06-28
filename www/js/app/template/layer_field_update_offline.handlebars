@@ -2,11 +2,11 @@
   {{#ifCond widgetType "custom_widget_tokenizer"}}
   {{else}}
   {{#if config.options}}
-    <div id="wrapper_update_{{idfield}}" tabindex="0">
+    <div id="wrapper_{{idfield}}" tabindex="0">
      <label>{{name}}</label>
-     <select id="update_{{idfield}}"
+     <select id="{{idfield}}"
              data-theme="a"
-             name="update_{{idfield}}"
+             name="{{idfield}}"
              data-native-menu="false"
              {{multiple}}
              data-role="{{slider}}"
@@ -26,7 +26,7 @@
         <option value="" selected>(no value)</option>
       {{/if}}
         {{#config.options}}
-        <option value="{{id}}" {{selected}} data-field_id="update_{{field_id}}">{{label}}</option>
+        <option value="{{id}}" {{selected}} data-field_id="{{field_id}}">{{label}}</option>
         {{/config.options}}
       {{/if}}
 
@@ -42,33 +42,33 @@
     </div>
   {{else}}
   {{#if isHierarchy}}
-    <div id="wrapper_update_{{idfield}}" tabindex="0">
+    <div id="wrapper_{{idfield}}" tabindex="0">
      <label>{{name}}</label>
-     <div id="update_{{idfield}}"
+     <div id="{{idfield}}"
           class="tree"
           require='{{required}}'
           tabindex="0"></div>
     </div>
   {{else}}
   {{#if isPhoto}}
-    <div id="wrapper_update_{{idfield}}" tabindex="0">
+    <div id="wrapper_{{idfield}}" tabindex="0">
      <span style='display:inline; margin-top:10px'>{{{name}}}</span>
      <div onclick="CameraModel.openCameraDialog({{idfield}}, 'update')"
-          id='property_update_{{idfield}}_container'
+          id='property_{{idfield}}_container'
           class="photo" tabindex="0">
       <img class="image"
            src='{{__value}}'
-           id='update_{{idfield}}'
+           id='{{idfield}}'
            require='{{required}}' />
      </div>
     </div>
   {{else}}
   {{#if config.locations}}
-    <div id="wrapper_update_{{idfield}}" tabindex="0">
+    <div id="wrapper_{{idfield}}" tabindex="0">
      <label>{{name}}</label>
-     <select id="update_{{idfield}}"
+     <select id="{{idfield}}"
              data-theme="a"
-             name="update_{{idfield}}"
+             name="{{idfield}}"
              data-native-menu="false"
              {{required}}
              class="validateSelectFields needsclick">
@@ -81,21 +81,21 @@
     </div>
   {{else}}
   {{#ifCond kind "calculation"}}
-    <div id="wrapper_update_{{idfield}}" tabindex="0" class="{{invisible}}">
+    <div id="wrapper_{{idfield}}" tabindex="0" class="{{invisible}}">
      <label for='name'>{{{name}}}</label>
      <input type="{{widgetType}}"
-            id="update_{{idfield}}"
+            id="{{idfield}}"
             value ="{{__value}}"
             name="{{name}}"
             {{required}}
             {{readonly}}/>
     </div>
   {{else}}
-    <div id="wrapper_update_{{idfield}}" tabindex="0" class="{{invisible}}">
+    <div id="wrapper_{{idfield}}" tabindex="0" class="{{invisible}}">
      <label for='name'>{{{name}}}</label>
      {{#ifCond widgetType "date"}}
        <input type="{{widgetType}}"
-              id="update_{{idfield}}"
+              id="{{idfield}}"
               value ="{{__value}}"
               name="{{name}}"
               class="date"
@@ -103,7 +103,7 @@
      {{else}}
      {{#ifCond widgetType "number"}}
        <input type="tel"
-              id="update_{{idfield}}"
+              id="{{idfield}}"
               value ="{{__value}}"
               name="{{name}}"
               min="{{config.range.minimum}}"
@@ -117,7 +117,7 @@
               {{readonly}}/>
      {{else}}
        <input type="{{widgetType}}"
-              id="update_{{idfield}}"
+              id="{{idfield}}"
               value ="{{__value}}"
               name="{{name}}"
               {{required}}

@@ -11,7 +11,7 @@ $(document).on("mobileinit", function() {
 
   $(document).delegate('#btn_create_site', 'click', function () {
     MyMembershipObj.setSite("");
-    SiteController.renderNewSiteByForm();
+    SiteController.renderNewSiteForm();
     $('#form_create_site')[0].reset();
   });
 
@@ -235,10 +235,6 @@ function submitAndValidateSiteOnline() {
 function submitSiteForm() {
   $('#btn_submitAddSite, #btn_submitUpdateSite, #btn_submitUpdateSite_online').on('click', function() {
     ViewBinding.setBusy(true);
-    if(!FieldController.layersRenderedCompletely()){
-      FieldController.lazyRenderLayers();
-    }
-    window.el = this;
     $(this.form).submit();
   })
 }

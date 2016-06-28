@@ -7,6 +7,11 @@ $(document).on("mobileinit", function() {
     $.mobile.silentScroll(position);
   });
 
+  // $(document).on("collapsiblecollapse", "[data-role=collapsible]", function () {
+  //   var $this = $(this);
+  //   FieldController.storeOldLayerFields($this)
+  // });
+
   $(document).delegate('.calculation', 'keyup blur', function () {
     Calculation.calculate(this);
   });

@@ -4,13 +4,14 @@ SkipLogic = {
     var idElement = $(element).attr('id');
     var prefixIdElement = idElement.substr(0, idElement.lastIndexOf("_") + 1);
     var id = idElement.substr(idElement.lastIndexOf("_") + 1);
-    var config = JSON.parse(
-        App.DataStore.get("configNumberSkipLogic_" + id));
-    if (config) {
-      $.each(config, function (i, field_logic) {
-        var op = field_logic.condition_type;
-        if (Operators[op](val, field_logic.value)) {
-          SkipLogic.handleSkipLogic(idElement, prefixIdElement + field_logic.field_id);
+    var field = FieldController.findFieldById(id)
+
+    if (field.config && field.config['field_logics'] ) {
+      var fieldLogics = field.config['field_logics'];
+      $.each(fieldLogics, function (i, fieldLogic) {
+        var op = fieldLogic.condition_type;
+        if (Operators[op](val, fieldLogic.value)) {
+          SkipLogic.handleSkipLogic(idElement, prefixIdElement + fieldLogic.field_id);
           return false;
         } else {
           if (i == config.length - 1) {
@@ -41,51 +42,44 @@ SkipLogic = {
     var id = idElement.substr(idElement.lastIndexOf("_") + 1);
     var wrapper_skip = idElement.slice(0, idElement.lastIndexOf("_") + 1);
     if (selectedValue) {
-      var configOption = JSON.parse(
-          App.DataStore.get("configSelectManyForSkipLogic_" + id));
+      var field = FieldController.findFieldById(id);
+      if (field.config && field.config['field_logics'] && field.idfield == id) {
+        $.each(field.config['field_logics'], function (k, fieldLogic) {
+          var selectedOptions = fieldLogic['selected_options'];
+          var b = false, is_all = [], all_condi = false;
 
-      if (configOption.config.field_logics) {
-        if ((configOption.id || configOption.idfield) == id) {
-          $.each(configOption.config.field_logics, function (k, field_logic) {
-            var selectedOptions = field_logic.selected_options;
-
-            var b = false;
-            var is_all = [];
-            var all_condi = false;
-
-            for (var i in selectedValue) {
-              for (var j in selectedOptions) {
-                if (selectedValue[i] == selectedOptions[j].value) {
-                  b = true;
-                  is_all.push(true);
-                  break;
-                }
-              }
-              if (b) {
-                if (field_logic.condition_type == 'any') {
-                  all_condi = true;
-                  break;
-                } else {
-                  if (is_all.length == Object.keys(selectedOptions).length) {
-                    all_condi = App.allBooleanTrue(is_all);
-                    break;
-                  }
-                }
+          for (var i in selectedValue) {
+            for (var j in selectedOptions) {
+              if (selectedValue[i] == selectedOptions[j].value) {
+                b = true;
+                is_all.push(true);
+                break;
               }
             }
-            if (all_condi) {
-              var field_id = wrapper_skip + field_logic.field_id;
-              SkipLogic.handleSkipLogic(idElement, field_id);
-              return false;
-            } else {
-              if (k === configOption.config.field_logics.length - 1) {
-                SkipLogic.getDisabledId(idElement, idElement);
+
+            if (b) {
+              if (fieldLogic.condition_type == 'any') {
+                all_condi = true;
+                break;
+              }
+              else if (is_all.length == Object.keys(selectedOptions).length) {
+                  all_condi = App.allBooleanTrue(is_all);
+                  break;
               }
             }
-          });
-        }
+          }
+
+          if (all_condi) {
+            var field_id = wrapper_skip + fieldLogic.field_id;
+            SkipLogic.handleSkipLogic(idElement, field_id);
+            return false;
+          }
+          else if (k === field.config['field_logics'].length - 1)
+            SkipLogic.getDisabledId(idElement, idElement);
+        });
       }
-    } else
+    }
+    else
       SkipLogic.getDisabledId(idElement, idElement);
   },
 
@@ -106,7 +100,7 @@ SkipLogic = {
     if (nodeFieldId)
       fieldId = nodeFieldId.substr(nodeFieldId.lastIndexOf("_") + 1);
     if (fieldId) {
-      var $parent = FieldController.lazyLayerFields(fieldId)
+      var $parent = FieldController.findLayerWrapperOfFieldId(fieldId)
       triggerExpand($parent);
       var $skipToNode = $("#wrapper_" + nodeFieldId)
       scrollToHash($skipToNode);
@@ -177,41 +171,46 @@ SkipLogic = {
     App.DataStore.remove("highlightedElement");
     App.DataStore.remove("typeElement");
   },
+
   getDisabledId: function (fieldId, field_focus) {
-    var field_id_arr = JSON.parse(App.DataStore.get("field_id_arr"));
-    var disabled_id, enabled_id;
-    var startIndex, endIndex;
+    var fieldIds = FieldController.fieldIds();
+
+    var disabled_id, enabled_id, startIndex, endIndex;
     var prefixId = fieldId.substr(0, fieldId.lastIndexOf("_") + 1);
-    $.each(field_id_arr, function (i, field_id) {
-      field_id = prefixId + field_id;
-      if (field_id === fieldId)
+
+    $.each(fieldIds, function (i, field) {
+      fieldWithPrefix = prefixId + field;
+      if (fieldWithPrefix === fieldId)
         startIndex = i + 1;
-      if (field_id === field_focus) {
+      if (fieldWithPrefix === field_focus) {
         endIndex = i;
         return false;
       }
     });
+
     for (var i = startIndex; i < endIndex; i++) {
-      disabled_id = prefixId + field_id_arr[i];
-      if ($("#" + disabled_id).attr('require') === "required"
-          || $("#" + disabled_id).attr("required")) {
-        $("#" + disabled_id).attr('require', "");
-        $("#" + disabled_id).removeAttr('required');
-      }
-      SkipLogic.disableElement(disabled_id);
-      SkipLogic.setValueToEmpty(disabled_id);
+      disabledId = prefixId + fieldIds[i];
+      var $disableNode = $("#" + disabledId)
+      if ($disableNode.attr('require') === "required" || $disableNode.attr("required"))
+        $disableNode.attr('require', "").removeAttr('required');
+
+      SkipLogic.disableElement(disabledId);
+      SkipLogic.setValueToEmpty(disabledId);
     }
-    for (var j = endIndex; j < field_id_arr.length; j++) {
-      enabled_id = prefixId + field_id_arr[j];
+    for (var j = endIndex; j < fieldIds.length; j++) {
+      enabled_id = prefixId + fieldIds[j];
       SkipLogic.enableElement(enabled_id);
     }
   },
-  disableElement: function (disabled_id) {
-    $("#wrapper_" + disabled_id).addClass('ui-disabled');
+
+  disableElement: function (disabledId) {
+    $("#wrapper_" + disabledId).addClass('ui-disabled');
   },
-  enableElement: function (enabled_id) {
-    $("#wrapper_" + enabled_id).removeClass('ui-disabled');
+
+  enableElement: function (enabledId) {
+    $("#wrapper_" + enabledId).removeClass('ui-disabled');
   },
+
   setValueToEmpty: function (idElement) {
     var $element = $("#" + idElement);
     if ($element.attr('data-role') === "slider")
@@ -227,6 +226,7 @@ SkipLogic = {
     else
       $element.val("");
   },
+
   disableUIEditSite: function (field, prefixId) {
     if (field.is_enable_field_logic) {
       if (field.config) {

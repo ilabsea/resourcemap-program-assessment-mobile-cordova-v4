@@ -1,120 +1,98 @@
+
 FieldHelper = {
-  buildField: function (layer, options) {
-    options = options || {};
-    var id = null;
-    var fieldsBuild = [];
-    var fieldsWrapper = {
+  buildLayerFields: function (layer, isOnline) {
+    var layerData = isOnline ? layer : layer._data;
+
+    var newLayer = {
       cId: localStorage.getItem("cId"),
       userId: UserSession.getUser().id,
-      fields: fieldsBuild
-    };
-
-    if (options["fromServer"]) {
-      fieldsWrapper.name_wrapper = layer.name;
-      fieldsWrapper.id_wrapper = layer.id;
-    }
-    else {
-      fieldsWrapper.name_wrapper = layer.name_wrapper;
-      fieldsWrapper.id_wrapper = layer.id_wrapper;
+      name_wrapper: isOnline ?  layerData.name : layerData.name_wrapper,
+      id_wrapper: isOnline ? layerData.id : layerData.id_wrapper,
+      fields: []
     }
 
-    $.each(layer.fields, function (key, fields) {
-      if (options["fromServer"])
-        id = fields.id;
-      else
-        id = fields.idfield;
+    $.each(layer.fields, function (_, field) {
+      var fieldForUI = FieldHelper.fieldForUI(field, isOnline)
 
-      var kind = fields.kind;
-      var widgetType = kind;
-      var config = fields.config;
-      var slider = "";
-      var ctrue = "";
-      var is_required = "";
-      var is_mandatory = fields.is_mandatory;
-      var is_enable_field_logic = fields.is_enable_field_logic;
-      var readonly = '';
-      var is_display_field = fields.is_display_field;
-      var custom_widgeted = fields.custom_widgeted;
-      var readonly_custom_widgeted = fields.readonly_custom_widgeted;
-      var invisible = "";
-      if (widgetType === "numeric") {
-        widgetType = "number";
-        if (config.field_logics) {
-          App.DataStore.set("configNumberSkipLogic_" + id,
-              JSON.stringify(config.field_logics));
+      for(fieldId in FieldController.site.properties) {
+        if(fieldId == fieldForUI.idfield){
+          FieldHelper.setFieldValue(fieldForUI, FieldController.site.properties[fieldId], isOnline);
+          break;
         }
       }
-      if(custom_widgeted)
-        widgetType = 'custom_widget_tokenizer'
-
-      if (widgetType === "select_one" && is_enable_field_logic) {
-        config = FieldHelper.buildFieldSelectOne(config);
-        if (!config.field_logics)
-          is_enable_field_logic = false;
-      }
-
-      if (widgetType === "select_many" && is_enable_field_logic)
-        App.DataStore.set("configSelectManyForSkipLogic_" + id,
-            JSON.stringify(fields));
-
-      if (widgetType === "yes_no") {
-        widgetType = "select_one";
-        config = FieldHelper.buildFieldYesNo(config, options["fromServer"]);
-        slider = "slider";
-        ctrue = "true";
-      }
-
-      if (widgetType === "phone")
-        widgetType = "tel";
-
-      if (widgetType === "location") {
-        widgetType = "select_one";
-        App.DataStore.set("configLocations_" + id,
-            JSON.stringify(config));
-      }
-
-      if (widgetType === "calculation") {
-        widgetType = "text";
-        readonly = 'readonly';
-        if (!is_display_field)
-          invisible = "invisble-div";
-      }
-
-      if (widgetType === "custom_widget"){
-        config = FieldHelper.buildFieldCustomWidget(config, readonly_custom_widgeted);
-      }
-
-      if (is_mandatory)
-        is_required = "required";
-
-      fieldsWrapper.fields.push({
-        idfield: id,
-        name: fields.name,
-        kind: kind,
-        code: fields.code,
-        multiple: (kind === "select_many" ? "multiple" : ""),
-        isPhoto: (kind === "photo" ? true : false),
-        widgetType: widgetType,
-        is_display_field: is_display_field,
-        invisible: invisible,
-        config: config,
-        slider: slider,
-        ctrue: ctrue,
-        is_mandatory: is_mandatory,
-        required: is_required,
-        isHierarchy: (kind === "hierarchy" ? true : false),
-        isCustomWidget: (kind === "custom_widget" ? true : false),
-        custom_widgeted: custom_widgeted,
-        readonly_custom_widgeted: readonly_custom_widgeted,
-        configHierarchy: (kind === "hierarchy" ?
-            Hierarchy.generateField(fields.config, "", id) : ""),
-        is_enable_field_logic: is_enable_field_logic,
-        readonly: readonly
-      });
+      newLayer.fields.push(fieldForUI);
     });
 
-    return fieldsWrapper;
+    return newLayer;
   },
+
+  fieldForUI: function(field, isOnline){
+    var widgetMapper = { "numeric": "number", "yes_no": "select_one", "phone": "tel",
+                         "location": "select_one", "calculation": "text" }
+
+    var fieldUI = {
+      idfield: isOnline ? field.id : field.idfield,
+      name: field.name,
+      kind: field.kind,
+      code: field.code,
+      config: field.config,
+      multiple: (field.kind === "select_many" ? "multiple" : ""),
+      isPhoto: (field.kind === "photo" ? true : false),
+      isHierarchy: (field.kind === "hierarchy" ? true : false),
+      isCustomWidget: (field.kind === "custom_widget" ? true : false),
+      is_enable_field_logic: field.is_enable_field_logic,
+      custom_widgeted: field.custom_widgeted,
+      readonly_custom_widgeted: field.readonly_custom_widgeted,
+      is_mandatory: field.is_mandatory,
+      invisible: '',
+      slider: '',
+      ctrue: '',
+      readonly: ''
+    };
+    if(field.custom_widgeted )
+      fieldUI.widgetType = 'custom_widget_tokenizer';
+    else if (widgetMapper[field.kind])
+      fieldUI.widgetType = widgetMapper[field.kind];
+    else
+      fieldUI.widgetType = fieldUI.kind;
+
+    fieldUI.configHierarchy = field.kind === "hierarchy" ? Hierarchy.generateField(field.config, "", fieldUI.idfield) : ""
+    fieldUI.required =  fieldUI.is_mandatory ? "required" : ""
+
+    if (fieldUI.kind === "select_one" && fieldUI.is_enable_field_logic) {
+      fieldUI.config = FieldHelper.buildFieldSelectOne(config);
+      if (!fieldUI.config.field_logics)
+        fieldUI.is_enable_field_logic = false;
+    }
+
+    if (fieldUI.kind === "yes_no") {
+      fieldUI.config = FieldHelper.buildFieldYesNo(fieldUI.config, isOnline);
+      fieldUI.slider = "slider";
+      fieldUI.ctrue = "true";
+    }
+
+    if (fieldUI.kind === "calculation") {
+      fieldUI.readonly = 'readonly';
+      if (!fieldUI.is_display_field)
+        fieldUI.invisible = "invisble-div";
+    }
+
+    if (fieldUI.kind === "custom_widget")
+      fieldUI.config = FieldHelper.buildFieldCustomWidget(fieldUI.config, fieldUI.readonly_custom_widgeted);
+
+    if (fieldUI.kind == 'location')
+      fieldUI.config.locationOptions = Location.getLocations(FieldController.site.lat, FieldController.site.lng, fieldUI.config);
+
+    var can_edit = MyMembershipController.canEdit(FieldController.site);
+
+    if (fieldUI.kind == 'yes_no')
+      fieldUI.editable = can_edit ? "" : "disabled";
+    else
+      fieldUI.editable = can_edit ? "" : "readonly";
+
+    return fieldUI;
+  },
+
   buildFieldCustomWidget: function (config, readonly){
     widgetContent = config["widget_content"];
     regExp = /(&nbsp;)|\{([^}]*)\}/mg ;
@@ -134,10 +112,11 @@ FieldHelper = {
     config.widget_content = widgetContent;
     return config;
   },
+
   buildFieldSelectOne: function (config) {
-    $.each(config.options, function (i, option) {
+    $.each(config.options, function ( _ , option) {
       if (config.field_logics) {
-        $.map(config.field_logics, function (field_logic) {
+        $.each(config.field_logics, function ( _ , field_logic) {
           if (option.id === field_logic.value && !config.options[i]["field_id"])
             config.options[i]["field_id"] = field_logic.field_id;
         });
@@ -145,17 +124,16 @@ FieldHelper = {
     });
     return config;
   },
-  buildFieldYesNo: function (config, fromServer) {
+
+  buildFieldYesNo: function (config, isOnline) {
     var field_id0, field_id1;
-    if (fromServer) {
-      if (config) {
-        var field_logics = config.field_logics;
-        if (field_logics) {
-          field_id0 = field_logics[0].field_id;
-          field_id1 = field_logics[1].field_id;
-        }
+    if (isOnline) {
+      if (config && config.field_logics) {
+        field_id0 = config.field_logics[0].field_id;
+        field_id1 = config.field_logics[1].field_id;
       }
-    } else {
+    }
+    else {
       field_id0 = config.options[0].field_id;
       field_id1 = config.options[1].field_id;
     }
@@ -172,170 +150,85 @@ FieldHelper = {
           field_id: field_id1
         }]
     };
-
     return config;
   },
-  buildFieldsUpdate: function (layers, site, fromServer) {
-    var field_collections = [];
-    $.map(layers, function (layer) {
-      var item = FieldHelper.buildFieldsLayer(layer, site, fromServer);
-      field_collections.push(item);
-    });
-    return field_collections;
-  },
-  buildFieldsLayer: function (layer, site, fromServer) {
-    if (fromServer) {
-      var itemLayer = FieldHelper.buildField(layer, {fromServer: fromServer});
-      var p = site.properties;
-    }
-    else {
-      var itemLayer = FieldHelper.buildField(layer._data, {fromServer: fromServer});
-      var p = site.properties;
-    }
 
-    $.map(itemLayer.fields, function (item) {
-      if (item.kind == 'location') {
-        FieldHelper.buildFieldLocationUpdate(site, item, fromServer);
-      }
-    });
-
-    for (var propertyCode in p) {
-      $.map(itemLayer.fields, function (item) {
-        var propertyValue = p[propertyCode];
-        FieldHelper.setFieldsValue(item, propertyCode,
-            propertyValue, site, fromServer);
-      });
-    }
-
-    $.map(itemLayer.fields, function (item) {
-      var can_edit = MyMembershipController.canEdit(site);
-      if (item.kind == 'yes_no') {
-        item.editable = can_edit ? "" : "disabled";
-      } else {
-        item.editable = can_edit ? "" : "readonly";
-      }
-    });
-
-    return itemLayer;
-  },
-  setFieldsValue: function (item, propertyCode, pValue, site, fromServer) {
-    if (item.code === propertyCode
-        || parseInt(item["idfield"]) === parseInt(propertyCode)) {
-      switch (item.kind) {
-        case "photo" :
-          FieldHelper.setFieldPhotoValue(item, pValue, site, fromServer);
-          break;
-        case "select_many":
-        case "select_one":
-        case "yes_no":
-          FieldHelper.setFieldSelectValue(item, pValue);
-          break;
-        case "location":
-          FieldHelper.setFieldLocationValue(item, pValue);
-          break;
-        case "hierarchy":
-          FieldHelper.setFieldHierarchyValue(item, pValue);
-          break;
-        case "date":
-          if (pValue) {
-            var date = pValue.split("T")[0];
-            item.__value = convertDateWidgetToParam(date);
-          }
-          break;
-        case "numeric":
-        case "calculation":
-          if (pValue) {
-            if (item.config.allows_decimals == "true"
-                && item.config.digits_precision
-                && !isNaN(parseFloat(pValue))) {
-              pValue = parseFloat(pValue);
-              pValue = Number(pValue.toFixed(parseInt((item.config.digits_precision))));
-            }
-          }
-          item.__value = pValue;
-          break;
-        default:
-          item.__value = pValue;
-      }
-    }
-  },
-  setFieldPhotoValue: function (item, value, site, fromServer) {
-    var sId = App.DataStore.get("sId");
-    if (fromServer) {
-      App.DataStore.set(sId + "_" + item["idfield"], value);
-      item.__value = SiteCamera.imagePath(value);
-    }
-    else {
-      var files = site.files;
-      var imageId = value;
-      var imageData = files[imageId];
-      if (imageData == null) {
-        item.__value = "";
-      } else {
-        item.__value = SiteCamera.dataWithMimeType(imageData);
-        App.DataStore.set(sId + "_" + item["idfield"] + "_fileName", imageId);
-        App.DataStore.set(sId + "_" + item["idfield"] + "_fileData", imageData);
-      }
-    }
-  },
-  setFieldLocationValue: function (item, value) {
-    item.__value = value;
-    for (var k = 0; k < item.config.locationOptions.length; k++) {
-      item.config.locationOptions[k]["selected"] = "";
-      if (item.config.locationOptions[k].code == item.__value) {
-        item.config.locationOptions[k]["selected"] = "selected";
-      }
-    }
-  },
-  setFieldSelectValue: function (item, value) {
-    item.__value = value;
-    for (var k = 0; k < item.config.options.length; k++) {
-      item.config.options[k]["selected"] = "";
-      if (typeof item.__value == "boolean") {
-        if (item.config.options[k].id == item.__value
-            || item.config.options[k].code == item.__value[j]) {
-          item.config.options[k]["selected"] = "selected";
+  setFieldValue: function (field, value, isOnline) {
+    switch (field.kind) {
+      case "photo" :
+        if (isOnline)
+          field.__value = SiteCamera.imagePath(value);
+        else {
+          if(FieldController.site.files && FieldController.site.files[value])
+            field.__value = SiteCamera.dataWithMimeType(FieldController.site.files[value]);
+          else
+            field.__value = "";
         }
-
-      } else {
-        if (item.__value instanceof Array) {
-          for (var j = 0; j < item.__value.length; j++) {
-            if (item.config.options[k].id == item.__value[j]
-                || item.config.options[k].code == item.__value[j]) {
-              item.config.options[k]["selected"] = "selected";
-            }
+        break;
+      case "select_many":
+      case "select_one":
+      case "yes_no":
+        field.__value = value;
+        $.each(field.config.options, function(k, option){
+          if(typeof field.__value == "boolean"){
+            if(option.id == field.__value || option.code == field.__value)
+               field.config.options[k]["selected"] = "selected";
           }
-        } else {
-          if (item.config.options[k].id == item.__value
-              || item.config.options[k].code == item.__value) {
-            item.config.options[k]["selected"] = "selected";
+          else if (field.__value instanceof Array) {
+            $.each(field.__value, function(_, valueOption){
+              if (option.id == valueOption || option.code == valueOption)
+                field.config.options[k]["selected"] = "selected";
+            })
+          }
+
+          else if(option.id == field.__value || option.code == field.__value) {
+            field.config.options[k]["selected"] = "selected";
+          }
+        })
+        break;
+
+      case "location":
+        field.__value = value;
+        for (var k = 0; k < field.config.locationOptions.length; k++) {
+          field.config.locationOptions[k]["selected"] = "";
+          if (field.config.locationOptions[k].code == field.__value) {
+            field.config.locationOptions[k]["selected"] = "selected";
           }
         }
-      }
+        break;
+      case "hierarchy":
+        field.__value = value;
+        field.configHierarchy = Hierarchy.generateField(field.config, field.__value,field.idfield);
+        field._selected = Hierarchy._selected;
+        break;
+      case "date":
+        if (value) {
+          var date = value.split("T")[0];
+          field.__value = convertDateWidgetToParam(date);
+        }
+        break;
+      case "numeric":
+      case "calculation":
+        field.__value = value;
+        if (value && field.config.allows_decimals == "true" && field.config.digits_precision && !isNaN(parseFloat(value))){
+          var floatValue = parseFloat(value);
+          field.__value = Number(floatValue.toFixed(parseInt(field.config.digits_precision)));
+        }
+        break;
+      default:
+        field.__value = value;
     }
   },
-  setFieldHierarchyValue: function (item, value) {
-    item.__value = value;
-    item.configHierarchy = Hierarchy.generateField(item.config, item.__value,
-        item.idfield);
-    item._selected = Hierarchy._selected;
-  },
-  generateCodeToIdSelectManyOption: function (field, arr_code) {
-    var arr_id = [];
-    $.map(field.config.options, function (option) {
-      for (var i in arr_code) {
-        if (option.code == arr_code[i]) {
-          arr_id.push(option.id);
-        }
-      }
+
+  generateCodeToIdSelectManyOption: function (field, values) {
+    var codeIds = [];
+    $.each(field.config.options, function (_, option) {
+      if(values.indexOf(option.code) != -1)
+        codeIds.push(option.id);
     });
-    if (arr_id.length === 0)
-      arr_id = arr_code;
-    return arr_id;
-  },
-  buildFieldLocationUpdate: function (site, item, fromServer) {
-    var lat = fromServer ? site.lat : site.lat;
-    var lng = fromServer ? site.long : site.lng;
-    item.config.locationOptions = Location.getLocations(lat, lng, item.config);
+
+    if (codeIds.length === 0)
+      codeIds = values;
+    return codeIds;
   }
 };

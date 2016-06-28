@@ -13,13 +13,13 @@ templates['layer_field_update_online'] = template({"1":function(container,depth0
 },"5":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "    <div id=\"wrapper_update_online_"
+  return "    <div id=\"wrapper_"
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\" tabindex=\"0\">\n      <label>"
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
-    + "</label>\n      <select id=\"update_online_"
+    + "</label>\n      <select id=\""
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
-    + "\"\n              name=\"update_online_"
+    + "\"\n              name=\""
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\"\n              data-theme=\"a\"\n              data-native-menu=\"false\"\n              "
     + alias4(((helper = (helper = helpers.multiple || (depth0 != null ? depth0.multiple : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"multiple","hash":{},"data":data}) : helper)))
@@ -65,7 +65,7 @@ templates['layer_field_update_online'] = template({"1":function(container,depth0
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" "
     + alias4(((helper = (helper = helpers.selected || (depth0 != null ? depth0.selected : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"selected","hash":{},"data":data}) : helper)))
-    + " data-field_id=\"update_online_"
+    + " data-field_id=\""
     + alias4(((helper = (helper = helpers.field_id || (depth0 != null ? depth0.field_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"field_id","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data}) : helper)))
@@ -95,11 +95,11 @@ templates['layer_field_update_online'] = template({"1":function(container,depth0
 },"18":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "    <div id=\"wrapper_update_online_"
+  return "    <div id=\"wrapper_"
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\" tabindex=\"0\">\n      <label>"
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
-    + "</label>\n      <div  id=\"update_online_"
+    + "</label>\n      <div  id=\""
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\"\n            class=\"tree\"\n            require='"
     + alias4(((helper = (helper = helpers.required || (depth0 != null ? depth0.required : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"required","hash":{},"data":data}) : helper)))
@@ -113,19 +113,19 @@ templates['layer_field_update_online'] = template({"1":function(container,depth0
 },"21":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "    <div id=\"wrapper_update_online_"
+  return "    <div id=\"wrapper_"
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\" tabindex=\"0\">\n      <span style='display:inline; margin-top:10px'>"
     + ((stack1 = ((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "</span>\n        <div  onclick=\"CameraModel.openCameraDialog("
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
-    + ", 'update_online')\"\n              id='property_update_online_"
+    + ", 'update_online')\"\n              id='property_"
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "_container'\n              class=\"photo\"\n              "
     + alias4(((helper = (helper = helpers.editable || (depth0 != null ? depth0.editable : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"editable","hash":{},"data":data}) : helper)))
     + " >\n          <img  class=\"image\"\n                src='"
     + alias4(((helper = (helper = helpers.__value || (depth0 != null ? depth0.__value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"__value","hash":{},"data":data}) : helper)))
-    + "'\n                id='update_online_"
+    + "'\n                id='"
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "'\n                require='"
     + alias4(((helper = (helper = helpers.required || (depth0 != null ? depth0.required : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"required","hash":{},"data":data}) : helper)))
@@ -137,13 +137,13 @@ templates['layer_field_update_online'] = template({"1":function(container,depth0
 },"24":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "    <div id=\"wrapper_update_online_"
+  return "    <div id=\"wrapper_"
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\" tabindex=\"0\">\n      <label>"
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
-    + "</label>\n      <select id=\"update_online_"
+    + "</label>\n      <select id=\""
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
-    + "\"\n              data-theme=\"a\"\n              name=\"update_online_"
+    + "\"\n              data-theme=\"a\"\n              name=\""
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\"\n              data-native-menu=\"false\"\n              "
     + alias4(((helper = (helper = helpers.required || (depth0 != null ? depth0.required : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"required","hash":{},"data":data}) : helper)))
@@ -169,7 +169,7 @@ templates['layer_field_update_online'] = template({"1":function(container,depth0
 },"28":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "    <div id=\"wrapper_update_online_"
+  return "    <div id=\"wrapper_"
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\" tabindex=\"0\" class=\""
     + alias4(((helper = (helper = helpers.invisible || (depth0 != null ? depth0.invisible : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"invisible","hash":{},"data":data}) : helper)))
@@ -177,7 +177,7 @@ templates['layer_field_update_online'] = template({"1":function(container,depth0
     + ((stack1 = ((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "</label>\n      <input  type=\""
     + alias4(((helper = (helper = helpers.widgetType || (depth0 != null ? depth0.widgetType : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"widgetType","hash":{},"data":data}) : helper)))
-    + "\"\n              id=\"update_online_"
+    + "\"\n              id=\""
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\"\n              value =\""
     + alias4(((helper = (helper = helpers.__value || (depth0 != null ? depth0.__value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"__value","hash":{},"data":data}) : helper)))
@@ -193,7 +193,7 @@ templates['layer_field_update_online'] = template({"1":function(container,depth0
 },"30":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "    <div id=\"wrapper_update_online_"
+  return "    <div id=\"wrapper_"
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\" tabindex=\"0\" class=\""
     + alias4(((helper = (helper = helpers.invisible || (depth0 != null ? depth0.invisible : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"invisible","hash":{},"data":data}) : helper)))
@@ -207,7 +207,7 @@ templates['layer_field_update_online'] = template({"1":function(container,depth0
 
   return "        <input  type=\""
     + alias4(((helper = (helper = helpers.widgetType || (depth0 != null ? depth0.widgetType : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"widgetType","hash":{},"data":data}) : helper)))
-    + "\"\n                id=\"update_online_"
+    + "\"\n                id=\""
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\"\n                value =\""
     + alias4(((helper = (helper = helpers.__value || (depth0 != null ? depth0.__value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"__value","hash":{},"data":data}) : helper)))
@@ -225,7 +225,7 @@ templates['layer_field_update_online'] = template({"1":function(container,depth0
 },"34":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, alias5=container.lambda;
 
-  return "        <input  type=\"tel\"\n                id=\"update_online_"
+  return "        <input  type=\"tel\"\n                id=\""
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\"\n                value =\""
     + alias4(((helper = (helper = helpers.__value || (depth0 != null ? depth0.__value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"__value","hash":{},"data":data}) : helper)))
@@ -255,7 +255,7 @@ templates['layer_field_update_online'] = template({"1":function(container,depth0
 
   return "        <input  type=\""
     + alias4(((helper = (helper = helpers.widgetType || (depth0 != null ? depth0.widgetType : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"widgetType","hash":{},"data":data}) : helper)))
-    + "\"\n                id=\"update_online_"
+    + "\"\n                id=\""
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\"\n                value =\""
     + alias4(((helper = (helper = helpers.__value || (depth0 != null ? depth0.__value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"__value","hash":{},"data":data}) : helper)))
