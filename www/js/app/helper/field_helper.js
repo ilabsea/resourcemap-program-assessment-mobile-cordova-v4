@@ -60,7 +60,8 @@ FieldHelper = {
     fieldUI.required =  fieldUI.is_mandatory ? "required" : ""
 
     if (fieldUI.kind === "select_one" && fieldUI.is_enable_field_logic) {
-      fieldUI.config = FieldHelper.buildFieldSelectOne(config);
+      console.log("field: ", fieldUI);
+      fieldUI.config = FieldHelper.buildFieldSelectOne(field.config);
       if (!fieldUI.config.field_logics)
         fieldUI.is_enable_field_logic = false;
     }
@@ -114,15 +115,18 @@ FieldHelper = {
   },
 
   buildFieldSelectOne: function (config) {
+
     $.each(config.options, function ( _ , option) {
       if (config.field_logics) {
-        $.each(config.field_logics, function ( _ , field_logic) {
-          if (option.id === field_logic.value && !config.options[i]["field_id"])
-            config.options[i]["field_id"] = field_logic.field_id;
+        $.each(config.field_logics, function ( _ , fieldLogic) {
+          if (option.id === fieldLogic.value && !option["field_id"])
+            option["field_id"] = fieldLogic.field_id;
         });
       }
     });
+    console.log("config: ", config);
     return config;
+
   },
 
   buildFieldYesNo: function (config, isOnline) {

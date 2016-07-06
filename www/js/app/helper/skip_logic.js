@@ -1,206 +1,217 @@
 SkipLogic = {
+  currentHighlight: false,
+
   skipLogicNumber: function (element) {
     var val = $(element).val();
-    var idElement = $(element).attr('id');
-    var prefixIdElement = idElement.substr(0, idElement.lastIndexOf("_") + 1);
-    var id = idElement.substr(idElement.lastIndexOf("_") + 1);
+    var id = $(element).attr('id');
     var field = FieldController.findFieldById(id)
 
     if (field.config && field.config['field_logics'] ) {
-      var fieldLogics = field.config['field_logics'];
-      $.each(fieldLogics, function (i, fieldLogic) {
-        var op = fieldLogic.condition_type;
-        if (Operators[op](val, fieldLogic.value)) {
-          SkipLogic.handleSkipLogic(idElement, prefixIdElement + fieldLogic.field_id);
-          return false;
-        } else {
-          if (i == config.length - 1) {
-            SkipLogic.handleSkipLogic(idElement, "");
-          }
-        }
-      });
-    }
-  },
-  skipLogicYesNo: function (element) {
-    var $element = $("#" + element);
-    if ($element.attr('data-is_enable_field_logic')) {
-      if ($element.attr('data-role') === "slider") {
-        App.DataStore.set("yesNoField", element);
-        var field_id = $('option:selected', $element).attr('data-field_id');
-        SkipLogic.handleSkipLogic(element, field_id);
-      }
-    }
-  },
-  skipLogicSelectOne: function (element) {
-    var $element = $("#" + element);
-    var field_id = $('option:selected', $element).attr('data-field_id');
-    SkipLogic.handleSkipLogic(element, field_id);
-  },
-  skipLogicSelectMany: function (element) {
-    var selectedValue = element.val();
-    var idElement = element.attr('id');
-    var id = idElement.substr(idElement.lastIndexOf("_") + 1);
-    var wrapper_skip = idElement.slice(0, idElement.lastIndexOf("_") + 1);
-    if (selectedValue) {
-      var field = FieldController.findFieldById(id);
-      if (field.config && field.config['field_logics'] && field.idfield == id) {
-        $.each(field.config['field_logics'], function (k, fieldLogic) {
-          var selectedOptions = fieldLogic['selected_options'];
-          var b = false, is_all = [], all_condi = false;
-
-          for (var i in selectedValue) {
-            for (var j in selectedOptions) {
-              if (selectedValue[i] == selectedOptions[j].value) {
-                b = true;
-                is_all.push(true);
-                break;
-              }
-            }
-
-            if (b) {
-              if (fieldLogic.condition_type == 'any') {
-                all_condi = true;
-                break;
-              }
-              else if (is_all.length == Object.keys(selectedOptions).length) {
-                  all_condi = App.allBooleanTrue(is_all);
-                  break;
-              }
-            }
-          }
-
-          if (all_condi) {
-            var field_id = wrapper_skip + fieldLogic.field_id;
-            SkipLogic.handleSkipLogic(idElement, field_id);
-            return false;
-          }
-          else if (k === field.config['field_logics'].length - 1)
-            SkipLogic.getDisabledId(idElement, idElement);
+      for(var i=0; i<field.config['field_logics'].length; i++){
+        var fieldLogic = field.config['field_logics'][i]
+        var operationType= fieldLogic.condition_type;
+        var match = Operators[operationType](val, fieldLogic.value)
+        SkipLogic.applySkipLogic(field, fieldLogic.field_id, function(){
+          return match;
         });
       }
     }
-    else
-      SkipLogic.getDisabledId(idElement, idElement);
   },
 
-  prepareSkip: function(nodeFieldId){
-    var $parent = $skipToNode.parent().parent();
-    triggerExpand($parent);
-
-    scrollToHash($skipToNode);
-
-    setTimeout(function () {
-      $("#" + nodeFieldId).focus();
-    }, 500);
+  applySkipLogic: function(field, fieldId, condition){
+    if(!(field.config && field.config['field_logics']))
+      return;
+    if(condition())
+      SkipLogic.handleSkipLogic(field.idfield, fieldId)
+    else if(field.skipTo)
+      SkipLogic.setStateUI(field.idfield, field.skipTo, true)
   },
 
-  handleSkipLogic: function (element, nodeFieldId) {
+  skipLogicYesNo: function (element) {
+    var $element = $("#" + element);
+    var id = $element.attr("id");
 
-    var fieldId = "";
-    if (nodeFieldId)
-      fieldId = nodeFieldId.substr(nodeFieldId.lastIndexOf("_") + 1);
-    if (fieldId) {
-      var $parent = FieldController.findLayerWrapperOfFieldId(fieldId)
+    var fieldId = $('option:selected', $element).attr('data-field_id');
+    var field = FieldController.findFieldById(id);
+    SkipLogic.applySkipLogic(field, fieldId, function(){
+      return $element.attr('data-is_enable_field_logic') && $element.attr('data-role') === "slider"
+    });
+  },
+
+  skipLogicSelectOne: function (element) {
+    var $element = $("#" + element);
+    var id = $element.attr("id")
+    var fieldId = $element.find('option:selected').attr('data-field_id');
+    var field = FieldController.findFieldById(id);
+
+    SkipLogic.applySkipLogic(field, fieldId, function(){
+       return $element.val();
+    })
+
+    // if($element.val() && field.config && field.config['field_logics']){
+    //   SkipLogic.handleSkipLogic(id, fieldId);
+    // }
+    // else if(field.config && field.config['field_logics'] && field.skipTo)
+    //   SkipLogic.setStateUI(id, field.skipTo, true)
+  },
+
+  skipLogicSelectMany: function (element) {
+    var selectedValues = element.val() || []
+    var id = element.attr('id');
+    var field = FieldController.findFieldById(id);
+
+    if (selectedValues.length>0 && field.config && field.config['field_logics']) {
+      for(var i=0; i<field.config['field_logics'].length; i++) {
+        var fieldLogic = field.config['field_logics'][i]
+        var condition = this.matchCondition(fieldLogic, selectedValues)
+
+        if (condition){
+          SkipLogic.applySkipLogic(field, fieldLogic.field_id, function(){
+            return true;
+          })
+          break;
+        }
+      }
+    }
+    else if(field.config && field.config['field_logics'] && field.skipTo) {
+      SkipLogic.setStateUI(id, field.skipTo, true)
+    }
+  },
+
+  matchCondition: function(fieldLogic, selectedValues){
+    var selectedOptions = fieldLogic['selected_options'];
+    var exist = false, matchAll = [], condition = false;
+
+    for (var j in selectedOptions) {
+      if (selectedValues.indexOf(selectedOptions[j].value) != -1) {
+        exist = true;
+        matchAll.push(true);
+      }
+    }
+
+    if (exist && fieldLogic.condition_type == 'any')
+      condition = true;
+    else if (exist && matchAll.length == Object.keys(selectedOptions).length)
+      condition = true
+
+    return condition;
+  },
+
+  handleSkipLogic: function (id, fieldId) {
+    var field = FieldController.findFieldById(id)
+    var $parent = FieldController.findLayerWrapperOfFieldId(fieldId)
+
+    if(field.skipTo){
+      App.log("reset from: " + id + " to: " + field.skipTo)
+      SkipLogic.setStateUI(id, field.skipTo, true)
+    }
+
+    if($parent.length >0){
+      SkipLogic.setStateUI(id, fieldId, false)
       triggerExpand($parent);
-      var $skipToNode = $("#wrapper_" + nodeFieldId)
-      scrollToHash($skipToNode);
-
+      scrollToHash($("#wrapper_" + fieldId));
       setTimeout(function () {
-        $("#" + nodeFieldId).focus();
+        $("#" + fieldId).focus();
       }, 500);
+      SkipLogic.handleHighlightElement(fieldId);
     }
-    else {
-      nodeFieldId = element;
-    }
-    SkipLogic.getDisabledId(element, nodeFieldId);
-    SkipLogic.handleHighlightElement(nodeFieldId);
   },
-  handleHighlightElement: function (field_id) {
-    if ($("#" + field_id).attr('data-role') === "slider") {
-      var slider = ($("#" + field_id).parent()).children()[2];
-      $(slider).attr("id", "slider_" + field_id);
-      var slider_id = $(slider).attr("id");
 
+  handleHighlightElement: function (fieldId) {
+    var $fieldNode = $("#" + fieldId)
+    var tagName = $fieldNode[0].tagName;
+
+    if ($fieldNode.attr('data-role') === "slider") {
+      var slider = $fieldNode.parent().children()[2];
+      var sliderId = "slider_" + fieldId;
+      $(slider).attr("id", sliderId);
       SkipLogic.highlight("#" + slider_id, 'slider');
-    }else if ($("#" + field_id)[0].tagName.toLowerCase() === 'select')
-      SkipLogic.highlight("#" + field_id, "select");
-    else if ($("#" + field_id)[0].tagName.toLowerCase() === 'img')
-      SkipLogic.highlight("#property_" + field_id + "_container", "img");
-    else {
-      SkipLogic.highlight("#" + field_id, "others");
     }
+    else if (tagName.toLowerCase() === 'select')
+      SkipLogic.highlight("#" + fieldId, "select");
+    else if (tagName.toLowerCase() === 'img')
+      SkipLogic.highlight("#property_" + fieldId + "_container", "img");
+    else
+      SkipLogic.highlight("#" + fieldId, "others");
   },
+
   highlight: function (element, type) {
-    var highlightedElement = App.DataStore.get("highlightedElement");
-    var typeElement = App.DataStore.get("typeElement");
-    if (highlightedElement) {
-      if (highlightedElement !== element)
-        SkipLogic.unhighlightElement(highlightedElement, typeElement);
-      else
-        return;
+    if (this.currentHighlight && this.currentHighlight !== element) {
+      SkipLogic.unhighlightElement(element, type);
     }
     SkipLogic.highlightElement(element, type);
   },
+
   highlightElement: function (element, type) {
     if (type === "select") {
       var $parent = $(element).closest(".ui-select");
       $parent.addClass('highlighted').removeClass('unhighlighted');
-    } else if (type === 'slider') {
+    }
+    else if (type === 'slider') {
       $(element).css({
         "-webkit-box-shadow": "0 0 12px #3388cc",
         "-moz-box-shadow": "0 0 12px #3388cc",
         "box-shadow": "0 0 12px #3388cc"
       });
-    } else
+    }
+    else
       $(element).addClass('highlighted').removeClass('unhighlighted');
-    App.DataStore.set("highlightedElement", element);
-    App.DataStore.set("typeElement", type);
+    this.currentHighlight = element;
   },
+
   unhighlightElement: function (element, type) {
     if (type === "select") {
       var $parent = $(element).closest(".ui-select");
       $parent.addClass('unhighlighted').removeClass('highlighted');
-    } else if (type === 'slider') {
+    }
+    else if (type === 'slider') {
       $(element).css({
         "-webkit-box-shadow": "",
         "-moz-box-shadow": "",
         "box-shadow": ""
       });
-    } else
+    }
+    else
       $(element).addClass('unhighlighted').removeClass('highlighted');
-    App.DataStore.remove("highlightedElement");
-    App.DataStore.remove("typeElement");
+    this.currentHighlight = false;
   },
 
-  getDisabledId: function (fieldId, field_focus) {
+  setStateUI: function (fieldIdStart, fieldIdEnd, state) {
+    var enabled  = state || false
+
     var fieldIds = FieldController.fieldIds();
+    var startIndex, endIndex;
 
-    var disabled_id, enabled_id, startIndex, endIndex;
-    var prefixId = fieldId.substr(0, fieldId.lastIndexOf("_") + 1);
-
-    $.each(fieldIds, function (i, field) {
-      fieldWithPrefix = prefixId + field;
-      if (fieldWithPrefix === fieldId)
+    for(var i=0; i<fieldIds.length; i++){
+      var fieldId = fieldIds[i]
+      if (fieldIdStart === fieldId)
         startIndex = i + 1;
-      if (fieldWithPrefix === field_focus) {
+      if (fieldIdEnd === fieldId) {
         endIndex = i;
-        return false;
+        break;
       }
-    });
+    }
 
     for (var i = startIndex; i < endIndex; i++) {
-      disabledId = prefixId + fieldIds[i];
-      var $disableNode = $("#" + disabledId)
-      if ($disableNode.attr('require') === "required" || $disableNode.attr("required"))
-        $disableNode.attr('require', "").removeAttr('required');
+      var fieldId = fieldIds[i];
+      var $stateNode = $("#" + fieldId)
+      var field = FieldController.findFieldById(fieldId)
 
-      SkipLogic.disableElement(disabledId);
-      SkipLogic.setValueToEmpty(disabledId);
+      if(enabled){
+        if(field.required)
+          $stateNode.attr('required', 'required');
+        SkipLogic.enableElement(fieldId);
+      }
+      else{
+        if(field.required)
+          $stateNode.removeAttr('required');
+        SkipLogic.disableElement(fieldId);
+        SkipLogic.setValueToEmpty(fieldId);
+      }
+      field.disableState = !enabled
     }
-    for (var j = endIndex; j < fieldIds.length; j++) {
-      enabled_id = prefixId + fieldIds[j];
-      SkipLogic.enableElement(enabled_id);
-    }
+    var traceField = FieldController.findFieldById(fieldIdStart)
+    traceField.skipTo =  enabled ? 0 : fieldIdEnd;
   },
 
   disableElement: function (disabledId) {
@@ -211,119 +222,85 @@ SkipLogic = {
     $("#wrapper_" + enabledId).removeClass('ui-disabled');
   },
 
-  setValueToEmpty: function (idElement) {
-    var $element = $("#" + idElement);
-    if ($element.attr('data-role') === "slider")
-      $element.val("0").slider("refresh");
-    else if ($element[0].tagName.toLowerCase() === 'select')
-      $element.val("").selectmenu('refresh');
-    else if ($element[0].tagName.toLowerCase() === 'img') {
-      $element.attr("src", "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==");
-      $("#wrapper_" + idElement).addClass('skip-logic-over-img');
+  setValueToEmpty: function (fieldId) {
+    var $fieldNode = $("#" + fieldId);
+    if ($fieldNode.attr('data-role') === "slider")
+      $fieldNode.val("0").slider("refresh");
+    else if ($fieldNode[0].tagName.toLowerCase() === 'select')
+      $fieldNode.val("").selectmenu('refresh');
+    else if ($fieldNode[0].tagName.toLowerCase() === 'img') {
+      $fieldNode.attr("src", "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==");
+      $("#wrapper_" + fieldId).addClass('skip-logic-over-img');
     }
-    else if ($element.attr("class") === "tree")
-      Hierarchy.selectedNode(idElement, "");
+    else if ($fieldNode.attr("class") === "tree")
+      Hierarchy.selectedNode(fieldId, "");
     else
-      $element.val("");
+      $fieldNode.val("");
   },
 
-  disableUIEditSite: function (field, prefixId) {
-    if (field.is_enable_field_logic) {
-      if (field.config) {
-        switch (field.kind) {
-          case "numeric":
-            // Server side can have field logic enable but no data bug
-            var configFieldLogics =  field.config.field_logics || [];
-            $.map(configFieldLogics, function (field_logic) {
-              var op = field_logic.condition_type;
-              var elementId = prefixId + field.idfield;
-              var elementIdToFocus = prefixId + field_logic.field_id;
-              if (Operators[op](field.__value, field_logic.value)) {
-                SkipLogic.getDisabledId(elementId, elementIdToFocus);
-                return false;
-              }
-            });
-            break;
-          case "select_one":
-            for (var i = 0; i < field.config.options.length; i++) {
-              var elementId = prefixId + field.idfield;
-              var elementIdToFocus = prefixId + field.config.options[i].field_id;
-              if (field.config.options[i].id == field.__value
-                  || field.config.options[i].code == field.__value) {
-                SkipLogic.getDisabledId(elementId, elementIdToFocus);
-              }
-            }
-            break;
-          case "select_many":
-            if (field.__value) {
-              var value = FieldHelper.generateCodeToIdSelectManyOption(field, field.__value);
-              // Server side can have field logic enable but no data bug
-              var configFieldLogics =  field.config.field_logics || [];
-              $.map(configFieldLogics, function (field_logic) {
-                var selectedOptions = field_logic.selected_options;
+  disableUIEditSite: function (field) {
+    if (!(field.is_enable_field_logic && field.config))
+      return;
 
-                var b = false;
-                var is_all = [];
-                var all_condi = false;
-
-                for (var i in value) {
-                  for (var j in selectedOptions) {
-                    if (value[i] == selectedOptions[j].value) {
-                      b = true;
-                      is_all.push(true);
-                      break;
-                    }
-                  }
-                  if (b) {
-                    if (field_logic.condition_type == 'any') {
-                      all_condi = true;
-                      break;
-                    } else {
-                      if (is_all.length == Object.keys(selectedOptions).length) {
-                        all_condi = App.allBooleanTrue(is_all);
-                        break;
-                      }
-                    }
-                  }
-                }
-                if (all_condi) {
-                  var elementId = prefixId + field.idfield;
-                  var elementIdToFocus = prefixId + field_logic.field_id;
-                  SkipLogic.getDisabledId(elementId, elementIdToFocus);
-                  return false;
-                }
-              });
-            }
+    switch (field.kind) {
+      case "numeric":
+        var configFieldLogics =  field.config.field_logics || [];
+        for(var i=0; i<configFieldLogics.length; i++) {
+          var fieldLogic = configFieldLogics[i];
+          var op = fieldLogic.condition_type;
+          if (Operators[op](field.__value, fieldLogic.value)) {
+            SkipLogic.setStateUI(field.idfield, fieldLogic.field_id);
             break;
-          case "yes_no":
-            for (var i = 0; i < field.config.options.length; i++) {
-              if (field.__value == field.config.options[i].id) {
-                var elementId = prefixId + field.idfield;
-                var elementIdToFocus = prefixId + field.config.options[i].field_id;
-                SkipLogic.getDisabledId(elementId, elementIdToFocus);
-              }
-            }
-            break;
+          }
         }
-      }
+        break;
+      case "select_one":
+        var options = field.config.options;
+        for (var i = 0; i < options.length; i++) {
+          if (options[i].id == field.__value || options[i].code == field.__value) {
+            SkipLogic.setStateUI(field.idfield, options[i].field_id);
+            break;
+          }
+        }
+        break;
+      case "select_many":
+        if (field.__value) {
+          var selectedValues = FieldHelper.generateCodeToIdSelectManyOption(field, field.__value);
+          var fieldLogics =  field.config.field_logics || [];
+          for(var i=0; i< fieldLogics.length; i++){
+            var condition = this.matchCondition(fieldLogics[i], selectedValues)
+            if (condition) {
+              SkipLogic.setStateUI(field.idfield, fieldLogic[i].field_id);
+              break;
+            }
+          }
+        }
+        break;
+      case "yes_no":
+        for (var i = 0; i < field.config.options.length; i++) {
+          if (field.__value == field.config.options[i].id) {
+            var elementId = prefixId + field.idfield;
+            var elementIdToFocus = prefixId + field.config.options[i].field_id;
+            SkipLogic.setStateUI(elementId, elementIdToFocus);
+          }
+        }
+        break;
     }
   },
+
   disableUIAddSite: function (field) {
-    if (field.is_enable_field_logic) {
-      var config = field.config;
-      if (config && field.kind === "yes_no") {
-        var value = $("#" + field.idfield).val();
-        for (var i = 0; i < config.options.length; i++) {
-          if (value == config.options[i].id) {
-            var elementId = field.idfield;
-            var elementIdToFocus = config.options[i].field_id;
-            SkipLogic.getDisabledId(elementId, elementIdToFocus);
-          }
+    if (field.is_enable_field_logic && field.config && field.kind === "yes_no") {
+      var value = $("#" + field.idfield).val();
+      for (var i = 0; i < field.config.options.length; i++) {
+        if (value == field.config.options[i].id) {
+          var elementId = field.idfield;
+          var elementIdToFocus = field.config.options[i].field_id;
+          SkipLogic.setStateUI(elementId, elementIdToFocus);
         }
       }
     }
   }
-};
+}
 
 function scrollToLayer(selectedValue) {
   if (selectedValue === 'logout')

@@ -26,12 +26,12 @@ FieldController = {
   },
 
   findFieldById: function(idfield) {
-    $.each(this.layers, function(_, layer){
-      $.each(layer.fields, function(_, field){
-        if(field.idfield == idfield)
-          return field;
-      })
-    })
+    for(var i=0; i<this.layers.length; i++) {
+      for(var j=0; j<this.layers[i].fields.length; j++){
+        if(this.layers[i].fields[j].idfield == idfield)
+          return this.layers[i].fields[j];
+      }
+    }
     return null;
   },
 

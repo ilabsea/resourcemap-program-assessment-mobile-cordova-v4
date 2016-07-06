@@ -78,6 +78,7 @@ var FieldHelperView = {
       App.DataStore.set('fields_cal', JSON.stringify(fieldCal));
     });
   },
+
   displayUiDisabled: function (prefixId, fieldData, update) {
     $.each(fieldData.field_collections, function (_, layer) {
       $.each(layer.fields, function (_, field) {
