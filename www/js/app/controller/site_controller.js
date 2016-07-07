@@ -10,6 +10,9 @@ SiteController = {
     element.listview("refresh");
   },
   displayUpdateLatLng: function (templateURL, element, siteUpdateData) {
+    console.log("template: ", templateURL);
+    console.log("site: ", siteUpdateData);
+    console.log("element: ", element);
     var content = App.Template.process(templateURL, siteUpdateData);
     element.html(content);
     element.trigger("create");
@@ -51,7 +54,7 @@ SiteController = {
           name: site.name,
           collectionName: "offline",
           date: fullDate,
-          link: "#page-update-site"
+          link: "#page-save-site"
         });
       });
       SiteOffline.countByCollectionIdUserId(cId, uId, function (count) {
@@ -81,7 +84,7 @@ SiteController = {
           name: data.name,
           collectionName: "",
           date: date,
-          link: "#page-update-site-online"
+          link: "#page-save-site"
         };
         siteOnlineData.push(item);
       });
@@ -110,7 +113,7 @@ SiteController = {
           name: site.name,
           collectionName: site.collection_name,
           date: fullDate,
-          link: "#page-update-site"
+          link: "#page-save-site"
         };
         siteofflineData.push(item);
       });
@@ -195,6 +198,12 @@ SiteController = {
   },
 
   renderNewSiteForm: function(){
+    var siteUpdateData = {
+      name: '',
+      lat: '',
+      lng: ''
+    }
+    SiteController.displayUpdateLatLng("site_form", $('#div-site'), siteUpdateData);
     FieldController.renderNewSiteForm()
   },
 
@@ -206,11 +215,11 @@ SiteController = {
         lat: site.lat,
         lng: site.lng
       };
-      SiteController.displayUpdateLatLng("site_update_offline",
-          $('#div-site-update-name'), siteUpdateData);
+      SiteController.displayUpdateLatLng("site_form", $('#div-site'), siteUpdateData);
       FieldController.renderUpdate(site, true);
     });
   },
+
   renderUpdateSiteFormOnline: function () {
     SiteModel.fetchOne(function (site) {
       MyMembershipObj.setSite(site);
@@ -226,11 +235,12 @@ SiteController = {
         lat: site.lat,
         lng: site.long
       };
-      SiteController.displayUpdateLatLng("site_update_online",
-      $('#div-site-update-name-online'), siteOnlineUpdateData);
+
+      SiteController.displayUpdateLatLng("site_form", $('#div-site'), siteOnlineUpdateData);
       FieldController.renderUpdate(site, false);
     });
   },
+
   submitAllToServerByCollectionIdUserId: function () {
     ViewBinding.setBusy(true);
     if (App.isOnline()) {
@@ -241,6 +251,7 @@ SiteController = {
       alert(i18n.t("global.no_internet_connection"));
     }
   },
+
   submitAllToServerByUserId: function () {
     ViewBinding.setBusy(true);
     if (App.isOnline()) {

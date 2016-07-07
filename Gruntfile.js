@@ -77,9 +77,7 @@ module.exports = function(grunt) {
        "www/js/app/helper/location.js",
        "www/js/app/helper/require_reload.js",
        "www/js/app/helper/digit_allowance.js",
-       "www/js/app/helper/validation.js",
-
-
+       "www/js/app/helper/validation.js"
   ]
 
   var sourceCssFiles = [
@@ -101,6 +99,7 @@ module.exports = function(grunt) {
 
       "www/js/app/template/layer_fields_add.handlebars",
       "www/js/app/template/layer_field_update_online.handlebars",
+      "www/js/app/template/layer_field.handlebars",
       "www/js/app/template/layer_field_update_offline.handlebars",
 
       "www/js/app/template/field_add.handlebars",
@@ -115,8 +114,7 @@ module.exports = function(grunt) {
 
       "www/js/app/template/site_error_upload.handlebars",
       "www/js/app/template/site_list.handlebars",
-      "www/js/app/template/site_update_offline.handlebars",
-      "www/js/app/template/site_update_online.handlebars"
+      "www/js/app/template/site_form.handlebars"
   ]
 
   var watchFiles = sourceCssFiles.concat(sourceJsFiles).concat(templateFiles)

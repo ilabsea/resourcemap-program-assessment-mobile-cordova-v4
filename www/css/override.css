@@ -10,3 +10,10 @@
   box-shadow: none !important;
   -webkit-box-shadow: none !important;
 }
+
+.ui-collapsible.error h3.ui-collapsible-heading a {
+  color: red !important;
+}
+label.valid {
+  display: none;
+}

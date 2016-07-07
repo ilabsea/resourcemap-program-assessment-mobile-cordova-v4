@@ -40,14 +40,31 @@ FieldController = {
     var content = App.Template.process(this.templateName, {fields: layerData.fields});
     $layerNodeContent.html(content);
     $layerNodeContent.enhanceWithin();
+    $
   },
 
   renderLayerSet: function(templateName, $element, prefixIdElement) {
-    this.templateName = "layer_field_update_online";
+    this.templateName = "layer_field";
     var cloneLayers = this.layers.slice(0)
     var options = {field_collections: cloneLayers}
 
     FieldHelperView.display(templateName, $element, prefixIdElement, options, this.isOnline);
+  },
+
+  validateActiveLayer: function($layerNode){
+    if(this.activeLayer){
+      var layer = this.findLayerById($layerNode.attr('data-id'))
+      var valid = $.mobile.activePage.find("#form-site-fields").valid()
+      valid ? $layerNode.removeClass("error") : $layerNode.addClass("error")
+      console.log("valid ", valid);
+      return valid
+    }
+    return true
+  },
+
+  storeActiveLayer: function() {
+    if(this.activeLayer)
+      this.storeOldLayerFields(this.activeLayer);
   },
 
   storeOldLayerFields: function($layerNode){
@@ -61,16 +78,14 @@ FieldController = {
   },
 
   prepareLayerFields: function($layerNode) {
-    console.log("-- expand");
-    if(this.activeLayer){
-      if($layerNode.attr('data-id') != this.activeLayer.attr('data-id')){
-        console.log("layer change");
+    if(this.activeLayer) {
+      var layerChanged = $layerNode.attr('data-id') != this.activeLayer.attr('data-id')
+      if(layerChanged){
+        this.validateActiveLayer($layerNode);
         this.storeOldLayerFields(this.activeLayer);
         this.removeLayerContent(this.activeLayer);
         this.renderLayerNode($layerNode)
       }
-      else
-        console.log("Layer note change, no rendering effort");
     }
     else
       this.renderLayerNode($layerNode);
@@ -204,7 +219,8 @@ FieldController = {
       });
 
       FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu-update'), {field_collections: self.layers.slice(0)}, "update_");
-      FieldController.renderLayerSet("field_update_offline", $('#div_update_field_collection'), "update_");
+      // FieldController.renderLayerSet("field_update_offline", $('#div_update_field_collection'), "update_");
+      FieldController.renderLayerSet("field_add", $('#div_field_collection'), "");
     });
   },
 
@@ -228,7 +244,8 @@ FieldController = {
       FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu-update-online'),
           {field_collections: self.layers.slice(0)}, prefix);
 
-      FieldController.renderLayerSet("field_update_online", $('#div_update_field_collection_online'), prefix);
+      // FieldController.renderLayerSet("field_update_online", $('#div_update_field_collection_online'), prefix);
+      FieldController.renderLayerSet("field_add", $('#div_field_collection'), "");
 
     }, FieldController.errorFetchingField);
   },

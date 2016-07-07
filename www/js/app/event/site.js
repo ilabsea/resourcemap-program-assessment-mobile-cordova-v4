@@ -12,14 +12,10 @@ $(document).on("mobileinit", function() {
   $(document).delegate('#btn_create_site', 'click', function () {
     MyMembershipObj.setSite("");
     SiteController.renderNewSiteForm();
-    $('#form_create_site')[0].reset();
+    $('#form-site')[0].reset();
+    $('#form-site-fields')[0].reset();
   });
 
-  $(document).delegate('#page-create-site', 'pageshow', function () {
-    App.validateDbConnection(function() {
-      SiteController.setEntryDate();
-    });
-  });
 
   $(document).delegate('#page-site-list #site-list-online', 'click', function (event) {
     App.checkNodeTargetSuccess(event.target, function(a) {
@@ -35,6 +31,12 @@ $(document).on("mobileinit", function() {
         requireReload(SiteController.renderUpdateSiteFormOnline);
       }
     })
+  });
+
+  $(document).delegate('#page-save-site', 'pageshow', function () {
+    App.validateDbConnection(function() {
+      SiteController.setEntryDate();
+    });
   });
 
   $(document).delegate('#page-site-list #site-list', 'click', function (event) {
@@ -111,28 +113,30 @@ $(document).on("mobileinit", function() {
   });
 })
 
-function submitAndValidateCreateSite() {
-  $('#form_create_site').validate({
+function validationOptions() {
+  return{
     ignore: '',
     focusInvalid: false,
     onkeyup: false,
     onfocusin: false,
     errorPlacement: function (error, element) {
-      if (element.attr("type") === "tel" &&
-          (element.attr("min") || element.attr("max")))
-        error.insertAfter($(element).parent());
-      addClassError(element);
-
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_create-site');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_create-site');
+      // if (element.attr("type") === "tel" &&
+      //     (element.attr("min") || element.attr("max")))
+      //   error.insertAfter($(element).parent());
+      // addClassError(element);
+      //
+      // var classElement = document.getElementsByClassName("image");
+      // var classHierarchyElement = document.getElementsByClassName("tree");
+      // if (classHierarchyElement.length != 0)
+      //   h = validateHierarchySubmitHandler(classHierarchyElement, '#validation-save-site');
+      // if (classElement.length != 0)
+      //   bImage = validateImageSubmitHandler(classElement, '#validation-save-site');
+      return false
     },
     invalidHandler: function () {
       ViewBinding.setBusy(false);
-      showValidateMessage('#validation_create-site');
+      showValidateMessage('#validation-save-site');
+      return false;
     },
     submitHandler: function () {
       console.log('submit site online');
@@ -142,98 +146,28 @@ function submitAndValidateCreateSite() {
       var bImage = true;
 
       if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_create-site');
+        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation-save-site');
       if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_create-site');
+        bImage = validateImageSubmitHandler(classElement, '#validation-save-site');
 
       if (h && bImage) {
         SiteController.add();
         App.DataStore.clearPartlyAfterCreateSite();
       }
     }
-  });
+  }
 }
 
-function submitAndValidateSiteOffline(){
-  $('#form_update_site').validate({
-    ignore: '',
-    focusInvalid: false,
-    onkeyup: false,
-    onfocusin: false,
-    errorPlacement: function (error, element) {
-      if (element.attr("type") === "tel" &&
-          (element.attr("min") || element.attr("max")))
-        error.insertAfter($(element).parent());
-      addClassError(element);
-
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
-    },
-    invalidHandler: function () {
-      ViewBinding.setBusy(false);
-      showValidateMessage('#validation_update-site');
-    },
-    submitHandler: function () {
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      var h = true;
-      var bImage = true;
-
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_update-site', SiteController.updateBySiteIdOffline);
-      if (h && bImage)
-        SiteController.updateBySiteIdOffline();
-    }
-  });
-}
-
-function submitAndValidateSiteOnline() {
-  $('#form_update_site_online').validate({
-    ignore: '',
-    focusInvalid: false,
-    onkeyup: false,
-    onfocusin: false,
-    errorPlacement: function (error, element) {
-      if (element.attr("type") === "tel" &&
-          (element.attr("min") || element.attr("max")))
-        error.insertAfter($(element).parent());
-      addClassError(element);
-
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_update-site');
-    },
-    invalidHandler: function () {
-      ViewBinding.setBusy(false);
-      showValidateMessage('#validation_update-site-online');
-    },
-    submitHandler: function () {
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      var h = true;
-      var bImage = true;
-
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation_update-site-online');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation_update-site-online', SiteController.updateBySiteIdOnline);
-      if (h && bImage)
-        SiteController.updateBySiteIdOnline();
-    }
-  });
+function submitAndValidateSaveSite() {
+  $('#form-site').validate(validationOptions());
+  $('#form-site-fields').validate(validationOptions());
+  // $('#form-site-offline').validate(validationOptions());
+  // $('#form-site-online').validate(validationOptions());
+  // $('#site-fields').validate(validationOptions());
 }
 
 function submitSiteForm() {
-  $('#btn_submitAddSite, #btn_submitUpdateSite, #btn_submitUpdateSite_online').on('click', function() {
+  $('#btn_save_site').on('click', function() {
     ViewBinding.setBusy(true);
     $(this.form).submit();
   })
@@ -247,8 +181,6 @@ function resetRightMenuItem(){
 
 $(function(){
   submitSiteForm();
-  submitAndValidateCreateSite();
-  submitAndValidateSiteOffline();
-  submitAndValidateSiteOnline();
+  submitAndValidateSaveSite();
 
 });

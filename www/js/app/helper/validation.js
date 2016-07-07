@@ -37,7 +37,8 @@ function validateImageSubmitHandler(classElement, element) {
     if ($element.attr('require') == "required") {
       if ($element.attr('src') != '') {
         $("#property_" + idElement + "_container").css({"border": "1px solid #f3f3f3"});
-      } else {
+      }
+      else {
         b = false;
         $("#property_" + idElement + "_container").css({"border": "1px solid red"});
         showValidateMessage(element);
@@ -58,7 +59,8 @@ function validateHierarchySubmitHandler(classHierarchyElement, element) {
         $element.css({"border": "1px solid red"});
         showValidateMessage(element);
         h = false;
-      } else {
+      }
+      else {
         $element.css({"border": "1px solid #999999"});
       }
     }

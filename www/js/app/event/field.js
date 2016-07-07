@@ -7,10 +7,10 @@ $(document).on("mobileinit", function() {
     $.mobile.silentScroll(position);
   });
 
-  // $(document).on("collapsiblecollapse", "[data-role=collapsible]", function () {
-  //   var $this = $(this);
-  //   FieldController.storeOldLayerFields($this)
-  // });
+  $(document).on("collapsiblecollapse", "[data-role=collapsible]", function () {
+    var $this = $(this);
+    FieldController.validateActiveLayer($this);
+  });
 
   $(document).delegate('.calculation', 'keyup blur', function () {
     Calculation.calculate(this);
@@ -23,7 +23,8 @@ $(document).on("mobileinit", function() {
   $(document).delegate('.validateSelectFields', 'change', function () {
     if ($(this).attr('data-role') === "slider") {
       SkipLogic.skipLogicYesNo(this.id);
-    } else {
+    }
+    else {
       validateToRemoveStyle(this);
     }
   });

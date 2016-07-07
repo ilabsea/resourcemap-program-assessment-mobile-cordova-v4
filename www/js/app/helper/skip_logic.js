@@ -19,23 +19,39 @@ SkipLogic = {
   },
 
   applySkipLogic: function(field, fieldId, condition){
-    if(!(field.config && field.config['field_logics']))
+    if(!(field.config))
       return;
-    if(condition())
+    if(condition()) {
+      App.log("skip to: ", fieldId)
       SkipLogic.handleSkipLogic(field.idfield, fieldId)
-    else if(field.skipTo)
+    }
+    else if(field.skipTo){
       SkipLogic.setStateUI(field.idfield, field.skipTo, true)
+    }
   },
 
   skipLogicYesNo: function (element) {
     var $element = $("#" + element);
     var id = $element.attr("id");
+    var fieldId = $element.find('option:selected').attr('data-field_id');
 
-    var fieldId = $('option:selected', $element).attr('data-field_id');
     var field = FieldController.findFieldById(id);
+    if(!($element.attr('data-is_enable_field_logic') && $element.attr('data-role') === "slider"))
+      return;
+    var fieldId = false;
+
+    window.field = field;
+    for(var i=0; i< field.config.options.length; i++) {
+      if( field.config.options[i].id == parseInt($element.val())) {
+        fieldId = field.config.options[i].field_id;
+        break;
+      }
+    }
+
     SkipLogic.applySkipLogic(field, fieldId, function(){
-      return $element.attr('data-is_enable_field_logic') && $element.attr('data-role') === "slider"
-    });
+      return fieldId;
+    })
+
   },
 
   skipLogicSelectOne: function (element) {
@@ -47,12 +63,6 @@ SkipLogic = {
     SkipLogic.applySkipLogic(field, fieldId, function(){
        return $element.val();
     })
-
-    // if($element.val() && field.config && field.config['field_logics']){
-    //   SkipLogic.handleSkipLogic(id, fieldId);
-    // }
-    // else if(field.config && field.config['field_logics'] && field.skipTo)
-    //   SkipLogic.setStateUI(id, field.skipTo, true)
   },
 
   skipLogicSelectMany: function (element) {
@@ -98,6 +108,7 @@ SkipLogic = {
   },
 
   handleSkipLogic: function (id, fieldId) {
+    console.log("from " + id + " to " + fieldId);
     var field = FieldController.findFieldById(id)
     var $parent = FieldController.findLayerWrapperOfFieldId(fieldId)
 
@@ -106,7 +117,7 @@ SkipLogic = {
       SkipLogic.setStateUI(id, field.skipTo, true)
     }
 
-    if($parent.length >0){
+    if($parent && $parent.length >0){
       SkipLogic.setStateUI(id, fieldId, false)
       triggerExpand($parent);
       scrollToHash($("#wrapper_" + fieldId));

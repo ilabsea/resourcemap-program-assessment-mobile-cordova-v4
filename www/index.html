@@ -167,7 +167,7 @@
    </div>
    <div data-role="content" id="sitelist">
 
-    <div> <a data-role="button" id="btn_create_site" href="#page-create-site"
+    <div> <a data-role="button" id="btn_create_site" href="#page-save-site"
              data-icon="plus" data-i18n="global.add">Add new site</a>
     </div>
 
@@ -188,7 +188,7 @@
   </div>
 
   <!--page-create-site-->
-  <div data-role="page" id="page-create-site" data-theme="b">
+  <!-- <div data-role="page" id="page-create-site" data-theme="b">
    <div data-role="header">
     <a data-role="button" data-theme="a" href="#page-site-list"
        id='btn_back_site_in_create' data-icon="carat-l" class="ui-btn-left"
@@ -198,32 +198,18 @@
     <div class="ui-btn-right" id="ui-btn-layer-menu"></div>
    </div>
    <div data-role="content">
-    <form method="post" id="form_create_site" enctype="multipart/form-data">
-     <div>
-      <label for="sname" data-i18n="global.name"> Name </label>
-      <input type="text" name="sitename" id="sitename" class="required" required="true"/>
-     </div><br>
-     <a href="#page-map"><img id="create-icon-map" src="img/map.png"
-                              alt="map icon" width="50" height="50"></a>
-     <div>
-      <label for="lolat" data-i18n="global.lat" > Location'Lat </label>
-      <input type="number" name="lat" id="lat" class="required" required="true" readonly/>
-      <label for="lolng" data-i18n="global.lng"> Location'Lng </label>
-      <input type="number" name="lng" id="lng" class="required" required="true" readonly/>
-      <input type="hidden" name="start_entry_date" id="start_entry_date"/>
-     </div>
+     <form method="post" id="form-site-create" class='form-site' enctype="multipart/form-data">
+       <div id="div-site-create"></div>
+     </form>
 
-     <div class="clearPreviousDisplay loading" id="div_field_collection">
-     </div>
-     <button type="button" id="btn_submitAddSite" data-inset="true"
-             data-i18n="global.save_site">Save Site
-     </button>
-     <p id="validation_create-site" class="required_data"  tabindex="200"
+     <div class="clearPreviousDisplay loading" id="div_field_collection"></div>
+     <button type="button" id="btn_save_site" data-inset="true" data-i18n="global.save_site">Save Site</button>
+     <p id="validate_save_site" class="required_data"  tabindex="200"
         data-i18n="validation.emailPsdConfirm"> Please enter all required fields.
      </p>
-    </form>
+
    </div>
-  </div>
+  </div> -->
 
   <!-- view map -->
   <div data-role="page" id="page-map" data-theme="b" >
@@ -256,7 +242,7 @@
   </div>
 
   <!-- update site within a collection in local database-->
-  <div data-role="page" id="page-update-site" data-theme="b">
+  <div data-role="page" id="page-save-site" data-theme="b">
    <div data-role="header">
     <div><a href="#page-site-list" id="btn_back_site_list"
             data-role="button" data-theme="a" data-inline="true" data-icon="carat-l"
@@ -268,34 +254,36 @@
     <div class="ui-btn-right" id="ui-btn-layer-menu-update"></div>
    </div>
    <div data-role="content">
-    <form  method="post" id="form_update_site">
-     <div id="div-site-update-name"></div>
-     <div class="clearPreviousDisplay" id="div_update_field_collection"> </div>
+     <form  method="post" id="form-site" class="form-site">
+       <div id="div-site"></div>
+     </form>
+
+     <form id='form-site-fields'>
+        <div class="clearPreviousDisplay" id="div_field_collection"></div>
+     </form>
+
      <div class="ui-grid-a">
-      <div class="ui-block-a">
-        <button type='button' id="btn_submitUpdateSite" data-i18n="global.update">Update</button>
-      </div>
-      <div class="ui-block-b">
 
-       <!-- <a data-role="button" href="#confirm_delete_site" data-rel="dialog"
-          data-i18n="global.delete">Delete</a> -->
+     <div>
+       <div class="ui-block-a">
+         <button type='button' id="btn_save_site" data-i18n="global.update">Update</button>
+       </div>
 
-      <button id="btn_delete-site" data-inset="true" type='button' data-i18n="global.delete">Delete
-      </button>
-
-      </div>
-
+       <div class="ui-block-b">
+         <button id="btn_delete-site" data-inset="true" type='button' data-i18n="global.delete">Delete</button>
+       </div>
+     </div>
 
      </div>
-     <p id="validation_update-site" class="required_data" tabindex="200"
+     <p id="validation-save-site" class="required_data validation-save-site" tabindex="200"
         data-i18n="validation.emailPsdConfirm"> Please enter all required fields.
      </p>
-    </form>
+
    </div>
   </div>
 
   <!--update site within a collection in server database-->
-  <div data-role="page" id="page-update-site-online" data-theme="b">
+  <!-- <div data-role="page" id="page-update-site-online" data-theme="b">
    <div data-role="header">
     <a href="#page-site-list" id="btn_back_site_list_online" data-role="button"
        data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left"
@@ -305,22 +293,18 @@
     <div class="ui-btn-right" id="ui-btn-layer-menu-update-online"></div>
    </div>
    <div data-role="content">
-    <form id="form_update_site_online">
-     <div id="div-site-update-name-online"> </div>
+     <form id="form-site-online" class='form-site'>
+       <div id="div-site-online"> </div>
+    </form>
 
-     <div class="clearPreviousDisplay loading" id="div_update_field_collection_online">
-     </div>
+     <div class="clearPreviousDisplay loading" id="div_update_field_collection_online"> </div>
 
-     <div>
-      <button type='button' id="btn_submitUpdateSite_online"  data-i18n="global.update">Update
-      </button>
-     </div>
-     <p id="validation_update-site-online" class="required_data" tabindex="200"
+     <div><button type='button' id="btn_save_site"  data-i18n="global.update">Update</button></div>
+     <p id="validation-save-site" class="required_data validation-save-site" tabindex="200"
         data-i18n="validation.emailPsdConfirm"> Please enter all required fields.
      </p>
-    </form>
    </div>
-  </div>
+  </div> -->
 
   <!--Camera Dialog-->
   <div data-role="dialog" id="cameraDialog"
