@@ -10,16 +10,15 @@ var FieldHelperView = {
   },
 
   display: function (templateURL, element, elementPrefixID, fieldData, update) {
-
+    console.log("templateURL--", templateURL);
     var content = App.Template.process(templateURL, fieldData);
     element.html(content);
-    FieldHelperView.displayCustomWidget(elementPrefixID, fieldData);
-    FieldHelperView.displayHierarchy(elementPrefixID, fieldData, update);
+    // FieldHelperView.displayCustomWidget(elementPrefixID, fieldData);
 
     element.enhanceWithin();
 
-    FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
-    FieldHelperView.displayUiDisabled(elementPrefixID, fieldData, update);
+    //FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
+    //FieldHelperView.displayUiDisabled(elementPrefixID, fieldData, update);
 
     DigitAllowance.prepareEventListenerOnKeyPress();
 
@@ -47,55 +46,43 @@ var FieldHelperView = {
     element.html(content);
     element.trigger("create");
   },
-  displayHierarchy: function (elementPrefixID, fieldData, update) {
-    $.each(fieldData.field_collections, function (_, properties) {
-      $.each(properties.fields, function (_, fieldsInside) {
-        if (fieldsInside.kind === "hierarchy") {
-          var data = fieldsInside.configHierarchy;
-          var id = fieldsInside.idfield;
-          Hierarchy.renderDisplay(elementPrefixID + id, data);
-          if (update)
-            Hierarchy.selectedNode(elementPrefixID + id, fieldsInside._selected);
-        }
-      });
-    });
-  },
-  displayCalculationField: function (elementPrefixID, fieldData) {
-    var fieldCal = [];
 
-    $.each(fieldData.field_collections, function (_, properties) {
-      $.each(properties.fields, function (_, fieldsInside) {
-        if (fieldsInside.kind === "calculation") {
-          if (fieldsInside.config.dependent_fields) {
-            $.each(fieldsInside.config.dependent_fields, function (i, dependent_field) {
-              var e = "#" + elementPrefixID + dependent_field.id;
-              $(e).addClass('calculation');
-            });
-          }
-          fieldCal.push(fieldsInside);
-        }
-      });
-      App.DataStore.set('fields_cal', JSON.stringify(fieldCal));
-    });
-  },
+  // displayCalculationField: function (elementPrefixID, fieldData) {
+  //   var fieldCal = [];
+  //
+  //   $.each(fieldData.field_collections, function (_, properties) {
+  //     $.each(properties.fields, function (_, fieldsInside) {
+  //       if (fieldsInside.kind === "calculation") {
+  //         if (fieldsInside.config.dependent_fields) {
+  //           $.each(fieldsInside.config.dependent_fields, function (i, dependent_field) {
+  //             var e = "#" + elementPrefixID + dependent_field.id;
+  //             $(e).addClass('calculation');
+  //           });
+  //         }
+  //         fieldCal.push(fieldsInside);
+  //       }
+  //     });
+  //     App.DataStore.set('fields_cal', JSON.stringify(fieldCal));
+  //   });
+  // },
 
-  displayUiDisabled: function (prefixId, fieldData, update) {
-    $.each(fieldData.field_collections, function (_, layer) {
-      $.each(layer.fields, function (_, field) {
-        if (update)
-          SkipLogic.disableUIEditSite(field, prefixId);
-        else
-          SkipLogic.disableUIAddSite(field);
-      });
-    });
-  },
-  displayCustomWidget: function(elementPrefixID, fieldData){
-    $.each(fieldData.field_collections, function (_, layer) {
-      $.each(layer.fields, function (_, field) {
-        if (field.custom_widgeted){
-            CustomWidget.setInputNodeId(elementPrefixID, field);
-        }
-      });
-    });
-  }
+  // displayUiDisabled: function (prefixId, fieldData, update) {
+  //   $.each(fieldData.field_collections, function (_, layer) {
+  //     $.each(layer.fields, function (_, field) {
+  //       if (update)
+  //         SkipLogic.disableUIEditSite(field, prefixId);
+  //       else
+  //         SkipLogic.disableUIAddSite(field);
+  //     });
+  //   });
+  // },
+  // displayCustomWidget: function(elementPrefixID, fieldData){
+  //   $.each(fieldData.field_collections, function (_, layer) {
+  //     $.each(layer.fields, function (_, field) {
+  //       if (field.custom_widgeted){
+  //           CustomWidget.setInputNodeId(elementPrefixID, field);
+  //       }
+  //     });
+  //   });
+  // }
 };

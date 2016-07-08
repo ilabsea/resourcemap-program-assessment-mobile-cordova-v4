@@ -100,16 +100,16 @@ $(document).on("mobileinit", function() {
     App.DataStore.clearConfig("configLocations");
   });
 
-  $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
-    FieldController.renderLocationField("#updatelolat", "#updatelolng", "update_");
+  // $(document).delegate('#updatelolat, #updatelolng', 'change', function () {
+  //   FieldController.renderLocationField("#updatelolat", "#updatelolng", "update_");
+  // });
+  //
+  $(document).delegate('#site_name', 'change', function () {
+    $('#form-site').valid()
   });
 
-  $(document).delegate('#updatelolat_online, #updatelolng_online', 'change', function () {
-    FieldController.renderLocationField("#updatelolat_online", "#updatelolng_online", "update_online_");
-  });
-
-  $(document).delegate('#lat, #lng', 'change', function () {
-    FieldController.renderLocationField("#lat", "#lng", "");
+  $(document).delegate('#site_lat, #site_lng', 'change', function () {
+    FieldController.renderLocationField("#site_lat", "#site_lng", "");
   });
 })
 
@@ -120,17 +120,29 @@ function validationOptions() {
     onkeyup: false,
     onfocusin: false,
     errorPlacement: function (error, element) {
-      // if (element.attr("type") === "tel" &&
-      //     (element.attr("min") || element.attr("max")))
+      //all element to be validated list here
+
+      // if (element.attr("type") === "tel" && (element.attr("min") || element.attr("max")))
       //   error.insertAfter($(element).parent());
       // addClassError(element);
-      //
+
       // var classElement = document.getElementsByClassName("image");
       // var classHierarchyElement = document.getElementsByClassName("tree");
       // if (classHierarchyElement.length != 0)
       //   h = validateHierarchySubmitHandler(classHierarchyElement, '#validation-save-site');
       // if (classElement.length != 0)
       //   bImage = validateImageSubmitHandler(classElement, '#validation-save-site');
+
+      if(element.hasClass('error')){
+        var id = element.attr('id');
+        var field = FieldController.findFieldById(id);
+        console.log("element: ", element);
+        console.log("field--: ", field);
+
+        if(field){
+          field.invalid = 'error'
+        }
+      }
       return false
     },
     invalidHandler: function () {
@@ -139,21 +151,21 @@ function validationOptions() {
       return false;
     },
     submitHandler: function () {
-      console.log('submit site online');
-      var classElement = document.getElementsByClassName("image");
-      var classHierarchyElement = document.getElementsByClassName("tree");
-      var h = true;
-      var bImage = true;
-
-      if (classHierarchyElement.length != 0)
-        h = validateHierarchySubmitHandler(classHierarchyElement, '#validation-save-site');
-      if (classElement.length != 0)
-        bImage = validateImageSubmitHandler(classElement, '#validation-save-site');
-
-      if (h && bImage) {
-        SiteController.add();
-        App.DataStore.clearPartlyAfterCreateSite();
-      }
+      // console.log('submit site online');
+      // var classElement = document.getElementsByClassName("image");
+      // var classHierarchyElement = document.getElementsByClassName("tree");
+      // var h = true;
+      // var bImage = true;
+      //
+      // if (classHierarchyElement.length != 0)
+      //   h = validateHierarchy(classHierarchyElement, '#validation-save-site');
+      // if (classElement.length != 0)
+      //   bImage = validateImages(classElement, '#validation-save-site');
+      //
+      // if (h && bImage) {
+      //   SiteController.add();
+      //   App.DataStore.clearPartlyAfterCreateSite();
+      // }
     }
   }
 }

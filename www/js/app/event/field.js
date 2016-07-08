@@ -3,13 +3,13 @@ $(document).on("mobileinit", function() {
   $(document).on("collapsibleexpand", "[data-role=collapsible]", function () {
     var $this = $(this);
     var position = $this.offset().top;
-    FieldController.prepareLayerFields($this)
+    FieldController.prepareLayerExpandFields($this)
     $.mobile.silentScroll(position);
   });
 
   $(document).on("collapsiblecollapse", "[data-role=collapsible]", function () {
     var $this = $(this);
-    FieldController.validateActiveLayer($this);
+    FieldController.validateLayerCollapseFields($this);
   });
 
   $(document).delegate('.calculation', 'keyup blur', function () {

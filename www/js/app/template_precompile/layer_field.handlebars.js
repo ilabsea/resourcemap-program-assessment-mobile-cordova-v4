@@ -31,7 +31,9 @@ templates['layer_field'] = template({"1":function(container,depth0,helpers,parti
     + alias4(((helper = (helper = helpers.required || (depth0 != null ? depth0.required : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"required","hash":{},"data":data}) : helper)))
     + "\n              data-is_enable_field_logic=\""
     + alias4(((helper = (helper = helpers.is_enable_field_logic || (depth0 != null ? depth0.is_enable_field_logic : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"is_enable_field_logic","hash":{},"data":data}) : helper)))
-    + "\"\n              class=\"validateSelectFields needsclick\"\n              "
+    + "\"\n              class=\"validateSelectFields needsclick "
+    + alias4(((helper = (helper = helpers.invalid || (depth0 != null ? depth0.invalid : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"invalid","hash":{},"data":data}) : helper)))
+    + "\"\n              "
     + alias4(((helper = (helper = helpers.editable || (depth0 != null ? depth0.editable : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"editable","hash":{},"data":data}) : helper)))
     + " >\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.multiple : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.program(9, data, 0),"data":data})) != null ? stack1 : "")
@@ -121,7 +123,9 @@ templates['layer_field'] = template({"1":function(container,depth0,helpers,parti
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + ", 'update_online')\"\n              id='property_"
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
-    + "_container'\n              class=\"photo\"\n              "
+    + "_container'\n              class=\"photo "
+    + alias4(((helper = (helper = helpers.invalid || (depth0 != null ? depth0.invalid : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"invalid","hash":{},"data":data}) : helper)))
+    + "\"\n              "
     + alias4(((helper = (helper = helpers.editable || (depth0 != null ? depth0.editable : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"editable","hash":{},"data":data}) : helper)))
     + " >\n          <img  class=\"image\"\n                src='"
     + alias4(((helper = (helper = helpers.__value || (depth0 != null ? depth0.__value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"__value","hash":{},"data":data}) : helper)))
@@ -147,7 +151,9 @@ templates['layer_field'] = template({"1":function(container,depth0,helpers,parti
     + alias4(((helper = (helper = helpers.idfield || (depth0 != null ? depth0.idfield : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idfield","hash":{},"data":data}) : helper)))
     + "\"\n              data-native-menu=\"false\"\n              "
     + alias4(((helper = (helper = helpers.required || (depth0 != null ? depth0.required : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"required","hash":{},"data":data}) : helper)))
-    + "\n              class=\"validateSelectFields needsclick\"\n              "
+    + "\n              class=\"validateSelectFields needsclick "
+    + alias4(((helper = (helper = helpers.invalid || (depth0 != null ? depth0.invalid : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"invalid","hash":{},"data":data}) : helper)))
+    + "\"\n              "
     + alias4(((helper = (helper = helpers.editable || (depth0 != null ? depth0.editable : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"editable","hash":{},"data":data}) : helper)))
     + " >\n              <option value=\"\">Option</option>\n              <option value=\"\" selected>(no value)</option>\n"
     + ((stack1 = helpers.blockHelperMissing.call(depth0,container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.locationOptions : stack1), depth0),{"name":"config.locationOptions","hash":{},"fn":container.program(25, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -183,6 +189,8 @@ templates['layer_field'] = template({"1":function(container,depth0,helpers,parti
     + alias4(((helper = (helper = helpers.__value || (depth0 != null ? depth0.__value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"__value","hash":{},"data":data}) : helper)))
     + "\"\n              name=\""
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
+    + "\"\n              class=\""
+    + alias4(((helper = (helper = helpers.invalid || (depth0 != null ? depth0.invalid : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"invalid","hash":{},"data":data}) : helper)))
     + "\"\n              "
     + alias4(((helper = (helper = helpers.required || (depth0 != null ? depth0.required : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"required","hash":{},"data":data}) : helper)))
     + "\n              "
@@ -213,7 +221,9 @@ templates['layer_field'] = template({"1":function(container,depth0,helpers,parti
     + alias4(((helper = (helper = helpers.__value || (depth0 != null ? depth0.__value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"__value","hash":{},"data":data}) : helper)))
     + "\"\n                name=\""
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
-    + "\"\n                class=\"date\"\n                "
+    + "\"\n                class=\"date "
+    + alias4(((helper = (helper = helpers.invalid || (depth0 != null ? depth0.invalid : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"invalid","hash":{},"data":data}) : helper)))
+    + "\"\n                "
     + alias4(((helper = (helper = helpers.required || (depth0 != null ? depth0.required : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"required","hash":{},"data":data}) : helper)))
     + "\n                "
     + alias4(((helper = (helper = helpers.editable || (depth0 != null ? depth0.editable : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"editable","hash":{},"data":data}) : helper)))
@@ -243,7 +253,9 @@ templates['layer_field'] = template({"1":function(container,depth0,helpers,parti
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.digits_precision : stack1), depth0))
     + "\"\n                data-previous-value =\""
     + alias4(((helper = (helper = helpers.__value || (depth0 != null ? depth0.__value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"__value","hash":{},"data":data}) : helper)))
-    + "\"\n                class=\"skipLogicNumber\"\n                "
+    + "\"\n                class=\"skipLogicNumber "
+    + alias4(((helper = (helper = helpers.invalid || (depth0 != null ? depth0.invalid : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"invalid","hash":{},"data":data}) : helper)))
+    + "\"\n                "
     + alias4(((helper = (helper = helpers.required || (depth0 != null ? depth0.required : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"required","hash":{},"data":data}) : helper)))
     + "\n                "
     + alias4(((helper = (helper = helpers.readonly || (depth0 != null ? depth0.readonly : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"readonly","hash":{},"data":data}) : helper)))

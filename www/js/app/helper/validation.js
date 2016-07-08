@@ -20,8 +20,7 @@ function validateImage(idElement) {
 }
 
 function showValidateMessage(id) {
-  $(id).show().delay(4000).fadeOut();
-  $(id).focus();
+  $(id).show().delay(3000).fadeOut();
 }
 
 function addClassError(element) {
@@ -29,41 +28,48 @@ function addClassError(element) {
   $parent.addClass("error");
 }
 
-function validateImageSubmitHandler(classElement, element) {
-  var b = true;
-  for (i = 0; i < classElement.length; i++) {
-    var idElement = classElement[i].id;
-    var $element = $("#" + idElement);
-    if ($element.attr('require') == "required") {
-      if ($element.attr('src') != '') {
-        $("#property_" + idElement + "_container").css({"border": "1px solid #f3f3f3"});
+function validateImages() {
+  var fields = []
+  var $images = $(".image")
+  $.each($images, function(_, image){
+    var $image = $(image)
+
+    if ($image.attr('require') == "required") {
+      if ($image.attr('src') != '') {
+        $image.parent().css({"border": "1px solid #f3f3f3"});
+        fields.push({id: image.id, error: false})
       }
       else {
-        b = false;
-        $("#property_" + idElement + "_container").css({"border": "1px solid red"});
-        showValidateMessage(element);
+        $image.parent().css({"border": "1px solid red"});
+        showValidateMessage("#validation-save-site");
+        fields.push({id: image.id, error: true})
       }
     }
-  }
-  return b;
+  })
+  return fields;
 }
 
-function validateHierarchySubmitHandler(classHierarchyElement, element) {
-  var h = true;
-  for (i = 0; i < classHierarchyElement.length; i++) {
-    var idElement = classHierarchyElement[i].id;
-    var $element = $("#" + idElement);
-    if ($element.attr('require') == "required") {
-      var node = $element.tree('getSelectedNode');
-      if (!node.id) {
-        $element.css({"border": "1px solid red"});
-        showValidateMessage(element);
-        h = false;
+function validateHierarchy() {
+  var fields = []
+  var $trees = $(".tree");
+  for(var i=0; i< $trees.length; i++){
+    var tree = $trees[0];
+    var $tree = $(tree);
+    if ($tree.attr('require') == "required") {
+      var node = $tree.tree('getSelectedNode');
+      console.log("selected node: ", node);
+
+      if (node && node.id) {
+        console.log("selected " + node.id);
+        $tree.css({"border": "1px solid #999999"});
+        fields.push({id: tree.id, error: false})
       }
       else {
-        $element.css({"border": "1px solid #999999"});
+        $tree.css({"border": "1px solid red"});
+        showValidateMessage("#validation-save-site");
+        fields.push({id: tree.id, error: true})
       }
     }
   }
-  return h;
+  return fields;
 }

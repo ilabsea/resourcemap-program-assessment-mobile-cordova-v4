@@ -50,7 +50,7 @@ module.exports = function(grunt) {
        "www/js/app/model/collection_model.js",
        "www/js/app/model/collection_offline.js",
        "www/js/app/model/field_model.js",
-       "www/js/app/model/hierarchy_model.js",
+       "www/js/app/model/hierarchy.js",
        "www/js/app/model/site_model.js",
        "www/js/app/model/site_list.js",
        "www/js/app/model/view_binding.js",
@@ -89,7 +89,7 @@ module.exports = function(grunt) {
     "www/css/libs/jquery.mobile-1.4.2.css",
     "www/css/libs/jqm1.4.2.css",
     "www/css/libs/jquery.mobile.icons.min.css",
-    "www/css/libs/jqtree.css.css",
+    "www/css/libs/jqtree.css",
     "www/css/override.css"
   ]
 

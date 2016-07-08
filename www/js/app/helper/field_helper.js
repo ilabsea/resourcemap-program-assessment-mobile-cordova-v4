@@ -8,6 +8,7 @@ FieldHelper = {
       userId: UserSession.getUser().id,
       name_wrapper: isOnline ?  layerData.name : layerData.name_wrapper,
       id_wrapper: isOnline ? layerData.id : layerData.id_wrapper,
+      valid: true,
       fields: []
     }
 
@@ -44,10 +45,13 @@ FieldHelper = {
       custom_widgeted: field.custom_widgeted,
       readonly_custom_widgeted: field.readonly_custom_widgeted,
       is_mandatory: field.is_mandatory,
+      is_display_field: field.is_display_field,
       invisible: '',
       slider: '',
       ctrue: '',
-      readonly: ''
+      readonly: '',
+      disableState: false,
+      __value: ''
     };
     if(field.custom_widgeted )
       fieldUI.widgetType = 'custom_widget_tokenizer';
@@ -56,7 +60,6 @@ FieldHelper = {
     else
       fieldUI.widgetType = fieldUI.kind;
 
-    fieldUI.configHierarchy = field.kind === "hierarchy" ? Hierarchy.generateField(field.config, "", fieldUI.idfield) : ""
     fieldUI.required =  fieldUI.is_mandatory ? "required" : ""
 
     if (fieldUI.kind === "select_one" && fieldUI.is_enable_field_logic) {
@@ -74,6 +77,7 @@ FieldHelper = {
 
     if (fieldUI.kind === "calculation") {
       fieldUI.readonly = 'readonly';
+
       if (!fieldUI.is_display_field)
         fieldUI.invisible = "invisble-div";
     }
@@ -202,7 +206,6 @@ FieldHelper = {
         break;
       case "hierarchy":
         field.__value = value;
-        field.configHierarchy = Hierarchy.generateField(field.config, field.__value,field.idfield);
         field._selected = Hierarchy._selected;
         break;
       case "date":

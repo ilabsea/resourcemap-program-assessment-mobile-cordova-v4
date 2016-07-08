@@ -13,7 +13,7 @@
               data-mini="{{ctrue}}"
               {{required}}
               data-is_enable_field_logic="{{is_enable_field_logic}}"
-              class="validateSelectFields needsclick"
+              class="validateSelectFields needsclick {{invalid}}"
               {{editable}} >
         {{#if multiple}}
           <option>Options</option>
@@ -56,7 +56,7 @@
       <span style='display:inline; margin-top:10px'>{{{name}}}</span>
         <div  onclick="CameraModel.openCameraDialog({{idfield}}, 'update_online')"
               id='property_{{idfield}}_container'
-              class="photo"
+              class="photo {{invalid}}"
               {{editable}} >
           <img  class="image"
                 src='{{__value}}'
@@ -74,7 +74,7 @@
               name="{{idfield}}"
               data-native-menu="false"
               {{required}}
-              class="validateSelectFields needsclick"
+              class="validateSelectFields needsclick {{invalid}}"
               {{editable}} >
               <option value="">Option</option>
               <option value="" selected>(no value)</option>
@@ -91,6 +91,7 @@
               id="{{idfield}}"
               value ="{{__value}}"
               name="{{name}}"
+              class="{{invalid}}"
               {{required}}
               {{readonly}}
               {{editable}} />
@@ -103,7 +104,7 @@
                 id="{{idfield}}"
                 value ="{{__value}}"
                 name="{{name}}"
-                class="date"
+                class="date {{invalid}}"
                 {{required}}
                 {{editable}} />
       {{else}}
@@ -118,7 +119,7 @@
                 data-allows_decimals= {{config.allows_decimals}}
                 data-digits_precision="{{config.digits_precision}}"
                 data-previous-value ="{{__value}}"
-                class="skipLogicNumber"
+                class="skipLogicNumber {{invalid}}"
                 {{required}}
                 {{readonly}}
                 {{editable}} />
