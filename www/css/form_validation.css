@@ -1,27 +1,26 @@
 label.error {
-    color: red;
-    font-size: 12px;
-    font-weight: normal;
+  color: red;
+  font-size: 12px;
+  font-weight: normal;
 }
 
-input.error {
-    border: 1px solid red !important;
+input.error, .ui-select.error, .tree.error, .photo.error {
+  border: 1px solid red !important;
 }
 
 .ui-select.error {
-    border: 1px solid red !important;
-    border-radius: 16px;
+  border-radius: 16px;
 }
 
 .ui-select.valid {
-    border: 1px solid #f3f3f3 !important;
-    border-radius: 16px;
+  border: 1px solid #f3f3f3 !important;
+  border-radius: 16px;
 }
 
 @media screen and (orientation: portrait){
-    label.error { margin-left: 0; display: block; }
+  label.error { margin-left: 0; display: block; }
 }
 
 @media screen and (orientation: landscape){
-    label.error { display: inline-block; margin-left: 0; }
+  label.error { display: inline-block; margin-left: 0; }
 }

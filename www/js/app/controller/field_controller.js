@@ -35,37 +35,39 @@ FieldController = {
     return null;
   },
 
-  renderLayer: function(layerData, $layerNodeContent){
-
-    var content = App.Template.process(this.templateName, {fields: layerData.fields});
+  renderLayer: function(layer, $layerNodeContent){
+    var content = App.Template.process(this.templateName, {fields: layer.fields});
     $layerNodeContent.html(content);
     $layerNodeContent.enhanceWithin();
 
-    $.each(layerData.fields, function(_, field){
-      if(field.kind == 'hierarchy'){
-        console.log("value ", field.__value);
+    $.each(layer.fields, function(_, field){
+      if(field.kind == 'hierarchy')
         Hierarchy.create(field.config, field.__value, field.idfield);
-      }
 
       if (field.custom_widgeted)
         CustomWidget.setInputNodeId(field.idfield, field);
 
-      if (field.kind === "calculation" && field.config.dependent_fields) {
-        $.each(field.config.dependent_fields, function (i, dependent_field) {
-          $("#" + dependent_field.id).addClass('calculation');
-        });
+      if (field.kind == "calculation" && field.config.dependent_fields) {
+        console.log("calculation: ", field);
+        console.log("config: ", field.config.dependent_fields);
+        $.each(field.config.dependent_fields, function (_, dependentField) {
+          var $dependentField = $("#" + dependentField.id)
+          $dependentField.addClass('calculation');
+          $dependentField.attr('data-parent-id', field.idfield )
+        })
       }
       // SkipLogic.disableUIEditSite
       DigitAllowance.prepareEventListenerOnKeyPress();
+
       // Readonly field
       var site = FieldController.site
-      // if (!MyMembershipController.canEdit(site)) {
-      //   $(".tree").off('click'); //field hierarchy
-      //   var select = $('.validateSelectFields').parent('.ui-select'); //field select
-      //   select.click(function () {
-      //     return false;
-      //   });
-      // }
+      if (!MyMembershipController.canEdit(site)) {
+        $(".tree").off('click'); //field hierarchy
+        var select = $('.validateSelectFields').parent('.ui-select');
+        select.click(function () {
+          return false;
+        });
+      }
 
     })
   },
@@ -74,93 +76,52 @@ FieldController = {
     this.templateName = "layer_field";
     var cloneLayers = this.layers.slice(0)
     var options = {field_collections: cloneLayers}
-
     FieldHelperView.display(templateName, $element, prefixIdElement, options, this.isOnline);
   },
 
-  setLayerStatus: function(layer, valid) {
-    layer.invalid = !valid
-    if(valid == true){
-      $.each(layer.fields, function(_, field) {
-        field.invalid = ''
-      })
-    }
-  },
-
-  validateLayerCollapseFields: function($layerNode){
+  layerCollapseFields: function($layerNode){
     if(this.activeLayer){
-      return this.validateLayerUI($layerNode)
+      this.storeOldLayerFields(this.activeLayer)
+      var layer = this.findLayerById(this.activeLayer.attr('data-id'))
+      this.validateLayer(layer)
     }
-    return true
-  },
-
-  validateLayerUI: function($layerNode){
-    var layer = this.findLayerById($layerNode.attr('data-id'))
-    var valid = $.mobile.activePage.find("#form-site-fields").valid()
-
-    console.log("form valid: ", valid);
-    var fieldUIs = validateImages();
-    fieldUIs = fieldUIs.concat(validateHierarchy());
-
-    for(var i=0; i<fieldUIs.length; i++){
-      var fieldUI = fieldUIs[i];
-      var field = FieldController.findFieldById(fieldUI.id)
-      if(field) {
-        console.log("update field validation to status", field);
-        field.invalid = fieldUI.error
-      }
-      else{
-        console.log("not found: ", fieldUI);
-      }
-      if(fieldUI.error)
-        valid = false
-    }
-    layer.valid = valid;
-    valid ? $layerNode.removeClass("error") : $layerNode.addClass("error")
-    console.log("valid ", valid);
-    return valid;
   },
 
   validateLayer: function(layer){
-    if(!layer.valid)
-      return false;
-
+    layer.valid = true
     for(var i=0; i<layer.fields.length; i++){
       var validField = FieldController.validateField(layer.fields[i]);
-      layer.fields[i].invalid = !validField
       if(!validField)
         layer.valid = false
     }
     var $layerNode = $("#collapsable_" + layer.id_wrapper)
-    console.log("setting layer node: ", $layerNode);
     layer.valid ? $layerNode.removeClass("error") : $layerNode.addClass("error")
-    console.log('validating layer:', layer.valid);
     return layer.valid;
   },
 
   validateField: function(field){
-
     if(field.required=="" || field.disableState){
-      console.log("not required or disabled", true);
+      field.invalid = '';
       return true
     }
 
-    if(field.invalid || !field.__value){
-      console.log("field invalid or not value --- ", false);
+    if(!field.__value){
+      field.invalid = 'error'
       return false;
     }
 
 
     if(field.kind == 'numeric' && field.config && field.config.range) {
       if(field.__value >= field.config.range.minimum && field.__value <=field.config.range.maximum ){
-        console.log("field number with range match " + field.__value + " --- ", false );
+        field.invalid = ''
         return true;
       }
       else {
-        console.log("range not matched --- ", false);
+        field.invalid = 'error'
         return false;
       }
     }
+    field.invalid = ''
     return true;
   },
 
@@ -174,7 +135,6 @@ FieldController = {
   },
 
   storeOldLayerFields: function($layerNode){
-    console.log("store layer");
     var layer = this.findLayerById($layerNode.attr('data-id'));
 
     $.each(layer.fields, function(i, field) {
@@ -185,13 +145,22 @@ FieldController = {
     })
   },
 
-  prepareLayerExpandFields: function($layerNode) {
+  layerExpandFields: function($layerNode) {
     if(this.activeLayer) {
       var layerChanged = $layerNode.attr('data-id') != this.activeLayer.attr('data-id')
       if(layerChanged) {
-        this.storeOldLayerFields(this.activeLayer);
         this.removeLayerContent(this.activeLayer);
         this.renderLayerNode($layerNode)
+      }
+      else{
+        var layer = this.findLayerById($layerNode.attr('data-id'))
+        $.each(layer.fields, function(_, field){
+          var $fieldUI = $("#" + field.idfield)
+          if(field.kind == "photo")
+            field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
+          else
+            field.invalid ?  $fieldUI.addClass("error") : $fieldUI.removeClass("error")
+        })
       }
     }
     else
@@ -203,7 +172,6 @@ FieldController = {
   },
 
   renderLayerNode: function($layerNode) {
-    console.log("render new layer node");
     var layerId = $layerNode.attr('data-id')
     var $layerNodeBody = $layerNode.find(".ui-collapsible-content")
     var layerData = FieldController.findLayerById(layerId);
@@ -251,11 +219,17 @@ FieldController = {
     App.isOnline() ? this.renderNewSiteFormOnline() : this.renderNewSiteFormOffline();
   },
 
+  errorFetchingField: function(error) {
+    if (!App.isOnline())
+      FieldController.renderUpdateOffline();
+  },
+
   renderNewSiteFormOnline: function () {
     this.isOnline = true
     var self = this;
+    var cId = CollectionController.id;
 
-    FieldModel.fetch(function (layers) {
+    FieldModel.fetch(cId, function (layers) {
       $.each(layers, function(_, layer){
         var layerFields = FieldHelper.buildLayerFields(layer, {fromServer: true});
         self.layers.push(layerFields);
@@ -273,15 +247,10 @@ FieldController = {
     }, FieldController.errorFetchingField);
   },
 
-  errorFetchingField: function(error) {
-    if (!App.isOnline())
-      FieldController.renderByCollectionIdOffline();
-  },
-
   renderNewSiteFormOffline: function () {
     this.isOnline = false;
 
-    var cId = App.DataStore.get("cId");
+    var cId = CollectionController.id
     var self = this;
     self.layers = [];
 
@@ -302,21 +271,14 @@ FieldController = {
     });
   },
 
-  renderUpdate: function(site, offline) {
-    this.reset()
-    this.isOnline = !offline
-    this.isOnline ? this.renderUpdateOnline(site) : this.renderUpdateOffline(site)
-  },
-
   renderUpdateOffline: function (site) {
+    this.reset();
     this.isOnline = false
     this.site = site;
     this.templateName =  "layer_field_update_offline";
     var self = this;
 
-
-    var cId = site.collection_id;
-    App.DataStore.set('cId', site.collection_id)
+    var cId = CollectionController.id;
     self.layers = []
 
     FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
@@ -332,15 +294,16 @@ FieldController = {
   },
 
   renderUpdateOnline: function (site) {
+    this.reset();
     this.isOnline = true;
     this.site = site;
     this.templateName = "layer_field_update_online";
 
     var self = this;
     self.layers = [];
-    App.DataStore.set("cId", site.collection_id);
+    var cId = CollectionController.id;
 
-    FieldModel.fetch(function (layerOnlines) {
+    FieldModel.fetch(cId, function (layerOnlines) {
       $.each(layerOnlines, function (_, layerOnline) {
         var newLayer = FieldController.buildLayerFields(layerOnline);
         self.layers.push(newLayer);
@@ -387,7 +350,7 @@ FieldController = {
 
 
   synForCurrentCollection: function (newFields) {
-    var cId = App.DataStore.get("cId");
+    var cId = CollectionController.id;
     FieldOffline.fetchByCollectionId(cId, function (fields) {
       FieldOffline.remove(fields);
       FieldOffline.add(newFields);
@@ -426,7 +389,7 @@ FieldController = {
 
   updateFieldPhotoValue: function (field, propertiesFile, fromServer) {
     var idfield = field.idfield;
-    var sId = App.DataStore.get("sId");
+    var sId = SiteController.id;
 
     if (fromServer) {
       var filePath = App.DataStore.get(sId + "_" + idfield);

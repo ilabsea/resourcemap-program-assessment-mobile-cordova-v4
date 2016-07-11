@@ -3,8 +3,7 @@ SiteModel = {
   sitePage: 0,
   create: function (attr, successCallback, errorCallback) {
     var cId = attr.collection_id;
-    var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token="
-        + App.Session.getAuthToken();
+    var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + App.Session.getAuthToken();
     $.ajax({
       url: url,
       type: "POST",
@@ -30,9 +29,9 @@ SiteModel = {
       }
     });
   },
-  fetchOne: function (successCallback) {
-    var cId = localStorage.getItem("cId");
-    var sId = localStorage.getItem("sId");
+
+  fetchOne: function (cId, sId, successCallback) {
+
     $.ajax({
       url: App.END_POINT + "/v1/collections/" + cId + "/sites/" + sId + ".json",
       data: {"auth_token": App.Session.getAuthToken(),
@@ -49,9 +48,7 @@ SiteModel = {
       }
     });
   },
-  update: function (data, successCallback, errorCallback) {
-    var cId = localStorage.getItem("cId");
-    var sId = localStorage.getItem("sId");
+  update: function (cId, sId, data, successCallback, errorCallback) {
     $.ajax({
       data: data,
       type: "post",

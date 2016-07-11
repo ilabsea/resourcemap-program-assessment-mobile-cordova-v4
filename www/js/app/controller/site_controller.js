@@ -1,55 +1,56 @@
 SiteController = {
   safe: false,
+  isOnline: true,
+  id: null,
+
   setEntryDate: function () {
     var start_entry_date = new Date().toISOString();
     $("#start_entry_date").val(start_entry_date);
   },
+
   display: function (element, siteData) {
     var content = App.Template.process("site_list", siteData);
     element.append(content);
     element.listview("refresh");
   },
+
   displayUpdateLatLng: function (templateURL, element, siteUpdateData) {
-    console.log("template: ", templateURL);
-    console.log("site: ", siteUpdateData);
-    console.log("element: ", element);
     var content = App.Template.process(templateURL, siteUpdateData);
     element.html(content);
     element.trigger("create");
   },
-  add: function () {
-    var data = SiteController.buildDataForSite();
-    if (App.isOnline())
-      SiteController.addOnline(data, SiteController.resetForm);
+
+  validate: function(){
+    var $site = $("#site_name");
+    if($site.val().trim() == ""){
+      $site.addClass("error");
+      return false;
+    }
     else
-      SiteController.addOffline(data, SiteController.resetForm);
+      $site.removeClass("error")
+
+    var valid = FieldController.validateLayers()
+    return valid;
+
   },
-  addOnline: function (data, callback) {
-    ViewBinding.setBusy(true);
-    SiteModel.create(data, callback, function () {
-      ViewBinding.setAlert("Please send data again.");
-    });
-  },
-  addOffline: function (data, callback) {
-    SiteOffline.add(data);
-    callback()
-  },
-  getAllByCollectionId: function () {
-    SiteController.getByCollectionIdOffline();
+
+  render: function () {
+    SiteController.renderOffline();
     if (App.isOnline()) {
-      SiteController.getByCollectionIdOnline();
+      SiteController.renderOnline();
       MyMembershipController.getMembershipByCollectionId();
     }
   },
-  getByCollectionIdOffline: function () {
-    var cId = App.DataStore.get("cId");
+
+  renderOffline: function () {
+    var collectionId = CollectionController.id;
     var uId = UserSession.getUser().id;
     var offset = SiteOffline.sitePage * SiteOffline.limit;
-    SiteOffline.fetchByCollectionIdUserId(cId, uId, offset, function (sites) {
-      var siteData = [];
+    SiteOffline.fetchByCollectionIdUserId(collectionId, uId, offset, function (sites) {
+      var result = [];
       sites.forEach(function (site) {
         var fullDate = dateToParam(site.created_at);
-        siteData.push({
+        result.push({
           id: site.id,
           name: site.name,
           collectionName: "offline",
@@ -57,7 +58,8 @@ SiteController = {
           link: "#page-save-site"
         });
       });
-      SiteOffline.countByCollectionIdUserId(cId, uId, function (count) {
+
+      SiteOffline.countByCollectionIdUserId(collectionId, uId, function (count) {
         var siteLength = sites.length + offset;
         var hasMoreSites = false;
         if (siteLength < count) {
@@ -66,16 +68,17 @@ SiteController = {
         var sitesRender = {
           hasMoreSites: hasMoreSites,
           state: "offline",
-          siteList: siteData };
+          siteList: result };
         SiteController.display($('#site-list'), sitesRender);
       });
     });
   },
-  getByCollectionIdOnline: function () {
-    var cId = App.DataStore.get("cId");
+
+  renderOnline: function () {
+    var collectionId = CollectionController.id;
     var offset = SiteModel.sitePage * SiteModel.limit;
-    SiteModel.fetch(cId, offset, function (response) {
-      var siteOnlineData = [];
+    SiteModel.fetch(collectionId, offset, function (response) {
+      var result = [];
       $.each(response["sites"], function (_, data) {
         var date = data.created_at;
         date = new Date(date);
@@ -86,7 +89,7 @@ SiteController = {
           date: date,
           link: "#page-save-site"
         };
-        siteOnlineData.push(item);
+        result.push(item);
       });
       var hasMoreSites = false;
       var siteLength = response["sites"].length + offset;
@@ -96,10 +99,11 @@ SiteController = {
       var siteData = {
         hasMoreSites: hasMoreSites,
         state: "online",
-        siteList: siteOnlineData};
+        siteList: result };
       SiteController.display($('#site-list-online'), siteData);
     });
   },
+
   getByUser: function () {
     var userId = UserSession.getUser().id;
     var offset = SiteOffline.sitePage * SiteOffline.limit;
@@ -131,19 +135,32 @@ SiteController = {
       });
     });
   },
-  deleteBySiteId: function (sId) {
-    SiteOffline.deleteBySiteId(sId, function(){
+
+  deleteBySiteId: function () {
+    SiteOffline.deleteBySiteId(this.id, function(){
       SiteController.redirectSafe("#page-site-list")
     });
   },
-  updateBySiteIdOffline: function () {
-    var sId = App.DataStore.get("sId");
-    SiteOffline.fetchBySiteId(sId, function (site) {
+
+  save: function () {
+    if(this.id)
+      FieldController.isOnline ? this.updateOnline : this.updateOffline ;
+    else
+      FieldController.isOnline ? this.addOnline : this.addOffline;
+  },
+
+  addOffline: function (data) {
+    SiteOffline.add(data);
+    SiteController.resetForm();
+  },
+
+  updateOffline: function () {
+    SiteOffline.fetchBySiteId(this.id, function (site) {
       site.name = $("#updatesitename").val();
       site.lat = $("#updatelolat").val();
       site.lng = $("#updatelolng").val();
-      var cId = App.DataStore.get("cId");
-      FieldOffline.fetchByCollectionId(cId, function (fields) {
+      var collectionId = CollectionController.id;
+      FieldOffline.fetchByCollectionId(collectionId, function (fields) {
         var propertiesFile = {properties: {}, files: {}};
         fields.forEach(function (field) {
           propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_", false);
@@ -152,21 +169,33 @@ SiteController = {
         site.files = propertiesFile.files;
         persistence.flush();
 
-        App.DataStore.clearPartlyAfterCreateSite();
         ViewBinding.setBusy(false);
         SiteController.redirectSafe("#page-site-list");
       });
     });
   },
-  updateBySiteIdOnline: function () {
+
+  addOnline: function (data, callback) {
+    ViewBinding.setBusy(true);
+    SiteModel.create(data, function(){
+       SiteController.resetForm();
+    }, function () {
+      ViewBinding.setAlert("Please send data again.");
+    });
+  },
+
+  updateOnline: function () {
     var data;
-    FieldModel.fetch(function (fields) {
+    var cId = CollectionController.id;
+    var sId = SiteController.id;
+
+    FieldModel.fetch(cId, function (fields) {
       var propertiesFile = {properties: {}, files: {}};
       $.each(fields, function (_, field) {
         propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_online_", true);
       });
 
-      data = {
+      var data = {
         "_method": "put",
         "auth_token": App.Session.getAuthToken(),
         "rm_wfp_version": App.VERSION,
@@ -178,13 +207,12 @@ SiteController = {
           "files": propertiesFile.filesupdateFieldValueBySiteId
         }
       };
-      SiteModel.update(data, function () {
-        var sId = App.DataStore.get("sId");
+
+      SiteModel.update(cId, sId, data, function () {
         $.each(data.site.properties, function (key, idField) {
-          PhotoList.remove(sId, key);
+          PhotoList.remove(SiteController.id, key);
         });
 
-        App.DataStore.clearPartlyAfterCreateSite();
         ViewBinding.setBusy(false);
         SiteController.redirectSafe("#page-site-list")
       }, function (err) {
@@ -203,25 +231,32 @@ SiteController = {
       lat: '',
       lng: ''
     }
+    $("#btn_save_site").text(i18n.translate('global.save_site'));
+    $("#btn_delete_site").hide();
+
     SiteController.displayUpdateLatLng("site_form", $('#div-site'), siteUpdateData);
     FieldController.renderNewSiteForm()
   },
 
   renderUpdateSiteFormOffline: function () {
-    var sId = App.DataStore.get("sId");
-    SiteOffline.fetchBySiteId(sId, function (site) {
+    SiteOffline.fetchBySiteId(this.id, function (site) {
       var siteUpdateData = {
         name: site.name,
         lat: site.lat,
         lng: site.lng
       };
       SiteController.displayUpdateLatLng("site_form", $('#div-site'), siteUpdateData);
-      FieldController.renderUpdate(site, true);
+      FieldController.renderUpdateOffline(site);
     });
+    $("#btn_save_site").text(i18n.translate('global.update'));
+    $("#btn_delete_site").show();
   },
 
   renderUpdateSiteFormOnline: function () {
-    SiteModel.fetchOne(function (site) {
+    var cId = CollectionController.id;
+    var sId = SiteController.id;
+
+    SiteModel.fetchOne(cId, sId, function (site) {
       MyMembershipObj.setSite(site);
       var can_edit = MyMembershipController.canEdit(site);
       if (!can_edit) {
@@ -237,8 +272,11 @@ SiteController = {
       };
 
       SiteController.displayUpdateLatLng("site_form", $('#div-site'), siteOnlineUpdateData);
-      FieldController.renderUpdate(site, false);
+      FieldController.renderUpdateOnline(site);
     });
+
+    $("#btn_save_site").text(i18n.translate('global.update'))
+    $("#btn_delete_site").hide();
   },
 
   submitAllToServerByCollectionIdUserId: function () {
@@ -279,13 +317,13 @@ SiteController = {
     });
   },
   processToServerByCollectionIdUserId: function () {
-    var cId = App.DataStore.get("cId");
+    var collectionId = CollectionController.id;
     var uId = UserSession.getUser().id;
     var offset = 0;
     SiteOffline.limit = 7;
-    SiteOffline.countByCollectionIdUserId(cId, uId, function(nbSites){
+    SiteOffline.countByCollectionIdUserId(collectionId, uId, function(nbSites){
       SiteOffline.nbSites = nbSites;
-      SiteOffline.fetchByCollectionIdUserId(cId, uId, offset, function(sites){
+      SiteOffline.fetchByCollectionIdUserId(collectionId, uId, offset, function(sites){
         if (sites.length > 0){
           SiteController.processingToServer(sites, true);
         }else{
@@ -342,15 +380,17 @@ SiteController = {
 
   buildDataForSite: function () {
     var site = FieldController.site
-    site['collection_id'] = App.DataStore.get("cId");
-    site['name'] = $('#sitename').val();
-    site['lat'] = $('#lat').val();
-    site['lng'] = $('#lng').val();
+
+    site['collection_id'] = CollectionController.id;
+    site["collection_name"] = CollectionController.name;
+
+    site['name'] = $('#site_name').val();
+    site['lat'] = $('#site_lat').val();
+    site['lng'] = $('#site_lng').val();
 
     site["start_entry_date"] = $("#start_entry_date").val();
     site["end_entry_date"] = new Date().toISOString();
 
-    FieldController.setFieldsValuesFromUI()
     return site;
   },
 

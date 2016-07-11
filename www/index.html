@@ -244,12 +244,16 @@
   <!-- update site within a collection in local database-->
   <div data-role="page" id="page-save-site" data-theme="b">
    <div data-role="header">
-    <div><a href="#page-site-list" id="btn_back_site_list"
+    <div>
+      <a href="#page-site-list" id="btn_back_site_list"
             data-role="button" data-theme="a" data-inline="true" data-icon="carat-l"
-            class="ui-btn-left" data-i18n="global.back">Back</a></div>
-    <div><a href="#page-site-list-all" id="btn_back_site_list_all"
+            class="ui-btn-left" data-i18n="global.back">Back</a>
+      </div>
+    <div>
+      <a href="#page-site-list-all" id="btn_back_site_list_all"
             data-role="button" data-theme="a" data-inline="true" data-icon="carat-l"
-            class="ui-btn-left" data-i18n="global.back">Back</a></div>
+            class="ui-btn-left" data-i18n="global.back">Back</a>
+    </div>
     <h1 class="title"> </h1>
     <div class="ui-btn-right" id="ui-btn-layer-menu-update"></div>
    </div>
@@ -262,17 +266,14 @@
         <div class="clearPreviousDisplay" id="div_field_collection"></div>
      </form>
 
-     <div class="ui-grid-a">
+     <div>
+       <button type='button' id="btn_save_site" data-i18n="global.update">Save</button>
+     </div>
 
      <div>
-       <div class="ui-block-a">
-         <button type='button' id="btn_save_site" data-i18n="global.update">Update</button>
-       </div>
-
-       <div class="ui-block-b">
-         <button id="btn_delete-site" data-inset="true" type='button' data-i18n="global.delete">Delete</button>
-       </div>
+       <button type='button' id="btn_delete_site" style='display:none;' data-i18n="global.delete">Delete</button>
      </div>
+
 
      </div>
      <p id="validation-save-site" class="required_data validation-save-site" tabindex="200"

@@ -4,7 +4,7 @@ FieldHelper = {
     var layerData = isOnline ? layer : layer._data;
 
     var newLayer = {
-      cId: localStorage.getItem("cId"),
+      cId: CollectionController.id,
       userId: UserSession.getUser().id,
       name_wrapper: isOnline ?  layerData.name : layerData.name_wrapper,
       id_wrapper: isOnline ? layerData.id : layerData.id_wrapper,
@@ -51,7 +51,8 @@ FieldHelper = {
       ctrue: '',
       readonly: '',
       disableState: false,
-      __value: ''
+      __value: '',
+      invalid: ''
     };
     if(field.custom_widgeted )
       fieldUI.widgetType = 'custom_widget_tokenizer';

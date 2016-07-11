@@ -11,8 +11,9 @@ var MyMembershipController = {
 
     return can_edit;
   },
+
   getMembershipByCollectionId: function () {
-    var cId = localStorage.getItem("cId");
+    var cId = CollectionController.id;
     CollectionModel.fetchMyMembership(cId, function (membership) {
       MyMembershipObj.setMembership(membership);
     });

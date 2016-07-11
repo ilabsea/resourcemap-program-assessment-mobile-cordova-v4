@@ -14,12 +14,12 @@ $(document).on("mobileinit", function() {
     //db should be ready before page rendering
     App.checkNodeTargetSuccess(event.target, function(a) {
       var li = a.parentNode;
-      var cId = li.getAttribute("data-id");
-      var cName = li.getAttribute("data-name");
+      var id = li.getAttribute("data-id");
+      var name = li.getAttribute("data-name");
 
-      App.DataStore.set("cId", cId);
-      App.DataStore.set("collectionName", cName);
-      CollectionController.displayName({name: cName});
+      CollectionController.id = id;
+      CollectionController.name = name;
+      CollectionController.displayName({name: name});
     })
   });
 

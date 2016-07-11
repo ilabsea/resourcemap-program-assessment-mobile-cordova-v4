@@ -1,6 +1,5 @@
 FieldModel = {
-  fetch: function(successCallback, errorCallBack) {
-    var cId = localStorage.getItem("cId");
+  fetch: function(cId, successCallback, errorCallBack) {
     $.ajax({
       url: App.URL_FIELD + cId + "/fields?auth_token=" + App.Session.getAuthToken(),
       type: "get",
@@ -33,6 +32,7 @@ FieldOffline = {
     });
     persistence.flush();
   },
+
   fetchByCollectionId: function(cId, callback) {
     Field.all().filter('collection_id', '=', cId).list(callback);
   }

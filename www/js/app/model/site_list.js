@@ -1,7 +1,7 @@
 SiteList = {
   menu: function () {
     App.emptyHTML();
-    var cId = App.DataStore.get("cId");
+    var cId = CollectionController.id;
     var value = $('#site-list-menu').val();
     $("#btn_sendToServer").hide();
 

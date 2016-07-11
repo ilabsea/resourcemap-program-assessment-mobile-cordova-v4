@@ -6,7 +6,7 @@ App.DataStore = {
   get: function (key) {
     return localStorage.getItem(key);
   },
-  
+
   setObject: function(key, value){
     var serialized = JSON.stringify(value)
     this.set(key, serialized)
@@ -20,21 +20,9 @@ App.DataStore = {
   remove: function (key) {
     localStorage.removeItem(key);
   },
+
   clearAll: function () {
     localStorage.clear();
-  },
-  clearPartlyAfterCreateSite: function () {
-    var sId = App.DataStore.get("sId");
-    for (var key in localStorage) {
-      if (sId)
-        if (key.substring(0, sId.length) == sId)
-          localStorage.removeItem(key);
-    }
-  },
-  clearConfig: function (prefix) {
-    for (var key in localStorage) {
-      if (key.substr(0, key.indexOf('_')) === prefix)
-        localStorage.removeItem(key);
-    }
   }
+  
 };

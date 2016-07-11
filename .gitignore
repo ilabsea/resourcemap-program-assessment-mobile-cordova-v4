@@ -11,6 +11,7 @@
 /www/js/core/setting.js
 /www/js/dist/*
 /www/css/dist/*
+/www/js/app/template_precompile/*
 
 *precompile.js
 

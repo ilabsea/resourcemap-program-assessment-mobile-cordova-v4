@@ -23,11 +23,6 @@ function showValidateMessage(id) {
   $(id).show().delay(3000).fadeOut();
 }
 
-function addClassError(element) {
-  var $parent = $(element).closest('.ui-select');
-  $parent.addClass("error");
-}
-
 function validateImages() {
   var fields = []
   var $images = $(".image")
