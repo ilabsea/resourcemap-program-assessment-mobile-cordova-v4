@@ -126,19 +126,25 @@ FieldController = {
   },
 
   validateLayers: function(){
-    this.storeActiveLayer()
+    this.closeLayer();
     var valid = true
     for(var i=0; i < this.layers.length; i++) {
       var layerValid = FieldController.validateLayer(this.layers[i]);
       if(layerValid == false)
         valid = false
     }
+    return valid;
   },
 
-  storeActiveLayer: function() {
+  closeLayer: function() {
     if(this.activeLayer)
-      this.storeOldLayerFields(this.activeLayer)
+      this.activeLayer.collapsible( "collapse" )
   },
+
+  // storeActiveLayer: function() {
+  //   if(this.activeLayer)
+  //     this.storeOldLayerFields(this.activeLayer)
+  // },
 
   storeOldLayerFields: function($layerNode){
     var layer = this.findLayerById($layerNode.attr('data-id'));
@@ -349,8 +355,8 @@ FieldController = {
         return '';
     }
 
-    if ($field[0].getAttribute("type") == 'date')
-      return convertDateWidgetToParam($field.val());
+    if ($field.attr("type") == 'date')
+      return $field.val();
 
     var value = $field.hasClass("tree") ? $field.tree('getSelectedNode').id : $field.val()
     return  value == null ? "" : value;
@@ -390,8 +396,11 @@ FieldController = {
           properties[field.idfield] = fileName ;
           files[fileName] = FieldController.site.files[fileName];
        }
+       else if(field.kind == 'date' && field.__value){
+         properties[field.idfield] = convertDateWidgetToParam(field.__value)
+       }
        else
-          properties[field.idfield] = field.__value
+         properties[field.idfield] = field.__value
       })
     })
    return {properties: properties, files: files}

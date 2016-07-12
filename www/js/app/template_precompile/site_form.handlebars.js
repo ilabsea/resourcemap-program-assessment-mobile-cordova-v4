@@ -3,7 +3,7 @@
 templates['site_form'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression, alias4="function";
 
-  return "<label for=\"site_name\"> "
+  return "<label for=\"site_name\" data-i18n='global.name'> "
     + alias3((helpers.t || (depth0 && depth0.t) || alias2).call(alias1,"global.name",{"name":"t","hash":{},"data":data}))
     + "</label>\n<input type=\"text\"\n       name=\"site_name\"\n       id=\"site_name\"\n       class=\"required\"\n       value='"
     + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))

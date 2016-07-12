@@ -96,8 +96,8 @@ $(document).on("mobileinit", function() {
     });
   });
 
-  $(document).delegate('#site_name, #site_lat, #site_lng', 'change', function () {
-    $(this).val() == "" ? $this.addClass('error') : $this.removeClass("error");
+  $(document).delegate('#site_name, #site_lat, #site_lng', 'change', function() {
+    SiteController.validate()
   });
 
   $(document).delegate('#site_lat, #site_lng', 'change', function () {

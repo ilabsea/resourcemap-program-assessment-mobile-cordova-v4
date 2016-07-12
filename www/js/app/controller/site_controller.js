@@ -142,11 +142,27 @@ SiteController = {
     });
   },
 
+  validate: function(){
+    var items = ['site_name', 'site_lat', 'site_lng']
+    var valid = true;
+    $.each(items, function(_, item){
+      var $elm = $("#" + item)
+      var value = $.trim($elm.val())
+      if(value == "")
+        valid = false
+
+      value == "" ? $elm.addClass('error') : $elm.removeClass("error")
+    })
+    return valid;
+  },
+
   save: function () {
     var $btn = $("#btn_save_site");
     var label = $btn.text();
     $btn.text(i18n.t('global.validating'));
-    if(!FieldController.validateLayers()) {
+    var valid = this.validate() && FieldController.validateLayers()
+
+    if(!valid) {
       $btn.text(label)
       return false;
     }
@@ -175,12 +191,14 @@ SiteController = {
   },
 
   addOffline: function () {
+    console.log("add offline");
     var data = this.params();
     SiteOffline.add();
-    SiteController.resetForm();
+    SiteController.cleanAndRedirectBack();
   },
 
   updateOffline: function () {
+    console.log("update offline");
     SiteOffline.fetchBySiteId(this.id, function (site) {
       site.name = $("#updatesitename").val();
       site.lat = $("#updatelolat").val();
@@ -199,49 +217,42 @@ SiteController = {
   },
 
   addOnline: function () {
+    console.log("add online");
     ViewBinding.setBusy(true)
     var data = this.params();
-    data['collection_id'] = CollectionController.id;
+    delete data['collection_name']
 
     SiteModel.create(data, function(){
-       SiteController.resetForm();
+      ViewBinding.setBusy(false)
+       SiteController.cleanAndRedirectBack();
     }, function () {
+      ViewBinding.setBusy(false)
       ViewBinding.setAlert("Please send data again.");
     });
   },
 
   updateOnline: function () {
-    var data;
+    console.log("update online");
     var cId = CollectionController.id;
     var sId = SiteController.id;
-    var params = FieldController.params();
+    var data = this.params();
+    delete data['collection_name']
 
-    var data = {
+    data = {
       "_method": "put",
       "auth_token": App.Session.getAuthToken(),
       "rm_wfp_version": App.VERSION,
-      "site": {
-        "name": $("#site_name").val(),
-        "lat": $("#site_lat").val(),
-        "lng": $("#site_lng").val(),
-        "properties": params.properties,
-        "files": params.files
-      }
+      "site": data
     }
-
-
+    console.log("data: ", data);
     SiteModel.update(cId, sId, data, function () {
-      $.each(data.site.properties, function (key, idField) {
-        PhotoList.remove(SiteController.id, key);
-      });
-
       ViewBinding.setBusy(false);
-      SiteController.redirectSafe("#page-site-list")
-    }, function (err) {
+      SiteController.cleanAndRedirectBack()
+    },
+    function (err) {
       if (err["responseJSON"]) {
         var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], false);
-        SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'),
-            error);
+        SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'),error);
       }
     });
   },
@@ -269,7 +280,7 @@ SiteController = {
       SiteController.displayUpdateLatLng("site_form", $('#div-site'), siteUpdateData);
       FieldController.renderUpdateOffline(site);
     });
-    $("#btn_save_site").text(i18n.t('global.update'));
+    $("#btn_save_site").text(i18n.translate('global.update'));
     $("#btn_delete_site").show();
   },
 
@@ -407,9 +418,8 @@ SiteController = {
     $("#site_lng").val(lng);
   },
 
-  resetForm: function () {
+  cleanAndRedirectBack: function () {
     PhotoList.clear();
-    $('#form_create_site')[0].reset();
     SiteController.redirectSafe("#page-site-list");
   },
 

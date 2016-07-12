@@ -8,19 +8,19 @@ function dateToParam(date) {
   return  mm + "/" + dd + "/" + yyyy;
 }
 
-function convertDateWidgetToParam(format) {
+function convertDateWidgetToParam(date) {
   var d;
-  if (format.indexOf("-") !== -1) { //native HTML5 date
-    var items = format.split("-");
+  if (date.indexOf("-") !== -1) { //native HTML5 date
+    var items = date.split("-");
     d = items[2] + "/" + items[1] + "/" + items[0];
     return d;
   }
-  else if (format.indexOf("/") !== -1) { //native HTML5 date
-    var items = format.split("/");
+  else if (date.indexOf("/") !== -1) { //native HTML5 date
+    var items = date.split("/");
     d = items[2] + "-" + items[1] + "-" + items[0];
     return d;
   }
   else {
-    return format;//unsported
+    return date;//unsported
   }
 }
