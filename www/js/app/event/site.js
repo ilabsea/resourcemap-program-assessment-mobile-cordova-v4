@@ -101,7 +101,9 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('#site_lat, #site_lng', 'change', function () {
-    FieldController.renderLocationField("#site_lat", "#site_lng", "");
+    var lat = $("#site_lat").val();
+    var lng = $("#site_lng").val();
+    FieldController.updateLocationField(lat, lng);
   });
 })
 

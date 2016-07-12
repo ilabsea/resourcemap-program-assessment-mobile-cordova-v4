@@ -36,6 +36,6 @@ PhotoList = {
     var photo = this.find(fieldId)
     if(photo)
       return photo.value()
-    return {}
+    return false
   }
 };

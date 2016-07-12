@@ -126,12 +126,18 @@ FieldController = {
   },
 
   validateLayers: function(){
+    this.storeActiveLayer()
     var valid = true
     for(var i=0; i < this.layers.length; i++) {
       var layerValid = FieldController.validateLayer(this.layers[i]);
       if(layerValid == false)
         valid = false
     }
+  },
+
+  storeActiveLayer: function() {
+    if(this.activeLayer)
+      this.storeOldLayerFields(this.activeLayer)
   },
 
   storeOldLayerFields: function($layerNode){
@@ -325,29 +331,30 @@ FieldController = {
   getFieldValueFromUI: function(fieldId) {
     var $field = $('#' + fieldId);
     if($field.length == 0)
-      return null;
+      return '';
 
     if ($field[0].tagName.toLowerCase() == 'img') {
       if ($("#wrapper_" + fieldId).attr("class") != 'ui-disabled skip-logic-over-img') {
-        var photoValue = PhotoList.value(fieldId)
-        return photoValue["data"];
+        var photoValue = PhotoList.value(fieldId);
+
+        if(photoValue){
+          var filename = photoValue.filename;
+          FieldController.site.files[filename] = photoValue.data
+          return filename;
+        }
+        else
+          return '';
       }
+      else
+        return '';
     }
 
     if ($field[0].getAttribute("type") == 'date')
       return convertDateWidgetToParam($field.val());
 
-    var klass = $field[0].getAttribute("class");
-    if (klass == "tree" || klass == "tree unhighlighted" || klass == "tree calculation") {
-      var nodeId = $field.tree('getSelectedNode').id
-      return nodeId === null ? "" : nodeId;
-    }
-    else {
-      var value = $field.val();
-      return  value == null ? "" : value;
-    }
+    var value = $field.hasClass("tree") ? $field.tree('getSelectedNode').id : $field.val()
+    return  value == null ? "" : value;
   },
-
 
   synForCurrentCollection: function (newFields) {
     var cId = CollectionController.id;
@@ -357,81 +364,7 @@ FieldController = {
     });
   },
 
-  updateFieldValueBySiteId: function (propertiesFile, layer, idHTMLForUpdate, fromServer) {
-    var pf = propertiesFile;
-    var layerFields = FieldHelper.buildLayerFields(layer,fromServer);
-
-    $.each(layerFields.fields, function (_, field) {
-      if (field.isPhoto)
-        FieldController.updateFieldPhotoValue(field, propertiesFile, fromServer);
-
-      else if (field.widgetType === "date")
-        FieldController.updateFieldDateValue(idHTMLForUpdate, field, propertiesFile);
-
-      else if (field.widgetType === "hierarchy") {
-        var nodeId = idHTMLForUpdate + field["idfield"];
-        var node = $(nodeId).tree('getSelectedNode');
-        var data = node.id;
-        if (data == null)
-          data = "";
-        propertiesFile.properties[field["idfield"]] = data;
-      }
-      else {
-        var nodeId = idHTMLForUpdate + field["idfield"];
-        var value = $(nodeId).val();
-        if (value == null)
-          value = "";
-        propertiesFile.properties[field["idfield"]] = value;
-      }
-    });
-    return pf;
-  },
-
-  updateFieldPhotoValue: function (field, propertiesFile, fromServer) {
-    var idfield = field.idfield;
-    var sId = SiteController.id;
-
-    if (fromServer) {
-      var filePath = App.DataStore.get(sId + "_" + idfield);
-      if (filePath == null)
-        propertiesFile.properties[idfield] = "";
-      else
-        propertiesFile.properties[idfield] = filePath;
-    }
-    else {
-      var fileData = App.DataStore.get(sId + "_" + idfield + "_fileData");
-      var fileNameLocal = App.DataStore.get(sId + "_" + idfield + "_fileName");
-      if (fileData == null || fileNameLocal == null)
-        propertiesFile.properties[idfield] = "";
-      else {
-        propertiesFile.properties[idfield] = fileNameLocal;
-        propertiesFile.files[fileNameLocal] = fileData;
-      }
-    }
-
-    for (var i = 0; i < PhotoList.getPhotos().length; i++) {
-      if (PhotoList.getPhotos()[i].id == idfield && PhotoList.getPhotos()[i].sId == sId) {
-        var fileName = PhotoList.getPhotos()[i].name();
-        propertiesFile.properties[idfield] = fileName;
-        propertiesFile.files[fileName] = PhotoList.getPhotos()[i].data;
-        break;
-      }
-    }
-  },
-
-  updateFieldDateValue: function (idHTMLForUpdate, field, propertiesFile) {
-    var nodeId = idHTMLForUpdate + field["idfield"];
-    var value = $(nodeId).val();
-    if (value != "") {
-      value = convertDateWidgetToParam(value);
-    }
-    propertiesFile.properties[field["idfield"]] = value;
-  },
-
-  renderLocationField: function (textLat, textLng, prefixId) {
-    var lat = $(textLat).val();
-    var lng = $(textLng).val();
-
+  updateLocationField: function (lat, lng) {
     $.each(this.layers, function(_, layer){
       $.each(layer.fields, function(_, field){
         if(field.kind == "location") {
@@ -439,11 +372,29 @@ FieldController = {
           var locationOptions = Location.getLocations(lat, lng, config);
           if (locationOptions)
             config.locationOptions = locationOptions;
-          var $element = $("#" + prefixId + field.idfield);
-          FieldHelperView.displayLocationField("field_location", $element, {config: config});
+
+          var $fieldUI = $("#" + field.idfield);
+          FieldHelperView.displayLocationField("field_location", $fieldUI, {config: config});
         }
       })
     })
+  },
 
-  }
+  params: function(){
+    var properties = {};
+    var files = {}
+    $.each(this.layers, function(_, layer) {
+      $.each(layer.fields, function(_, field) {
+        if(field.kind == 'photo' && field.__value) {
+          var fileName = field.__value
+          properties[field.idfield] = fileName ;
+          files[fileName] = FieldController.site.files[fileName];
+       }
+       else
+          properties[field.idfield] = field.__value
+      })
+    })
+   return {properties: properties, files: files}
+  },
+
 };

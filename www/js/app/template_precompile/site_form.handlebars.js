@@ -9,7 +9,7 @@ templates['site_form'] = template({"compiler":[7,">= 4.0.0"],"main":function(con
     + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
     + "'\n       required=\"required\"\n       "
     + alias3(((helper = (helper = helpers.editable || (depth0 != null ? depth0.editable : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"editable","hash":{},"data":data}) : helper)))
-    + "\n       /><br>\n<div>\n <a href=\"#page-map\">\n  <img src=\"img/map.png\"\n       alt=\"map icon\"\n       width=\"50\"\n       height=\"50\"\n       id=\"update_icon_map\"/></a></div>\n<label for=\"site_lat\"> "
+    + "\n       /><br>\n<div>\n <a href=\"#page-map\">\n  <img src=\"img/map.png\"\n       alt=\"map icon\"\n       width=\"50\"\n       height=\"50\"\n       id=\"icon_map\"/></a></div>\n<label for=\"site_lat\"> "
     + alias3((helpers.t || (depth0 && depth0.t) || alias2).call(alias1,"global.lat",{"name":"t","hash":{},"data":data}))
     + " </label>\n<input type=\"number\"\n       name=\"site_lat\"\n       id=\"site_lat\"\n       class=\"required\"\n       value='"
     + alias3(((helper = (helper = helpers.lat || (depth0 != null ? depth0.lat : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"lat","hash":{},"data":data}) : helper)))

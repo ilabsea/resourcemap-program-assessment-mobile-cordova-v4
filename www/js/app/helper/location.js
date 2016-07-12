@@ -34,15 +34,16 @@ var Location = {
 
     return resultLocations;
   },
+
   getCurrentLocation: function () {
     navigator.geolocation.getCurrentPosition(function (pos) {
       var lat = pos.coords.latitude;
       var lng = pos.coords.longitude;
-      $("#lat").val(lat);
-      $("#lng").val(lng);
+      $("#site_lat").val(lat);
+      $("#site_lng").val(lng);
       $("#mark_lat").val(lat);
       $("#mark_lng").val(lng);
-      FieldController.renderLocationField("#lat", "#lng", "");
+      FieldController.upateLocationField(lat, lng);
     }, function () {
       alert("Location cannot be found.");
     }, {

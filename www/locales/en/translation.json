@@ -19,6 +19,7 @@
         "viewOnline": "View online",
         "menu": "Menu",
         "save_site": "Save Site",
+        "saving": 'Saving...',
         "ajax-loader": "Please wait ...",
         "no_internet_connection": "No internet connection.",
         "please_resend_data": "Please resend the data.",

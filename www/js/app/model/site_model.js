@@ -1,13 +1,13 @@
 SiteModel = {
   limit: 15,
   sitePage: 0,
-  create: function (attr, successCallback, errorCallback) {
-    var cId = attr.collection_id;
+  create: function (data, successCallback, errorCallback) {
+    var cId = data.collection_id;
     var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + App.Session.getAuthToken();
     $.ajax({
       url: url,
       type: "POST",
-      data: {site: attr, rm_wfp_version: App.VERSION},
+      data: {site: data, rm_wfp_version: App.VERSION},
       datatype: 'json',
       success: successCallback,
       error: errorCallback
