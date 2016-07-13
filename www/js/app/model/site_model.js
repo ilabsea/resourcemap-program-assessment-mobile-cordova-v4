@@ -4,6 +4,7 @@ SiteModel = {
   create: function (data, successCallback, errorCallback) {
     var cId = data.collection_id;
     var url = App.END_POINT + "/v1/collections/" + cId + "/sites?auth_token=" + App.Session.getAuthToken();
+
     $.ajax({
       url: url,
       type: "POST",

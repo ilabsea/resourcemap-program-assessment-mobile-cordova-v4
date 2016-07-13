@@ -5,6 +5,8 @@ templates['site_list'] = template({"1":function(container,depth0,helpers,partial
 
   return "<li data-id='"
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "' data-collection-id='"
+    + alias4(((helper = (helper = helpers.collection_id || (depth0 != null ? depth0.collection_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"collection_id","hash":{},"data":data}) : helper)))
     + "' data-name='"
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
     + "'>\n <a href='"

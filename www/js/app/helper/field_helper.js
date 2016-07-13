@@ -211,7 +211,7 @@ FieldHelper = {
         break;
       case "date":
         if (value) {
-          var date = convertDateWidgetToParam(value.split("T")[0]);
+          var date = prepareForClient(value.split("T")[0]);
           field.__value = date;
         }
         break;

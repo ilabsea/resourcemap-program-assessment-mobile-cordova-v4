@@ -8,19 +8,26 @@ function dateToParam(date) {
   return  mm + "/" + dd + "/" + yyyy;
 }
 
-function convertDateWidgetToParam(date) {
-  var d;
-  if (date.indexOf("-") !== -1) { //native HTML5 date
-    var items = date.split("-");
-    d = items[2] + "/" + items[1] + "/" + items[0];
-    return d;
-  }
-  else if (date.indexOf("/") !== -1) { //native HTML5 date
+function prepareForClient(date) {
+  if (date.indexOf("/") !== -1) {
     var items = date.split("/");
     d = items[2] + "-" + items[1] + "-" + items[0];
+    console.log("convert from date: " + date + " to " + d + ' for client side');
     return d;
   }
   else {
-    return date;//unsported
+    return date;
+  }
+}
+
+function prepareForServer(date){
+  if (date.indexOf("-") !== -1) {
+    var items = date.split("-");
+    d = items[2] + "/" + items[1] + "/" + items[0];
+    console.log("convert from date: " + date + " to " + d + ' for server side');
+    return d;
+  }
+  else {
+    return date;
   }
 }

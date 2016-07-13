@@ -7,7 +7,7 @@ SiteOffline = {
     var siteParams = data;
     siteParams["created_at"] = today;
     siteParams["user_id"] = UserSession.getUser().id;
-    siteParams["device_id"] = uuid.v1();
+
     var site = new Site(siteParams);
     persistence.add(site);
     persistence.flush();
@@ -21,6 +21,7 @@ SiteOffline = {
         .list(null, callback);
   },
   fetchBySiteId: function (sId, callback) {
+    console.log("---sid", sId);
     Site.all().filter('id', "=", sId).one(callback);
   },
   fetchByUserId: function (userId, offset, callback) {

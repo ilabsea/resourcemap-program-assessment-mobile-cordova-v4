@@ -26,7 +26,6 @@ CollectionController = {
   },
 
   renderCollectionListByUser: function(collections) {
-
     var collectionIds = $.map(collections, function(collection){
       return CollectionController.collectionId(collection)
     })

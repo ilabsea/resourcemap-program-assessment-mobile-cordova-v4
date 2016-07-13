@@ -128,7 +128,7 @@
 
    <div data-role="content" id="sitelistview">
 
-    <ul id="offlinesite-list"
+    <ul id="site-list-offline-all"
         data-role="listview"
         data-inset="true"
         data-theme="c"
@@ -171,7 +171,7 @@
              data-icon="plus" data-i18n="global.add">Add new site</a>
     </div>
 
-    <ul class="clearPreviousDisplay" data-role='listview' id="site-list"
+    <ul class="clearPreviousDisplay" data-role='listview' id="site-list-offline"
         data-inset="true" data-theme="c">
     </ul>
 
@@ -187,29 +187,7 @@
    </div>
   </div>
 
-  <!--page-create-site-->
-  <!-- <div data-role="page" id="page-create-site" data-theme="b">
-   <div data-role="header">
-    <a data-role="button" data-theme="a" href="#page-site-list"
-       id='btn_back_site_in_create' data-icon="carat-l" class="ui-btn-left"
-       data-i18n="global.back">Back
-    </a>
-    <h2 class="title"></h2>
-    <div class="ui-btn-right" id="ui-btn-layer-menu"></div>
-   </div>
-   <div data-role="content">
-     <form method="post" id="form-site-create" class='form-site' enctype="multipart/form-data">
-       <div id="div-site-create"></div>
-     </form>
 
-     <div class="clearPreviousDisplay loading" id="div_field_collection"></div>
-     <button type="button" id="btn_save_site" data-inset="true" data-i18n="global.save_site">Save Site</button>
-     <p id="validate_save_site" class="required_data"  tabindex="200"
-        data-i18n="validation.emailPsdConfirm"> Please enter all required fields.
-     </p>
-
-   </div>
-  </div> -->
 
   <!-- view map -->
   <div data-role="page" id="page-map" data-theme="b" >
@@ -263,7 +241,10 @@
      </div>
 
      <div>
-       <button type='button' id="btn_delete_site" style='display:none;' data-i18n="global.delete">Delete</button>
+       <a href="delete-site.html" data-role='button' style='display:none;'
+         data-i18n="global.delete" id='btn_delete_site'  data-rel="dialog" data-transition="pop">
+         Delete
+       </a>
      </div>
 
 
@@ -275,29 +256,6 @@
    </div>
   </div>
 
-  <!--update site within a collection in server database-->
-  <!-- <div data-role="page" id="page-update-site-online" data-theme="b">
-   <div data-role="header">
-    <a href="#page-site-list" id="btn_back_site_list_online" data-role="button"
-       data-theme="a" data-inline="true" data-icon="carat-l" class="ui-btn-left"
-       data-i18n="global.back">Back
-    </a>
-    <h1 class="title"> </h1>
-    <div class="ui-btn-right" id="ui-btn-layer-menu-update-online"></div>
-   </div>
-   <div data-role="content">
-     <form id="form-site-online" class='form-site'>
-       <div id="div-site-online"> </div>
-    </form>
-
-     <div class="clearPreviousDisplay loading" id="div_update_field_collection_online"> </div>
-
-     <div><button type='button' id="btn_save_site"  data-i18n="global.update">Update</button></div>
-     <p id="validation-save-site" class="required_data validation-save-site" tabindex="200"
-        data-i18n="validation.emailPsdConfirm"> Please enter all required fields.
-     </p>
-   </div>
-  </div> -->
 
   <!--Camera Dialog-->
   <div data-role="dialog" id="cameraDialog"

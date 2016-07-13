@@ -391,16 +391,21 @@ FieldController = {
     var files = {}
     $.each(this.layers, function(_, layer) {
       $.each(layer.fields, function(_, field) {
-        if(field.kind == 'photo' && field.__value) {
-          var fileName = field.__value
-          properties[field.idfield] = fileName ;
-          files[fileName] = FieldController.site.files[fileName];
-       }
-       else if(field.kind == 'date' && field.__value){
-         properties[field.idfield] = convertDateWidgetToParam(field.__value)
-       }
-       else
-         properties[field.idfield] = field.__value
+        if(field.__value) {
+          if(field.kind == 'photo') {
+            var fileName = field.__value
+            properties[field.idfield] = fileName ;
+            files[fileName] = FieldController.site.files[fileName];
+          }
+          else if(field.kind == 'date'){
+            console.log("field: " + field.idfield + " is a date " + " with value: " + field.__value);
+            properties[field.idfield] = prepareForServer(field.__value)
+          }
+          else
+            properties[field.idfield] = field.__value
+        }
+        else
+          properties[field.idfield] = field.__value
       })
     })
    return {properties: properties, files: files}

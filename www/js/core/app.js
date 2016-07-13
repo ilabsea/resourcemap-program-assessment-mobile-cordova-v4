@@ -137,14 +137,11 @@ App = {
       fields: "JSON"
     });
 
-
     CacheData = persistence.define('cache_datas', {
       key: "TEXT",
       value: "TEXT",
       user: "TEXT"
     });
-
-
 
   }
 };

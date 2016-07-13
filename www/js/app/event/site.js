@@ -19,12 +19,14 @@ $(document).on("mobileinit", function() {
     App.checkNodeTargetSuccess(event.target, function(a) {
       var li = a.parentNode;
       var sId = li.getAttribute('data-id');
+      var cId = li.getAttribute('data-collection-id');
       if (sId == "load-more-site-online") {
         li.remove()
         SiteModel.sitePage++;
         SiteController.getByCollectionIdOnline();
       }
       else {
+        CollectionController.id = cId;
         SiteController.id = sId;
         requireReload(SiteController.renderUpdateSiteFormOnline);
       }
@@ -40,48 +42,46 @@ $(document).on("mobileinit", function() {
       $("#btn_back_site_list_all").hide();
       $("#btn_back_site_list").show();
     }
-
-    App.validateDbConnection(function() {
-      SiteController.setEntryDate();
-    });
   });
 
-  $(document).delegate('#page-site-list #site-list', 'click', function (event) {
+  $(document).delegate('#page-site-list #site-list-offline', 'click', function (event) {
     SiteController.type=''
-
     App.checkNodeTargetSuccess(event.target, function(a) {
       var li = a.parentNode;
       var sId = li.getAttribute('data-id');
+      var cId = li.getAttribute('data-collection-id')
       if (sId == "load-more-site-offline") {
         li.remove()
         SiteOffline.sitePage++;
-        SiteController.getByCollectionIdOffline();
+        SiteController.renderOffline();
       }
       else {
+        CollectionController.id = cId;
         SiteController.id = sId;
         requireReload(SiteController.renderUpdateSiteFormOffline);
       }
     })
   });
 
-  $(document).delegate('#btn_delete_site', 'click', function () {
-    if(confirm("Are you sure you want to delete the site?")) {
-      SiteController.deleteBySiteId();
-    }
+  $(document).delegate('#btn-confirm-delete-site', 'click', function () {
+    this.href = SiteController.redirectedPage();
+    SiteController.deleteOffline();
   });
 
   $(document).delegate('#page-site-list-all', 'click', function (event) {
     SiteController.type = 'all'
-
+    console.log("target: ", this);
     App.checkNodeTargetSuccess(event.target, function(a) {
       var li = a.parentNode;
       var sId = li.getAttribute('data-id');
+      var cId = li.getAttribute('data-collection-id');
       if (sId == "load-more-site-all") {
         li.remove()
         SiteOffline.sitePage++;
-        SiteController.getByUser();
+        SiteController.renderOfflineSites();
       }
       else {
+        CollectionController.id = cId;
         SiteController.id = sId;
         requireReload(SiteController.renderUpdateSiteFormOffline);
       }
@@ -92,7 +92,7 @@ $(document).on("mobileinit", function() {
     App.emptyHTML();
     SiteOffline.sitePage = 0;
     App.validateDbConnection(function() {
-      SiteController.getByUser();
+      SiteController.renderOfflineSites();
     });
   });
 
