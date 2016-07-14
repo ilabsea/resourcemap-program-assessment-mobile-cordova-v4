@@ -22,7 +22,7 @@ persistence.store.websql.config = function(persistence, dbname, description, siz
 
   /**
    * Create a transaction
-   * 
+   *
    * @param callback,
    *            the callback function to be invoked when the transaction
    *            starts, taking the transaction object as argument
@@ -62,7 +62,11 @@ persistence.store.websql.config = function(persistence, dbname, description, siz
   persistence.db.html5.connect = function(dbname, description, size) {
     var that = {};
     var dbType = window.sqlitePlugin ? window.sqlitePlugin : window;
-    var conn = dbType.openDatabase(dbname, '1.0', description, size);
+    if(window.sqlitePlugin){
+      var conn = window.sqlitePlugin.openDatabase({ name: dbname, location: 'default' });
+    }else{
+      var conn = window.openDatabase(dbname, '1.0', description, size);
+    }
 
     that.transaction = function(fn) {
       return conn.transaction(function(sqlt) {

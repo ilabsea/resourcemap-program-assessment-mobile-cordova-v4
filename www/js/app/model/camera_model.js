@@ -24,5 +24,15 @@ CameraModel = {
     $.mobile.activePage.addClass("ui-disabled");
     $("#cameraDialog").show();
     $("#cameraDialog").css("z-index", 200000);
-  }
+  },
+  setOptions: function(srcType) {
+    var options = {
+        quality: 50,
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: srcType,
+        encodingType: Camera.EncodingType.JPEG,
+        saveToPhotoAlbum: true
+    }
+    return options;
+  },
 };

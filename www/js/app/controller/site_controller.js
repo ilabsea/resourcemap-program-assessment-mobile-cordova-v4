@@ -17,10 +17,10 @@ SiteController = {
   },
   add: function () {
     var data = SiteController.buildDataForSite();
-    if (App.isOnline())
-      SiteController.addOnline(data, SiteController.resetForm);
-    else
-      SiteController.addOffline(data);
+    // if (App.isOnline())
+    //   SiteController.addOnline(data, SiteController.resetForm);
+    // else
+    //   SiteController.addOffline(data);
   },
   addOnline: function (data, callback) {
     ViewBinding.setBusy(true);
@@ -49,7 +49,7 @@ SiteController = {
         var fullDate = dateToParam(site.created_at());
         siteData.push({
           id: site.id,
-          name: site.name(),
+          name: site.name,
           collectionName: "offline",
           date: fullDate,
           link: "#page-update-site"
@@ -265,7 +265,7 @@ SiteController = {
           SiteController.processingToServer(sites, true);
         }
       });
-    }); 
+    });
   },
   processingToServer: function (sites, isAllByCollectionId) {
     var site = sites[0];
@@ -348,17 +348,14 @@ SiteController = {
         var each_field = storedFieldId[i];
         var $field = $('#' + each_field);
         if ($field.length > 0 && $field[0].tagName.toLowerCase() == 'img') {
+          var fileSrc = $field[0].src;
+          console.log('img : ', fileSrc);
           if ($("#wrapper_" + each_field).attr("class") != 'ui-disabled skip-logic-over-img') {
-            var lPhotoList = PhotoList.getPhotos().length;
-            for (var p = 0; p < lPhotoList; p++) {
-              var sId = localStorage.getItem("sId");
-              if (PhotoList.getPhotos()[p].id == each_field && PhotoList.getPhotos()[p].sId == sId) {
-                var fileName = PhotoList.getPhotos()[p].name();
-                properties[each_field] = fileName;
-                files[fileName] = PhotoList.getPhotos()[p].data;
-                break;
-              }
-            }
+            var fileName = fileSrc.substr(fileSrc.lastIndexOf('/')+1);
+            console.log('fileName : ', fileName);
+            properties[each_field] = fileName;
+            files[fileName] = SiteCamera.toDataURI(fileSrc, $field[0]);
+            break;
           }
         }
         else if ($field.length > 0 && $field[0].getAttribute("type") === 'date') {
@@ -393,6 +390,7 @@ SiteController = {
       properties: properties,
       files: files
     };
+    console.log('data : ', data);
     return data;
   },
   resetForm: function () {

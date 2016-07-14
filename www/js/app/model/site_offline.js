@@ -4,9 +4,8 @@ SiteOffline = {
   nbSites: 0,
   add: function (data) {
     var collectionName = App.DataStore.get("collectionName");
-    var today = new Date();
     var siteParams = data;
-    siteParams["created_at"] = today;
+    siteParams["created_at"] = new Date();
     siteParams["collection_name"] = collectionName;
     siteParams["user_id"] = SessionController.currentUser().id;
     siteParams["device_id"] = uuid.v1();
@@ -20,6 +19,7 @@ SiteOffline = {
         .filter('user_id', '=', userId)
         .limit(SiteOffline.limit)
         .skip(offset)
+        // .selectJSON(["name", "id", "created_at"], callback)
         .list(null, callback);
   },
   fetchBySiteId: function (sId, callback) {

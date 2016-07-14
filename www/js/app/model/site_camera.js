@@ -13,23 +13,46 @@ SiteCamera = {
     }
     SiteCamera.id = idField;
     SiteCamera.updated = updated;
-    var cameraOptions = {
-      quality: 50,
-      destinationType: Camera.DestinationType.DATA_URL,
-      sourceType: type,
-      encodingType: Camera.EncodingType.JPEG
-    };
+    var cameraOptions = CameraModel.setOptions(type);
+    console.log(' Camera.DestinationType.FILE_URI : ',  Camera.DestinationType.FILE_URI);
     navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, cameraOptions);
   },
-  onSuccess: function(imageData) {
-    var sId = localStorage.getItem("sId");
-    var imageId = SiteCamera.imageId();
-    var image = document.getElementById(imageId);
-    var photo = new Photo(sId, SiteCamera.id, imageData, SiteCamera.format);
-    image.src = SiteCamera.dataWithMimeType(imageData);
+  onSuccess: function(imageURI) {
+    SiteCamera.displayImage(imageURI);
+  },
+  displayImage: function(imageURI){
 
-    PhotoList.add(photo);
-    validateImage(imageId);
+    SiteCamera.getFileEntry(imageURI);
+    // validateImage(imageId);
+  },
+  getFileEntry: function(imgUri) {
+    window.resolveLocalFileSystemURL(imgUri, function success(fileEntry) {
+      console.log('fileEntry : ', fileEntry);
+      fileEntry.file(function (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            console.log("Successful file read: " + this.result);
+            var imageId = SiteCamera.imageId();
+            var image = document.getElementById(imageId);
+            image.src = this.result;
+        };
+        reader.readAsDataURL(file);
+        console.log('reader : ', reader._result);
+      }, function(error){
+        console.log('error fileEntry');
+      });
+    }, function (error) {
+      console.log('error resolveLocalFileSystemURL ; ', error);
+    });
+  },
+  toDataURI: function(imageURI){
+    var reader  = new FileReader();
+    // reader.readAsDataURL(imageURI);
+    reader.onloadend = function (e) {
+      img.attr('src', reader.result);
+      img.css('display', 'block');
+    }
+    return reader;
   },
   imageId: function() {
     var imageId;

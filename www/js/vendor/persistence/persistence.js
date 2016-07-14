@@ -1079,6 +1079,7 @@ function initPersistence(persistence) {
           case 'DATE':
             if (value) {
               value = new Date(value);
+              console.log('value of entityValToJson : ', value);
               return Math.round(value.getTime() / 1000);
             } else {
               return null;
@@ -2450,4 +2451,3 @@ if (!JSON.stringify) {
     }
   }());
 }
-
