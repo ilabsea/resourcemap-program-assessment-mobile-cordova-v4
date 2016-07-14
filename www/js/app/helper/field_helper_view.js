@@ -9,7 +9,7 @@ var FieldHelperView = {
     element.css("z-index", 200000);
   },
 
-  display: function (templateURL, element, elementPrefixID, fieldData, update) {
+  display: function (templateURL, element, fieldData, update) {
     console.log("templateURL--", templateURL);
     var content = App.Template.process(templateURL, fieldData);
     element.html(content);
@@ -42,9 +42,10 @@ var FieldHelperView = {
     element.selectmenu("refresh");
   },
 
-  displayLayerMenu: function (path, element, layers_collection, current_page) {
-    layers_collection.field_collections.current_page = current_page;
-    var content = App.Template.process(path, layers_collection);
+  displayLayerMenu: function (templateURL, element, layers_collection, current_page) {
+    var page = current_page || ''
+    layers_collection.field_collections.current_page = page;
+    var content = App.Template.process(templateURL, layers_collection);
     element.html(content);
     element.trigger("create");
   }

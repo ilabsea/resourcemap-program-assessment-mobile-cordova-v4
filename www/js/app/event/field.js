@@ -41,17 +41,14 @@ $(document).on("mobileinit", function() {
     }
   });
 
-  var selector = '#layer-list-menu-dialog,#update_layer-list-menu-dialog,#update_online_layer-list-menu-dialog';
-  $(document).delegate(selector, 'pagehide', function () {
-    var idElement = this.id;
-    var index = idElement.indexOf("-dialog");
-    var ele = idElement.substr(0, index);
-    scrollToLayer($('#' + ele).val());
+  $(document).delegate('#layer-list-menu-dialog', 'pagehide', function () {
+    var layerId = $('#layer-list-menu').val()
+    scrollToLayer(layerId);
   });
-  var selector = "#ui-btn-layer-menu, #ui-btn-layer-menu-update, #ui-btn-layer-menu-update-online";
 
-  $(document).delegate(selector, 'click', function () {
+  $(document).delegate('#ui-btn-layer-menu', 'click', function () {
     var ele = $(this).children().children()[1].id;
+    console.log("click id: ", ele);
     $("#" + ele).val("");
   });
 

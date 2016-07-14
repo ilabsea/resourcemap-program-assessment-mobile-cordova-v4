@@ -1,10 +1,12 @@
 $(document).on("mobileinit", function() {
   $(document).delegate('#page-site-list', 'pageshow', function () {
-    resetRightMenuItem();
+
     App.emptyHTML();
     App.validateDbConnection(function() {
       SiteModel.sitePage = 0;
       SiteOffline.sitePage = 0;
+
+      SiteController.currentPage = '#page-site-list'
       SiteController.render();
     });
   });
@@ -34,7 +36,7 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('#page-save-site', 'pageshow', function () {
-    if(SiteController.type){
+    if(SiteController.currentPage == '#page-site-list-all'){
       $("#btn_back_site_list_all").show();
       $("#btn_back_site_list").hide();
     }
@@ -45,7 +47,7 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('#page-site-list #site-list-offline', 'click', function (event) {
-    SiteController.type=''
+
     App.checkNodeTargetSuccess(event.target, function(a) {
       var li = a.parentNode;
       var sId = li.getAttribute('data-id');
@@ -64,12 +66,11 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('#btn-confirm-delete-site', 'click', function () {
-    this.href = SiteController.redirectedPage();
+    this.href = SiteController.currentPage;
     SiteController.deleteOffline();
   });
 
   $(document).delegate('#page-site-list-all', 'click', function (event) {
-    SiteController.type = 'all'
     console.log("target: ", this);
     App.checkNodeTargetSuccess(event.target, function(a) {
       var li = a.parentNode;
@@ -92,6 +93,7 @@ $(document).on("mobileinit", function() {
     App.emptyHTML();
     SiteOffline.sitePage = 0;
     App.validateDbConnection(function() {
+      SiteController.currentPage = '#page-site-list-all'
       SiteController.renderOfflineSites();
     });
   });
@@ -105,18 +107,18 @@ $(document).on("mobileinit", function() {
     var lng = $("#site_lng").val();
     FieldController.updateLocationField(lat, lng);
   });
+
+  $(document).delegate('#site-list-menu', 'change', function () {
+    App.emptyHTML();
+    var value = $('#site-list-menu').val();
+    SiteController.renderByMenu(value);
+  });
 })
 
 function submitSiteForm() {
   $('#btn_save_site').on('click', function() {
     SiteController.save()
   })
-}
-
-//reset the right menu bar
-function resetRightMenuItem(){
-  $("#site-list-menu").get(0).selectedIndex = 0;
-  SiteList.menu();
 }
 
 $(function(){

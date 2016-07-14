@@ -2,7 +2,6 @@ FieldController = {
   activeLayer: null,
   layers: [],
   submited: false,
-  templateName: "",
   site: { properties: {}, files: {} },
   isOnline: true,
 
@@ -10,7 +9,6 @@ FieldController = {
     this.activeLayer = null
     this.layers = []
     this.submited = false
-    this.templateName = ""
     this.site = { properties: {}, files: {} }
     this.isOnline = true
   },
@@ -36,7 +34,7 @@ FieldController = {
   },
 
   renderLayer: function(layer, $layerNodeContent){
-    var content = App.Template.process(this.templateName, {fields: layer.fields});
+    var content = App.Template.process('layer_field', {fields: layer.fields});
     $layerNodeContent.html(content);
     $layerNodeContent.enhanceWithin();
 
@@ -72,11 +70,14 @@ FieldController = {
     })
   },
 
-  renderLayerSet: function(templateName, $element, prefixIdElement) {
-    this.templateName = "layer_field";
+  displayLayerMenu: function(layerData){
+    FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu'), layerData)
+  },
+
+  renderLayerSet: function() {
     var cloneLayers = this.layers.slice(0)
-    var options = {field_collections: cloneLayers}
-    FieldHelperView.display(templateName, $element, prefixIdElement, options, this.isOnline);
+    var layerData = {field_collections: cloneLayers}
+    FieldHelperView.display('field_add', $('#div_field_collection'), layerData);
   },
 
   layerCollapseFields: function($layerNode){
@@ -225,7 +226,6 @@ FieldController = {
   },
 
   renderNewSiteForm: function () {
-    // this.templateName = "layer_fields_add"
     this.reset();
     this.site = { properties: {}, files: {} }
     App.isOnline() ? this.renderNewSiteFormOnline() : this.renderNewSiteFormOffline();
@@ -249,10 +249,9 @@ FieldController = {
 
       FieldController.synForCurrentCollection(self.layers);
 
-      FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu'),
-          {field_collections: self.layers.slice(0)}, "");
+      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
 
-      FieldController.renderLayerSet("field_add", $('#div_field_collection'), "");
+      FieldController.renderLayerSet();
 
       ViewBinding.setBusy(false);
       Location.prepareLocation();
@@ -275,8 +274,8 @@ FieldController = {
         self.layers.push(layer);
       });
 
-      FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu'), {field_collections: self.layers.slice(0)}, "");
-      FieldController.renderLayerSet("field_add", $('#div_field_collection'), "");
+      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
+      FieldController.renderLayerSet();
       ViewBinding.setBusy(false);
 
       Location.prepareLocation();
@@ -287,7 +286,6 @@ FieldController = {
     this.reset();
     this.isOnline = false
     this.site = site;
-    this.templateName =  "layer_field_update_offline";
     var self = this;
 
     var cId = CollectionController.id;
@@ -299,9 +297,9 @@ FieldController = {
         self.layers.push(newLayer);
       });
 
-      FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu-update'), {field_collections: self.layers.slice(0)}, "update_");
+      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
       // FieldController.renderLayerSet("field_update_offline", $('#div_update_field_collection'), "update_");
-      FieldController.renderLayerSet("field_add", $('#div_field_collection'), "");
+      FieldController.renderLayerSet();
     });
   },
 
@@ -309,7 +307,6 @@ FieldController = {
     this.reset();
     this.isOnline = true;
     this.site = site;
-    this.templateName = "layer_field_update_online";
 
     var self = this;
     self.layers = [];
@@ -323,11 +320,10 @@ FieldController = {
 
       var prefix = ""; //"update_online_";
 
-      FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu-update-online'),
-          {field_collections: self.layers.slice(0)}, prefix);
+      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
 
       // FieldController.renderLayerSet("field_update_online", $('#div_update_field_collection_online'), prefix);
-      FieldController.renderLayerSet("field_add", $('#div_field_collection'), "");
+      FieldController.renderLayerSet();
 
     }, FieldController.errorFetchingField);
   },

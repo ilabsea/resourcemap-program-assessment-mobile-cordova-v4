@@ -424,12 +424,34 @@ SiteController = {
       if (err.statusText === "Unauthorized") {
         showElement($("#info_sign_in"));
         App.redirectTo("#page-login");
-      } else {
+      }
+      else {
         var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], true);
-        SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'),
-            error);
+        SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'), error);
       }
     });
+  },
+
+  renderByMenu: function(value){
+    $("#btn_sendToServer").show();
+
+    if(value == "View all"){
+      SiteController.render();
+    }
+
+    else if (value == "View offline"){
+      SiteOffline.sitePage = 0;
+      SiteController.renderOffline();
+      $("#btn_sendToServer").show();
+    }
+
+    else if (value =="View online") {
+      SiteController.renderOnline();
+      $("#btn_sendToServer").hide();
+    }
+
+    else if(value == "Logout" )
+      SessionController.logout();
   },
 
   updatePosition: function(lat, lng) {
@@ -437,12 +459,8 @@ SiteController = {
     $("#site_lng").val(lng);
   },
 
-  redirectedPage: function(){
-    return SiteController.type == "" ? "#page-site-list" : "#page-site-list-all"
-  },
-
   cleanAndRedirectBack: function () {
-    SiteController.redirectSafe(SiteController.redirectedPage());
+    SiteController.redirectSafe(SiteController.currentPage);
     PhotoList.clear();
   },
 
