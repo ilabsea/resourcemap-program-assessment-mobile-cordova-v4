@@ -151,7 +151,7 @@ FieldController = {
     var layer = this.findLayerById($layerNode.attr('data-id'));
 
     $.each(layer.fields, function(i, field) {
-      if(field.kind !== 'hierarchy'){
+      if(field.kind !== 'hierarchy' && field.kind !== 'photo'){
         var value = FieldController.getFieldValueFromUI(field.idfield)
         FieldHelper.setFieldValue(field, value, this.isOnline);
       }
@@ -292,6 +292,7 @@ FieldController = {
     self.layers = []
 
     FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
+      console.log("field:", layerOfflines);
       $.each(layerOfflines, function (_, layerOffline) {
         var newLayer = FieldController.buildLayerFields(layerOffline);
         self.layers.push(newLayer);
@@ -336,17 +337,8 @@ FieldController = {
       return '';
 
     if ($field[0].tagName.toLowerCase() == 'img') {
-      if ($("#wrapper_" + fieldId).attr("class") != 'ui-disabled skip-logic-over-img') {
-        var photoValue = PhotoList.value(fieldId);
-
-        if(photoValue){
-          var filename = photoValue.filename;
-          FieldController.site.files[filename] = photoValue.data
-          return filename;
-        }
-        else
-          return '';
-      }
+      if ($("#wrapper_" + fieldId).attr("class") != 'ui-disabled skip-logic-over-img')
+        return $field.attr('src')
       else
         return '';
     }
@@ -388,13 +380,16 @@ FieldController = {
     $.each(this.layers, function(_, layer) {
       $.each(layer.fields, function(_, field) {
         if(field.__value) {
+
           if(field.kind == 'photo') {
-            var fileName = field.__value
-            properties[field.idfield] = fileName ;
-            files[fileName] = FieldController.site.files[fileName];
+            if(field.__filename){
+              properties[field.idfield] = field.__filename
+              files[field.__filename] = field.__value
+            }
+            else
+              properties[field.idfield] = FieldHelper.originalPath(field.__value)
           }
           else if(field.kind == 'date'){
-            console.log("field: " + field.idfield + " is a date " + " with value: " + field.__value);
             properties[field.idfield] = prepareForServer(field.__value)
           }
           else

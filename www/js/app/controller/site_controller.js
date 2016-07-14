@@ -461,7 +461,6 @@ SiteController = {
 
   cleanAndRedirectBack: function () {
     SiteController.redirectSafe(SiteController.currentPage);
-    PhotoList.clear();
   },
 
   redirectSafe: function(url){

@@ -52,6 +52,7 @@ FieldHelper = {
       readonly: '',
       disableState: false,
       __value: '',
+      __filename: '',
       invalid: ''
     };
     if(field.custom_widgeted )
@@ -64,7 +65,7 @@ FieldHelper = {
     fieldUI.required =  fieldUI.is_mandatory ? "required" : ""
 
     if (fieldUI.kind === "select_one" && fieldUI.is_enable_field_logic) {
-      console.log("field: ", fieldUI);
+
       fieldUI.config = FieldHelper.buildFieldSelectOne(field.config);
       if (!fieldUI.config.field_logics)
         fieldUI.is_enable_field_logic = false;
@@ -129,7 +130,7 @@ FieldHelper = {
         });
       }
     });
-    console.log("config: ", config);
+
     return config;
 
   },
@@ -165,13 +166,11 @@ FieldHelper = {
   setFieldValue: function (field, value, isOnline) {
     switch (field.kind) {
       case "photo" :
-        if (isOnline)
-          field.__value = SiteCamera.imagePath(value);
-        else {
-          if(FieldController.site.files && FieldController.site.files[value])
-            field.__value = SiteCamera.dataWithMimeType(FieldController.site.files[value]);
-          else
-            field.__value = "";
+        if(isOnline)
+          field.__value = FieldHelper.imagePath(value);
+        else{
+          var imageSrc = FieldController.site.files[value]
+          field.__value = imageSrc;
         }
         break;
       case "select_many":
@@ -238,5 +237,16 @@ FieldHelper = {
     if (codeIds.length === 0)
       codeIds = values;
     return codeIds;
+  },
+
+  imagePath: function(imgFileName) {
+    return App.IMG_PATH + imgFileName;
+  },
+
+  originalPath: function(image) {
+    if(image.indexOf(App.IMG_PATH) == 0)
+      return image.substring(App.IMG_PATH.length, image.length)
+    else
+      return image
   }
 };

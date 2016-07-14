@@ -21,7 +21,8 @@
     "process-nextick-args": "^1.0.6",
     "readable-stream": "^2.0.6",
     "string_decoder": "^0.10.31",
-    "util-deprecate": "^1.0.2"
+    "util-deprecate": "^1.0.2",
+    "cordova": "^4.3.0"
   },
   "devDependencies": {
     "glob": "^7.0.3",

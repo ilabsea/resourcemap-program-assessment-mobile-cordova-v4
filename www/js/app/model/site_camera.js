@@ -3,16 +3,10 @@ SiteCamera = {
   dataWithMimeType: function(data) {
     return 'data:image/jpeg;base64,' + data;
   },
-  takePhoto: function(idField, updated, cameraType) {
-    var type;
-    if (cameraType === "camera") {
-      type = Camera.PictureSourceType.CAMERA;
-    }
-    else {
-      type = Camera.PictureSourceType.SAVEDPHOTOALBUM;
-    }
+  takePhoto: function(idField, cameraType) {
+    console.log("id field: ", idField);
+    var type = cameraType == "camera" ? Camera.PictureSourceType.CAMERA : Camera.PictureSourceType.SAVEDPHOTOALBUM;
     SiteCamera.id = idField;
-    SiteCamera.updated = updated;
     var cameraOptions = {
       quality: 50,
       destinationType: Camera.DestinationType.DATA_URL,
@@ -22,27 +16,20 @@ SiteCamera = {
     navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, cameraOptions);
   },
   onSuccess: function(imageData) {
-    var imageId = SiteCamera.imageId();
-    var image = document.getElementById(imageId);
-    var photo = new Photo(SiteCamera.id, imageData, SiteCamera.format);
-    image.src = SiteCamera.dataWithMimeType(imageData);
+    var image = document.getElementById(SiteCamera.id);
+    var field = FieldController.findFieldById(SiteCamera.id)
 
-    PhotoList.add(photo);
-    validateImage(imageId);
+    var date = new Date()
+
+    var imageSrc = SiteCamera.dataWithMimeType(imageData)
+    field.__value = imageSrc;
+    field.__filename = "" + date.getTime() + "_" + SiteCamera.id + "." + SiteCamera.format
+
+    image.src = imageSrc;
+    validateImage(SiteCamera.id);
   },
-  imageId: function() {
-    var imageId;
-    if (SiteCamera.updated === 'update')
-      imageId = "update_" + SiteCamera.id;
-    else if (SiteCamera.updated === 'update_online')
-      imageId = "update_online_" + SiteCamera.id;
-    else
-      imageId = SiteCamera.id;
-    return  imageId;
-  },
-  imagePath: function(imgFileName) {
-    return App.IMG_PATH + imgFileName;
-  },
+
   onFail: function() {
+    App.log("Failed to take photo.");
   }
 };

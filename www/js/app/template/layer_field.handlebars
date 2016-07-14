@@ -54,7 +54,7 @@
   {{#if isPhoto}}
     <div id="wrapper_{{idfield}}" tabindex="0">
       <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-        <div class="{{invalid}} photo" onclick="CameraModel.openCameraDialog({{idfield}}, 'update_online')"
+        <div class="{{invalid}} photo" data-id='{{idfield}}'
              id='property_{{idfield}}_container' {{editable}} >
           <img class="image {{invalid}}" src='{{__value}}' id='{{idfield}}' require='{{required}}' />
         </div>

@@ -56,7 +56,6 @@ module.exports = function(grunt) {
        "www/js/app/model/user_offline.js",
        "www/js/app/model/user_model.js",
        "www/js/app/model/photo.js",
-       "www/js/app/model/photo_list.js",
        "www/js/app/model/camera_model.js",
        "www/js/app/model/site_camera.js",
        "www/js/app/model/calculation.js",

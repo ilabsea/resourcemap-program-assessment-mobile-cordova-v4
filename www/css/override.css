@@ -17,3 +17,7 @@
 label.valid {
   display: none;
 }
+
+#cameraDialog {
+  z-index: 200000;
+}
