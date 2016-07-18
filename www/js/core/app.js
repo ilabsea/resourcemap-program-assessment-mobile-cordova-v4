@@ -61,13 +61,15 @@ App = {
 
   onDeviceReady: function () {
     App.connectDB(App.DB_NAME, App.DB_SIZE);
+    document.addEventListener("offline", function() {
+      SiteController.onlineStatus(false);
+    }, false);
+    document.addEventListener("online",  function(){
+      SiteController.onlineStatus(true)
+    }, false);
   },
   emptyHTML: function () {
     $(".clearPreviousDisplay").html("");
-  },
-  checkNodeTargetSuccess: function(node, callback) {
-    if(node.tagName.toLowerCase() == 'a' && node.parentNode.tagName.toLowerCase() == 'li')
-      callback(node)
   },
   redirectTo: function (nextPage, options) {
     App.log("Redirect to ", nextPage);
@@ -125,8 +127,8 @@ App = {
       collection_name: "TEXT",
       user_id: "INT",
       device_id: "TEXT",
-      properties: "JSON",
-      files: "JSON"
+      properties: "TEXT",
+      files: "TEXT"
     });
 
     Field = persistence.define('fields', {

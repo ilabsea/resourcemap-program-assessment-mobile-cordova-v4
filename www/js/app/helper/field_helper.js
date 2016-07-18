@@ -164,13 +164,23 @@ FieldHelper = {
   },
 
   setFieldValue: function (field, value, isOnline) {
+    if(!value){
+      field.__value = ''
+      return;
+    }
+
     switch (field.kind) {
       case "photo" :
         if(isOnline)
-          field.__value = FieldHelper.imagePath(value);
+          field.__value = FieldHelper.imageWithPath(value);
         else{
-          var imageSrc = FieldController.site.files[value]
-          field.__value = imageSrc;
+          var imageData = FieldController.site.files[value]
+          if(imageData){
+            field.__value = SiteCamera.dataWithMimeType(imageData);
+            field.__filename = value;
+          }
+          else
+            field.__value = ''
         }
         break;
       case "select_many":
@@ -211,6 +221,7 @@ FieldHelper = {
       case "date":
         if (value) {
           var date = prepareForClient(value.split("T")[0]);
+          // alert("set value original: " + value + "set value: " + date)
           field.__value = date;
         }
         break;
@@ -239,14 +250,11 @@ FieldHelper = {
     return codeIds;
   },
 
-  imagePath: function(imgFileName) {
+  imageWithPath: function(imgFileName) {
     return App.IMG_PATH + imgFileName;
   },
 
-  originalPath: function(image) {
-    if(image.indexOf(App.IMG_PATH) == 0)
-      return image.substring(App.IMG_PATH.length, image.length)
-    else
-      return image
+  imageWithoutPath: function(imageFullPath) {
+    return imageFullPath.replace(App.IMG_PATH, '')
   }
 };

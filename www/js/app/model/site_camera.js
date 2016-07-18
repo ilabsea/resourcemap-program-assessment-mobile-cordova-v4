@@ -3,6 +3,11 @@ SiteCamera = {
   dataWithMimeType: function(data) {
     return 'data:image/jpeg;base64,' + data;
   },
+
+  dataWithoutMimeType: function(imageData){
+    return imageData.replace("data:image/jpeg;base64,", "")
+  },
+
   takePhoto: function(idField, cameraType) {
     console.log("id field: ", idField);
     var type = cameraType == "camera" ? Camera.PictureSourceType.CAMERA : Camera.PictureSourceType.SAVEDPHOTOALBUM;
@@ -21,11 +26,10 @@ SiteCamera = {
 
     var date = new Date()
 
-    var imageSrc = SiteCamera.dataWithMimeType(imageData)
-    field.__value = imageSrc;
+    field.__value = SiteCamera.dataWithMimeType(imageData)
     field.__filename = "" + date.getTime() + "_" + SiteCamera.id + "." + SiteCamera.format
 
-    image.src = imageSrc;
+    image.src = field.__value;
     validateImage(SiteCamera.id);
   },
 

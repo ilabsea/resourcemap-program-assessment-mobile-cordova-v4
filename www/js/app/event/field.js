@@ -48,7 +48,6 @@ $(document).on("mobileinit", function() {
 
   $(document).delegate('#ui-btn-layer-menu', 'click', function () {
     var ele = $(this).children().children()[1].id;
-    console.log("click id: ", ele);
     $("#" + ele).val("");
   });
 

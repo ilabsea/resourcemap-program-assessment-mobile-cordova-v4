@@ -26,7 +26,7 @@ module.exports = function(grunt) {
        "www/js/vendor/persistence/persistence.sync.js",
        "www/js/vendor/persistence/persistence.store.sql.js",
        "www/js/vendor/persistence/persistence.store.sqlite_web.js",
-
+       "www/js/vendor/persistence/custom-persistence.js",
 
        "www/js/vendor/google_map.js",
        "www/js/vendor/translate.js",

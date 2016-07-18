@@ -19,8 +19,12 @@ function validateImage(idElement) {
   }
 }
 
-function showValidateMessage(id) {
-  $(id).show().delay(3000).fadeOut();
+function showValidateMessage(selector, message) {
+  var $element = $(selector)
+  if(message != undefined)
+    $element.html(message)
+
+  $element.show().delay(3000).fadeOut();
 }
 
 function validateImages() {

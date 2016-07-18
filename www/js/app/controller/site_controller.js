@@ -24,6 +24,18 @@ SiteController = {
     $element.trigger("create");
   },
 
+  onlineStatus: function(online) {
+    // apply only for new record.
+    var message = online ? i18n.t('global.online') : i18n.t('global.offline')
+    showValidateMessage("#validation-save-site", message);
+
+
+    if(!SiteController.id) {
+      App.log('setting status to:', online)
+      FieldController.isOnline = online;
+    }
+  },
+
   validate: function(){
     var valid = true;
     $.each(["site_name", "site_lat", "site_lng"], function(_, element) {
@@ -41,7 +53,7 @@ SiteController = {
   validateForm: function(){
     valid = SiteController.validate() && FieldController.validateLayers()
     if(!valid)
-      showValidateMessage("#validation-save-site");
+      showValidateMessage("#validation-save-site", i18n.t('validation.emailPsdConfirm'));
     return valid;
   },
 
@@ -57,7 +69,7 @@ SiteController = {
     var collectionId = CollectionController.id;
     var uId = UserSession.getUser().id;
     var offset = SiteOffline.sitePage * SiteOffline.limit;
-    SiteOffline.fetchByCollectionIdUserId(collectionId, uId, offset, function (sites) {
+    SiteOffline.minFetchByCollectionIdUserId(collectionId, uId, offset, function (sites) {
       var result = [];
       sites.forEach(function (site) {
         var fullDate = dateToParam(site.created_at);
@@ -120,7 +132,7 @@ SiteController = {
   renderOfflineSites: function () {
     var userId = UserSession.getUser().id;
     var offset = SiteOffline.sitePage * SiteOffline.limit;
-    SiteOffline.fetchByUserId(userId, offset, function (sites) {
+    SiteOffline.minFetchByUserId(userId, offset, function (sites) {
 
       var siteofflineData = [];
       sites.forEach(function (site) {
@@ -219,8 +231,9 @@ SiteController = {
       site.name = data.name;
       site.lat = data.lat;
       site.lng = data.lng;
-      site.properties = data.properties ;
-      site.files = data.files;
+      site.properties = JSON.stringify(data.properties) ;
+      site.files = JSON.stringify(data.files);
+
       persistence.flush();
       SiteController.cleanAndRedirectBack();
     });
@@ -279,9 +292,6 @@ SiteController = {
       lat: '',
       lng: ''
     }
-    $("#btn_save_site").text(i18n.t('global.save_site'));
-    $("#btn_delete_site").hide();
-
     SiteController.displayUpdateLatLng(siteData);
     FieldController.renderNewSiteForm()
   },
@@ -294,13 +304,20 @@ SiteController = {
       var siteData = {
         name: site.name,
         lat: site.lat,
-        lng: site.lng
+        lng: site.lng,
+        properties: site.properties,
+        files: site.files
       };
+
+      if(typeof siteData.properties  == "string") {
+        App.log("parse JSON");
+        siteData.properties = siteData.properties ? JSON.parse(siteData.properties) : {}
+        siteData.files = siteData.files ? JSON.parse(siteData.files) : {}
+      }
+
       SiteController.displayUpdateLatLng(siteData);
-      FieldController.renderUpdateOffline(site);
+      FieldController.renderUpdateOffline(siteData);
     });
-    $("#btn_save_site").text(i18n.translate('global.update'));
-    $("#btn_delete_site").show();
   },
 
   renderUpdateSiteFormOnline: function () {
@@ -310,11 +327,7 @@ SiteController = {
     SiteModel.fetchOne(cId, sId, function (site) {
       MyMembershipObj.setSite(site);
       var can_edit = MyMembershipController.canEdit(site);
-      if (!can_edit) {
-        $("#btn_submitUpdateSite_online").hide();
-      } else {
-        $("#btn_submitUpdateSite_online").show();
-      }
+      can_edit ? $("#btn_save_site").show() : $("#btn_save_site").hide()
       var siteData = {
         editable: (can_edit ? "" : "readonly"),
         name: site.name,
@@ -325,71 +338,45 @@ SiteController = {
       SiteController.displayUpdateLatLng(siteData);
       FieldController.renderUpdateOnline(site);
     });
-
-    $("#btn_save_site").text(i18n.t('global.update'))
-    $("#btn_delete_site").hide();
   },
 
-  submitAllToServerByCollectionIdUserId: function () {
-    ViewBinding.setBusy(true);
-    if (App.isOnline()) {
-      SiteController.processToServerByCollectionIdUserId();
-    }
-    else{
-      ViewBinding.setBusy(false);
-      alert(i18n.t("global.no_internet_connection"));
-    }
-  },
-
-  submitAllToServerByUserId: function () {
-    ViewBinding.setBusy(true);
-    if (App.isOnline()) {
-      SiteController.processToServerByUserId();
-    }
-    else{
-      ViewBinding.setBusy(false);
-      alert(i18n.t("global.no_internet_connection"));
-    }
-  },
-
-  processToServerByUserId: function(){
-    var uId = UserSession.getUser().id;
-    var offset = 0;
-    SiteOffline.limit = 7;
-    SiteOffline.countByUserId(uId, function(nbSites){
-      SiteOffline.nbSites = nbSites;
-      SiteOffline.fetchByUserId(uId, offset, function(sites){
-        if (sites.length > 0)
+  sendToServer: function () {
+    if(App.isOnline()){
+      var collectionId = CollectionController.id;
+      var uId = UserSession.getUser().id;
+      var offset = 0;
+      SiteOffline.limit = 7;
+      SiteOffline.countByCollectionIdUserId(collectionId, uId, function(nbSites){
+        SiteOffline.nbSites = nbSites;
+        SiteOffline.fetchByCollectionIdUserId(collectionId, uId, offset, function(sites){
           SiteController.processingToServer(sites, false);
-        else{
-          ViewBinding.setBusy(false);
-          alert('There is no site to submit');
-        }
+        });
       });
-    });
+    }
+    else
+      alert(i18n.t("global.no_internet_connection"));
   },
 
-  processToServerByCollectionIdUserId: function () {
-    var collectionId = CollectionController.id;
-    var uId = UserSession.getUser().id;
-    var offset = 0;
-    SiteOffline.limit = 7;
-    SiteOffline.countByCollectionIdUserId(collectionId, uId, function(nbSites){
-      SiteOffline.nbSites = nbSites;
-      SiteOffline.fetchByCollectionIdUserId(collectionId, uId, offset, function(sites){
-        if (sites.length > 0){
+  sendToServerAll: function () {
+    if(App.isOnline()) {
+      var uId = UserSession.getUser().id;
+      var offset = 0;
+      SiteOffline.limit = 7;
+      SiteOffline.countByUserId(uId, function(nbSites){
+        SiteOffline.nbSites = nbSites;
+        SiteOffline.fetchByUserId(uId, offset, function(sites){
           SiteController.processingToServer(sites, true);
-        }else{
-          ViewBinding.setBusy(false);
-          alert('There is no site to submit');
-        }
+        });
       });
-    });
+    }
+    else
+      alert(i18n.t("global.no_internet_connection"));
   },
 
-  processingToServer: function (sites, isAllByCollectionId) {
+  processingToServer: function (sites, all) {
     var site = sites[0];
-    var data = {site: {
+
+    var data = { site: {
         device_id: site.device_id,
         external_id: site.id,
         start_entry_date: site.start_entry_date,
@@ -398,34 +385,36 @@ SiteController = {
         name: site.name,
         lat: site.lat,
         lng: site.lng,
-        properties: site.properties,
-        files: site.files
+        properties: (site.properties ? JSON.parse(site.properties) : {}),
+        files: (site.files ? JSON.parse(site.files) : {})
       }
     };
+    App.log("Prepare site to server: ", data);
+
     SiteModel.create(data["site"], function () {
       persistence.remove(site);
       persistence.flush();
-      $('#sendToServer').show();
       sites.splice(0, 1);
+
       if (sites.length === 0){
-        if(SiteOffline.nbSites - SiteOffline.limit > 0){
-          if(isAllByCollectionId)
-            SiteController.processToServerByCollectionIdUserId();
-          else
-            SiteController.processToServerByUserId();
-        }else{
+        if(SiteOffline.nbSites - SiteOffline.limit > 0)
+          all ? SiteController.sendToServerAll() : SiteController.sendToServer()
+        else{
           ViewBinding.setBusy(false);
           App.redirectTo("#page-collection-list");
         }
       }
       else
-        SiteController.processingToServer(sites, isAllByCollectionId);
-    }, function (err) {
+        SiteController.processingToServer(sites, all);
+    },
+    function(err) {
       if (err.statusText === "Unauthorized") {
         showElement($("#info_sign_in"));
+        ViewBinding.setBusy(false);
         App.redirectTo("#page-login");
       }
       else {
+        ViewBinding.setBusy(false);
         var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], true);
         SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'), error);
       }
@@ -433,7 +422,7 @@ SiteController = {
   },
 
   renderByMenu: function(value){
-    $("#btn_sendToServer").show();
+    $("#btn-send-server").hide();
 
     if(value == "View all"){
       SiteController.render();
@@ -442,12 +431,12 @@ SiteController = {
     else if (value == "View offline"){
       SiteOffline.sitePage = 0;
       SiteController.renderOffline();
-      $("#btn_sendToServer").show();
+      $("#btn-send-server").show();
     }
 
     else if (value =="View online") {
       SiteController.renderOnline();
-      $("#btn_sendToServer").hide();
+      $("#btn-send-server").hide();
     }
 
     else if(value == "Logout" )
@@ -460,6 +449,7 @@ SiteController = {
   },
 
   cleanAndRedirectBack: function () {
+    FieldController.reset()
     SiteController.redirectSafe(SiteController.currentPage);
   },
 

@@ -10,17 +10,16 @@ $(document).on("mobileinit", function() {
   });
 
 
-  $(document).delegate('#page-collection-list', 'click', function(event) {
+  $(document).delegate('#page-collection-list li', 'click', function(event) {
     //db should be ready before page rendering
-    App.checkNodeTargetSuccess(event.target, function(a) {
-      var li = a.parentNode;
+      var li = this;
       var id = li.getAttribute("data-id");
       var name = li.getAttribute("data-name");
 
       CollectionController.id = id;
       CollectionController.name = name;
       CollectionController.displayName({name: name});
-    })
+
   });
 
 });

@@ -6,6 +6,7 @@ FieldController = {
   isOnline: true,
 
   reset: function(){
+    App.log("resetting field");
     this.activeLayer = null
     this.layers = []
     this.submited = false
@@ -43,11 +44,9 @@ FieldController = {
         Hierarchy.create(field.config, field.__value, field.idfield);
 
       if (field.custom_widgeted)
-        CustomWidget.setInputNodeId(field.idfield, field);
+        CustomWidget.setInputNodeId(field);
 
       if (field.kind == "calculation" && field.config.dependent_fields) {
-        console.log("calculation: ", field);
-        console.log("config: ", field.config.dependent_fields);
         $.each(field.config.dependent_fields, function (_, dependentField) {
           var $dependentField = $("#" + dependentField.id)
           $dependentField.addClass('calculation');
@@ -187,9 +186,9 @@ FieldController = {
   renderLayerNode: function($layerNode) {
     var layerId = $layerNode.attr('data-id')
     var $layerNodeBody = $layerNode.find(".ui-collapsible-content")
-    var layerData = FieldController.findLayerById(layerId);
+    var layer = FieldController.findLayerById(layerId);
 
-    this.renderLayer(layerData, $layerNodeBody);
+    this.renderLayer(layer, $layerNodeBody);
     this.activeLayer = $layerNode;
   },
 
@@ -214,11 +213,7 @@ FieldController = {
   },
 
   layerDirty: function() {
-    for(var i=0; i<this.layers.length; i++){
-      if(this.layers[i].rendered === true)
-        return true
-    }
-    return false
+    return FieldController.activeLayer;
   },
 
   buildLayerFields: function(layer) {
@@ -292,7 +287,6 @@ FieldController = {
     self.layers = []
 
     FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
-      console.log("field:", layerOfflines);
       $.each(layerOfflines, function (_, layerOffline) {
         var newLayer = FieldController.buildLayerFields(layerOffline);
         self.layers.push(newLayer);
@@ -384,13 +378,14 @@ FieldController = {
           if(field.kind == 'photo') {
             if(field.__filename){
               properties[field.idfield] = field.__filename
-              files[field.__filename] = field.__value
+              files[field.__filename] = SiteCamera.dataWithoutMimeType(field.__value)
             }
             else
-              properties[field.idfield] = FieldHelper.originalPath(field.__value)
+              properties[field.idfield] = FieldHelper.imageWithoutPath(field.__value)
           }
           else if(field.kind == 'date'){
             properties[field.idfield] = prepareForServer(field.__value)
+            // alert("params original value: " + field.__value + " converted to " + prepareForServer(field.__value) )
           }
           else
             properties[field.idfield] = field.__value

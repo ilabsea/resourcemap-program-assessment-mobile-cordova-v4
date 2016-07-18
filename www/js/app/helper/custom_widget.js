@@ -1,9 +1,9 @@
 CustomWidget = {
-  setInputNodeId: function (elementPrefixID, field) {
+  setInputNodeId: function (field) {
     var $wrapper = $("*[data-custom-widget-code='" + field.code + "']");
 
     if($wrapper.length > 0){
-        var id = elementPrefixID + field.idfield;
+        var id = field.idfield;
         var value = field.__value || ''
         if($wrapper.attr("data-readonly") === 'readonly')
             $wrapper.text(value);

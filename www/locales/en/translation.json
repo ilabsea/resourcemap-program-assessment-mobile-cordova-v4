@@ -19,6 +19,8 @@
         "viewOnline": "View online",
         "menu": "Menu",
         "save_site": "Save Site",
+        "offline": "Opp! Network went offline",
+        "online":  "Opp! Network went online",
         "saving": "Saving...",
         "validating": "Validating...",
         "ajax-loader": "Please wait ...",

@@ -14,12 +14,16 @@ $(document).on("mobileinit", function() {
   $(document).delegate('#btn_create_site', 'click', function () {
     MyMembershipObj.setSite("");
     SiteController.id = null;
+
+    $("#btn_save_site").text(i18n.t('global.save_site'));
+    $("#btn_delete_site").hide();
+
     SiteController.renderNewSiteForm();
   });
 
-  $(document).delegate('#page-site-list #site-list-online', 'click', function (event) {
-    App.checkNodeTargetSuccess(event.target, function(a) {
-      var li = a.parentNode;
+  $(document).delegate('#page-site-list #site-list-online li', 'click', function (event) {
+
+      var li = this;
       var sId = li.getAttribute('data-id');
       var cId = li.getAttribute('data-collection-id');
       if (sId == "load-more-site-online") {
@@ -30,9 +34,11 @@ $(document).on("mobileinit", function() {
       else {
         CollectionController.id = cId;
         SiteController.id = sId;
+        $("#btn_save_site").text(i18n.t('global.update'))
+        $("#btn_delete_site").hide();
+        App.redirectTo(li.getAttribute('data-href'))
         requireReload(SiteController.renderUpdateSiteFormOnline);
       }
-    })
   });
 
   $(document).delegate('#page-save-site', 'pageshow', function () {
@@ -46,10 +52,9 @@ $(document).on("mobileinit", function() {
     }
   });
 
-  $(document).delegate('#page-site-list #site-list-offline', 'click', function (event) {
-
-    App.checkNodeTargetSuccess(event.target, function(a) {
-      var li = a.parentNode;
+  $(document).delegate('#page-site-list #site-list-offline li', 'click', function (event) {
+      console.log("this click: ", this);
+      var li = this;
       var sId = li.getAttribute('data-id');
       var cId = li.getAttribute('data-collection-id')
       if (sId == "load-more-site-offline") {
@@ -60,9 +65,11 @@ $(document).on("mobileinit", function() {
       else {
         CollectionController.id = cId;
         SiteController.id = sId;
+        $("#btn_save_site").text(i18n.translate('global.update'));
+        $("#btn_delete_site").show();
+        App.redirectTo(li.getAttribute('data-href'))
         requireReload(SiteController.renderUpdateSiteFormOffline);
       }
-    })
   });
 
   $(document).delegate('#btn-confirm-delete-site', 'click', function () {
@@ -70,10 +77,9 @@ $(document).on("mobileinit", function() {
     SiteController.deleteOffline();
   });
 
-  $(document).delegate('#page-site-list-all', 'click', function (event) {
-    console.log("target: ", this);
-    App.checkNodeTargetSuccess(event.target, function(a) {
-      var li = a.parentNode;
+  $(document).delegate('#page-site-list-all #site-list-offline-all li', 'click', function (event) {
+      console.log("this click:", this);
+      var li = this;
       var sId = li.getAttribute('data-id');
       var cId = li.getAttribute('data-collection-id');
       if (sId == "load-more-site-all") {
@@ -84,9 +90,11 @@ $(document).on("mobileinit", function() {
       else {
         CollectionController.id = cId;
         SiteController.id = sId;
+        $("#btn_save_site").text(i18n.t('global.update'))
+        $("#btn_delete_site").show();
+        App.redirectTo(li.getAttribute('data-href'))
         requireReload(SiteController.renderUpdateSiteFormOffline);
       }
-    })
   });
 
   $(document).delegate('#page-site-list-all', 'pagebeforeshow', function () {
@@ -113,14 +121,49 @@ $(document).on("mobileinit", function() {
     var value = $('#site-list-menu').val();
     SiteController.renderByMenu(value);
   });
-})
 
-function submitSiteForm() {
-  $('#btn_save_site').on('click', function() {
+
+  $(document).delegate('#btn-send-server', 'click', function () {
+    SiteController.sendToServer();
+  });
+
+  $(document).delegate('#btn-send-server-all', 'click', function () {
+    SiteController.sendToServerAll();
+  });
+
+  $(document).on('pagebeforechange', function (event, data) {
+    if(!$.mobile.activePage)
+      return true;
+
+    var currentPageId = $.mobile.activePage.attr('id')
+
+    var redirect = false
+
+    if(typeof data.toPage == 'string'  ){
+       var changePage = data.toPage.indexOf(currentPageId) == -1
+       var notSelectPopup = data.toPage.match(/(listbox|dialog|page-map)$/) == null
+
+       var dirty = FieldController.layerDirty()
+
+       var safe = SiteController.safe;
+
+       if( currentPageId == "page-save-site" && changePage && notSelectPopup && dirty && !safe) {
+         if(!confirm("Are you sure to leave this page")) {
+           event.preventDefault();
+           return false;
+         }
+         else
+           FieldController.reset();
+       }
+       SiteController.safe = false
+    }
+  });
+
+  $(document).delegate('#btn_save_site', 'click', function() {
     SiteController.save()
-  })
-}
+  });
 
-$(function(){
-  submitSiteForm();
-});
+  // $(document).delegate('input[type=date]', 'change', function() {
+  //   alert(" date " + $(this).val())
+  // });
+})

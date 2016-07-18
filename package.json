@@ -25,6 +25,7 @@
     "cordova": "^4.3.0"
   },
   "devDependencies": {
+    "cordova": "^4.3.0",
     "glob": "^7.0.3",
     "grunt-contrib-cssmin": "^1.0.1",
     "grunt-contrib-uglify": "^1.0.1",
