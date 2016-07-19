@@ -43,13 +43,13 @@ SiteController = {
     var cId = App.DataStore.get("cId");
     var uId = SessionController.currentUser().id;
     var offset = SiteOffline.sitePage * SiteOffline.limit;
-    SiteOffline.fetchByCollectionIdUserId(cId, uId, offset, function (sites) {
+    SiteOffline.fetchFieldsByCollectionIdUserId(cId, uId, offset, function (sites) {
       var siteData = [];
       sites.forEach(function (site) {
         var fullDate = dateToParam(site.created_at());
         siteData.push({
           id: site.id,
-          name: site.name(),
+          name: site.name,
           collectionName: "offline",
           date: fullDate,
           link: "#page-update-site"
@@ -95,12 +95,13 @@ SiteController = {
         hasMoreSites: hasMoreSites,
         state: "online",
         siteList: siteOnlineData};
+      ViewBinding.setBusy(false);
       SiteController.display($('#site-list-online'), siteData);
     });
   },
   getByUserId: function (userId) {
     var offset = SiteOffline.sitePage * SiteOffline.limit;
-    SiteOffline.fetchByUserId(userId, offset, function (sites) {
+    SiteOffline.fetchFieldsByUserId(userId, offset, function (sites) {
       var siteofflineData = [];
       sites.forEach(function (site) {
         var fullDate = dateToParam(site.created_at());
@@ -141,8 +142,8 @@ SiteController = {
         fields.forEach(function (field) {
           propertiesFile = FieldController.updateFieldValueBySiteId(propertiesFile, field, "#update_", false);
         });
-        site.properties(propertiesFile.properties);
-        site.files(propertiesFile.files);
+        site.properties(JSON.stringify(propertiesFile.properties));
+        site.files(JSON.stringify(propertiesFile.files));
         persistence.flush();
 
         App.DataStore.clearPartlyAfterCreateSite();
@@ -178,10 +179,12 @@ SiteController = {
         });
 
         App.DataStore.clearPartlyAfterCreateSite();
+        ViewBinding.setBusy(false);
 
         App.redirectTo("#page-site-list");
       }, function (err) {
         if (err["responseJSON"]) {
+          ViewBinding.setBusy(false);
           var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], false);
           SiteHelper.displayError("site/errorUpload.html", $('#page-error-submit-site'),
               error);
@@ -224,51 +227,74 @@ SiteController = {
     });
   },
   submitAllToServerByCollectionIdUserId: function () {
-    ViewBinding.setBusy(true);
     if (App.isOnline()) {
-      SiteController.processToServerByCollectionIdUserId();
+      var cId = App.DataStore.get("cId");
+      var uId = SessionController.currentUser().id;
+      SiteOffline.countByCollectionIdUserId(cId, uId, function(totalOffline){
+        SiteController.totalOffline = totalOffline;
+        SiteController.processItem = 1;
+        SiteController.processToServerByCollectionIdUserId();
+      }); 
     }
     else{
-      ViewBinding.setBusy(false);
       alert(i18n.t("global.no_internet_connection"));
     }
   },
   submitAllToServerByUserId: function () {
-    ViewBinding.setBusy(true);
     if (App.isOnline()) {
-      SiteController.processToServerByUserId();
+      var uId = SessionController.currentUser().id;
+      SiteOffline.countByUserId(uId, function(totalOffline){
+        SiteController.totalOffline = totalOffline;
+        SiteController.processItem = 1;
+        SiteController.processToServerByUserId();
+      });
     }
-    else
+    else{
       alert(i18n.t("global.no_internet_connection"));
+    }
   },
   processToServerByUserId: function(){
     var uId = SessionController.currentUser().id;
-    var offset = 0;
-    SiteOffline.limit = 7;
-    SiteOffline.countByUserId(uId, function(nbSites){
-      SiteOffline.nbSites = nbSites;
-      SiteOffline.fetchByUserId(uId, offset, function(sites){
-        if (sites.length > 0)
-          SiteController.processingToServer(sites, false);
-      });
+    SiteOffline.fetchOneByUserId(uId, function(site){
+      if (site){
+        SiteController.progressStatus(true);
+        SiteController.processingToServer(site, function(){
+          SiteController.processItem++;
+          SiteController.processToServerByUserId();
+        });
+      }
+      else{
+        SiteController.progressStatus(false);
+        App.redirectTo("#page-collection-list");
+      }
     });
+  },
+  progressStatus: function(status) {
+    ViewBinding.setBusy(status);
+    if(status){
+      var msg = "Progressing " + SiteController.processItem + " / " + SiteController.totalOffline;
+      $('.ui-loader > h1').text(msg);
+    }
   },
   processToServerByCollectionIdUserId: function () {
     var cId = App.DataStore.get("cId");
     var uId = SessionController.currentUser().id;
-    var offset = 0;
-    SiteOffline.limit = 7;
-    SiteOffline.countByCollectionIdUserId(cId, uId, function(nbSites){
-      SiteOffline.nbSites = nbSites;
-      SiteOffline.fetchByCollectionIdUserId(cId, uId, offset, function(sites){
-        if (sites.length > 0){
-          SiteController.processingToServer(sites, true);
-        }
-      });
-    }); 
+    SiteOffline.fetchOneByCollectionIdUserId(cId, uId, function(site){
+      if(site){
+        SiteController.progressStatus(true);
+        SiteController.processingToServer(site, function() {
+          SiteController.processItem++;
+          setTimeout(function(){ SiteController.processToServerByCollectionIdUserId() }, 3000);
+          ;
+        });
+      }
+      else{
+        SiteController.progressStatus(false);
+        App.redirectTo("#page-collection-list");
+      }
+    });
   },
-  processingToServer: function (sites, isAllByCollectionId) {
-    var site = sites[0];
+  processingToServer: function (site, callback) {
     var data = {site: {
         device_id: site.device_id(),
         external_id: site.id,
@@ -285,20 +311,7 @@ SiteController = {
     SiteModel.create(data["site"], function () {
       persistence.remove(site);
       persistence.flush();
-      $('#sendToServer').show();
-      sites.splice(0, 1);
-      if (sites.length === 0){
-        if(SiteOffline.nbSites - SiteOffline.limit > 0){
-          if(isAllByCollectionId)
-            SiteController.processToServerByCollectionIdUserId();
-          else
-            SiteController.processToServerByUserId();
-        }else{
-          App.redirectTo("#page-collection-list");
-        }
-      }
-      else
-        SiteController.processingToServer(sites, isAllByCollectionId);
+      callback();
     }, function (err) {
       if (err.statusText === "Unauthorized") {
         showElement($("#info_sign_in"));

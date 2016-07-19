@@ -66,7 +66,7 @@ FieldController = {
   renderUpdateOffline: function (site) {
     var field_id_arr = [];
     var location_fields_id = [];
-    var cId = App.DataStore.get("cId");
+    var cId = site.collection_id();
     FieldOffline.fetchByCollectionId(cId, function (layers) {
       $.map(layers, function (layer) {
         $.map(layer._data.fields, function (field) {
@@ -106,6 +106,7 @@ FieldController = {
       FieldHelperView.display("field/updateOnline.html",
           $('#div_update_field_collection_online'),
           "update_online_", {field_collections: field_collections}, true);
+      ViewBinding.setBusy(false);
     });
   },
   synForCurrentCollection: function (newFields) {

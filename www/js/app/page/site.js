@@ -23,6 +23,10 @@ $(function () {
     $('#form_create_site')[0].reset();
   });
 
+  $(document).delegate('#btn_back_site_list', 'click', function () {
+    App.DataStore.clearPartlyAfterCreateSite();
+  });
+
   $(document).delegate('#page-create-site', 'pageshow', function () {
     SiteController.setEntryDate();
   });
@@ -35,7 +39,7 @@ $(function () {
       SiteController.getByCollectionIdOnline();
     } else {
       App.DataStore.set("sId", sId);
-      requireReload(SiteController.renderUpdateSiteFormOnline);
+      SiteController.renderUpdateSiteFormOnline();
     }
   });
 
@@ -49,7 +53,7 @@ $(function () {
       App.DataStore.set("sId", sId);
       $("#btn_back_site_list_all").hide();
       $("#btn_back_site_list").show();
-      requireReload(SiteController.renderUpdateSiteFormOffline);
+      SiteController.renderUpdateSiteFormOffline();
     }
   });
 
@@ -64,7 +68,7 @@ $(function () {
       App.DataStore.set("sId", sId);
       $("#btn_back_site_list_all").show();
       $("#btn_back_site_list").hide();
-      requireReload(SiteController.renderUpdateSiteFormOffline);
+      SiteController.renderUpdateSiteFormOffline();
     }
   });
 

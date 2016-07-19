@@ -1,4 +1,4 @@
-URL = "http://www.cam-monitoring.info:8080/";
+URL = "http://cam-monitoring.info:8080/";
 END_POINT = URL + "api";
 App = {
   DB_SIZE: 5 * 1024 * 1024,
@@ -53,9 +53,6 @@ App = {
   },
   setUp: function () {
     $.ajaxSetup({
-      complete: function () {
-        ViewBinding.setBusy(false);
-      },
       timeout: 120000
     });
   },

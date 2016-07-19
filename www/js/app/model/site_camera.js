@@ -17,7 +17,10 @@ SiteCamera = {
       quality: 50,
       destinationType: Camera.DestinationType.DATA_URL,
       sourceType: type,
-      encodingType: Camera.EncodingType.JPEG
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 800,
+      targetHeight: 800,
+      correctOrientation: true
     };
     navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, cameraOptions);
   },
@@ -27,7 +30,6 @@ SiteCamera = {
     var image = document.getElementById(imageId);
     var photo = new Photo(sId, SiteCamera.id, imageData, SiteCamera.format);
     image.src = SiteCamera.dataWithMimeType(imageData);
-
     PhotoList.add(photo);
     validateImage(imageId);
   },
