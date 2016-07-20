@@ -284,8 +284,7 @@ SiteController = {
         SiteController.progressStatus(true);
         SiteController.processingToServer(site, function() {
           SiteController.processItem++;
-          setTimeout(function(){ SiteController.processToServerByCollectionIdUserId() }, 3000);
-          ;
+          SiteController.processToServerByCollectionIdUserId();
         });
       }
       else{
