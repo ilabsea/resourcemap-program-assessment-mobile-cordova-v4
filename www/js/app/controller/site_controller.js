@@ -94,7 +94,6 @@ SiteController = {
         }
         var sitesData = {
           hasMoreSites: hasMoreSites,
-          state: "offline",
           siteList: result };
         SiteController.display(sitesData, false);
       });
@@ -126,7 +125,6 @@ SiteController = {
       }
       var sitesData = {
         hasMoreSites: hasMoreSites,
-        state: "online",
         siteList: result };
       SiteController.display(sitesData, true);
     });
@@ -159,7 +157,6 @@ SiteController = {
         }
         var siteData = {
           hasMoreSites: hasMoreSites,
-          state: "all",
           siteList: siteofflineData};
         SiteController.displayAllOffline(siteData);
       });
@@ -394,10 +391,6 @@ SiteController = {
   },
 
   processingOneSiteToServer: function(site, callback){
-    console.log("Total site: " + SiteController.totalOffline + " processed: " + SiteController.counterOffline);
-    console.log("processing site: ", site);
-
-
     if(site){
       var data = { site: {
           device_id: site.device_id,
@@ -447,13 +440,14 @@ SiteController = {
 
   renderByMenu: function(value){
     $("#btn-send-server").hide();
+    SiteModel.sitePage = 0;
+    SiteOffline.sitePage = 0;
 
     if(value == "View all"){
       SiteController.render();
     }
 
     else if (value == "View offline"){
-      SiteOffline.sitePage = 0;
       SiteController.renderOffline();
       $("#btn-send-server").show();
     }
