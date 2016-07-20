@@ -1,5 +1,5 @@
 SiteModel = {
-  limit: 15,
+  limit: 5,
   sitePage: 0,
   create: function (data, successCallback, errorCallback) {
     var cId = data.collection_id;

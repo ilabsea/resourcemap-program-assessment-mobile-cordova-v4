@@ -22,14 +22,16 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('#page-site-list #site-list-online li', 'click', function (event) {
-
+      console.log("li: ", this);
+      alert("li")
       var li = this;
       var sId = li.getAttribute('data-id');
       var cId = li.getAttribute('data-collection-id');
-      if (sId == "load-more-site-online") {
+      if (sId == "load-more-site-list") {
+        event.preventDefault();
         li.remove()
         SiteModel.sitePage++;
-        SiteController.getByCollectionIdOnline();
+        SiteController.renderOnline();
       }
       else {
         CollectionController.id = cId;
@@ -37,7 +39,7 @@ $(document).on("mobileinit", function() {
         $("#btn_save_site").text(i18n.t('global.update'))
         $("#btn_delete_site").hide();
         App.redirectTo(li.getAttribute('data-href'))
-        requireReload(SiteController.renderUpdateSiteFormOnline);
+        SiteController.renderUpdateSiteFormOnline();
       }
   });
 
@@ -57,18 +59,20 @@ $(document).on("mobileinit", function() {
       var li = this;
       var sId = li.getAttribute('data-id');
       var cId = li.getAttribute('data-collection-id')
-      if (sId == "load-more-site-offline") {
+      if (sId == "load-more-site-list") {
+        event.preventDefault();
         li.remove()
         SiteOffline.sitePage++;
         SiteController.renderOffline();
+
       }
       else {
         CollectionController.id = cId;
         SiteController.id = sId;
         $("#btn_save_site").text(i18n.translate('global.update'));
         $("#btn_delete_site").show();
-        App.redirectTo(li.getAttribute('data-href'))
-        requireReload(SiteController.renderUpdateSiteFormOffline);
+        App.redirectTo(li.getAttribute('data-href'));
+        SiteController.renderUpdateSiteFormOffline();
       }
   });
 
@@ -82,7 +86,7 @@ $(document).on("mobileinit", function() {
       var li = this;
       var sId = li.getAttribute('data-id');
       var cId = li.getAttribute('data-collection-id');
-      if (sId == "load-more-site-all") {
+      if (sId == "load-more-site-list") {
         li.remove()
         SiteOffline.sitePage++;
         SiteController.renderOfflineSites();
@@ -93,7 +97,7 @@ $(document).on("mobileinit", function() {
         $("#btn_save_site").text(i18n.t('global.update'))
         $("#btn_delete_site").show();
         App.redirectTo(li.getAttribute('data-href'))
-        requireReload(SiteController.renderUpdateSiteFormOffline);
+        SiteController.renderUpdateSiteFormOffline();
       }
   });
 

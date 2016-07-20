@@ -25,13 +25,7 @@ templates['site_list'] = template({"1":function(container,depth0,helpers,partial
     + container.escapeExpression(((helper = (helper = helpers.collectionName || (depth0 != null ? depth0.collectionName : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"collectionName","hash":{},"data":data}) : helper)))
     + " </p>\n";
 },"4":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
-
-  return "<li class=\"load-more\" data-id=\"load-more-site-"
-    + alias4(((helper = (helper = helpers.state || (depth0 != null ? depth0.state : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"state","hash":{},"data":data}) : helper)))
-    + "\" id=\"load-more-site-"
-    + alias4(((helper = (helper = helpers.state || (depth0 != null ? depth0.state : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"state","hash":{},"data":data}) : helper)))
-    + "\">\n <a href=\"#\">Load More Sites ...</a>\n</li>\n";
+    return "<li class=\"load-more\" data-id=\"load-more-site-list\" id=\"load-more-site\">\n <a href=\"\">Load More Sites ...</a>\n</li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 

@@ -50,6 +50,7 @@ module.exports = function(grunt) {
        "www/js/app/model/collection_model.js",
        "www/js/app/model/collection_offline.js",
        "www/js/app/model/field_model.js",
+       "www/js/app/model/field_offline.js",
        "www/js/app/model/hierarchy.js",
        "www/js/app/model/site_model.js",
        "www/js/app/model/view_binding.js",
@@ -92,27 +93,17 @@ module.exports = function(grunt) {
   ]
 
   var templateFiles = [
+      "www/js/app/template/language_menu.handlebars",
       "www/js/app/template/collection_list.handlebars",
       "www/js/app/template/collection_name.handlebars",
-
-      "www/js/app/template/layer_fields_add.handlebars",
-      "www/js/app/template/layer_field_update_online.handlebars",
+      "www/js/app/template/site_list.handlebars",
+      "www/js/app/template/site_form.handlebars",
+      "www/js/app/template/layer_sets.handlebars",
       "www/js/app/template/layer_field.handlebars",
-      "www/js/app/template/layer_field_update_offline.handlebars",
-
-      "www/js/app/template/field_add.handlebars",
       "www/js/app/template/field_location.handlebars",
       "www/js/app/template/field_no_field_pop_up.handlebars",
-      "www/js/app/template/field_update_offline.handlebars",
-      "www/js/app/template/field_update_online.handlebars",
-
-      "www/js/app/template/language_menu.handlebars",
-
       "www/js/app/template/layer_menu.handlebars",
-
-      "www/js/app/template/site_error_upload.handlebars",
-      "www/js/app/template/site_list.handlebars",
-      "www/js/app/template/site_form.handlebars"
+      "www/js/app/template/site_error_upload.handlebars"
   ]
 
   var watchFiles = sourceCssFiles.concat(sourceJsFiles).concat(templateFiles)

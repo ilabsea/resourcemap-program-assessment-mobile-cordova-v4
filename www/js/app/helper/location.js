@@ -43,20 +43,14 @@ var Location = {
       $("#site_lng").val(lng);
       $("#mark_lat").val(lat);
       $("#mark_lng").val(lng);
-      FieldController.upateLocationField(lat, lng);
     }, function () {
       alert("Location cannot be found.");
     }, {
       enableHighAccuracy: false
     });
   },
+
   prepareLocation: function () {
-    requireReload(function () {
-      var lat = $("#lat").val();
-      var lng = $("#lng").val();
-      if (lat == "" && lng == "") {
-        Location.getCurrentLocation();
-      }
-    });
+    Location.getCurrentLocation();
   }
 };

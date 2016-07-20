@@ -29,7 +29,6 @@ SiteController = {
     var message = online ? i18n.t('global.online') : i18n.t('global.offline')
     showValidateMessage("#validation-save-site", message);
 
-
     if(!SiteController.id) {
       App.log('setting status to:', online)
       FieldController.isOnline = online;
@@ -51,9 +50,13 @@ SiteController = {
   },
 
   validateForm: function(){
-    valid = SiteController.validate() && FieldController.validateLayers()
+    var validSite = SiteController.validate()
+    var validLayer = FieldController.validateLayers()
+    var valid = validSite && validLayer;
+
     if(!valid)
       showValidateMessage("#validation-save-site", i18n.t('validation.emailPsdConfirm'));
+
     return valid;
   },
 
@@ -185,16 +188,16 @@ SiteController = {
   },
 
   save: function () {
-    var $btn = $("#btn_save_site");
-    var label = $btn.text();
-    $btn.text(i18n.t('global.validating'));
-    var valid = SiteController.validateForm()
+    ViewBinding.setBusy(true)
+    ViewBinding.setMessage(i18n.t('global.validating'));
+    var valid = SiteController.validateForm();
 
-    if(!valid) {
-      $btn.text(label)
+    if(!valid){
+      ViewBinding.setBusy(false);
       return false;
     }
-    $btn.text(i18n.t('global.saving'))
+
+    ViewBinding.setMessage(i18n.t('global.saving'))
 
     if(this.id)
       FieldController.isOnline ? this.updateOnline() : this.updateOffline() ;
@@ -222,6 +225,7 @@ SiteController = {
     var data = this.params();
     data["start_entry_date"] = this.startEntryDate
     SiteOffline.add(data);
+    ViewBinding.setBusy(false);
     SiteController.cleanAndRedirectBack();
   },
 
@@ -235,12 +239,13 @@ SiteController = {
       site.files = JSON.stringify(data.files);
 
       persistence.flush();
+      ViewBinding.setBusy(false);
       SiteController.cleanAndRedirectBack();
     });
   },
 
   addOnline: function () {
-    console.log("add online");
+
     ViewBinding.setBusy(true)
     var data = this.params();
     delete data['collection_name']
@@ -249,12 +254,12 @@ SiteController = {
       ViewBinding.setBusy(false)
        SiteController.cleanAndRedirectBack();
     }, function (err) {
+      ViewBinding.setBusy(false);
       SiteController.displayReqeustError(err);
     });
   },
 
   updateOnline: function () {
-    console.log("update online");
     var cId = CollectionController.id;
     var sId = SiteController.id;
     var data = this.params();
@@ -266,19 +271,18 @@ SiteController = {
       "rm_wfp_version": App.VERSION,
       "site": data
     }
-    console.log("data: ", data);
+
     SiteModel.update(cId, sId, data, function () {
       ViewBinding.setBusy(false);
       SiteController.cleanAndRedirectBack()
     },
     function (err) {
+      ViewBinding.setBusy(false);
       SiteController.displayReqeustError(err);
     });
   },
 
   displayReqeustError: function(err) {
-    ViewBinding.setBusy(false)
-    console.log("error: ", error);
     if (err["responseJSON"]) {
       var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], false);
       SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'),error);
@@ -300,7 +304,6 @@ SiteController = {
     var sId = SiteController.id;
 
     SiteOffline.fetchBySiteId(sId, function (site) {
-      console.log("site: ", site);
       var siteData = {
         name: site.name,
         lat: site.lat,
@@ -342,15 +345,13 @@ SiteController = {
 
   sendToServer: function () {
     if(App.isOnline()){
-      var collectionId = CollectionController.id;
+      var cId = CollectionController.id;
       var uId = UserSession.getUser().id;
-      var offset = 0;
-      SiteOffline.limit = 7;
-      SiteOffline.countByCollectionIdUserId(collectionId, uId, function(nbSites){
-        SiteOffline.nbSites = nbSites;
-        SiteOffline.fetchByCollectionIdUserId(collectionId, uId, offset, function(sites){
-          SiteController.processingToServer(sites, false);
-        });
+      SiteOffline.countByCollectionIdUserId(cId, uId, function(total){
+        SiteController.totalOffline = total;
+        SiteController.counterOffline = 0;
+        ViewBinding.setBusy(true);
+        SiteController.processingUserCollectionSiteToServer()
       });
     }
     else
@@ -360,65 +361,88 @@ SiteController = {
   sendToServerAll: function () {
     if(App.isOnline()) {
       var uId = UserSession.getUser().id;
-      var offset = 0;
-      SiteOffline.limit = 7;
-      SiteOffline.countByUserId(uId, function(nbSites){
-        SiteOffline.nbSites = nbSites;
-        SiteOffline.fetchByUserId(uId, offset, function(sites){
-          SiteController.processingToServer(sites, true);
-        });
+      SiteOffline.countByUserId(uId, function(total){
+        SiteController.totalOffline = total;
+        SiteController.counterOffline = 0;
+        ViewBinding.setBusy(true);
+        SiteController.processingUserSiteToServer();
       });
     }
     else
       alert(i18n.t("global.no_internet_connection"));
   },
 
-  processingToServer: function (sites, all) {
-    var site = sites[0];
+  processingUserCollectionSiteToServer: function() {
+    var cId = CollectionController.id;
+    var uId = UserSession.getUser().id;
 
-    var data = { site: {
-        device_id: site.device_id,
-        external_id: site.id,
-        start_entry_date: site.start_entry_date,
-        end_entry_date: site.end_entry_date,
-        collection_id: site.collection_id,
-        name: site.name,
-        lat: site.lat,
-        lng: site.lng,
-        properties: (site.properties ? JSON.parse(site.properties) : {}),
-        files: (site.files ? JSON.parse(site.files) : {})
-      }
-    };
-    App.log("Prepare site to server: ", data);
-
-    SiteModel.create(data["site"], function () {
-      persistence.remove(site);
-      persistence.flush();
-      sites.splice(0, 1);
-
-      if (sites.length === 0){
-        if(SiteOffline.nbSites - SiteOffline.limit > 0)
-          all ? SiteController.sendToServerAll() : SiteController.sendToServer()
-        else{
-          ViewBinding.setBusy(false);
-          App.redirectTo("#page-collection-list");
-        }
-      }
-      else
-        SiteController.processingToServer(sites, all);
-    },
-    function(err) {
-      if (err.statusText === "Unauthorized") {
-        showElement($("#info_sign_in"));
-        ViewBinding.setBusy(false);
-        App.redirectTo("#page-login");
-      }
-      else {
-        ViewBinding.setBusy(false);
-        var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], true);
-        SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'), error);
-      }
+    SiteOffline.fetchOneByCollectionIdUserId(cId, uId, function(site){
+      SiteController.processingOneSiteToServer(site, function(){
+        SiteController.processingUserCollectionSiteToServer();
+      })
     });
+  },
+
+  processingUserSiteToServer: function(){
+    var uId = UserSession.getUser().id;
+
+    SiteOffline.fetchOneByUserId(uId, function(site){
+      SiteController.processingOneSiteToServer(site, function(){
+        SiteController.processingUserSiteToServer();
+      })
+    });
+  },
+
+  processingOneSiteToServer: function(site, callback){
+    console.log("Total site: " + SiteController.totalOffline + " processed: " + SiteController.counterOffline);
+    console.log("processing site: ", site);
+
+
+    if(site){
+      var data = { site: {
+          device_id: site.device_id,
+          external_id: site.id,
+          start_entry_date: site.start_entry_date,
+          end_entry_date: site.end_entry_date,
+          collection_id: site.collection_id,
+          name: site.name,
+          lat: site.lat,
+          lng: site.lng,
+          properties: (site.properties ? JSON.parse(site.properties) : {}),
+          files: (site.files ? JSON.parse(site.files) : {})
+        }
+      };
+
+      var messsage = "Progressing " + SiteController.counterOffline + " / " + SiteController.totalOffline;
+      ViewBinding.setMessage(messsage)
+
+      SiteModel.create(data["site"],
+        function () {
+          persistence.remove(site);
+          persistence.flush();
+          SiteController.counterOffline += 1;
+          callback()
+        },
+        function(err) {
+          if (err.statusText === "Unauthorized") {
+            showElement($("#info_sign_in"));
+            ViewBinding.setBusy(false);
+            App.redirectTo("#page-login");
+          }
+          else {
+            ViewBinding.setBusy(false);
+            var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], true);
+            SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'), error);
+          }
+        });
+    }
+    else{
+      ViewBinding.setMessage("Done.")
+      setTimeout(function(){
+        ViewBinding.setBusy(false)
+        App.redirectTo("#page-collection-list");
+      }, 300)
+    }
   },
 
   renderByMenu: function(value){
@@ -449,6 +473,7 @@ SiteController = {
   },
 
   cleanAndRedirectBack: function () {
+    ViewBinding.setBusy(false);
     FieldController.reset()
     SiteController.redirectSafe(SiteController.currentPage);
   },

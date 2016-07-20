@@ -1,5 +1,5 @@
 SiteOffline = {
-  limit: 7,
+  limit: 5,
   sitePage: 0,
   nbSites: 0,
 
@@ -39,12 +39,15 @@ SiteOffline = {
     Site.all().filter('id', "=", sId).one(callback);
   },
 
-  fetchByUserId: function (userId, offset, callback) {
+  fetchOneByUserId: function (userId, callback) {
+    Site.all().filter('user_id', '=', userId).one(null, callback);
+  },
+
+  fetchOneByCollectionIdUserId: function (cId, userId, callback) {
     Site.all()
+        .filter('collection_id', "=", cId)
         .filter('user_id', '=', userId)
-        .limit(SiteOffline.limit)
-        .skip(offset)
-        .list(null, callback);
+        .one(null, callback);
   },
 
   minFetchByUserId: function (userId, offset, callback) {

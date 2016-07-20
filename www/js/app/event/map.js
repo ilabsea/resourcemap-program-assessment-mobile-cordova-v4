@@ -3,7 +3,7 @@ $(document).on("mobileinit", function() {
   $(document).delegate('#icon_map', 'click', function () {
     $("#mark_lat").val($("#site_lat").val());
     $("#mark_lng").val($("#site_lng").val());
-    localStorage['no_update_reload'] = 1;
+    // localStorage['no_update_reload'] = 1;
   });
 
   $(document).delegate('#btn_back_save_site', 'click', function () {

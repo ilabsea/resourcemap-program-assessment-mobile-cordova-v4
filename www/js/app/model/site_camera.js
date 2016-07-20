@@ -9,14 +9,16 @@ SiteCamera = {
   },
 
   takePhoto: function(idField, cameraType) {
-    console.log("id field: ", idField);
     var type = cameraType == "camera" ? Camera.PictureSourceType.CAMERA : Camera.PictureSourceType.SAVEDPHOTOALBUM;
     SiteCamera.id = idField;
     var cameraOptions = {
       quality: 50,
       destinationType: Camera.DestinationType.DATA_URL,
       sourceType: type,
-      encodingType: Camera.EncodingType.JPEG
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 800,
+      targetHeight: 800,
+      correctOrientation: true
     };
     navigator.camera.getPicture(SiteCamera.onSuccess, SiteCamera.onFail, cameraOptions);
   },

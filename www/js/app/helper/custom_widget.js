@@ -21,11 +21,12 @@ CustomWidget = {
             $wrapper.append($node);
           }
           else if(field.kind == 'select_one') {
-            var $node = $("<select data-theme='a' data-native-menu='false' class='validateSelectFields needsclick'></select>").attr('id', id).attr('name', id);
+            var $node = $("<select data-theme='a' data-native-menu='false' class='validateSelectFields needsclick'></select>");
+            $node.attr('id', id).attr('name', id);
             $.each(field.config.options, function(index, option) {
                 var $option = $("<option></option>")
                                          .attr('value', option['id'])
-                                         .attr('data-field_id', elementPrefixID)
+                                         .attr('data-field_id', field.idfield)
                                          .text(option['label']);
                 if(option.selected == 'selected')
                    $option.attr('selected', 'selected');

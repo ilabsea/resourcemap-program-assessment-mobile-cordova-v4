@@ -37,7 +37,6 @@ FieldController = {
   renderLayer: function(layer, $layerNodeContent){
     var content = App.Template.process('layer_field', {fields: layer.fields});
     $layerNodeContent.html(content);
-    $layerNodeContent.enhanceWithin();
 
     $.each(layer.fields, function(_, field){
       if(field.kind == 'hierarchy')
@@ -65,7 +64,7 @@ FieldController = {
           return false;
         });
       }
-
+      $layerNodeContent.enhanceWithin();
     })
   },
 
@@ -76,7 +75,7 @@ FieldController = {
   renderLayerSet: function() {
     var cloneLayers = this.layers.slice(0)
     var layerData = {field_collections: cloneLayers}
-    FieldHelperView.display('field_add', $('#div_field_collection'), layerData);
+    FieldHelperView.display('layer_sets', $('#div_field_collection'), layerData);
   },
 
   layerCollapseFields: function($layerNode){

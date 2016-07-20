@@ -20,7 +20,7 @@ CameraModel = {
   },
 
   handleOpenCamera: function () {
-    localStorage['no_update_reload'] = 1;
+    // localStorage['no_update_reload'] = 1;
     $.mobile.activePage.addClass("ui-disabled");
     $("#cameraDialog").show();
   }
