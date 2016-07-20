@@ -25,7 +25,7 @@ templates['site_list'] = template({"1":function(container,depth0,helpers,partial
     + container.escapeExpression(((helper = (helper = helpers.collectionName || (depth0 != null ? depth0.collectionName : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"collectionName","hash":{},"data":data}) : helper)))
     + " </p>\n";
 },"4":function(container,depth0,helpers,partials,data) {
-    return "<li class=\"load-more\" data-id=\"load-more-site-list\" id=\"load-more-site\">\n <a href=\"\">Load More Sites ...</a>\n</li>\n";
+    return "<li class=\"load-more\" data-id=\"load-more-site-list\" id=\"load-more-site\">\n <a href=\"javascript:void(0)\">Load More Sites ...</a>\n</li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 

@@ -394,10 +394,6 @@ SiteController = {
   },
 
   processingOneSiteToServer: function(site, callback){
-    console.log("Total site: " + SiteController.totalOffline + " processed: " + SiteController.counterOffline);
-    console.log("processing site: ", site);
-
-
     if(site){
       var data = { site: {
           device_id: site.device_id,
@@ -447,6 +443,8 @@ SiteController = {
 
   renderByMenu: function(value){
     $("#btn-send-server").hide();
+    SiteModel.sitePage = 0;
+    SiteOffline.sitePage = 0;
 
     if(value == "View all"){
       SiteController.render();

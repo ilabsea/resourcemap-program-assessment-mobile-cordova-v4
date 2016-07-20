@@ -22,16 +22,13 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('#page-site-list #site-list-online li', 'click', function (event) {
-      console.log("li: ", this);
-      alert("li")
       var li = this;
       var sId = li.getAttribute('data-id');
       var cId = li.getAttribute('data-collection-id');
       if (sId == "load-more-site-list") {
-        event.preventDefault();
-        li.remove()
         SiteModel.sitePage++;
         SiteController.renderOnline();
+        $(li).remove()
       }
       else {
         CollectionController.id = cId;
@@ -55,16 +52,13 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('#page-site-list #site-list-offline li', 'click', function (event) {
-      console.log("this click: ", this);
       var li = this;
       var sId = li.getAttribute('data-id');
       var cId = li.getAttribute('data-collection-id')
       if (sId == "load-more-site-list") {
-        event.preventDefault();
-        li.remove()
         SiteOffline.sitePage++;
         SiteController.renderOffline();
-
+        $(li).remove();
       }
       else {
         CollectionController.id = cId;
@@ -82,14 +76,13 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('#page-site-list-all #site-list-offline-all li', 'click', function (event) {
-      console.log("this click:", this);
       var li = this;
       var sId = li.getAttribute('data-id');
       var cId = li.getAttribute('data-collection-id');
       if (sId == "load-more-site-list") {
-        li.remove()
         SiteOffline.sitePage++;
         SiteController.renderOfflineSites();
+        $(li).remove();
       }
       else {
         CollectionController.id = cId;
