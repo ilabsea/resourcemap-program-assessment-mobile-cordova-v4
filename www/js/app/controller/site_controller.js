@@ -52,6 +52,7 @@ SiteController = {
   validateForm: function(){
     var validSite = SiteController.validate()
     var validLayer = FieldController.validateLayers()
+
     var valid = validSite && validLayer;
 
     if(!valid)

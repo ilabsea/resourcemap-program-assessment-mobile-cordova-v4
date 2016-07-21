@@ -5,6 +5,15 @@ FieldController = {
   site: { properties: {}, files: {} },
   isOnline: true,
 
+  simulateCurrentLayerValue: function(){
+    var layerId = FieldController.activeLayer.attr('data-id')
+    var layer = FieldController.findLayerById(layerId);
+
+    for(var i=0; i<layer.fields.length; i++){
+      $("#" + layer.fields[i].idfield).val(i*10)
+    }
+  },
+
   reset: function(){
     App.log("resetting field");
     this.activeLayer = null
@@ -99,6 +108,18 @@ FieldController = {
   },
 
   validateField: function(field){
+    if(field.kind == 'email' && field.__value) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if(!re.test(field.__value)){
+        field.invalid = 'error'
+        return false;
+      }
+      else {
+        field.invalid = ''
+        return true;
+      }
+    }
+
     if(field.required=="" || field.disableState){
       field.invalid = '';
       return true
@@ -108,7 +129,6 @@ FieldController = {
       field.invalid = 'error'
       return false;
     }
-
 
     if(field.kind == 'numeric' && field.config && field.config.range) {
       if(field.__value >= field.config.range.minimum && field.__value <=field.config.range.maximum ){
