@@ -440,11 +440,10 @@ SiteController = {
   },
 
   renderByMenu: function(value){
-    $("#btn-send-server").hide();
     SiteModel.sitePage = 0;
     SiteOffline.sitePage = 0;
-
     if(value == "View all"){
+      $("#btn-send-server").hide();
       SiteController.render();
     }
 

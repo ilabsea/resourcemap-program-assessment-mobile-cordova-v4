@@ -2,6 +2,14 @@ $(document).on("mobileinit", function() {
   $(document).delegate('#page-site-list', 'pageshow', function () {
 
     App.emptyHTML();
+
+    var $menu = $("#site-list-menu");
+    if($menu.length > 0){
+      $menu[0].selectedIndex = 1;
+      $menu.selectmenu("refresh");
+    }
+    $("#btn-send-server").hide();
+
     App.validateDbConnection(function() {
       SiteModel.sitePage = 0;
       SiteOffline.sitePage = 0;
