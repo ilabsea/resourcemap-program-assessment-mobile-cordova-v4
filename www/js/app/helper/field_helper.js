@@ -228,7 +228,7 @@ FieldHelper = {
       case "numeric":
       case "calculation":
         field.__value = value;
-        if (value && field.config.allows_decimals == "true" && field.config.digits_precision && !isNaN(parseFloat(value))){
+        if (value && field.config && field.config.allows_decimals == "true" && field.config.digits_precision && !isNaN(parseFloat(value))){
           var floatValue = parseFloat(value);
           field.__value = Number(floatValue.toFixed(parseInt(field.config.digits_precision)));
         }
