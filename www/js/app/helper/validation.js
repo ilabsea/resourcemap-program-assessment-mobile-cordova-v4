@@ -56,10 +56,8 @@ function validateHierarchy() {
     var $tree = $(tree);
     if ($tree.attr('require') == "required") {
       var node = $tree.tree('getSelectedNode');
-      console.log("selected node: ", node);
 
       if (node && node.id) {
-        console.log("selected " + node.id);
         $tree.css({"border": "1px solid #999999"});
         fields.push({id: tree.id, error: false})
       }

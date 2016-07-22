@@ -12,7 +12,6 @@ function prepareForClient(date) {
   if (date.indexOf("/") !== -1) {
     var items = date.split("/");
     d = items[2] + "-" + items[1] + "-" + items[0];
-    console.log("convert from date: " + date + " to " + d + ' for client side');
     return d;
   }
   else {
@@ -24,7 +23,6 @@ function prepareForServer(date){
   if (date.indexOf("-") !== -1) {
     var items = date.split("-");
     d = items[2] + "/" + items[1] + "/" + items[0];
-    console.log("convert from date: " + date + " to " + d + ' for server side');
     return d;
   }
   else {

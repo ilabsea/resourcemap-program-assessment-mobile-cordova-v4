@@ -10,7 +10,7 @@ var FieldHelperView = {
   },
 
   display: function (templateURL, element, fieldData, update) {
-    console.log("templateURL--", templateURL);
+    App.log("templateURL--", templateURL);
     var content = App.Template.process(templateURL, fieldData);
     element.html(content);
     // FieldHelperView.displayCustomWidget(elementPrefixID, fieldData);

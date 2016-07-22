@@ -108,7 +108,7 @@ SkipLogic = {
   },
 
   handleSkipLogic: function (id, fieldId) {
-    console.log("from " + id + " to " + fieldId);
+    App.log("from " + id + " to " + fieldId);
     var field = FieldController.findFieldById(id)
     var $parent = FieldController.findLayerWrapperOfFieldId(fieldId)
 

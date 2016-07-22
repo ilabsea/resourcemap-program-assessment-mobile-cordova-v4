@@ -25,7 +25,6 @@ FieldController = {
   },
 
   simulateLayersValue: function(){
-    console.log('layers : ' , FieldController.layers);
     for(var j=0; j < FieldController.layers.length; j++){
       var layer = FieldController.layers[j];
       FieldController.simulateLayerValue(layer.id_wrapper);
