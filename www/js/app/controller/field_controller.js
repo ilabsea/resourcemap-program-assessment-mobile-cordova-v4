@@ -10,7 +10,16 @@ FieldController = {
     var layer = FieldController.findLayerById(layerId);
 
     for(var i=0; i<layer.fields.length; i++){
-      $("#" + layer.fields[i].idfield).val(i*10)
+      var ele = $("#" + layer.fields[i].idfield);
+      if(layer.fields[i]["kind"] == 'text'){
+        ele.val("We are testing on 22 JUly 2016" + i*10 + 10)
+      }else if(layer.fields[i]["kind"] == 'email'){
+        ele.val("testperformance@instedd.org");
+      }else if(layer.fields[i]["kind"] == 'date'){
+        ele.val(new Date());
+      }else{
+        ele.val(i*10 + 10);
+      }
     }
   },
 
