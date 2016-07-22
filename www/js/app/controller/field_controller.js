@@ -5,21 +5,30 @@ FieldController = {
   site: { properties: {}, files: {} },
   isOnline: true,
 
-  simulateCurrentLayerValue: function(){
-    var layerId = FieldController.activeLayer.attr('data-id')
+  simulateLayerValue: function(layerId){
     var layer = FieldController.findLayerById(layerId);
-
     for(var i=0; i<layer.fields.length; i++){
-      var ele = $("#" + layer.fields[i].idfield);
+      var value = "";
       if(layer.fields[i]["kind"] == 'text'){
-        ele.val("We are testing on 22 JUly 2016" + i*10 + 10)
+        value ="We are testing on 22 JUly 2016 " + i*10 + 10;
       }else if(layer.fields[i]["kind"] == 'email'){
-        ele.val("testperformance@instedd.org");
+        value = "testperformance@instedd.org";
       }else if(layer.fields[i]["kind"] == 'date'){
-        ele.val(new Date());
+        value = prepareForClient("22/07/2016");
+      }else if(layer.fields[i]["kind"] == 'numeric'){
+        value = i*10 + 10;
       }else{
-        ele.val(i*10 + 10);
+        value = "";
       }
+      FieldHelper.setFieldValue(layer.fields[i], value, this.isOnline);
+    }
+  },
+
+  simulateLayersValue: function(){
+    console.log('layers : ' , FieldController.layers);
+    for(var j=0; j < FieldController.layers.length; j++){
+      var layer = FieldController.layers[j];
+      FieldController.simulateLayerValue(layer.id_wrapper);
     }
   },
 
