@@ -5,6 +5,19 @@ FieldController = {
   site: { properties: {}, files: {} },
   isOnline: true,
 
+  siteReport: function(selected){
+    if(selected == "page")
+      SiteReport.page(FieldController.site)
+
+    else if(selected == "pdf") {
+      SiteReport.pdf(FieldController.site, function(){
+        alert("System is generating PDF for your request, once it finishes we will send you a download link to your email");
+      }, function(){
+        alert("Failed to request PDF");
+      })
+    }
+  },
+
   simulateLayerValue: function(layerId){
     var layer = FieldController.findLayerById(layerId);
     for(var i=0; i<layer.fields.length; i++){
@@ -95,7 +108,7 @@ FieldController = {
   },
 
   displayLayerMenu: function(layerData){
-    FieldHelperView.displayLayerMenu("layer_menu", $('#ui-btn-layer-menu'), layerData)
+    FieldHelperView.displayLayerMenu(layerData)
   },
 
   renderLayerSet: function() {
@@ -349,13 +362,8 @@ FieldController = {
         self.layers.push(newLayer);
       });
 
-      var prefix = ""; //"update_online_";
-
-      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
-
-      // FieldController.renderLayerSet("field_update_online", $('#div_update_field_collection_online'), prefix);
+      FieldController.displayLayerMenu({field_collections: self.layers.slice(0), site: site});
       FieldController.renderLayerSet();
-
     }, FieldController.errorFetchingField);
   },
 

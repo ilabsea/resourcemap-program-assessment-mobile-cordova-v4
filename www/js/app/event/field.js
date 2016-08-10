@@ -51,6 +51,12 @@ $(document).on("mobileinit", function() {
     $("#" + ele).val("");
   });
 
+  $("#site-print-report").on('change', function(){
+    var selected = $(this).val();
+    FieldController.siteReport(selected);
+    this.selectedIndex = 0;
+  })
+
   $(document).delegate('.photo', 'click', function () {
     var $this = $(this);
     var fieldId = $this.attr('data-id');

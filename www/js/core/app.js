@@ -2,7 +2,7 @@ App = {
   DB_SIZE: 5 * 1024 * 1024,
   DB_NAME: 'resourcemap_db',
   END_POINT: RmSetting.END_POINT,
-  IMG_PATH: RmSetting.URL + "photo_field/",
+  IMG_PATH: RmSetting.URL + "/photo_field/",
   AUTH_URL: RmSetting.END_POINT + "/users/sign_in.json",
   LIST_COLLECTION: RmSetting.END_POINT + "/collections?auth_token=",
   URL_SIGNUP: RmSetting.END_POINT + "/users.json",

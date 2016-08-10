@@ -124,9 +124,7 @@ SiteController = {
       if (siteLength < response["total"]) {
         hasMoreSites = true;
       }
-      var sitesData = {
-        hasMoreSites: hasMoreSites,
-        siteList: result };
+      var sitesData = { hasMoreSites: hasMoreSites, siteList: result };
       SiteController.display(sitesData, true);
     });
   },
@@ -311,7 +309,6 @@ SiteController = {
       };
 
       if(typeof siteData.properties  == "string") {
-        App.log("parse JSON");
         siteData.properties = siteData.properties ? JSON.parse(siteData.properties) : {}
         siteData.files = siteData.files ? JSON.parse(siteData.files) : {}
       }
@@ -333,7 +330,8 @@ SiteController = {
         editable: (can_edit ? "" : "readonly"),
         name: site.name,
         lat: site.lat,
-        lng: site.long
+        lng: site.long,
+        uuid: site.uuid
       };
 
       SiteController.displayUpdateLatLng(siteData);

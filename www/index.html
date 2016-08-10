@@ -223,7 +223,25 @@
             class="ui-btn-left" data-i18n="global.back">Back</a>
     </div>
     <h1 class="title"> </h1>
-    <div class="ui-btn-right" id="ui-btn-layer-menu"></div>
+
+    <div id='ui-btn-page-save-site-menu' class="ui-btn-right" style="width: 8em; margin-top: -4px; text-align:right;">
+      <div style="display: inline-block; margin-right: 2px;" >
+        <span id='ui-site-menu'>
+          <select data-theme="a"
+                  data-native-menu="false"
+                  data-iconpos="notext"
+                  data-icon="action"
+                  id='site-print-report' >
+            <option selected> Select an option </option>
+            <option value='page'> Show Print view in HTML</option>
+            <option value='pdf'> Email me Print view in PDF</option>
+          </span>
+        </select>
+      </div>
+
+      <div style="display:inline-block;" id='ui-layer-menu'> </div>
+    </div>
+
    </div>
    <div data-role="content">
      <form  method="post" id="form-site" class="form-site">

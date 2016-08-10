@@ -42,11 +42,13 @@ var FieldHelperView = {
     element.selectmenu("refresh");
   },
 
-  displayLayerMenu: function (templateURL, element, layers_collection, current_page) {
+  displayLayerMenu: function (layers_collection, current_page) {
     var page = current_page || ''
+    var $element = $('#ui-layer-menu')
+
     layers_collection.field_collections.current_page = page;
-    var content = App.Template.process(templateURL, layers_collection);
-    element.html(content);
-    element.trigger("create");
+    var content = App.Template.process('layer_menu', layers_collection);
+    $element.html(content);
+    $element.trigger("create");
   }
 };

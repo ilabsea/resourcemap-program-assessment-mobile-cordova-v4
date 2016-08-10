@@ -25,6 +25,7 @@ $(document).on("mobileinit", function() {
 
     $("#btn_save_site").text(i18n.t('global.save_site'));
     $("#btn_delete_site").hide();
+    $("#ui-site-menu").hide();
 
     SiteController.renderNewSiteForm();
   });
@@ -43,6 +44,8 @@ $(document).on("mobileinit", function() {
         SiteController.id = sId;
         $("#btn_save_site").text(i18n.t('global.update'))
         $("#btn_delete_site").hide();
+        $("#ui-site-menu").show();
+
         App.redirectTo(li.getAttribute('data-href'))
         SiteController.renderUpdateSiteFormOnline();
       }
@@ -73,6 +76,8 @@ $(document).on("mobileinit", function() {
         SiteController.id = sId;
         $("#btn_save_site").text(i18n.translate('global.update'));
         $("#btn_delete_site").show();
+        $("#ui-site-menu").hide();
+
         App.redirectTo(li.getAttribute('data-href'));
         SiteController.renderUpdateSiteFormOffline();
       }
@@ -97,6 +102,8 @@ $(document).on("mobileinit", function() {
         SiteController.id = sId;
         $("#btn_save_site").text(i18n.t('global.update'))
         $("#btn_delete_site").show();
+        $("#ui-site-menu").hide();
+        
         App.redirectTo(li.getAttribute('data-href'))
         SiteController.renderUpdateSiteFormOffline();
       }
@@ -167,6 +174,7 @@ $(document).on("mobileinit", function() {
   $(document).delegate('#btn_save_site', 'click', function() {
     SiteController.save()
   });
+
 
   // $(document).delegate('input[type=date]', 'change', function() {
   //   alert(" date " + $(this).val())

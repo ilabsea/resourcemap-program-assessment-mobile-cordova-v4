@@ -53,6 +53,7 @@ module.exports = function(grunt) {
        "www/js/app/model/field_offline.js",
        "www/js/app/model/hierarchy.js",
        "www/js/app/model/site_model.js",
+       "www/js/app/model/site_report.js",
        "www/js/app/model/view_binding.js",
        "www/js/app/model/user_offline.js",
        "www/js/app/model/user_model.js",
