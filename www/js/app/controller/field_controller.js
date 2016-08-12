@@ -88,7 +88,11 @@ FieldController = {
         $.each(field.config.dependent_fields, function (_, dependentField) {
           var $dependentField = $("#" + dependentField.id)
           $dependentField.addClass('calculation');
-          $dependentField.attr('data-parent-id', field.idfield )
+          var parentIds = $dependentField.attr('data-parent-ids') || ""
+          parentIds = parentIds.split(',')
+          parentIds.push(field.idfield)
+          $dependentField.attr('data-parent-ids', parentIds.join(","))
+
         })
       }
       // SkipLogic.disableUIEditSite

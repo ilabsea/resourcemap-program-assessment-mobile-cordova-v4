@@ -1,7 +1,14 @@
 Calculation = {
   calculate: function ($element) {
-    var parendId  = $element.attr("data-parent-id");
-    var field = FieldController.findFieldById(parendId);
+    var parendIds  = $element.attr("data-parent-ids").split(",");
+    $.each(parendIds, function(_, fieldId){
+      if(fieldId)
+        Calculation.updateField(fieldId)
+    })
+  },
+
+  updateField: function(fieldId){
+    var field = FieldController.findFieldById(fieldId);
 
     if(!field ||  field.kind != 'calculation')
       return;
