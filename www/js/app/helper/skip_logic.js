@@ -118,6 +118,7 @@ SkipLogic = {
     }
 
     if($parent && $parent.length >0){
+
       SkipLogic.setStateUI(id, fieldId, false)
       triggerExpand($parent);
       scrollToHash($("#wrapper_" + fieldId));
@@ -235,6 +236,14 @@ SkipLogic = {
 
   setValueToEmpty: function (fieldId) {
     var $fieldNode = $("#" + fieldId);
+
+    //field in diff layer
+    if($fieldNode.length == 0){
+      // var field = FieldController.findFieldById(fieldId);
+      // field.__value = ''
+      return;
+    }
+
     if ($fieldNode.attr('data-role') === "slider")
       $fieldNode.val("0").slider("refresh");
     else if ($fieldNode[0].tagName.toLowerCase() === 'select')
@@ -329,7 +338,8 @@ function scrollToHash($element) {
 
 function triggerExpand(element) {
   var $active = $(element).parent().find("[data-collapsed=true]");
-  if($active.length > 0)
-    $active.collapsible('collapse');
+  //no need to collapse since it collapses automatically
+  // if($active.length > 0)
+  //   $active.collapsible('collapse');
   $(element).collapsible('expand');
 }

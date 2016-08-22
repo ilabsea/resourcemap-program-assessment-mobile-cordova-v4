@@ -188,20 +188,20 @@ FieldHelper = {
       case "yes_no":
         field.__value = value;
         $.each(field.config.options, function(k, option){
-          if(typeof field.__value == "boolean"){
-            if(option.id == field.__value || option.code == field.__value)
-               field.config.options[k]["selected"] = "selected";
-          }
-          else if (field.__value instanceof Array) {
+
+          if (field.__value instanceof Array) {
             $.each(field.__value, function(_, valueOption){
               if (option.id == valueOption || option.code == valueOption)
                 field.config.options[k]["selected"] = "selected";
+              else
+                delete field.config.options[k]["selected"];
             })
           }
 
-          else if(option.id == field.__value || option.code == field.__value) {
+          else if(option.id == field.__value || option.code == field.__value)
             field.config.options[k]["selected"] = "selected";
-          }
+          else
+            field.config.options[k]["selected"] = "";
         })
         break;
 

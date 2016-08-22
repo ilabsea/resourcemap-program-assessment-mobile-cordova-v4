@@ -122,10 +122,10 @@ FieldController = {
   },
 
   layerCollapseFields: function($layerNode){
-    if(this.activeLayer){
-      this.storeOldLayerFields(this.activeLayer)
-      var layer = this.findLayerById(this.activeLayer.attr('data-id'))
-      this.validateLayer(layer)
+    if(FieldController.activeLayer){
+      FieldController.storeOldLayerFields(FieldController.activeLayer)
+      var layer = FieldController.findLayerById(FieldController.activeLayer.attr('data-id'))
+      FieldController.validateLayer(layer)
     }
   },
 
