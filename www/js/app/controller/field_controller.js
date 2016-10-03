@@ -116,8 +116,8 @@ FieldController = {
   },
 
   renderLayerSet: function() {
-    var cloneLayers = this.layers.slice(0)
-    var layerData = {field_collections: cloneLayers}
+    var cloneLayers = this.layers.slice(0);
+    var layerData = {field_collections: cloneLayers};
     FieldHelperView.display('layer_sets', $('#div_field_collection'), layerData);
   },
 
@@ -193,11 +193,6 @@ FieldController = {
     if(this.activeLayer)
       this.activeLayer.collapsible( "collapse" )
   },
-
-  // storeActiveLayer: function() {
-  //   if(this.activeLayer)
-  //     this.storeOldLayerFields(this.activeLayer)
-  // },
 
   storeOldLayerFields: function($layerNode){
     var layer = this.findLayerById($layerNode.attr('data-id'));
@@ -275,50 +270,16 @@ FieldController = {
 
   renderNewSiteForm: function () {
     this.reset();
-    this.site = { properties: {}, files: {} }
-    App.isOnline() ? this.renderNewSiteFormOnline() : this.renderNewSiteFormOffline();
-  },
-
-  errorFetchingField: function(error) {
-    if (!App.isOnline())
-      FieldController.renderUpdateOffline();
-  },
-
-  renderNewSiteFormOnline: function () {
-    this.isOnline = true
+    this.site = { properties: {}, files: {} };
     var self = this;
     var cId = CollectionController.id;
-
-    FieldModel.fetch(cId, function (layers) {
-      $.each(layers, function(_, layer){
-        var layerFields = FieldHelper.buildLayerFields(layer, {fromServer: true});
-        self.layers.push(layerFields);
-      })
-
-      FieldController.synForCurrentCollection(self.layers);
-
-      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
-
-      FieldController.renderLayerSet();
-
-      ViewBinding.setBusy(false);
-      Location.prepareLocation();
-    }, FieldController.errorFetchingField);
-  },
-
-  renderNewSiteFormOffline: function () {
-    this.isOnline = false;
-
-    var cId = CollectionController.id
-    var self = this;
-    self.layers = [];
 
     FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
       if(layerOfflines.length == 0)
         FieldHelperView.displayNoFields("field_no_field_pop_up", $('#page-pop-up-no-fields'));
 
       layerOfflines.forEach(function (layerOffline) {
-        var layer = FieldHelper.buildLayerFields(layerOffline, false);
+        var layer = FieldHelper.buildLayerFields(layerOffline);
         self.layers.push(layer);
       });
 
@@ -328,6 +289,11 @@ FieldController = {
 
       Location.prepareLocation();
     });
+  },
+
+  errorFetchingField: function(error) {
+    if (!App.isOnline())
+      FieldController.renderUpdateOffline();
   },
 
   renderUpdateOffline: function (site) {
@@ -346,7 +312,6 @@ FieldController = {
       });
 
       FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
-      // FieldController.renderLayerSet("field_update_offline", $('#div_update_field_collection'), "update_");
       FieldController.renderLayerSet();
     });
   },
@@ -392,11 +357,12 @@ FieldController = {
     return  value == null ? "" : value;
   },
 
-  synForCurrentCollection: function (newFields) {
+  synForCurrentCollection: function (layers) {
     var cId = CollectionController.id;
     FieldOffline.fetchByCollectionId(cId, function (fields) {
+      userId = UserSession.getUser().id;
       FieldOffline.remove(fields);
-      FieldOffline.add(newFields);
+      FieldOffline.add(layers, cId, userId);
     });
   },
 
@@ -445,4 +411,11 @@ FieldController = {
    return {properties: properties, files: files}
   },
 
+  downloadForm: function () {
+    var cId = CollectionController.id;
+    var self = this;
+    FieldModel.fetch(cId, function (layers) {
+      FieldController.synForCurrentCollection(layers);
+    }, FieldController.errorFetchingField);
+  }
 };

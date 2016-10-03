@@ -450,9 +450,13 @@ SiteController = {
       $("#btn-send-server").show();
     }
 
-    else if (value =="View online") {
+    else if (value == "View online") {
       SiteController.renderOnline();
       $("#btn-send-server").hide();
+    }
+
+    else if (value == "Download form") {
+      FieldController.downloadForm();
     }
 
     else if(value == "Logout" )

@@ -1,13 +1,14 @@
 FieldOffline = {
-  add: function(fields) {
-    $.each(fields, function(index, field) {
+  add: function(layers, collectionId, userId) {
+    $.each(layers, function(index, layer) {
       var fieldParams = {
-        collection_id: field.cId,
-        user_id: field.user_id,
-        name_wrapper: field.name_wrapper,
-        id_wrapper: field.id_wrapper,
-        fields: field.fields
+        collection_id: collectionId,
+        user_id: userId,
+        name_wrapper: layer.name,
+        id_wrapper: layer.id,
+        fields: layer.fields
       };
+
       var fieldObj = new Field(fieldParams);
       persistence.add(fieldObj);
     });
