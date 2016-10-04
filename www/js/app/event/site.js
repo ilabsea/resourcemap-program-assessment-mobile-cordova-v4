@@ -46,7 +46,7 @@ $(document).on("mobileinit", function() {
         $("#btn_delete_site").hide();
         $("#ui-site-menu").show();
 
-        App.redirectTo(li.getAttribute('data-href'))
+        App.redirectTo(li.getAttribute('data-href'));
         SiteController.renderUpdateSiteFormOnline();
       }
   });
@@ -103,7 +103,7 @@ $(document).on("mobileinit", function() {
         $("#btn_save_site").text(i18n.t('global.update'))
         $("#btn_delete_site").show();
         $("#ui-site-menu").hide();
-        
+
         App.redirectTo(li.getAttribute('data-href'))
         SiteController.renderUpdateSiteFormOffline();
       }

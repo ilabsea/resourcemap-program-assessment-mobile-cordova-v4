@@ -193,12 +193,9 @@ SiteController = {
       return false;
     }
 
-    ViewBinding.setMessage(i18n.t('global.saving'))
+    ViewBinding.setMessage(i18n.t('global.saving'));
 
-    if(this.id)
-      FieldController.isOnline ? this.updateOnline() : this.updateOffline() ;
-    else
-      FieldController.isOnline ? this.addOnline() : this.addOffline();
+    this.addOrUpdateSite();
   },
 
   params: function() {
@@ -217,6 +214,13 @@ SiteController = {
     return data;
   },
 
+  addOrUpdateSite: function () {
+    if(this.id)
+      this.isOnline ? this.updateOnline() : this.updateOffline()
+    else
+      this.addOffline()
+  },
+
   addOffline: function () {
     var data = this.params();
     data["start_entry_date"] = this.startEntryDate
@@ -226,6 +230,7 @@ SiteController = {
   },
 
   updateOffline: function () {
+
     var data = this.params();
     SiteOffline.fetchBySiteId(this.id, function (site) {
       site.name = data.name;
@@ -297,6 +302,7 @@ SiteController = {
   },
 
   renderUpdateSiteFormOffline: function () {
+    this.isOnline = false;
     var sId = SiteController.id;
 
     SiteOffline.fetchBySiteId(sId, function (site) {
@@ -335,7 +341,7 @@ SiteController = {
       };
 
       SiteController.displayUpdateLatLng(siteData);
-      FieldController.renderUpdateOnline(site);
+      FieldController.renderUpdateOffline(site);
     });
   },
 
@@ -440,19 +446,14 @@ SiteController = {
   renderByMenu: function(value){
     SiteModel.sitePage = 0;
     SiteOffline.sitePage = 0;
-    if(value == "View all"){
+    if(value == "View sites"){
       $("#btn-send-server").hide();
       SiteController.render();
     }
 
-    else if (value == "View offline"){
+    else if (value == "Send sites"){
       SiteController.renderOffline();
       $("#btn-send-server").show();
-    }
-
-    else if (value == "View online") {
-      SiteController.renderOnline();
-      $("#btn-send-server").hide();
     }
 
     else if (value == "Download form") {

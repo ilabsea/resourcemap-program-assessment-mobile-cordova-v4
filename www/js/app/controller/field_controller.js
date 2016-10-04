@@ -311,6 +311,7 @@ FieldController = {
         self.layers.push(newLayer);
       });
 
+
       FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
       FieldController.renderLayerSet();
     });
@@ -336,8 +337,6 @@ FieldController = {
     }, FieldController.errorFetchingField);
   },
 
-  //this.site.properties[fieldId] = fileName;
-  //this.site.files[fileName] = photoValue["data"];
   getFieldValueFromUI: function(fieldId) {
     var $field = $('#' + fieldId);
     if($field.length == 0)
@@ -399,7 +398,6 @@ FieldController = {
           }
           else if(field.kind == 'date'){
             properties[field.idfield] = prepareForServer(field.__value)
-            // alert("params original value: " + field.__value + " converted to " + prepareForServer(field.__value) )
           }
           else
             properties[field.idfield] = field.__value
