@@ -412,8 +412,16 @@ FieldController = {
   downloadForm: function () {
     var cId = CollectionController.id;
     var self = this;
-    FieldModel.fetch(cId, function (layers) {
-      FieldController.synForCurrentCollection(layers);
-    }, FieldController.errorFetchingField);
+    var currentPageId = $.mobile.activePage.attr('id');
+
+    if(App.isOnline()){
+      FieldModel.fetch(cId, function (layers) {
+        FieldController.synForCurrentCollection(layers);
+         SiteController.renderByMenu("View sites");
+      }, FieldController.errorFetchingField);
+    }else {
+      alert(i18n.t("global.no_internet_connection"));
+      SiteController.renderByMenu("View sites");
+    }
   }
 };
