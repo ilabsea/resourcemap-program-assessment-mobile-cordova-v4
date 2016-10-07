@@ -8,7 +8,7 @@ $(document).on("mobileinit", function() {
       $menu[0].selectedIndex = 1;
       $menu.selectmenu("refresh");
     }
-    $("#btn-send-server").hide();
+    $("#offline-wrapper").hide();
 
     App.validateDbConnection(function() {
       SiteModel.sitePage = 0;
@@ -62,7 +62,7 @@ $(document).on("mobileinit", function() {
     }
   });
 
-  $(document).delegate('#page-site-list #site-list-offline li', 'click', function (event) {
+  $(document).delegate('#page-site-list #site-list-offline li .btn_view_site', 'click', function (event) {
       var li = this;
       var sId = li.getAttribute('data-id');
       var cId = li.getAttribute('data-collection-id')
@@ -83,12 +83,23 @@ $(document).on("mobileinit", function() {
       }
   });
 
+  $(document).delegate('.btn_select_site', 'click', function (event) {
+    var siteId = $(this).attr('data-id');
+    if ($(this).hasClass( "ui-icon-none" )){
+      $(this).removeClass('ui-icon-none').addClass('ui-icon-check');
+      $(this).attr('data-icon', 'check');
+    }else{
+      $(this).removeClass('ui-icon-check').addClass('ui-icon-none');
+      $(this).attr('data-icon', 'none');
+    }
+  });
+
   $(document).delegate('#btn-confirm-delete-site', 'click', function () {
     this.href = SiteController.currentPage;
     SiteController.deleteOffline();
   });
 
-  $(document).delegate('#page-site-list-all #site-list-offline-all li', 'click', function (event) {
+  $(document).delegate('#page-site-list-all #site-list-offline-all li .btn_view_site', 'click', function (event) {
       var li = this;
       var sId = li.getAttribute('data-id');
       var cId = li.getAttribute('data-collection-id');
@@ -175,8 +186,13 @@ $(document).on("mobileinit", function() {
     SiteController.save()
   });
 
+  $(document).delegate('#btn-toggle-site', 'click', function() {
+    $selectedSites = $('.btn_select_site');
+    if($selectedSites.hasClass('ui-icon-none')){
+      $selectedSites.removeClass('ui-icon-none').addClass('ui-icon-check');
+    }else{
+      $selectedSites.removeClass('ui-icon-check').addClass('ui-icon-none');
+    }
+  });
 
-  // $(document).delegate('input[type=date]', 'change', function() {
-  //   alert(" date " + $(this).val())
-  // });
 })

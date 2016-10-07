@@ -233,3 +233,16 @@ h1 {
   background-color: #f3f3f3;
   min-height: 32px;
 }
+
+/*ul.checklist input[type="checkbox"]{
+  width: 20px;
+  float: left;
+}
+
+ul.checklist label{
+  margin-top: 0px;
+}
+
+ul.checklist p.ui-li-desc{
+  margin-left: 30px;
+}*/

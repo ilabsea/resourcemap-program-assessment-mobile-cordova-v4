@@ -27,5 +27,13 @@ var SiteHelper = {
       Dialog.showDialog("page-error-submit-site");
     }, 50);
     element.css("z-index", 200000);
+  },
+  selectedSite: function(){
+    var selectedOfflineSites = []
+    $('.btn_select_site').each(function(i, site){
+      if($(site).hasClass('ui-icon-check'))
+        selectedOfflineSites.push($(site).attr('data-id'));
+    });
+    return selectedOfflineSites;
   }
 };

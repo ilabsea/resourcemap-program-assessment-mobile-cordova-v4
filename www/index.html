@@ -134,12 +134,18 @@
         data-theme="c"
         class="clearPreviousDisplay">
     </ul>
-    <div class="ui-grid-solo" data-theme="c">
-     <div class="ui-block-a">
-      <button id="btn-send-server-all" data-theme="e" data-icon="forward" data-i18n="global.send_to_server">
-       Send to server
-      </button>
-     </div>
+
+    <div class="ui-grid-a">
+    	<div class="ui-block-a">
+        <button id="btn-toggle-site" data-icon="check" data-i18n="global.toggle_all_sites">
+          Toggle all sites
+        </button>
+      </div>
+    	<div class="ui-block-b">
+        <button id="btn-send-server-all" data-theme="e" data-icon="forward" data-i18n="global.send_to_server">
+         Send to server
+        </button>
+      </div>
     </div>
    </div>
   </div>
@@ -156,8 +162,9 @@
      <select data-theme="a" data-native-menu="false" data-iconpos="notext"
              data-icon="bullets" name="site-list-menu" id="site-list-menu">
       <option value=""  data-i18n="global.menu" selected='selected'></option>
-      <option value="View sites" data-i18n="global.viewSites">View sites</option>
-      <option value="Send sites" data-i18n="global.sendSites">Send sites</option>
+      <option value="View all" data-i18n="global.viewAll">View all</option>
+      <option value="View offline" data-i18n="global.viewOffline">View offline</option>
+      <option value="View online" data-i18n="global.viewOnline">View online</option>
       <option value="Download form" data-i18n="global.downloadForm">Download form</option>
       <option value="Logout" data-i18n="global.logout">Logout</option>
      </select>
@@ -169,18 +176,33 @@
              data-icon="plus" data-i18n="global.add">Add new site</a>
     </div>
 
-    <ul class="clearPreviousDisplay" data-role='listview' id="site-list-offline"
+    <ul class="clearPreviousDisplay checklist" data-role='listview' id="site-list-offline"
         data-inset="true" data-theme="c">
     </ul>
 
-    <button id="btn-send-server" data-icon="forward" style="display:none;"
-          data-i18n="global.send_to_server">Send to server</button>
-
+    <div class="ui-grid-a" id="offline-wrapper" style="display:none;">
+    	<div class="ui-block-a">
+        <button id="btn-toggle-site" data-icon="check" data-i18n="global.toggle_all_sites">
+          Toggle all sites
+        </button>
+      </div>
+    	<div class="ui-block-b">
+        <button id="btn-send-server" data-icon="forward"  data-i18n="global.send_to_server">
+         Send to server
+        </button>
+      </div>
+    </div>
 
     <ul class="clearPreviousDisplay" data-role='listview'
         id="site-list-online" data-inset="true" data-theme="c">
     </ul>
+   </div>
 
+   <div data-role="popup" id="popupMenu" data-theme="a">
+     <ul data-role="listview" data-inset="true" style="min-width:210px;">
+         <li><a href="#">View details</a></li>
+         <li><a href="#">Select</a></li>
+     </ul>
    </div>
   </div>
 

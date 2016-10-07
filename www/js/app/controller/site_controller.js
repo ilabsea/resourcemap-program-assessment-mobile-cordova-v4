@@ -1,19 +1,30 @@
 SiteController = {
+  selectedOfflineSites: [],
+  selectableList: false,
   safe: false,
   isOnline: true,
   id: null,
 
   display: function (siteData, online) {
-    var $element = online ? $('#site-list-online') : $('#site-list-offline')
-    var content = App.Template.process("site_list", siteData);
-    $element.append(content);
+    var $element = '';
+    var template = '';
+    if(online){
+      $element = $('#site-list-online')
+      template = "site_list"
+    }else{
+      $element = $('#site-list-offline')
+      template = this.selectableList ? "site_list_offline_selectable" : "site_list_offline"
+    }
+
+    var content = App.Template.process(template, siteData);
+    $element.html(content);
     $element.listview("refresh");
   },
 
   displayAllOffline: function(siteData){
     var $element = $('#site-list-offline-all')
-    var content = App.Template.process("site_list", siteData);
-    $element.append(content);
+    var content = App.Template.process("site_list_offline_selectable", siteData);
+    $element.html(content);
     $element.listview("refresh")
   },
 
@@ -62,6 +73,7 @@ SiteController = {
   },
 
   render: function () {
+    SiteController.selectableList = false;
     SiteController.renderOffline();
     if (App.isOnline()) {
       SiteController.renderOnline();
@@ -69,7 +81,7 @@ SiteController = {
     }
   },
 
-  renderOffline: function () {
+  renderOffline: function (selectable) {
     var collectionId = CollectionController.id;
     var uId = UserSession.getUser().id;
     var offset = SiteOffline.sitePage * SiteOffline.limit;
@@ -352,8 +364,11 @@ SiteController = {
       SiteOffline.countByCollectionIdUserId(cId, uId, function(total){
         SiteController.totalOffline = total;
         SiteController.counterOffline = 0;
+        SiteController.selectedOfflineSites = SiteHelper.selectedSite();
         ViewBinding.setBusy(true);
-        SiteController.processingUserCollectionSiteToServer()
+        SiteController.processingOfflineSiteToServer(function(){
+          SiteController.renderOffline();
+        });
       });
     }
     else
@@ -366,33 +381,27 @@ SiteController = {
       SiteOffline.countByUserId(uId, function(total){
         SiteController.totalOffline = total;
         SiteController.counterOffline = 0;
+        SiteController.selectedOfflineSites = SiteHelper.selectedSite();
         ViewBinding.setBusy(true);
-        SiteController.processingUserSiteToServer();
+        SiteController.processingOfflineSiteToServer();
       });
     }
     else
       alert(i18n.t("global.no_internet_connection"));
   },
 
-  processingUserCollectionSiteToServer: function() {
-    var cId = CollectionController.id;
-    var uId = UserSession.getUser().id;
-
-    SiteOffline.fetchOneByCollectionIdUserId(cId, uId, function(site){
-      SiteController.processingOneSiteToServer(site, function(){
-        SiteController.processingUserCollectionSiteToServer();
-      })
-    });
-  },
-
-  processingUserSiteToServer: function(){
-    var uId = UserSession.getUser().id;
-
-    SiteOffline.fetchOneByUserId(uId, function(site){
-      SiteController.processingOneSiteToServer(site, function(){
-        SiteController.processingUserSiteToServer();
-      })
-    });
+  processingOfflineSiteToServer: function(callback) {
+    var siteId = this.selectedOfflineSites.shift();
+    if(siteId){
+      SiteOffline.fetchBySiteId(siteId, function(site){
+        SiteController.processingOneSiteToServer(site, function(){
+          SiteController.processingOfflineSiteToServer();
+        });
+      });
+    }else{
+      ViewBinding.setBusy(false);
+      callback();
+    }
   },
 
   processingOneSiteToServer: function(site, callback){
@@ -446,17 +455,24 @@ SiteController = {
   renderByMenu: function(value){
     SiteModel.sitePage = 0;
     SiteOffline.sitePage = 0;
-    if(value == "View sites"){
-      $("#btn-send-server").hide();
+    if(value == "View all"){
+      $("#offline-wrapper").hide();
       SiteController.render();
     }
 
-    else if (value == "Send sites"){
+    else if (value == "View offline"){
+      SiteController.selectableList = true;
       SiteController.renderOffline();
-      $("#btn-send-server").show();
+      $("#offline-wrapper").show();
+    }
+
+    else if (value =="View online") {
+      SiteController.renderOnline();
+      $("#offline-wrapper").hide();
     }
 
     else if (value == "Download form") {
+      $("#offline-wrapper").hide();
       FieldController.downloadForm();
     }
 
@@ -478,5 +494,14 @@ SiteController = {
   redirectSafe: function(url){
     this.safe = true;
     App.redirectTo(url);
+  },
+
+  resetMenu: function(){
+    var $menu = $("#site-list-menu");
+    if($menu.length > 0){
+      $menu[0].selectedIndex = 1;
+      $menu.selectmenu("refresh");
+      SiteController.render();
+    }
   }
 };

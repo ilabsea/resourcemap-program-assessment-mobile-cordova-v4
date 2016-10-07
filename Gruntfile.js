@@ -98,6 +98,8 @@ module.exports = function(grunt) {
       "www/js/app/template/collection_list.handlebars",
       "www/js/app/template/collection_name.handlebars",
       "www/js/app/template/site_list.handlebars",
+      "www/js/app/template/site_list_offline.handlebars",
+      "www/js/app/template/site_list_offline_selectable.handlebars",
       "www/js/app/template/site_form.handlebars",
       "www/js/app/template/layer_sets.handlebars",
       "www/js/app/template/layer_field.handlebars",

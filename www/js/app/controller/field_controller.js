@@ -415,13 +415,19 @@ FieldController = {
     var currentPageId = $.mobile.activePage.attr('id');
 
     if(App.isOnline()){
+      ViewBinding.setBusy(true);
       FieldModel.fetch(cId, function (layers) {
         FieldController.synForCurrentCollection(layers);
-         SiteController.renderByMenu("View sites");
+        setTimeout(function () {
+          ViewBinding.setBusy(false);
+          SiteController.resetMenu();
+        }, 500);
+
       }, FieldController.errorFetchingField);
     }else {
       alert(i18n.t("global.no_internet_connection"));
-      SiteController.renderByMenu("View sites");
+      SiteController.resetMenu();
     }
+    return false;
   }
 };
