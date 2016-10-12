@@ -10,13 +10,11 @@ SessionController = {
     hideElement($('#invalidmail'));
     ViewBinding.setBusy(true);
 
-    UserModel.create(App.AUTH_URL, data, function (response) {
-
+    UserModel.create(App.authUrl(), data, function (response) {
       userParams.auth_token = response.auth_token;
       UserOffline.fetchByEmail(userParams.email, function (user) {
         if (user === null){
           user = UserOffline.add(userParams);
-
         }
         else {
           user.password = userParams.password
@@ -59,7 +57,7 @@ SessionController = {
       hideElement($("#passmatch"));
       ViewBinding.setBusy(true);
 
-      UserModel.create(App.URL_SIGNUP, data, function () {
+      UserModel.create(App.urlSignup(), data, function () {
         hideElement($("#exitemail"));
         showElement($("#sign_up_success"));
         App.redirectTo("#page-login");
@@ -101,7 +99,7 @@ SessionController = {
   storeSessionOnline: function (userParams) {
     var data = {user: userParams};
 
-    UserModel.create(App.AUTH_URL, data, function () {
+    UserModel.create(App.authUrl(), data, function () {
       App.redirectTo("#page-collection-list");
     }, function (x, t, m) {
       if (!x.responseJSON.success){

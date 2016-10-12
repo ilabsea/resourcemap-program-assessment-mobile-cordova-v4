@@ -234,15 +234,6 @@ h1 {
   min-height: 32px;
 }
 
-/*ul.checklist input[type="checkbox"]{
-  width: 20px;
-  float: left;
+div#popup-change-server-url{
+  width: 300px;
 }
-
-ul.checklist label{
-  margin-top: 0px;
-}
-
-ul.checklist p.ui-li-desc{
-  margin-left: 30px;
-}*/

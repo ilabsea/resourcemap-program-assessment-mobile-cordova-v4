@@ -246,10 +246,10 @@ FieldHelper = {
   },
 
   imageWithPath: function(imgFileName) {
-    return App.IMG_PATH + imgFileName;
+    return App.imgPath() + imgFileName;
   },
 
   imageWithoutPath: function(imageFullPath) {
-    return imageFullPath.replace(App.IMG_PATH, '')
+    return imageFullPath.replace(App.imgPath(), '')
   }
 };

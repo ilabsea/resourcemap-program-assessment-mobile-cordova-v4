@@ -10,7 +10,7 @@ UserModel = {
   },
   delete: function(callback) {
     $.ajax({
-      url: App.URL_LOGOUT + App.Session.getAuthToken(),
+      url: App.urlLogout() + App.Session.getAuthToken(),
       type: "POST",
       complete: function() {
         callback();

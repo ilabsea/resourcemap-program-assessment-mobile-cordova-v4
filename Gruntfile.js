@@ -12,7 +12,7 @@ module.exports = function(grunt) {
        "www/js/app/event/map.js",
        "www/js/app/event/hierarchy.js",
        "www/js/app/event/field.js",
-       "www/js/app/event/send_to_server.js",
+       "www/js/app/event/server.js",
 
        "www/js/libs/jquery.mobile-1.4.5.js",
        "www/js/libs/tree.jquery.js",

@@ -43,12 +43,20 @@
        data-i18n="validation.emailPsd"> Please enter your email and password. </p>
    </div>
    <div style="position: absolute; bottom: 10px; right:10px">
-    <a href="#page-about-release" data-rel="popup"
-       data-i18n="login_page.about">About</a>
+    <a href="#popup-change-server-url" data-rel="popup" data-position-to="window" id="btn-server-url"
+    data-i18n="login_page.about">About</a>
    </div>
-   <div id="page-about-release" data-role="popup">
-    <div style="margin:7px">Version: 1.3</div>
-    <div style="margin:7px">Server: "http://www.cam-monitoring.info:8080/"</div>
+
+   <div data-role="popup" id="popup-change-server-url" data-theme="b">
+       <form id="form-change-server-url">
+           <div style="padding:10px 20px;">
+               <h3>Server URL</h3>
+               <label for="un" class="ui-hidden-accessible">url</label>
+               <span class="error" id="url-error" style="color:red"></span>
+               <input type="url" name="url" id="txt-url" value="" placeholder="url" >
+               <button type="submit" id="btn-change-server-url">Save</button>
+           </div>
+       </form>
    </div>
   </div>
 
