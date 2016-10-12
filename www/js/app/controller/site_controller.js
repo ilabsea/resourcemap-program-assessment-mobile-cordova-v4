@@ -76,6 +76,12 @@ SiteController = {
     SiteController.selectableList = false;
     SiteController.renderOffline();
     if (App.isOnline()) {
+      var cId = CollectionController.id;
+      FieldOffline.fetchByCollectionId(cId, function(layers){
+        if(layers.length == 0){
+          FieldController.downloadForm();
+        }
+      });
       SiteController.renderOnline();
       MyMembershipController.getMembershipByCollectionId();
     }
