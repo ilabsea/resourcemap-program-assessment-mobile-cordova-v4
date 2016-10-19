@@ -1,21 +1,30 @@
-$(function(){
-  $("#btn-server-url").on('click', function(){
+$(document).on("mobileinit", function() {
+  $(document).delegate('#page-change-server', 'pageshow', function () {
     $('#txt-url').val(RmSetting.url());
   });
-
+})
+$(function(){
   $("#form-change-server-url").validate({
     focusInvalid: false,
     errorPlacement: function () {
     },
     submitHandler: function () {
-      url = $('#txt-url').val();
-      App.DataStore.set("endPoint", normalizeUrl(url));
+      $("#dialog-confirm-change-server").show();
       $('#url-error').text('');
-      $( "#popup-change-server-url" ).popup( "close" )
     },
     invalidHandler: function () {
       $('#url-error').text('Please enter a valid url');
     }
+  });
+
+  $('#btn-confirm-change-server').on('click', function(){
+    url = $('#txt-url').val();
+    $("#dialog-confirm-change-server").hide();
+    App.changeServerUrl(normalizeUrl(url));
+  });
+
+  $('#btn-cancel-change-server').on('click', function(){
+    $("#dialog-confirm-change-server").hide();
   });
 
   function normalizeUrl(url){

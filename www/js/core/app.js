@@ -58,6 +58,12 @@ App = {
     }
   },
 
+  changeServerUrl: function(url){
+    App.resetDb();
+    App.DataStore.set("endPoint", url);
+    App.redirectTo("#page-login");
+  },
+
   onDeviceReady: function () {
     App.connectDB(App.DB_NAME, App.DB_SIZE);
     document.addEventListener("offline", function() {

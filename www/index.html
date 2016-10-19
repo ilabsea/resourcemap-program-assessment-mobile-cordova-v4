@@ -43,20 +43,7 @@
        data-i18n="validation.emailPsd"> Please enter your email and password. </p>
    </div>
    <div style="position: absolute; bottom: 10px; right:10px">
-    <a href="#popup-change-server-url" data-rel="popup" data-position-to="window" id="btn-server-url"
-    data-i18n="login_page.about">About</a>
-   </div>
-
-   <div data-role="popup" id="popup-change-server-url" data-theme="b">
-       <form id="form-change-server-url">
-           <div style="padding:10px 20px;">
-               <h3>Server URL</h3>
-               <label for="un" class="ui-hidden-accessible">url</label>
-               <span class="error" id="url-error" style="color:red"></span>
-               <input type="url" name="url" id="txt-url" value="" placeholder="url" >
-               <button type="submit" id="btn-change-server-url">Save</button>
-           </div>
-       </form>
+    <a href="#page-change-server">Server URL</a>
    </div>
   </div>
 
@@ -301,6 +288,43 @@
    </div>
   </div>
 
+
+  <div data-role="page" id="page-change-server" data-theme="b">
+    <div data-role="header">
+      <a href="#page-login" data-theme="a"  data-role="button"
+         data-inline="true" data-icon="carat-l" class="ui-btn-left"
+         data-i18n="global.back">Back
+      </a>
+      <h2>Change Server</h2>
+    </div>
+    <div data-role="content">
+      <form id="form-change-server-url">
+          <div style="padding:10px 20px;">
+            <span class="error" id="url-error" style="color:red"></span>
+            <label for="txt-url"> URL </label>
+            <input type="url" name="url" id="txt-url" value="" required>
+            <button type="submit" id="btn-change-server-url">Save</button>
+          </div>
+      </form>
+    </div>
+  </div>
+
+  <!--Confirm Change Server Dialog-->
+  <div data-role="dialog" id="dialog-confirm-change-server" data-theme="b" data-url="dialog-confirm-change-server"
+        tabindex="0" class="ui-page ui-page-theme-b ui-dialog ui-page-active"
+        style="display:none; position:fixed;">
+    <div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">
+      <div data-role="header" role="banner" class="ui-header ui-bar-inherit">
+        <h1 class="ui-title" role="heading" aria-level="1">Warning</h1>
+      </div>
+      <div data-role="content" class="ui-content ui-body-b" role="main">
+        <h3>Are you sure you want to change the server URL ?</h3>
+        <p>The local data will be lost.</p>
+        <a href="#" id="btn-confirm-change-server" class="ui-shadow ui-btn ui-corner-all">Yes</a>
+        <a href="#" id="btn-cancel-change-server" class="ui-shadow ui-btn ui-corner-all">No</a>
+      </div>
+    </div>
+  </div>
 
   <!--Camera Dialog-->
   <div data-role="dialog" id="cameraDialog"
