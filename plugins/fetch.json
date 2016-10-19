@@ -12,5 +12,30 @@
             "subdir": ".",
             "ref": "0.4.0"
         }
+    },
+    "com.phonegap.plugins.sqlite": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/brodysoft/Cordova-SQLitePlugin",
+            "subdir": "."
+        }
+    },
+    "org.apache.cordova.camera": {
+        "source": {
+            "type": "local",
+            "path": "C:\\Users\\SANSONAN\\AppData\\Local\\Temp\\org.apache.cordova.camera\\package"
+        }
+    },
+    "org.apache.cordova.device": {
+        "source": {
+            "type": "local",
+            "path": "/Users/mann/.plugman/cache/org.apache.cordova.device/0.2.10/package"
+        }
+    },
+    "org.apache.cordova.network-information": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.network-information"
+        }
     }
 }

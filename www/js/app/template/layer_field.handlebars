@@ -18,7 +18,7 @@
         {{#if multiple}}
           <option>Options</option>
           {{#config.options}}
-          <option value="{{id}}" {{selected}}>{{label}}</option>
+          <option value="{{id}}" {{selected}} data-code="{{code}}">{{label}}</option>
           {{/config.options}}
         {{else}}
         {{#if slider}}
@@ -27,7 +27,7 @@
           <option value="" selected>(no value)</option>
         {{/if}}
           {{#config.options}}
-          <option value="{{id}}" {{selected}} data-field_id="{{field_id}}">{{label}}</option>
+          <option value="{{id}}" data-code="{{code}}" {{selected}} data-field_id="{{field_id}}" >{{label}}</option>
           {{/config.options}}
         {{/if}}
       </select>

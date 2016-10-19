@@ -18,15 +18,65 @@ SkipLogic = {
     }
   },
 
-  applySkipLogic: function(field, fieldId, condition){
-    if(!(field.config))
-      return;
-    if(condition()) {
-      App.log("skip to: ", fieldId)
-      SkipLogic.handleSkipLogic(field.idfield, fieldId)
+  processSkipLogic: function (element_id, value_search) {
+    for(var l=0; l<FieldController.layers.length; l++){
+      layer = FieldController.layers[l];
+      for(var f=0; f<layer.fields.length; f++){
+        field = layer.fields[f];
+        if (field.config && field.config['field_logics'] ) {
+          for(var i=0; i<field.config['field_logics'].length; i++){
+            field_logic = field.config['field_logics'][i]
+            if(field_logic.field_id == element_id){
+              var fieldLogic = field.config['field_logics'][i]
+              var operationType= fieldLogic.condition_type;
+              var match = Operators[operationType](value_search, fieldLogic.value)
+              SkipLogic.applySkipLogic(field, fieldLogic.field_id, function(){
+                return match;
+              });
+            }
+          }
+        }
+      }
     }
-    else if(field.skipTo){
-      SkipLogic.setStateUI(field.idfield, field.skipTo, true)
+  },
+
+  processSkipLogicSelectMany: function (element, element_id) {
+    var list_codes = new Array();
+    list_ids = element.find(":selected");
+    for(var i=0; i< list_ids.length; i++){
+      list_codes.push($(list_ids[i]).data("code"));
+    }
+    App.log("Element ID: ", element_id)
+    for(var l=0; l<FieldController.layers.length; l++){
+      layer = FieldController.layers[l];
+      for(var f=0; f<layer.fields.length; f++){
+        field = layer.fields[f];
+        if (field.config && field.config['field_logics'] ) {
+          for(var i=0; i<field.config['field_logics'].length; i++){
+            field_logic = field.config['field_logics'][i]
+            if(field_logic.field_id == element_id){
+              var fieldLogic = field.config['field_logics'][i]
+              var operationType= fieldLogic.condition_type;
+              var field_logic_value = fieldLogic.value.split(",")
+              var match = Operators["=="](list_codes, field_logic_value)
+              SkipLogic.applySkipLogic(field, fieldLogic.field_id, function(){
+                return match;
+              });
+            }
+          }
+        }
+      }
+    }
+  },
+
+  applySkipLogic: function(field, fieldId, condition){
+    if(condition()) {
+      App.log("To skip field: ", field.idfield)
+      SkipLogic.disableElement(field.idfield)
+      SkipLogic.setValueToEmpty(field.idfield);
+    }
+    else{
+      SkipLogic.enableElement(field.idfield);
     }
   },
 

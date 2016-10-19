@@ -17,12 +17,16 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('.skipLogicNumber', 'change', function () {
-    SkipLogic.skipLogicNumber(this);
+    // SkipLogic.skipLogicNumber(this);
+    var val = $("#" + this.id).val()
+    SkipLogic.processSkipLogic(this.id, val);
   });
 
   $(document).delegate('.validateSelectFields', 'change', function () {
     if ($(this).attr('data-role') === "slider") {
-      SkipLogic.skipLogicYesNo(this.id);
+      // SkipLogic.skipLogicYesNo(this.id);
+      var val = $("#" + this.id).val()
+      SkipLogic.processSkipLogic(this.id, val);
     }
     else {
       validateToRemoveStyle(this);
@@ -33,11 +37,14 @@ $(document).on("mobileinit", function() {
     var start = this.id.search("-");
     var ele = this.id.substring(0, start);
     var element = $("#" + ele);
+    var val = element.find(":selected").data("code");
     if (element.attr('data-is_enable_field_logic')) {
       if (element.attr('multiple'))
-        SkipLogic.skipLogicSelectMany(element);
+        // SkipLogic.skipLogicSelectMany(element);
+        SkipLogic.processSkipLogicSelectMany(element, ele);
       else
-        SkipLogic.skipLogicSelectOne(ele);
+        // SkipLogic.skipLogicSelectOne(ele);
+        SkipLogic.processSkipLogic(ele, val);
     }
   });
 

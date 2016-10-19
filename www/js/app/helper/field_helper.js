@@ -42,6 +42,7 @@ FieldHelper = {
       isHierarchy: (field.kind === "hierarchy" ? true : false),
       isCustomWidget: (field.kind === "custom_widget" ? true : false),
       is_enable_field_logic: field.is_enable_field_logic,
+      is_enable_custom_validation: field.is_enable_custom_validation,
       custom_widgeted: field.custom_widgeted,
       readonly_custom_widgeted: field.readonly_custom_widgeted,
       is_mandatory: field.is_mandatory,
@@ -66,7 +67,7 @@ FieldHelper = {
 
     if (fieldUI.kind === "select_one" && fieldUI.is_enable_field_logic) {
 
-      fieldUI.config = FieldHelper.buildFieldSelectOne(field.config);
+      // fieldUI.config = FieldHelper.buildFieldSelectOne(field.config);
       if (!fieldUI.config.field_logics)
         fieldUI.is_enable_field_logic = false;
     }
@@ -137,27 +138,25 @@ FieldHelper = {
 
   buildFieldYesNo: function (config, isOnline) {
     var field_id0, field_id1;
-    if (isOnline) {
-      if (config && config.field_logics) {
-        field_id0 = config.field_logics[0].field_id;
-        field_id1 = config.field_logics[1].field_id;
-      }
-    }
-    else {
-      field_id0 = config.options[0].field_id;
-      field_id1 = config.options[1].field_id;
-    }
+    // if (isOnline) {
+    //   if (config && config.field_logics) {
+    //     field_id0 = config.field_logics[0].field_id;
+    //     field_id1 = config.field_logics[1].field_id;
+    //   }
+    // }
+    // else {
+    //   field_id0 = config.options[0].field_id;
+    //   field_id1 = config.options[1].field_id;
+    // }
     config = {
       options: [{
           id: 0,
           label: "NO",
-          code: "1",
-          field_id: field_id0
+          code: "1"
         },
         {id: 1,
           label: "YES",
-          code: "2",
-          field_id: field_id1
+          code: "2"
         }]
     };
     return config;
