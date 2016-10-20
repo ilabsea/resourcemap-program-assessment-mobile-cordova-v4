@@ -13,7 +13,7 @@ $(function(){
       $('#url-error').text('');
     },
     invalidHandler: function () {
-      $('#url-error').text('Please enter a valid url');
+      $('#url-error').text(i18n.t('validation.invalidUrl'));
     }
   });
 

@@ -45,10 +45,10 @@ var SiteHelper = {
 
     if (numSiteOfflines > 0) {
       $viewOfflineOption.removeAttr('disabled');
-      $viewOfflineOption.text("View offline ("+numSiteOfflines+")");
+      $viewOfflineOption.text(i18n.t('global.viewOffline') +" ("+numSiteOfflines+")");
     }else{
       $viewOfflineOption.attr("disabled", "disabled");
-      $viewOfflineOption.text("View offline");
+      $viewOfflineOption.text(i18n.t('global.viewOffline'));
     }
     $menu.selectmenu("refresh", true);
   }

@@ -19,7 +19,7 @@
         "viewAll": "មើលទាំងអស់",
         "viewOffline": "មើលក្រៅបណ្ដាញ",
         "viewOnline": "មើលលើបណ្តាញ",
-        "downloadForm": "Download form",
+        "downloadForm": "ទាញយកទំរង់",
         "menu": "ម៉ឺនុយ",
         "save_site": "រក្សាទុកតំបន់",
         "offline": "រក្សាទុកតំបន់ ក្រៅបណ្ដាញ",
@@ -29,7 +29,13 @@
         "ajax-loader": "សូមរង់ចាំ...",
         "no_internet_connection": "មិនមានការតភ្ជាប់អ៊ីធឺណិត។",
         "please_resend_data": "សូមផ្ញើទិន្នន័យម្ដងទៀត។",
-        "please_reupdate_your_site": "សូមផ្ញើតំបន់បណ្ដាញរបស់អ្នកឡើងវិញ។"
+        "please_reupdate_your_site": "សូមផ្ញើតំបន់បណ្ដាញរបស់អ្នកឡើងវិញ។",
+        "warning": "ប្រយត្ន័",
+        "changeServerInfo": "ការផ្លាស់ប្តូរខ្សែបណ្តាញមេនឹង ធ្វើអោយបាត់បង់ទិន្នន័យនៅក្រៅបណ្តាញ",
+        "changeServerConfirmMessage": "តើអ្នក ចង់ផ្លាស់ប្តូររឺទេ ?",
+        "serverSetting": "បណ្តាញ",
+        "toggleAllSites": "បិទបើកតំបន់ទាំងអស់",
+        "url": "ខ្សែបណ្តាញមេ"
     },
     "login_page": {
         "login": "ការចូល",
@@ -68,7 +74,8 @@
         "plsSignIn": "សូមចូល",
         "required": "ប្រអប់នេះតម្រូវអេាយបំពេញ",
         "emailPsd": "សូមបញ្ចូលអីុម៉ែលនិងពាក្យសម្ងាត់របស់អ្នក។",
-        "emailPsdConfirm": " សូមបញ្ចូលទិន្នន័យដែលចាំបាច់។"
+        "emailPsdConfirm": "សូមបញ្ចូលទិន្នន័យដែលចាំបាច់។",
+        "invalidUrl": "សូមបញ្ចូលខ្សែបណ្តាញអោយបានត្រឹមត្រូវ"
     },
     "dialog": {
         "option": "ជម្រើសរូបថត",
