@@ -17,7 +17,7 @@ SiteController = {
     }
 
     var content = App.Template.process(template, siteData);
-    $element.html(content);
+    $element.append(content);
     $element.listview("refresh");
   },
 
@@ -109,6 +109,7 @@ SiteController = {
           hasMoreSites: hasMoreSites,
           siteList: result };
         SiteController.display(sitesData, false);
+        SiteHelper.toggleBtnViewCollectionOfflineSite(count);
       });
     });
   },
@@ -228,7 +229,7 @@ SiteController = {
 
   addOrUpdateSite: function () {
     if(this.id)
-      this.isOnline ? this.updateOnline() : this.updateOffline()
+      FieldController.isOnline ? this.updateOnline() : this.updateOffline()
     else
       this.addOffline()
   },
@@ -291,11 +292,11 @@ SiteController = {
     },
     function (err) {
       ViewBinding.setBusy(false);
-      SiteController.displayReqeustError(err);
+      SiteController.displayReqeustError(err, data);
     });
   },
 
-  displayReqeustError: function(err) {
+  displayReqeustError: function(err, data) {
     if (err["responseJSON"]) {
       var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], false);
       SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'),error);
@@ -332,7 +333,7 @@ SiteController = {
       }
 
       SiteController.displayUpdateLatLng(siteData);
-      FieldController.renderUpdateOffline(siteData);
+      FieldController.renderUpdateForm(siteData, false);
     });
   },
 
@@ -353,7 +354,7 @@ SiteController = {
       };
 
       SiteController.displayUpdateLatLng(siteData);
-      FieldController.renderUpdateOffline(site);
+      FieldController.renderUpdateForm(site, true);
     });
   },
 
@@ -366,9 +367,7 @@ SiteController = {
         SiteController.counterOffline = 0;
         SiteController.selectedOfflineSites = SiteHelper.selectedSite();
         ViewBinding.setBusy(true);
-        SiteController.processingOfflineSiteToServer(function(){
-          SiteController.renderOffline();
-        });
+        SiteController.processingOfflineSiteToServer();
       });
     }
     else
@@ -390,18 +389,13 @@ SiteController = {
       alert(i18n.t("global.no_internet_connection"));
   },
 
-  processingOfflineSiteToServer: function(callback) {
+  processingOfflineSiteToServer: function() {
     var siteId = this.selectedOfflineSites.shift();
-    if(siteId){
-      SiteOffline.fetchBySiteId(siteId, function(site){
-        SiteController.processingOneSiteToServer(site, function(){
-          SiteController.processingOfflineSiteToServer();
-        });
+    SiteOffline.fetchBySiteId(siteId, function(site){
+      SiteController.processingOneSiteToServer(site, function(){
+        SiteController.processingOfflineSiteToServer();
       });
-    }else{
-      ViewBinding.setBusy(false);
-      callback();
-    }
+    });
   },
 
   processingOneSiteToServer: function(site, callback){
@@ -428,6 +422,7 @@ SiteController = {
           persistence.remove(site);
           persistence.flush();
           SiteController.counterOffline += 1;
+          $("li[data-id="+site.id+"]").remove();
           callback()
         },
         function(err) {
@@ -447,7 +442,6 @@ SiteController = {
       ViewBinding.setMessage("Done.")
       setTimeout(function(){
         ViewBinding.setBusy(false)
-        App.redirectTo("#page-collection-list");
       }, 300)
     }
   },

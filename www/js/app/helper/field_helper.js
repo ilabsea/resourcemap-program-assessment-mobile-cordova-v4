@@ -1,6 +1,6 @@
 
 FieldHelper = {
-  buildLayerFields: function (layer) {
+  buildLayerFields: function (layer, isOnline) {
     var layerData = layer._data;
 
     var newLayer = {
@@ -17,7 +17,7 @@ FieldHelper = {
 
       for(fieldId in FieldController.site.properties) {
         if(fieldId == fieldForUI.idfield){
-          FieldHelper.setFieldValue(fieldForUI, FieldController.site.properties[fieldId]);
+          FieldHelper.setFieldValue(fieldForUI, FieldController.site.properties[fieldId], isOnline);
           break;
         }
       }
@@ -180,23 +180,22 @@ FieldHelper = {
       case "select_many":
       case "select_one":
       case "yes_no":
-
+        field.__value = value;
         $.each(field.config.options, function(k, option){
-
           if (field.__value instanceof Array) {
             $.each(field.__value, function(_, valueOption){
               if (option.id == valueOption || option.code == valueOption){
                 field.config.options[k]["selected"] = "selected";
-              }else
-                delete field.config.options[k]["selected"];
+              }
             })
           }
 
           else if(option.id == value || option.code == value){
             field.__value = option.id;
             field.config.options[k]["selected"] = "selected";
-          }else
+          }else{
             field.config.options[k]["selected"] = "";
+          }
         })
         break;
 

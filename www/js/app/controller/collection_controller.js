@@ -30,10 +30,12 @@ CollectionController = {
       return CollectionController.collectionId(collection)
     })
     var userId = UserSession.getUser().id;
-    var options = {userId: userId, collectionIds: collectionIds}
+    var options = {userId: userId, collectionIds: collectionIds};
+
 
     SiteOffline.countSiteOfflineByUserCollections(options, function(result){
       var collectionDatas = [];
+      var totalSiteOfflines = 0 ;
 
       for(var i=0; i<collections.length; i++){
         var collection = collections[i]
@@ -42,10 +44,13 @@ CollectionController = {
         var collectionData = CollectionController.prepareCollection(collection, userId, countSiteOffline);
         collectionDatas.push(collectionData);
 
-        if (i === collections.length - 1) {
-          CollectionController.displayList({collectionList: collectionDatas});
-        }
+        if(countSiteOffline)
+          totalSiteOfflines = totalSiteOfflines + parseInt(countSiteOffline) ;
+
       }
+      CollectionController.displayList({collectionList: collectionDatas});
+      SiteHelper.toggleBtnViewAllOfflineSite(totalSiteOfflines);
+
     });
   },
 

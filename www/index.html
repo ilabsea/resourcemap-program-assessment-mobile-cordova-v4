@@ -43,7 +43,7 @@
        data-i18n="validation.emailPsd"> Please enter your email and password. </p>
    </div>
    <div style="position: absolute; bottom: 10px; right:10px">
-    <a href="#page-change-server">Server URL</a>
+    <a href="#page-change-server">Server Setting</a>
    </div>
   </div>
 
@@ -116,7 +116,7 @@
        data-inline="true" data-icon="carat-l" class="ui-btn-left"
        data-i18n="global.back">Back
     </a>
-    <h1 data-i18n="global.site">Sites</h1>
+    <h1 data-i18n="global.sites_offline">Sites Offline</h1>
     <button id="logout" data-theme="a" data-inline="true" data-icon="carat-r"
              class="ui-btn-right logout" data-i18n="global.logout">Sign out</button>
    </div>
@@ -290,16 +290,14 @@
          data-inline="true" data-icon="carat-l" class="ui-btn-left"
          data-i18n="global.back">Back
       </a>
-      <h2>Change Server</h2>
+      <h2>Resource Map</h2>
     </div>
     <div data-role="content">
       <form id="form-change-server-url">
-          <div style="padding:10px 20px;">
-            <span class="error" id="url-error" style="color:red"></span>
-            <label for="txt-url"> URL </label>
-            <input type="url" name="url" id="txt-url" value="" required>
-            <button type="submit" id="btn-change-server-url">Save</button>
-          </div>
+        <span class="error" id="url-error" style="color:red"></span>
+        <label for="txt-url"> URL </label>
+        <input type="url" name="url" id="txt-url" value="" required>
+        <button type="submit" id="btn-change-server-url">Save</button>
       </form>
     </div>
   </div>
@@ -307,14 +305,14 @@
   <!--Confirm Change Server Dialog-->
   <div data-role="dialog" id="dialog-confirm-change-server" data-theme="b" data-url="dialog-confirm-change-server"
         tabindex="0" class="ui-page ui-page-theme-b ui-dialog ui-page-active"
-        style="display:none; position:fixed;">
+        style="display:none; position:fixed; min-height: 435px; top:50%; margin-top: -207px;">
     <div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">
       <div data-role="header" role="banner" class="ui-header ui-bar-inherit">
         <h1 class="ui-title" role="heading" aria-level="1">Warning</h1>
       </div>
-      <div data-role="content" class="ui-content ui-body-b" role="main">
-        <h3>Are you sure you want to change the server URL ?</h3>
-        <p>Once you change the server URL, the local data will be lost.</p>
+      <div data-role="content" data-theme="c" class="ui-content ui-body-b" role="main">
+        <h4>Once you change the server URL, the local data will be lost.</h4>
+        <span>Are you sure you want to change the server URL ?</span>
         <a href="#" id="btn-confirm-change-server" class="ui-shadow ui-btn ui-corner-all">Yes</a>
         <a href="#" id="btn-cancel-change-server" class="ui-shadow ui-btn ui-corner-all">No</a>
       </div>

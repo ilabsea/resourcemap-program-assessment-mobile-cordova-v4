@@ -35,5 +35,15 @@ var SiteHelper = {
         selectedOfflineSites.push($(site).attr('data-id'));
     });
     return selectedOfflineSites;
+  },
+  toggleBtnViewAllOfflineSite: function(numSiteOfflines){
+    numSiteOfflines > 0 ? $('#btn_viewOfflineSite').show() : $('#btn_viewOfflineSite').hide();
+  },
+  toggleBtnViewCollectionOfflineSite: function(numSiteOfflines){
+    var $menu = $("#site-list-menu");
+    var $viewOfflineOption = $($menu[0].options[2]);
+
+    numSiteOfflines > 0 ? $viewOfflineOption.removeAttr('disabled') : $viewOfflineOption.attr("disabled", "disabled");
+    $menu.selectmenu("refresh", true);
   }
 };

@@ -14,6 +14,7 @@
         "delete": "Delete",
         "cancel": "Cancel",
         "site": "Sites",
+        "sites_offline": "Sites Offline",
         "add": "Add new site",
         "viewAll": "View all",
         "viewOffline": "View offline",

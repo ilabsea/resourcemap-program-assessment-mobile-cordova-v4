@@ -296,9 +296,10 @@ FieldController = {
       FieldController.renderUpdateOffline();
   },
 
-  renderUpdateOffline: function (site) {
+  //use for both online and offline site
+  renderUpdateForm: function(site, isOnline){
     this.reset();
-    this.isOnline = false
+    this.isOnline = isOnline
     this.site = site;
     var self = this;
 
@@ -310,8 +311,25 @@ FieldController = {
         var newLayer = FieldController.buildLayerFields(layerOffline);
         self.layers.push(newLayer);
       });
+      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
+      FieldController.renderLayerSet();
+    });
+  },
 
+  renderUpdateOffline: function (site) {
+    this.reset();
+    this.isOnline = false
+    this.site = site;
+    var self = this;
 
+    var cId = CollectionController.id;
+    self.layers = []
+
+    FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
+      $.each(layerOfflines, function (_, layerOffline) {
+        var newLayer = FieldController.buildLayerFields(layerOffline, false);
+        self.layers.push(newLayer);
+      });
       FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
       FieldController.renderLayerSet();
     });
