@@ -29,7 +29,11 @@
         "ajax-loader": "Please wait ...",
         "no_internet_connection": "No internet connection.",
         "please_resend_data": "Please resend the data.",
-        "please_reupdate_your_site": "Please reupdate your site."
+        "please_reupdate_your_site": "Please reupdate your site.",
+        "warning": "Warning",
+        "changeServerInfo": "Once you change the server URL, the local data will be lost.",
+        "changeServerConfirmMessage": "Are you sure you want to change the server URL ?",
+        "serverSetting": "Server setting"
     },
     "login_page": {
         "login": "Login",
@@ -70,7 +74,10 @@
         "plsSignIn": "Please sign in.",
         "required": "This field is required.",
         "emailPsd": "Please enter your email and password.",
-        "emailPsdConfirm": "Please enter all required fields."
+        "emailPsdConfirm": "Please enter all required fields.",
+        "invalidUrl": "Please enter a valid URL",
+        "toggleAllSites": "Toggle all sites",
+        "url": "Server URL",
     },
     "dialog": {
         "option": "Photo Options",

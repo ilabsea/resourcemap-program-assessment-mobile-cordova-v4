@@ -43,7 +43,7 @@
        data-i18n="validation.emailPsd"> Please enter your email and password. </p>
    </div>
    <div style="position: absolute; bottom: 10px; right:10px">
-    <a href="#page-change-server">Server Setting</a>
+    <a href="#page-change-server" data-i18n="global.serverSetting">Server Setting</a>
    </div>
   </div>
 
@@ -131,7 +131,7 @@
     </ul>
 
     <div class="ui-grid-a">
-        <button id="btn-toggle-site" data-icon="check" data-i18n="global.toggle_all_sites">
+        <button id="btn-toggle-site" data-icon="check" data-i18n="global.toggleAllSites">
           Toggle all sites
         </button>
         <button id="btn-send-server-all" data-theme="e" data-icon="forward" data-i18n="global.send_to_server">
@@ -173,7 +173,7 @@
 
     <div class="ui-grid-a" id="offline-wrapper" style="display:none;">
 
-        <button id="btn-toggle-site" data-icon="check" data-i18n="global.toggle_all_sites">
+        <button id="btn-toggle-site" data-icon="check" data-i18n="global.toggleAllSites">
           Toggle all sites
         </button>
 
@@ -295,8 +295,8 @@
     <div data-role="content">
       <form id="form-change-server-url">
         <span class="error" id="url-error" style="color:red"></span>
-        <label for="txt-url"> URL </label>
-        <input type="url" name="url" id="txt-url" value="" required>
+        <label for="txt-url" data-i18n="global.url"> URL </label>
+        <input type="url" name="url" id="txt-url" value="" required data-i18n="validation.invalidUrl">
         <button type="submit" id="btn-change-server-url">Save</button>
       </form>
     </div>
@@ -308,11 +308,11 @@
         style="display:none; position:fixed; min-height: 435px; top:50%; margin-top: -207px;">
     <div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">
       <div data-role="header" role="banner" class="ui-header ui-bar-inherit">
-        <h1 class="ui-title" role="heading" aria-level="1">Warning</h1>
+        <h1 class="ui-title" role="heading" aria-level="1" data-i18n="global.warning">Warning</h1>
       </div>
       <div data-role="content" data-theme="c" class="ui-content ui-body-b" role="main">
-        <h4>Once you change the server URL, the local data will be lost.</h4>
-        <span>Are you sure you want to change the server URL ?</span>
+        <h4 data-i18n="global.changeServerInfo">Once you change the server URL, the local data will be lost.</h4>
+        <span data-i18n="global.changeServerConfirmMessage">Are you sure you want to change the server URL ?</span>
         <a href="#" id="btn-confirm-change-server" class="ui-shadow ui-btn ui-corner-all">Yes</a>
         <a href="#" id="btn-cancel-change-server" class="ui-shadow ui-btn ui-corner-all">No</a>
       </div>
