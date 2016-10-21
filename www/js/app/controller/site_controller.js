@@ -311,7 +311,7 @@ SiteController = {
       lng: ''
     }
     SiteController.displayUpdateLatLng(siteData);
-    FieldController.renderNewSiteForm()
+    FieldController.renderNewSiteForm();
   },
 
   renderUpdateSiteFormOffline: function () {
