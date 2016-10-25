@@ -33,7 +33,9 @@
         "warning": "Warning",
         "changeServerInfo": "Once you change the server URL, the local data will be lost.",
         "changeServerConfirmMessage": "Are you sure you want to change the server URL ?",
-        "serverSetting": "Server setting"
+        "serverSetting": "Server setting",
+        "toggleAllSites": "Toggle all sites",
+        "url": "Server URL"
     },
     "login_page": {
         "login": "Login",
@@ -75,9 +77,7 @@
         "required": "This field is required.",
         "emailPsd": "Please enter your email and password.",
         "emailPsdConfirm": "Please enter all required fields.",
-        "invalidUrl": "Please enter a valid URL",
-        "toggleAllSites": "Toggle all sites",
-        "url": "Server URL",
+        "invalidUrl": "Please enter a valid URL"
     },
     "dialog": {
         "option": "Photo Options",
