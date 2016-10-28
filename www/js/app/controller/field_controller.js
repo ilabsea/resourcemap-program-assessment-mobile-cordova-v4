@@ -108,6 +108,12 @@ FieldController = {
         });
       }
       $layerNodeContent.enhanceWithin();
+
+      if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many'){
+        var $fieldUI = $("#" + field.idfield);
+        field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
+      }
+
     })
   },
 
@@ -217,7 +223,7 @@ FieldController = {
         var layer = this.findLayerById($layerNode.attr('data-id'))
         $.each(layer.fields, function(_, field){
           var $fieldUI = $("#" + field.idfield)
-          if(field.kind == "photo")
+          if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many')
             field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
           else
             field.invalid ?  $fieldUI.addClass("error") : $fieldUI.removeClass("error")

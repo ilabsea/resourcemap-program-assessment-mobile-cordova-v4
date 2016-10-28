@@ -13,11 +13,7 @@ var FieldHelperView = {
     App.log("templateURL--", templateURL);
     var content = App.Template.process(templateURL, fieldData);
     element.html(content);
-    // FieldHelperView.displayCustomWidget(elementPrefixID, fieldData);
     element.enhanceWithin();
-
-    //FieldHelperView.displayCalculationField(elementPrefixID, fieldData);
-    //FieldHelperView.displayUiDisabled(elementPrefixID, fieldData, update);
 
     DigitAllowance.prepareEventListenerOnKeyPress();
 
