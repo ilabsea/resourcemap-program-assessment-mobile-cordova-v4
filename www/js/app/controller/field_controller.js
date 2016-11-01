@@ -133,33 +133,6 @@ FieldController = {
       var layer = FieldController.findLayerById(FieldController.activeLayer.attr('data-id'));
       FieldController.validateLayer(layer);
     }
-    var layers = FieldController.layers;
-    for(var i=0; i< layers.length; i++){
-      var fields = layers[i].fields;
-      for(var j=0; j< fields.length; j++){
-        field = fields[j];
-        if(field.kind == "numeric"){
-          var val = $("#" + field.idfield).val();
-
-          SkipLogic.processSkipLogic(this.id, val);
-        }
-        if(field.kind == "select_one"){
-          var element = $("#" + field.idfield);
-          SkipLogic.processSkipLogicSelectMany(element, field.idfield);
-        }
-        if(field.kind == "yes_no"){
-          var val = $("#" + field.idfield).val();
-          App.log("Field id:", field.idfield);
-          App.log("Yes No Value should be:", val)
-          SkipLogic.processSkipLogic(this.id, val);
-        }
-        if(field.kind == "select_many"){
-          var element = $("#" + field.idfield);
-          var val = element.find(":selected").data("code");
-          SkipLogic.processSkipLogic(this.id, val);
-        }
-      }
-    }
   },
 
   validateLayer: function(layer){
@@ -255,6 +228,33 @@ FieldController = {
           else
             field.invalid ?  $fieldUI.addClass("error") : $fieldUI.removeClass("error")
         })
+      }
+      var layers = FieldController.layers;
+      for(var i=0; i< layers.length; i++){
+        var fields = layers[i].fields;
+        for(var j=0; j< fields.length; j++){
+          field = fields[j];
+          App.log("Process field id", field.idfield);
+          if(field.kind == "numeric"){
+            var val = $("#" + field.idfield).val();
+            SkipLogic.processSkipLogic(field.idfield, val);
+          }
+          if(field.kind == "select_one"){
+            var element = $("#" + field.idfield);
+            SkipLogic.processSkipLogicSelectMany(element, field.idfield);
+          }
+          if(field.kind == "yes_no"){
+            var val = $("#" + field.idfield).val();
+            App.log("Field id:", field.idfield);
+            App.log("Yes No Value should be:", val)
+            SkipLogic.processSkipLogic(field.idfield, val);
+          }
+          if(field.kind == "select_many"){
+            var element = $("#" + field.idfield);
+            var val = element.find(":selected").data("code");
+            SkipLogic.processSkipLogic(field.idfield, val);
+          }
+        }
       }
     }
     else

@@ -71,7 +71,8 @@ FieldHelper = {
     }
 
     if (fieldUI.kind === "yes_no") {
-      fieldUI.config = FieldHelper.buildFieldYesNo(fieldUI.config);
+      options = FieldHelper.buildFieldYesNo(fieldUI.config);
+      fieldUI.config["options"] = options["options"]
       fieldUI.slider = "slider";
       fieldUI.ctrue = "true";
     }
