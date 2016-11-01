@@ -12,7 +12,7 @@ module.exports = function(grunt) {
        "www/js/app/event/map.js",
        "www/js/app/event/hierarchy.js",
        "www/js/app/event/field.js",
-       "www/js/app/event/send_to_server.js",
+       "www/js/app/event/server.js",
 
        "www/js/libs/jquery.mobile-1.4.5.js",
        "www/js/libs/tree.jquery.js",
@@ -98,6 +98,8 @@ module.exports = function(grunt) {
       "www/js/app/template/collection_list.handlebars",
       "www/js/app/template/collection_name.handlebars",
       "www/js/app/template/site_list.handlebars",
+      "www/js/app/template/site_list_offline.handlebars",
+      "www/js/app/template/site_list_offline_selectable.handlebars",
       "www/js/app/template/site_form.handlebars",
       "www/js/app/template/layer_sets.handlebars",
       "www/js/app/template/layer_field.handlebars",

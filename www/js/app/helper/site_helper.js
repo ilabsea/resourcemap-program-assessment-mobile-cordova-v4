@@ -27,5 +27,29 @@ var SiteHelper = {
       Dialog.showDialog("page-error-submit-site");
     }, 50);
     element.css("z-index", 200000);
+  },
+  selectedSite: function(){
+    var selectedOfflineSites = []
+    $('.btn_select_site').each(function(i, site){
+      if($(site).hasClass('ui-icon-check'))
+        selectedOfflineSites.push($(site).attr('data-id'));
+    });
+    return selectedOfflineSites;
+  },
+  toggleBtnViewAllOfflineSite: function(numSiteOfflines){
+    numSiteOfflines > 0 ? $('#btn_viewOfflineSite').show() : $('#btn_viewOfflineSite').hide();
+  },
+  toggleBtnViewCollectionOfflineSite: function(numSiteOfflines){
+    var $menu = $("#site-list-menu");
+    var $viewOfflineOption = $($menu[0].options[2]);
+
+    if (numSiteOfflines > 0) {
+      $viewOfflineOption.removeAttr('disabled');
+      $viewOfflineOption.text(i18n.t('global.viewOffline') +" ("+numSiteOfflines+")");
+    }else{
+      $viewOfflineOption.attr("disabled", "disabled");
+      $viewOfflineOption.text(i18n.t('global.viewOffline'));
+    }
+    $menu.selectmenu("refresh", true);
   }
 };

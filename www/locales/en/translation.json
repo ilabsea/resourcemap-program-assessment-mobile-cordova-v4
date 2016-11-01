@@ -8,15 +8,18 @@
         "logout": "Sign out",
         "back": "Back",
         "send_to_server": "Send to server",
+        "toggle_all_sites": "Toggle all sites",
         "name": "Name",
         "update": "Update",
         "delete": "Delete",
         "cancel": "Cancel",
         "site": "Sites",
+        "sites_offline": "Sites Offline",
         "add": "Add new site",
         "viewAll": "View all",
         "viewOffline": "View offline",
         "viewOnline": "View online",
+        "downloadForm": "Download form",
         "menu": "Menu",
         "save_site": "Save Site",
         "offline": "Opp! Network went offline",
@@ -26,7 +29,13 @@
         "ajax-loader": "Please wait ...",
         "no_internet_connection": "No internet connection.",
         "please_resend_data": "Please resend the data.",
-        "please_reupdate_your_site": "Please reupdate your site."
+        "please_reupdate_your_site": "Please reupdate your site.",
+        "warning": "Warning",
+        "changeServerInfo": "Once you change the server URL, the local data will be lost.",
+        "changeServerConfirmMessage": "Are you sure you want to change the server URL ?",
+        "serverSetting": "Server setting",
+        "toggleAllSites": "Toggle all sites",
+        "url": "Server URL"
     },
     "login_page": {
         "login": "Login",
@@ -67,7 +76,8 @@
         "plsSignIn": "Please sign in.",
         "required": "This field is required.",
         "emailPsd": "Please enter your email and password.",
-        "emailPsdConfirm": "Please enter all required fields."
+        "emailPsdConfirm": "Please enter all required fields.",
+        "invalidUrl": "Please enter a valid URL"
     },
     "dialog": {
         "option": "Photo Options",

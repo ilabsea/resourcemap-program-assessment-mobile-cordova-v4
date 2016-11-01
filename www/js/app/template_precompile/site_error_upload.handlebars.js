@@ -33,6 +33,6 @@ templates['site_error_upload'] = template({"1":function(container,depth0,helpers
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.isLat : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.isLng : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.errorProperties : depth0),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "  </ul>\n  <center>\n   <a onclick=\"Dialog.closeDialog('page-error-submit-site');\" data-theme=\"a\" data-role=\"button\"\n      data-inline=\"true\" data-inset=\"true\" class=\"ui-link ui-btn ui-btn-a ui-btn-inline ui-shadow ui-corner-all\"\n      role=\"button\">\n    Ok\n   </a>\n  </center>\n </div>\n</div>\n";
+    + "  </ul>\n  <p>Please download the lastest form</p>\n  <center>\n   <a onclick=\"Dialog.closeDialog('page-error-submit-site');\" data-theme=\"a\" data-role=\"button\"\n      data-inline=\"true\" data-inset=\"true\" class=\"ui-link ui-btn ui-btn-a ui-btn-inline ui-shadow ui-corner-all\"\n      role=\"button\">\n    Ok\n   </a>\n  </center>\n </div>\n</div>\n";
 },"useData":true});
 })();

@@ -1,20 +1,19 @@
 App = {
   DB_SIZE: 5 * 1024 * 1024,
   DB_NAME: 'resourcemap_db',
-  END_POINT: RmSetting.END_POINT,
-  IMG_PATH: RmSetting.URL + "/photo_field/",
-  AUTH_URL: RmSetting.END_POINT + "/users/sign_in.json",
-  LIST_COLLECTION: RmSetting.END_POINT + "/collections?auth_token=",
-  URL_SIGNUP: RmSetting.END_POINT + "/users.json",
-  URL_LOGOUT: RmSetting.END_POINT + "/users/sign_out.json?auth_token=",
-  URL_FIELD: RmSetting.END_POINT + "/v1/collections/",
-  URL_SITE: RmSetting.END_POINT + "/v1/collections/",
   VERSION: "1.3",
   DEBUG: RmSetting.DEBUG,
   userId: "",
   dbConnected: false,
   defaultPage: "#page-collection-list",
-
+  endPoint: function(){ return RmSetting.endPoint() },
+  imgPath: function(){ return RmSetting.url() + "/photo_field/" },
+  authUrl: function(){ return RmSetting.endPoint() + "/users/sign_in.json" },
+  listCollection: function(){ return RmSetting.endPoint() + "/collections?auth_token=" },
+  urlSignup: function(){ return RmSetting.endPoint() + "/users.json" },
+  urlLogout: function(){ return RmSetting.endPoint() + "/users/sign_out.json?auth_token=" },
+  urlField: function(){ return RmSetting.endPoint() + "/v1/collections/" },
+  urlSite: function(){ return RmSetting.endPoint() + "/v1/collections/" },
   log: function (text, data) {
     if (App.DEBUG)
       console.log(text, data);
@@ -57,6 +56,12 @@ App = {
       App.connectDB(App.DB_NAME, App.DB_SIZE);
       callbackAction();
     }
+  },
+
+  changeServerUrl: function(url){
+    App.resetDb();
+    App.DataStore.set("endPoint", url);
+    App.redirectTo("#page-login");
   },
 
   onDeviceReady: function () {

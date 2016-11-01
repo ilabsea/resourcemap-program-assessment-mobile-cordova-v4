@@ -116,16 +116,43 @@ FieldController = {
   },
 
   renderLayerSet: function() {
-    var cloneLayers = this.layers.slice(0)
-    var layerData = {field_collections: cloneLayers}
+    var cloneLayers = this.layers.slice(0);
+    var layerData = {field_collections: cloneLayers};
     FieldHelperView.display('layer_sets', $('#div_field_collection'), layerData);
   },
 
   layerCollapseFields: function($layerNode){
     if(FieldController.activeLayer){
-      FieldController.storeOldLayerFields(FieldController.activeLayer)
-      var layer = FieldController.findLayerById(FieldController.activeLayer.attr('data-id'))
-      FieldController.validateLayer(layer)
+      FieldController.storeOldLayerFields(FieldController.activeLayer);
+      var layer = FieldController.findLayerById(FieldController.activeLayer.attr('data-id'));
+      FieldController.validateLayer(layer);
+    }
+    var layers = FieldController.layers;
+    for(var i=0; i< layers.length; i++){
+      var fields = layers[i].fields;
+      for(var j=0; j< fields.length; j++){
+        field = fields[j];
+        if(field.kind == "numeric"){
+          var val = $("#" + field.idfield).val();
+
+          SkipLogic.processSkipLogic(this.id, val);
+        }
+        if(field.kind == "select_one"){
+          var element = $("#" + field.idfield);
+          SkipLogic.processSkipLogicSelectMany(element, field.idfield);
+        }
+        if(field.kind == "yes_no"){
+          var val = $("#" + field.idfield).val();
+          App.log("Field id:", field.idfield);
+          App.log("Yes No Value should be:", val)
+          SkipLogic.processSkipLogic(this.id, val);
+        }
+        if(field.kind == "select_many"){
+          var element = $("#" + field.idfield);
+          var val = element.find(":selected").data("code");
+          SkipLogic.processSkipLogic(this.id, val);
+        }
+      }
     }
   },
 
@@ -194,11 +221,6 @@ FieldController = {
     if(this.activeLayer)
       this.activeLayer.collapsible( "collapse" )
   },
-
-  // storeActiveLayer: function() {
-  //   if(this.activeLayer)
-  //     this.storeOldLayerFields(this.activeLayer)
-  // },
 
   storeOldLayerFields: function($layerNode){
     var layer = this.findLayerById($layerNode.attr('data-id'));
@@ -276,50 +298,16 @@ FieldController = {
 
   renderNewSiteForm: function () {
     this.reset();
-    this.site = { properties: {}, files: {} }
-    App.isOnline() ? this.renderNewSiteFormOnline() : this.renderNewSiteFormOffline();
-  },
-
-  errorFetchingField: function(error) {
-    if (!App.isOnline())
-      FieldController.renderUpdateOffline();
-  },
-
-  renderNewSiteFormOnline: function () {
-    this.isOnline = true
+    this.site = { properties: {}, files: {} };
     var self = this;
     var cId = CollectionController.id;
-
-    FieldModel.fetch(cId, function (layers) {
-      $.each(layers, function(_, layer){
-        var layerFields = FieldHelper.buildLayerFields(layer, {fromServer: true});
-        self.layers.push(layerFields);
-      })
-
-      FieldController.synForCurrentCollection(self.layers);
-
-      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
-
-      FieldController.renderLayerSet();
-
-      ViewBinding.setBusy(false);
-      Location.prepareLocation();
-    }, FieldController.errorFetchingField);
-  },
-
-  renderNewSiteFormOffline: function () {
-    this.isOnline = false;
-
-    var cId = CollectionController.id
-    var self = this;
-    self.layers = [];
 
     FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
       if(layerOfflines.length == 0)
         FieldHelperView.displayNoFields("field_no_field_pop_up", $('#page-pop-up-no-fields'));
 
       layerOfflines.forEach(function (layerOffline) {
-        var layer = FieldHelper.buildLayerFields(layerOffline, false);
+        var layer = FieldHelper.buildLayerFields(layerOffline);
         self.layers.push(layer);
       });
 
@@ -328,6 +316,31 @@ FieldController = {
       ViewBinding.setBusy(false);
 
       Location.prepareLocation();
+    });
+  },
+
+  errorFetchingField: function(error) {
+    if (!App.isOnline())
+      FieldController.renderUpdateOffline();
+  },
+
+  //use for both online and offline site
+  renderUpdateForm: function(site, isOnline){
+    this.reset();
+    this.isOnline = isOnline
+    this.site = site;
+    var self = this;
+
+    var cId = CollectionController.id;
+    self.layers = []
+
+    FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
+      $.each(layerOfflines, function (_, layerOffline) {
+        var newLayer = FieldController.buildLayerFields(layerOffline);
+        self.layers.push(newLayer);
+      });
+      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
+      FieldController.renderLayerSet();
     });
   },
 
@@ -342,12 +355,10 @@ FieldController = {
 
     FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
       $.each(layerOfflines, function (_, layerOffline) {
-        var newLayer = FieldController.buildLayerFields(layerOffline);
+        var newLayer = FieldController.buildLayerFields(layerOffline, false);
         self.layers.push(newLayer);
       });
-
       FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
-      // FieldController.renderLayerSet("field_update_offline", $('#div_update_field_collection'), "update_");
       FieldController.renderLayerSet();
     });
   },
@@ -372,8 +383,6 @@ FieldController = {
     }, FieldController.errorFetchingField);
   },
 
-  //this.site.properties[fieldId] = fileName;
-  //this.site.files[fileName] = photoValue["data"];
   getFieldValueFromUI: function(fieldId) {
     var $field = $('#' + fieldId);
     if($field.length == 0)
@@ -393,11 +402,12 @@ FieldController = {
     return  value == null ? "" : value;
   },
 
-  synForCurrentCollection: function (newFields) {
+  synForCurrentCollection: function (layers) {
     var cId = CollectionController.id;
     FieldOffline.fetchByCollectionId(cId, function (fields) {
+      userId = UserSession.getUser().id;
       FieldOffline.remove(fields);
-      FieldOffline.add(newFields);
+      FieldOffline.add(layers, cId, userId);
     });
   },
 
@@ -434,7 +444,6 @@ FieldController = {
           }
           else if(field.kind == 'date'){
             properties[field.idfield] = prepareForServer(field.__value)
-            // alert("params original value: " + field.__value + " converted to " + prepareForServer(field.__value) )
           }
           else
             properties[field.idfield] = field.__value
@@ -446,4 +455,25 @@ FieldController = {
    return {properties: properties, files: files}
   },
 
+  downloadForm: function () {
+    var cId = CollectionController.id;
+    var self = this;
+    var currentPageId = $.mobile.activePage.attr('id');
+
+    if(App.isOnline()){
+      ViewBinding.setBusy(true);
+      FieldModel.fetch(cId, function (layers) {
+        FieldController.synForCurrentCollection(layers);
+        setTimeout(function () {
+          ViewBinding.setBusy(false);
+          SiteController.resetMenu();
+        }, 500);
+
+      }, FieldController.errorFetchingField);
+    }else {
+      alert(i18n.t("global.no_internet_connection"));
+      SiteController.resetMenu();
+    }
+    return false;
+  }
 };

@@ -1,6 +1,6 @@
 {{#each siteList}}
 <li data-id='{{id}}' data-href='{{link}}' data-collection-id='{{collection_id}}' data-name='{{name}}'>
-  <a href='#'>
+  <a href='#' class="btn_view_site" data-id='{{id}}' data-href='{{link}}' data-collection-id='{{collection_id}}' data-name='{{name}}'>
     {{name}}
     {{#if collectionName}}
       <p class='ui-li-desc no-click' > {{collectionName}} </p>

@@ -233,3 +233,7 @@ h1 {
   background-color: #f3f3f3;
   min-height: 32px;
 }
+
+div#popup-change-server-url{
+  width: 300px;
+}

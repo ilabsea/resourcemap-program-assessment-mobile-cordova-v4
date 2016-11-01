@@ -1,19 +1,19 @@
 
 FieldHelper = {
   buildLayerFields: function (layer, isOnline) {
-    var layerData = isOnline ? layer : layer._data;
+    var layerData = layer._data;
 
     var newLayer = {
       cId: CollectionController.id,
       userId: UserSession.getUser().id,
-      name_wrapper: isOnline ?  layerData.name : layerData.name_wrapper,
-      id_wrapper: isOnline ? layerData.id : layerData.id_wrapper,
+      name_wrapper: layerData.name_wrapper,
+      id_wrapper: layerData.id_wrapper,
       valid: true,
       fields: []
     }
 
     $.each(layer.fields, function (_, field) {
-      var fieldForUI = FieldHelper.fieldForUI(field, isOnline)
+      var fieldForUI = FieldHelper.fieldForUI(field)
 
       for(fieldId in FieldController.site.properties) {
         if(fieldId == fieldForUI.idfield){
@@ -27,12 +27,12 @@ FieldHelper = {
     return newLayer;
   },
 
-  fieldForUI: function(field, isOnline){
+  fieldForUI: function(field){
     var widgetMapper = { "numeric": "number", "yes_no": "select_one", "phone": "tel",
                          "location": "select_one", "calculation": "text" }
 
     var fieldUI = {
-      idfield: isOnline ? field.id : field.idfield,
+      idfield: field.id,
       name: field.name,
       kind: field.kind,
       code: field.code,
@@ -73,7 +73,7 @@ FieldHelper = {
     }
 
     if (fieldUI.kind === "yes_no") {
-      fieldUI.config = FieldHelper.buildFieldYesNo(fieldUI.config, isOnline);
+      fieldUI.config = FieldHelper.buildFieldYesNo(fieldUI.config);
       fieldUI.slider = "slider";
       fieldUI.ctrue = "true";
     }
@@ -138,16 +138,6 @@ FieldHelper = {
 
   buildFieldYesNo: function (config, isOnline) {
     var field_id0, field_id1;
-    // if (isOnline) {
-    //   if (config && config.field_logics) {
-    //     field_id0 = config.field_logics[0].field_id;
-    //     field_id1 = config.field_logics[1].field_id;
-    //   }
-    // }
-    // else {
-    //   field_id0 = config.options[0].field_id;
-    //   field_id1 = config.options[1].field_id;
-    // }
     config = {
       options: [{
           id: 0,
@@ -187,20 +177,20 @@ FieldHelper = {
       case "yes_no":
         field.__value = value;
         $.each(field.config.options, function(k, option){
-
           if (field.__value instanceof Array) {
             $.each(field.__value, function(_, valueOption){
-              if (option.id == valueOption || option.code == valueOption)
+              if (option.id == valueOption || option.code == valueOption){
                 field.config.options[k]["selected"] = "selected";
-              else
-                delete field.config.options[k]["selected"];
+              }
             })
           }
 
-          else if(option.id == field.__value || option.code == field.__value)
+          else if(option.id == value || option.code == value){
+            field.__value = option.id;
             field.config.options[k]["selected"] = "selected";
-          else
+          }else{
             field.config.options[k]["selected"] = "";
+          }
         })
         break;
 
@@ -250,10 +240,10 @@ FieldHelper = {
   },
 
   imageWithPath: function(imgFileName) {
-    return App.IMG_PATH + imgFileName;
+    return App.imgPath() + imgFileName;
   },
 
   imageWithoutPath: function(imageFullPath) {
-    return imageFullPath.replace(App.IMG_PATH, '')
+    return imageFullPath.replace(App.imgPath(), '')
   }
 };
