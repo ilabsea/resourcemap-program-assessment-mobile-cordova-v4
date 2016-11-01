@@ -66,8 +66,6 @@ FieldHelper = {
     fieldUI.required =  fieldUI.is_mandatory ? "required" : ""
 
     if (fieldUI.kind === "select_one" && fieldUI.is_enable_field_logic) {
-
-      // fieldUI.config = FieldHelper.buildFieldSelectOne(field.config);
       if (!fieldUI.config.field_logics)
         fieldUI.is_enable_field_logic = false;
     }
