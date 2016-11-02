@@ -229,36 +229,38 @@ FieldController = {
             field.invalid ?  $fieldUI.addClass("error") : $fieldUI.removeClass("error")
         })
       }
-      var layers = FieldController.layers;
-      for(var i=0; i< layers.length; i++){
-        var fields = layers[i].fields;
-        for(var j=0; j< fields.length; j++){
-          field = fields[j];
-          App.log("Process field id", field.idfield);
-          if(field.kind == "numeric"){
-            var val = $("#" + field.idfield).val();
-            SkipLogic.processSkipLogic(field.idfield, val);
-          }
-          if(field.kind == "select_one"){
-            var element = $("#" + field.idfield);
-            SkipLogic.processSkipLogicSelectMany(element, field.idfield);
-          }
-          if(field.kind == "yes_no"){
-            var val = $("#" + field.idfield).val();
-            App.log("Field id:", field.idfield);
-            App.log("Yes No Value should be:", val)
-            SkipLogic.processSkipLogic(field.idfield, val);
-          }
-          if(field.kind == "select_many"){
-            var element = $("#" + field.idfield);
-            var val = element.find(":selected").data("code");
-            SkipLogic.processSkipLogic(field.idfield, val);
-          }
-        }
-      }
     }
     else
       this.renderLayerNode($layerNode);
+
+    var layers = FieldController.layers;
+    for(var i=0; i< layers.length; i++){
+      var fields = layers[i].fields;
+      for(var j=0; j< fields.length; j++){
+        field = fields[j];
+        var val = field.__value;
+        if(field.kind == "numeric"){
+          SkipLogic.processSkipLogic(field.idfield, parseInt(val));
+        }
+        if(field.kind == "select_many"){
+          if($("#"+field.idfield).length){
+            val = FieldController.getFieldValueFromUI(field.idfield);
+            codeList = FieldController.findOptionCodeByFieldOptionId(val, field.config.options);
+            SkipLogic.calculateSkipLogicSelectManyByListCode(codeList, field.idfield); 
+          }
+          else{
+            SkipLogic.calculateSkipLogicSelectManyByListCode(val, field.idfield);
+          }
+        }
+        if(field.kind == "yes_no"){
+          SkipLogic.processSkipLogic(field.idfield, val);
+        }
+        if(field.kind == "select_one"){
+          codeList = FieldController.findOptionCodeByFieldOptionId([val], field.config.options);
+          SkipLogic.processSkipLogic(field.idfield, codeList[0]);
+        }
+      }
+    }
   },
 
   removeLayerContent: function($layerNode){
@@ -481,5 +483,19 @@ FieldController = {
       SiteController.resetMenu();
     }
     return false;
+  },
+
+  findOptionCodeByFieldOptionId: function(ids, all_options){
+    var list_codes = new Array();
+    for(var i=0; i<ids.length; i++){
+      var id = ids[i];
+      for(var j=0; j<all_options.length; j++){
+        option = all_options[j];
+        if(option.id == id){
+          list_codes.push(option.code);
+        }
+      }
+    }
+    return list_codes;
   }
 };
