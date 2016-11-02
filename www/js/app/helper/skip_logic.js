@@ -61,7 +61,7 @@ SkipLogic = {
               var fieldLogic = field.config['field_logics'][i]
               var operationType= fieldLogic.condition_type;
               var field_logic_value = fieldLogic.value.split(",")
-              var match = Operators["=="](list_codes, field_logic_value)
+              var match = Operators["=="](list_codes, field_logic_value);
               SkipLogic.applySkipLogic(field, fieldLogic.field_id, function(){
                 return match;
               });

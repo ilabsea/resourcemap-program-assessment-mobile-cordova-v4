@@ -40,7 +40,6 @@ $(document).on("mobileinit", function() {
       if (element.attr('multiple'))
         SkipLogic.processSkipLogicSelectMany(element, ele);
       else
-        App.log("Select one ele:", ele);
         SkipLogic.processSkipLogic(ele, val);
     }
   });
