@@ -18,7 +18,6 @@ SiteReport = {
     var collectionId = site['collection_id']
     var uuid = site['uuid']
     var url = RmSetting.url() + "/collections/" + collectionId + "/sites/" + uuid + "/share";
-    console.log('page ', url);
     navigator.app.loadUrl(url, { openExternal:true })
   }
 };

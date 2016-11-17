@@ -340,7 +340,6 @@ SiteController = {
   renderUpdateSiteFormOnline: function () {
     var cId = CollectionController.id;
     var sId = SiteController.id;
-    App.log("Calculate Skip logic");
     SiteModel.fetchOne(cId, sId, function (site) {
       MyMembershipObj.setSite(site);
       var can_edit = MyMembershipController.canEdit(site);

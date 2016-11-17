@@ -95,7 +95,6 @@ FieldController = {
 
         })
       }
-      // SkipLogic.disableUIEditSite
       DigitAllowance.prepareEventListenerOnKeyPress();
 
       // Readonly field
@@ -139,8 +138,10 @@ FieldController = {
     layer.valid = true
     for(var i=0; i<layer.fields.length; i++){
       var validField = FieldController.validateField(layer.fields[i]);
-      if(!validField)
+      if(!validField){
         layer.valid = false
+      }
+
     }
     var $layerNode = $("#collapsable_" + layer.id_wrapper)
     layer.valid ? $layerNode.removeClass("error") : $layerNode.addClass("error")
@@ -161,13 +162,16 @@ FieldController = {
       }
     }
 
-    if(field.required=="" || field.disableState){
+    if(!this.activeLayer)
+      field.disableState = SkipLogic.setDisableState(field);
+
+    if(field.required == "" || field.disableState){
       field.invalid = '';
       return true
     }
 
     if(!field.__value){
-      field.invalid = 'error'
+      field.invalid = 'error';
       return false;
     }
 
@@ -246,7 +250,7 @@ FieldController = {
           if($("#"+field.idfield).length){
             val = FieldController.getFieldValueFromUI(field.idfield);
             codeList = FieldController.findOptionCodeByFieldOptionId(val, field.config.options);
-            SkipLogic.calculateSkipLogicSelectManyByListCode(codeList, field.idfield); 
+            SkipLogic.calculateSkipLogicSelectManyByListCode(codeList, field.idfield);
           }
           else{
             SkipLogic.calculateSkipLogicSelectManyByListCode(val, field.idfield);
