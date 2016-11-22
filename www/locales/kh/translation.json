@@ -34,7 +34,8 @@
         "changeServerInfo": "ការផ្លាស់ប្តូរខ្សែបណ្តាញមេនឹង ធ្វើអោយបាត់បង់ទិន្នន័យនៅក្រៅបណ្តាញ",
         "changeServerConfirmMessage": "តើអ្នក ចង់ផ្លាស់ប្តូររឺទេ ?",
         "serverSetting": "បណ្តាញ",
-        "toggleAllSites": "បិទបើកតំបន់ទាំងអស់",
+        "selectAllSites": "ជ្រើសតំបន់ទាំងអស់",
+        "unselectAllSites": "មិនជ្រើសតំបន់ទាំងអស់",
         "url": "ខ្សែបណ្តាញមេ"
     },
     "login_page": {

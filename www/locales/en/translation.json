@@ -34,7 +34,8 @@
         "changeServerInfo": "Once you change the server URL, the local data will be lost.",
         "changeServerConfirmMessage": "Are you sure you want to change the server URL ?",
         "serverSetting": "Server setting",
-        "toggleAllSites": "Toggle all sites",
+        "selectAllSites": "Select all sites",
+        "unselectAllSites": "Unselect all sites",
         "url": "Server URL"
     },
     "login_page": {

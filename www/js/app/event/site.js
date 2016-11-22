@@ -188,8 +188,12 @@ $(document).on("mobileinit", function() {
   $(document).delegate('#btn-toggle-site', 'click', function() {
     $selectedSites = $('.btn_select_site');
     if($selectedSites.hasClass('ui-icon-none')){
+      $(this).text(i18n.t('global.unselectAllSites'));
+      $(this).removeClass('ui-icon-none').addClass('ui-icon-check');
       $selectedSites.removeClass('ui-icon-none').addClass('ui-icon-check');
     }else{
+      $(this).text(i18n.t('global.selectAllSites'));
+      $(this).removeClass('ui-icon-check').addClass('ui-icon-none');
       $selectedSites.removeClass('ui-icon-check').addClass('ui-icon-none');
     }
   });
