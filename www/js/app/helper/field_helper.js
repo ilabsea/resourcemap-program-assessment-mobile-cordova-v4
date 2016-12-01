@@ -54,7 +54,8 @@ FieldHelper = {
       disableState: false,
       __value: '',
       __filename: '',
-      invalid: ''
+      invalid: '',
+      invalidMessage: ''
     };
     if(field.custom_widgeted )
       fieldUI.widgetType = 'custom_widget_tokenizer';

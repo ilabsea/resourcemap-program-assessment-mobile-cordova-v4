@@ -165,7 +165,37 @@ FieldController = {
     if(!this.activeLayer)
       field.disableState = SkipLogic.setDisableState(field);
 
-    if(field.required == "" || field.disableState){
+    if(field.kind == 'numeric' && field.config && field.__value){
+      if(field.config.range) {
+        if(field.__value >= field.config.range.minimum && field.__value <= field.config.range.maximum ){
+          field.invalid = ''
+          return true;
+        }
+        else {
+          field.invalid = 'error';
+          field.invalidMessage = customRangeMessage(field.config.range.minimum, field.config.range.maximum);
+          return false;
+        }
+      }
+
+      if(field.config['field_validations']){
+        customValidationResult = true;
+        $.each(field.config['field_validations'], function(_, v){
+          compareField = FieldController.findFieldById(v["field_id"][0]);
+          customValidationResult = Operators[v["condition_type"]](parseFloat(field.__value), parseFloat(compareField.__value));
+          if(customValidationResult == false){
+            field.invalid = 'error';
+            field.invalidMessage = customValidationMessage(v["condition_type"], field.name, compareField.name);
+            return false
+          }
+        });
+        if(customValidationResult == true)
+          field.invalid = '';
+        return customValidationResult;
+      }
+    }
+
+    if((field.required == "" || field.disableState)){
       field.invalid = '';
       return true
     }
@@ -175,16 +205,6 @@ FieldController = {
       return false;
     }
 
-    if(field.kind == 'numeric' && field.config && field.config.range) {
-      if(field.__value >= field.config.range.minimum && field.__value <=field.config.range.maximum ){
-        field.invalid = ''
-        return true;
-      }
-      else {
-        field.invalid = 'error'
-        return false;
-      }
-    }
     field.invalid = ''
     return true;
   },

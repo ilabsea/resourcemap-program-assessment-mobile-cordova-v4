@@ -9,7 +9,7 @@ CustomWidget = {
             $wrapper.text(value);
         else{
           if(field.kind == 'numeric'){
-            var $node = $('<input type="number" />').attr('id', id)
+            var $node = $('<input type="number" class="'+field.invalid+'"/>').attr('id', id)
                                                     .attr('name', id)
                                                     .attr('data-allows_decimals', field.config.allows_decimals)
                                                     .val(value)
@@ -21,8 +21,12 @@ CustomWidget = {
             $wrapper.append($node);
           }
           else if(field.kind == 'select_one') {
-            var $node = $("<select data-theme='a' data-native-menu='false' class='validateSelectFields needsclick'></select>");
+            var $node = $("<select data-theme='a' data-placeholder='true' data-native-menu='false' class='validateSelectFields needsclick'></select>");
             $node.attr('id', id).attr('name', id);
+
+            $noValueOption = $("<option data-placeholder='true'>Option</option><option value=''>(no value)</option>");
+            $node.append($noValueOption);
+
             $.each(field.config.options, function(index, option) {
                 var $option = $("<option></option>")
                                          .attr('value', option['id'])

@@ -77,7 +77,8 @@ module.exports = function(grunt) {
        "www/js/app/helper/location.js",
        "www/js/app/helper/require_reload.js",
        "www/js/app/helper/digit_allowance.js",
-       "www/js/app/helper/validation.js"
+       "www/js/app/helper/validation.js",
+       "www/js/app/helper/custom_validation.js"
   ]
 
   var sourceCssFiles = [

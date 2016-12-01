@@ -65,4 +65,14 @@ $(document).on("mobileinit", function() {
     var fieldId = $this.attr('data-id');
     CameraModel.openCameraDialog(fieldId)
   });
+
+  $(document).delegate('#form-site-fields input', 'focus', function () {
+    field = FieldController.findFieldById(this.id);
+    if(field.invalid && field.invalid != ""){
+      if(field.invalidMessage && field.invalidMessage != "")
+        showValidateMessage("#validation-save-site", field.invalidMessage);
+      else
+        showValidateMessage("#validation-save-site", i18n.t('validation.emailPsdConfirm'));
+    }
+  });
 });
