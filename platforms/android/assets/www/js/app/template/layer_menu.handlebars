@@ -1,0 +1,13 @@
+<select data-theme="a"
+        data-native-menu="false"
+        data-iconpos="notext"
+        data-icon="bullets"
+        name="layer-list-menu"
+        id="{{field_collections.current_page}}layer-list-menu"
+        onchange="scrollToLayer($(this).val())">
+  <option value="" selected>{{t "global.menu"}}</option>
+    {{#each field_collections}}
+      <option value="{{../field_collections.current_page}}{{id_wrapper}}">{{name_wrapper}}</option>
+    {{/each}}
+ <option value="logout">{{t "global.logout"}}</option>
+</select>

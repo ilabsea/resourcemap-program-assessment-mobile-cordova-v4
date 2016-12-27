@@ -1,0 +1,16 @@
+{{#each siteList}}
+<li data-id='{{id}}' data-href='{{link}}' data-collection-id='{{collection_id}}' data-name='{{name}}'>
+  <a href='#' class="btn_view_site" data-id='{{id}}' data-href='{{link}}' data-collection-id='{{collection_id}}' data-name='{{name}}'>
+    {{name}}
+    {{#if collectionName}}
+      <p class='ui-li-desc no-click' > {{collectionName}} </p>
+    {{/if}}
+    <p class='ui-li-aside no-click' style='color:blue'> {{date}} </p>
+  </a>
+</li>
+{{/each}}
+{{#if hasMoreSites}}
+<li class="load-more" data-id="load-more-site-list" id="load-more-site">
+ <a href="javascript:void(0)">Load More Sites ...</a>
+</li>
+{{/if}}
