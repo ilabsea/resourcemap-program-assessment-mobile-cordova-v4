@@ -36,7 +36,7 @@ Calculation = {
       field = FieldHelper.getSavedField(field.idfield);
       field.__value = value;
     }
-    
+
   },
 
   generateSyntax: function (field) {

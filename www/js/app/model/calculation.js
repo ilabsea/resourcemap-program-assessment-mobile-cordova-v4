@@ -36,7 +36,7 @@ Calculation = {
       field = FieldHelper.getSavedField(field.idfield);
       field.__value = value;
     }
-    
+
   },
 
   generateSyntax: function (field) {
@@ -59,7 +59,6 @@ Calculation = {
               parseFloat(fieldValue);
             break;
           case "numeric":
-            // fieldValue = parseFloat($fieldUI.val());
             fieldValue = parseFloat(FieldHelper.getFieldValue(dependField.id));
             if (isNaN(fieldValue))
               fieldValue = 0;

@@ -12,7 +12,7 @@ $(document).on("mobileinit", function() {
     FieldController.layerCollapseFields($this);
   });
 
-  $(document).delegate('.calculation', 'keyup blur', function () {
+  $(document).delegate('.calculation', 'keyup blur change', function () {
     Calculation.calculate($(this));
   });
 

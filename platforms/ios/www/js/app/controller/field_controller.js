@@ -92,7 +92,6 @@ FieldController = {
           parentIds = parentIds.split(',')
           parentIds.push(field.idfield)
           $dependentField.attr('data-parent-ids', parentIds.join(","))
-
         })
       }
       DigitAllowance.prepareEventListenerOnKeyPress();
@@ -256,7 +255,25 @@ FieldController = {
     }
     else
       this.renderLayerNode($layerNode);
+    this.calculateSkipLogic();
+    this.calculateCalculationField();
+  },
 
+  calculateCalculationField: function(){
+    var layers = FieldController.layers;
+    for(var i=0; i< layers.length; i++){
+      var fields = layers[i].fields;
+      for(var j=0; j< fields.length; j++){
+        field = fields[j];
+        var val = field.__value;
+        if(field.kind == "calculation"){
+          Calculation.updateField(field.idfield);
+        }
+      }
+    }
+  },
+
+  calculateSkipLogic: function(){
     var layers = FieldController.layers;
     for(var i=0; i< layers.length; i++){
       var fields = layers[i].fields;

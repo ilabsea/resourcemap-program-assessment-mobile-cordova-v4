@@ -1,0 +1,1100 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'update', '-g' ]
+2 info using npm@4.0.5
+3 info using node@v7.4.0
+4 silly mapToRegistry name bower
+5 silly mapToRegistry using default registry
+6 silly mapToRegistry registry https://registry.npmjs.org/
+7 silly mapToRegistry data Result {
+7 silly mapToRegistry   raw: 'bower',
+7 silly mapToRegistry   scope: null,
+7 silly mapToRegistry   escapedName: 'bower',
+7 silly mapToRegistry   name: 'bower',
+7 silly mapToRegistry   rawSpec: '',
+7 silly mapToRegistry   spec: 'latest',
+7 silly mapToRegistry   type: 'tag' }
+8 silly mapToRegistry uri https://registry.npmjs.org/bower
+9 silly mapToRegistry name cordova
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry data Result {
+12 silly mapToRegistry   raw: 'cordova',
+12 silly mapToRegistry   scope: null,
+12 silly mapToRegistry   escapedName: 'cordova',
+12 silly mapToRegistry   name: 'cordova',
+12 silly mapToRegistry   rawSpec: '',
+12 silly mapToRegistry   spec: 'latest',
+12 silly mapToRegistry   type: 'tag' }
+13 silly mapToRegistry uri https://registry.npmjs.org/cordova
+14 silly mapToRegistry name express-generator
+15 silly mapToRegistry using default registry
+16 silly mapToRegistry registry https://registry.npmjs.org/
+17 silly mapToRegistry data Result {
+17 silly mapToRegistry   raw: 'express-generator',
+17 silly mapToRegistry   scope: null,
+17 silly mapToRegistry   escapedName: 'express-generator',
+17 silly mapToRegistry   name: 'express-generator',
+17 silly mapToRegistry   rawSpec: '',
+17 silly mapToRegistry   spec: 'latest',
+17 silly mapToRegistry   type: 'tag' }
+18 silly mapToRegistry uri https://registry.npmjs.org/express-generator
+19 silly mapToRegistry name firebase-tools
+20 silly mapToRegistry using default registry
+21 silly mapToRegistry registry https://registry.npmjs.org/
+22 silly mapToRegistry data Result {
+22 silly mapToRegistry   raw: 'firebase-tools',
+22 silly mapToRegistry   scope: null,
+22 silly mapToRegistry   escapedName: 'firebase-tools',
+22 silly mapToRegistry   name: 'firebase-tools',
+22 silly mapToRegistry   rawSpec: '',
+22 silly mapToRegistry   spec: 'latest',
+22 silly mapToRegistry   type: 'tag' }
+23 silly mapToRegistry uri https://registry.npmjs.org/firebase-tools
+24 silly mapToRegistry name forever
+25 silly mapToRegistry using default registry
+26 silly mapToRegistry registry https://registry.npmjs.org/
+27 silly mapToRegistry data Result {
+27 silly mapToRegistry   raw: 'forever',
+27 silly mapToRegistry   scope: null,
+27 silly mapToRegistry   escapedName: 'forever',
+27 silly mapToRegistry   name: 'forever',
+27 silly mapToRegistry   rawSpec: '',
+27 silly mapToRegistry   spec: 'latest',
+27 silly mapToRegistry   type: 'tag' }
+28 silly mapToRegistry uri https://registry.npmjs.org/forever
+29 silly mapToRegistry name grunt
+30 silly mapToRegistry using default registry
+31 silly mapToRegistry registry https://registry.npmjs.org/
+32 silly mapToRegistry data Result {
+32 silly mapToRegistry   raw: 'grunt',
+32 silly mapToRegistry   scope: null,
+32 silly mapToRegistry   escapedName: 'grunt',
+32 silly mapToRegistry   name: 'grunt',
+32 silly mapToRegistry   rawSpec: '',
+32 silly mapToRegistry   spec: 'latest',
+32 silly mapToRegistry   type: 'tag' }
+33 silly mapToRegistry uri https://registry.npmjs.org/grunt
+34 silly mapToRegistry name grunt-cli
+35 silly mapToRegistry using default registry
+36 silly mapToRegistry registry https://registry.npmjs.org/
+37 silly mapToRegistry data Result {
+37 silly mapToRegistry   raw: 'grunt-cli',
+37 silly mapToRegistry   scope: null,
+37 silly mapToRegistry   escapedName: 'grunt-cli',
+37 silly mapToRegistry   name: 'grunt-cli',
+37 silly mapToRegistry   rawSpec: '',
+37 silly mapToRegistry   spec: 'latest',
+37 silly mapToRegistry   type: 'tag' }
+38 silly mapToRegistry uri https://registry.npmjs.org/grunt-cli
+39 silly mapToRegistry name grunt-init
+40 silly mapToRegistry using default registry
+41 silly mapToRegistry registry https://registry.npmjs.org/
+42 silly mapToRegistry data Result {
+42 silly mapToRegistry   raw: 'grunt-init',
+42 silly mapToRegistry   scope: null,
+42 silly mapToRegistry   escapedName: 'grunt-init',
+42 silly mapToRegistry   name: 'grunt-init',
+42 silly mapToRegistry   rawSpec: '',
+42 silly mapToRegistry   spec: 'latest',
+42 silly mapToRegistry   type: 'tag' }
+43 silly mapToRegistry uri https://registry.npmjs.org/grunt-init
+44 silly mapToRegistry name handlebars
+45 silly mapToRegistry using default registry
+46 silly mapToRegistry registry https://registry.npmjs.org/
+47 silly mapToRegistry data Result {
+47 silly mapToRegistry   raw: 'handlebars',
+47 silly mapToRegistry   scope: null,
+47 silly mapToRegistry   escapedName: 'handlebars',
+47 silly mapToRegistry   name: 'handlebars',
+47 silly mapToRegistry   rawSpec: '',
+47 silly mapToRegistry   spec: 'latest',
+47 silly mapToRegistry   type: 'tag' }
+48 silly mapToRegistry uri https://registry.npmjs.org/handlebars
+49 silly mapToRegistry name http-server
+50 silly mapToRegistry using default registry
+51 silly mapToRegistry registry https://registry.npmjs.org/
+52 silly mapToRegistry data Result {
+52 silly mapToRegistry   raw: 'http-server',
+52 silly mapToRegistry   scope: null,
+52 silly mapToRegistry   escapedName: 'http-server',
+52 silly mapToRegistry   name: 'http-server',
+52 silly mapToRegistry   rawSpec: '',
+52 silly mapToRegistry   spec: 'latest',
+52 silly mapToRegistry   type: 'tag' }
+53 silly mapToRegistry uri https://registry.npmjs.org/http-server
+54 silly mapToRegistry name httpserver
+55 silly mapToRegistry using default registry
+56 silly mapToRegistry registry https://registry.npmjs.org/
+57 silly mapToRegistry data Result {
+57 silly mapToRegistry   raw: 'httpserver',
+57 silly mapToRegistry   scope: null,
+57 silly mapToRegistry   escapedName: 'httpserver',
+57 silly mapToRegistry   name: 'httpserver',
+57 silly mapToRegistry   rawSpec: '',
+57 silly mapToRegistry   spec: 'latest',
+57 silly mapToRegistry   type: 'tag' }
+58 silly mapToRegistry uri https://registry.npmjs.org/httpserver
+59 silly mapToRegistry name ionic
+60 silly mapToRegistry using default registry
+61 silly mapToRegistry registry https://registry.npmjs.org/
+62 silly mapToRegistry data Result {
+62 silly mapToRegistry   raw: 'ionic',
+62 silly mapToRegistry   scope: null,
+62 silly mapToRegistry   escapedName: 'ionic',
+62 silly mapToRegistry   name: 'ionic',
+62 silly mapToRegistry   rawSpec: '',
+62 silly mapToRegistry   spec: 'latest',
+62 silly mapToRegistry   type: 'tag' }
+63 silly mapToRegistry uri https://registry.npmjs.org/ionic
+64 silly mapToRegistry name javascripting
+65 silly mapToRegistry using default registry
+66 silly mapToRegistry registry https://registry.npmjs.org/
+67 silly mapToRegistry data Result {
+67 silly mapToRegistry   raw: 'javascripting',
+67 silly mapToRegistry   scope: null,
+67 silly mapToRegistry   escapedName: 'javascripting',
+67 silly mapToRegistry   name: 'javascripting',
+67 silly mapToRegistry   rawSpec: '',
+67 silly mapToRegistry   spec: 'latest',
+67 silly mapToRegistry   type: 'tag' }
+68 silly mapToRegistry uri https://registry.npmjs.org/javascripting
+69 silly mapToRegistry name learnyounode
+70 silly mapToRegistry using default registry
+71 silly mapToRegistry registry https://registry.npmjs.org/
+72 silly mapToRegistry data Result {
+72 silly mapToRegistry   raw: 'learnyounode',
+72 silly mapToRegistry   scope: null,
+72 silly mapToRegistry   escapedName: 'learnyounode',
+72 silly mapToRegistry   name: 'learnyounode',
+72 silly mapToRegistry   rawSpec: '',
+72 silly mapToRegistry   spec: 'latest',
+72 silly mapToRegistry   type: 'tag' }
+73 silly mapToRegistry uri https://registry.npmjs.org/learnyounode
+74 silly mapToRegistry name npm
+75 silly mapToRegistry using default registry
+76 silly mapToRegistry registry https://registry.npmjs.org/
+77 silly mapToRegistry data Result {
+77 silly mapToRegistry   raw: 'npm',
+77 silly mapToRegistry   scope: null,
+77 silly mapToRegistry   escapedName: 'npm',
+77 silly mapToRegistry   name: 'npm',
+77 silly mapToRegistry   rawSpec: '',
+77 silly mapToRegistry   spec: 'latest',
+77 silly mapToRegistry   type: 'tag' }
+78 silly mapToRegistry uri https://registry.npmjs.org/npm
+79 silly mapToRegistry name phonegap
+80 silly mapToRegistry using default registry
+81 silly mapToRegistry registry https://registry.npmjs.org/
+82 silly mapToRegistry data Result {
+82 silly mapToRegistry   raw: 'phonegap',
+82 silly mapToRegistry   scope: null,
+82 silly mapToRegistry   escapedName: 'phonegap',
+82 silly mapToRegistry   name: 'phonegap',
+82 silly mapToRegistry   rawSpec: '',
+82 silly mapToRegistry   spec: 'latest',
+82 silly mapToRegistry   type: 'tag' }
+83 silly mapToRegistry uri https://registry.npmjs.org/phonegap
+84 silly mapToRegistry name react-native-cli
+85 silly mapToRegistry using default registry
+86 silly mapToRegistry registry https://registry.npmjs.org/
+87 silly mapToRegistry data Result {
+87 silly mapToRegistry   raw: 'react-native-cli',
+87 silly mapToRegistry   scope: null,
+87 silly mapToRegistry   escapedName: 'react-native-cli',
+87 silly mapToRegistry   name: 'react-native-cli',
+87 silly mapToRegistry   rawSpec: '',
+87 silly mapToRegistry   spec: 'latest',
+87 silly mapToRegistry   type: 'tag' }
+88 silly mapToRegistry uri https://registry.npmjs.org/react-native-cli
+89 silly mapToRegistry name scope-chains-closures
+90 silly mapToRegistry using default registry
+91 silly mapToRegistry registry https://registry.npmjs.org/
+92 silly mapToRegistry data Result {
+92 silly mapToRegistry   raw: 'scope-chains-closures',
+92 silly mapToRegistry   scope: null,
+92 silly mapToRegistry   escapedName: 'scope-chains-closures',
+92 silly mapToRegistry   name: 'scope-chains-closures',
+92 silly mapToRegistry   rawSpec: '',
+92 silly mapToRegistry   spec: 'latest',
+92 silly mapToRegistry   type: 'tag' }
+93 silly mapToRegistry uri https://registry.npmjs.org/scope-chains-closures
+94 silly mapToRegistry name securechat-server
+95 silly mapToRegistry using default registry
+96 silly mapToRegistry registry https://registry.npmjs.org/
+97 silly mapToRegistry data Result {
+97 silly mapToRegistry   raw: 'securechat-server',
+97 silly mapToRegistry   scope: null,
+97 silly mapToRegistry   escapedName: 'securechat-server',
+97 silly mapToRegistry   name: 'securechat-server',
+97 silly mapToRegistry   rawSpec: '',
+97 silly mapToRegistry   spec: 'latest',
+97 silly mapToRegistry   type: 'tag' }
+98 silly mapToRegistry uri https://registry.npmjs.org/securechat-server
+99 silly mapToRegistry name version-manager-cordova-software
+100 silly mapToRegistry using default registry
+101 silly mapToRegistry registry https://registry.npmjs.org/
+102 silly mapToRegistry data Result {
+102 silly mapToRegistry   raw: 'version-manager-cordova-software',
+102 silly mapToRegistry   scope: null,
+102 silly mapToRegistry   escapedName: 'version-manager-cordova-software',
+102 silly mapToRegistry   name: 'version-manager-cordova-software',
+102 silly mapToRegistry   rawSpec: '',
+102 silly mapToRegistry   spec: 'latest',
+102 silly mapToRegistry   type: 'tag' }
+103 silly mapToRegistry uri https://registry.npmjs.org/version-manager-cordova-software
+104 verbose request uri https://registry.npmjs.org/phonegap
+105 verbose request no auth needed
+106 info attempt registry request try #1 at 8:52:50 AM
+107 verbose request id 6534b9afe5af4b49
+108 http request GET https://registry.npmjs.org/phonegap
+109 verbose request uri https://registry.npmjs.org/securechat-server
+110 verbose request no auth needed
+111 info attempt registry request try #1 at 8:52:50 AM
+112 http request GET https://registry.npmjs.org/securechat-server
+113 verbose request uri https://registry.npmjs.org/express-generator
+114 verbose request no auth needed
+115 info attempt registry request try #1 at 8:52:50 AM
+116 verbose etag "5UEAXF4SNWNSSO9JOCD67QFU2"
+117 http request GET https://registry.npmjs.org/express-generator
+118 verbose request uri https://registry.npmjs.org/bower
+119 verbose request no auth needed
+120 info attempt registry request try #1 at 8:52:50 AM
+121 verbose etag "3SH5R67MXOTK6WG7QF2INLREX"
+122 http request GET https://registry.npmjs.org/bower
+123 verbose request uri https://registry.npmjs.org/firebase-tools
+124 verbose request no auth needed
+125 info attempt registry request try #1 at 8:52:50 AM
+126 verbose etag "6MUZBSVZCR1IJAIO80ZDLFG5"
+127 http request GET https://registry.npmjs.org/firebase-tools
+128 verbose request uri https://registry.npmjs.org/forever
+129 verbose request no auth needed
+130 info attempt registry request try #1 at 8:52:50 AM
+131 verbose etag "4LQQ0MVTCJSIPT6J8FABJ1DFE"
+132 http request GET https://registry.npmjs.org/forever
+133 verbose request uri https://registry.npmjs.org/cordova
+134 verbose request no auth needed
+135 info attempt registry request try #1 at 8:52:50 AM
+136 verbose etag W/"586c52c2-10471a"
+137 verbose lastModified Wed, 04 Jan 2017 01:41:22 GMT
+138 http request GET https://registry.npmjs.org/cordova
+139 verbose request uri https://registry.npmjs.org/grunt-cli
+140 verbose request no auth needed
+141 info attempt registry request try #1 at 8:52:50 AM
+142 verbose etag "2S0YL18LTZFJY36DO0JI4QSHL"
+143 http request GET https://registry.npmjs.org/grunt-cli
+144 verbose request uri https://registry.npmjs.org/grunt-init
+145 verbose request no auth needed
+146 info attempt registry request try #1 at 8:52:50 AM
+147 verbose etag "CCIYW0PJIWTHY72OZEOHJXZZR"
+148 http request GET https://registry.npmjs.org/grunt-init
+149 verbose request uri https://registry.npmjs.org/grunt
+150 verbose request no auth needed
+151 info attempt registry request try #1 at 8:52:50 AM
+152 verbose etag "DX4EW3MTINW3X4YEQCBRRWVQZ"
+153 http request GET https://registry.npmjs.org/grunt
+154 verbose request uri https://registry.npmjs.org/handlebars
+155 verbose request no auth needed
+156 info attempt registry request try #1 at 8:52:50 AM
+157 verbose etag "86HV26TBRJK49HC64SHNCSAKU"
+158 http request GET https://registry.npmjs.org/handlebars
+159 verbose request uri https://registry.npmjs.org/http-server
+160 verbose request no auth needed
+161 info attempt registry request try #1 at 8:52:50 AM
+162 verbose etag "EENJ5483RYA0UFNTPOMVI60D7"
+163 http request GET https://registry.npmjs.org/http-server
+164 verbose request uri https://registry.npmjs.org/httpserver
+165 verbose request no auth needed
+166 info attempt registry request try #1 at 8:52:50 AM
+167 verbose etag "A9C4FTJ9KNWS3OSNB7N487YUN"
+168 http request GET https://registry.npmjs.org/httpserver
+169 verbose request uri https://registry.npmjs.org/ionic
+170 verbose request no auth needed
+171 info attempt registry request try #1 at 8:52:50 AM
+172 verbose etag "50OWXNJR23DNSNBF5G6YB4ZET"
+173 http request GET https://registry.npmjs.org/ionic
+174 verbose request uri https://registry.npmjs.org/javascripting
+175 verbose request no auth needed
+176 info attempt registry request try #1 at 8:52:50 AM
+177 verbose etag "9G3G3DHOO972Y4O3BM5TSHC5"
+178 http request GET https://registry.npmjs.org/javascripting
+179 verbose request uri https://registry.npmjs.org/learnyounode
+180 verbose request no auth needed
+181 info attempt registry request try #1 at 8:52:50 AM
+182 verbose etag "2UXZK82BQ4LD9BNPUYTTPAMKW"
+183 http request GET https://registry.npmjs.org/learnyounode
+184 verbose request uri https://registry.npmjs.org/react-native-cli
+185 verbose request no auth needed
+186 info attempt registry request try #1 at 8:52:50 AM
+187 verbose etag W/"58265004-4ef4"
+188 verbose lastModified Fri, 11 Nov 2016 23:11:00 GMT
+189 http request GET https://registry.npmjs.org/react-native-cli
+190 verbose request uri https://registry.npmjs.org/scope-chains-closures
+191 verbose request no auth needed
+192 info attempt registry request try #1 at 8:52:50 AM
+193 verbose etag "FGJFVDNKZ9G5JPX51RQP2Y1Y"
+194 http request GET https://registry.npmjs.org/scope-chains-closures
+195 verbose request uri https://registry.npmjs.org/version-manager-cordova-software
+196 verbose request no auth needed
+197 info attempt registry request try #1 at 8:52:50 AM
+198 verbose etag "75RDVNLGS6XUJC0IQCMX2UYYT"
+199 http request GET https://registry.npmjs.org/version-manager-cordova-software
+200 verbose request uri https://registry.npmjs.org/npm
+201 verbose request no auth needed
+202 info attempt registry request try #1 at 8:52:50 AM
+203 verbose etag W/"58543dd0-5aa3f5"
+204 verbose lastModified Fri, 16 Dec 2016 19:17:36 GMT
+205 http request GET https://registry.npmjs.org/npm
+206 http 200 https://registry.npmjs.org/express-generator
+207 verbose headers { server: 'nginx/1.10.1',
+207 verbose headers   'content-type': 'application/json',
+207 verbose headers   'last-modified': 'Mon, 05 Dec 2016 05:02:33 GMT',
+207 verbose headers   etag: 'W/"5844f4e9-8dc5"',
+207 verbose headers   'content-encoding': 'gzip',
+207 verbose headers   'cache-control': 'max-age=300',
+207 verbose headers   'content-length': '4279',
+207 verbose headers   'accept-ranges': 'bytes',
+207 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+207 verbose headers   via: '1.1 varnish',
+207 verbose headers   age: '0',
+207 verbose headers   connection: 'keep-alive',
+207 verbose headers   'x-served-by': 'cache-cdg8731-CDG',
+207 verbose headers   'x-cache': 'HIT',
+207 verbose headers   'x-cache-hits': '1',
+207 verbose headers   'x-timer': 'S1483667571.406349,VS0,VE94',
+207 verbose headers   vary: 'Accept-Encoding' }
+208 silly get cb [ 200,
+208 silly get   { server: 'nginx/1.10.1',
+208 silly get     'content-type': 'application/json',
+208 silly get     'last-modified': 'Mon, 05 Dec 2016 05:02:33 GMT',
+208 silly get     etag: 'W/"5844f4e9-8dc5"',
+208 silly get     'content-encoding': 'gzip',
+208 silly get     'cache-control': 'max-age=300',
+208 silly get     'content-length': '4279',
+208 silly get     'accept-ranges': 'bytes',
+208 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+208 silly get     via: '1.1 varnish',
+208 silly get     age: '0',
+208 silly get     connection: 'keep-alive',
+208 silly get     'x-served-by': 'cache-cdg8731-CDG',
+208 silly get     'x-cache': 'HIT',
+208 silly get     'x-cache-hits': '1',
+208 silly get     'x-timer': 'S1483667571.406349,VS0,VE94',
+208 silly get     vary: 'Accept-Encoding' } ]
+209 verbose get saving express-generator to /Users/user/.npm/registry.npmjs.org/express-generator/.cache.json
+210 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+211 http 304 https://registry.npmjs.org/cordova
+212 verbose headers { date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+212 verbose headers   via: '1.1 varnish',
+212 verbose headers   'cache-control': 'max-age=300',
+212 verbose headers   etag: 'W/"586c52c2-10471a"',
+212 verbose headers   age: '197',
+212 verbose headers   connection: 'keep-alive',
+212 verbose headers   'x-served-by': 'cache-cdg8720-CDG',
+212 verbose headers   'x-cache': 'HIT',
+212 verbose headers   'x-cache-hits': '2',
+212 verbose headers   'x-timer': 'S1483667571.582579,VS0,VE0',
+212 verbose headers   vary: 'Accept-Encoding' }
+213 silly get cb [ 304,
+213 silly get   { date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+213 silly get     via: '1.1 varnish',
+213 silly get     'cache-control': 'max-age=300',
+213 silly get     etag: 'W/"586c52c2-10471a"',
+213 silly get     age: '197',
+213 silly get     connection: 'keep-alive',
+213 silly get     'x-served-by': 'cache-cdg8720-CDG',
+213 silly get     'x-cache': 'HIT',
+213 silly get     'x-cache-hits': '2',
+213 silly get     'x-timer': 'S1483667571.582579,VS0,VE0',
+213 silly get     vary: 'Accept-Encoding' } ]
+214 verbose etag https://registry.npmjs.org/cordova from cache
+215 verbose get saving cordova to /Users/user/.npm/registry.npmjs.org/cordova/.cache.json
+216 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+217 http 200 https://registry.npmjs.org/grunt-cli
+218 verbose headers { server: 'nginx/1.10.1',
+218 verbose headers   'content-type': 'application/json',
+218 verbose headers   'last-modified': 'Wed, 04 Jan 2017 13:58:39 GMT',
+218 verbose headers   etag: 'W/"586cff8f-7e39"',
+218 verbose headers   'content-encoding': 'gzip',
+218 verbose headers   'cache-control': 'max-age=300',
+218 verbose headers   'content-length': '5371',
+218 verbose headers   'accept-ranges': 'bytes',
+218 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+218 verbose headers   via: '1.1 varnish',
+218 verbose headers   age: '187',
+218 verbose headers   connection: 'keep-alive',
+218 verbose headers   'x-served-by': 'cache-cdg8720-CDG',
+218 verbose headers   'x-cache': 'HIT',
+218 verbose headers   'x-cache-hits': '1',
+218 verbose headers   'x-timer': 'S1483667571.581073,VS0,VE0',
+218 verbose headers   vary: 'Accept-Encoding' }
+219 silly get cb [ 200,
+219 silly get   { server: 'nginx/1.10.1',
+219 silly get     'content-type': 'application/json',
+219 silly get     'last-modified': 'Wed, 04 Jan 2017 13:58:39 GMT',
+219 silly get     etag: 'W/"586cff8f-7e39"',
+219 silly get     'content-encoding': 'gzip',
+219 silly get     'cache-control': 'max-age=300',
+219 silly get     'content-length': '5371',
+219 silly get     'accept-ranges': 'bytes',
+219 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+219 silly get     via: '1.1 varnish',
+219 silly get     age: '187',
+219 silly get     connection: 'keep-alive',
+219 silly get     'x-served-by': 'cache-cdg8720-CDG',
+219 silly get     'x-cache': 'HIT',
+219 silly get     'x-cache-hits': '1',
+219 silly get     'x-timer': 'S1483667571.581073,VS0,VE0',
+219 silly get     vary: 'Accept-Encoding' } ]
+220 verbose get saving grunt-cli to /Users/user/.npm/registry.npmjs.org/grunt-cli/.cache.json
+221 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+222 http 200 https://registry.npmjs.org/grunt-init
+223 verbose headers { server: 'nginx/1.10.1',
+223 verbose headers   'content-type': 'application/json',
+223 verbose headers   'last-modified': 'Mon, 16 Feb 2015 08:01:28 GMT',
+223 verbose headers   etag: 'W/"54e1a3d8-50e2"',
+223 verbose headers   'content-encoding': 'gzip',
+223 verbose headers   'cache-control': 'max-age=300',
+223 verbose headers   'content-length': '2280',
+223 verbose headers   'accept-ranges': 'bytes',
+223 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+223 verbose headers   via: '1.1 varnish',
+223 verbose headers   age: '265',
+223 verbose headers   connection: 'keep-alive',
+223 verbose headers   'x-served-by': 'cache-cdg8732-CDG',
+223 verbose headers   'x-cache': 'HIT',
+223 verbose headers   'x-cache-hits': '1',
+223 verbose headers   'x-timer': 'S1483667571.591814,VS0,VE0',
+223 verbose headers   vary: 'Accept-Encoding' }
+224 silly get cb [ 200,
+224 silly get   { server: 'nginx/1.10.1',
+224 silly get     'content-type': 'application/json',
+224 silly get     'last-modified': 'Mon, 16 Feb 2015 08:01:28 GMT',
+224 silly get     etag: 'W/"54e1a3d8-50e2"',
+224 silly get     'content-encoding': 'gzip',
+224 silly get     'cache-control': 'max-age=300',
+224 silly get     'content-length': '2280',
+224 silly get     'accept-ranges': 'bytes',
+224 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+224 silly get     via: '1.1 varnish',
+224 silly get     age: '265',
+224 silly get     connection: 'keep-alive',
+224 silly get     'x-served-by': 'cache-cdg8732-CDG',
+224 silly get     'x-cache': 'HIT',
+224 silly get     'x-cache-hits': '1',
+224 silly get     'x-timer': 'S1483667571.591814,VS0,VE0',
+224 silly get     vary: 'Accept-Encoding' } ]
+225 verbose get saving grunt-init to /Users/user/.npm/registry.npmjs.org/grunt-init/.cache.json
+226 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+227 http 200 https://registry.npmjs.org/javascripting
+228 verbose headers { server: 'nginx/1.10.1',
+228 verbose headers   'content-type': 'application/json',
+228 verbose headers   'last-modified': 'Tue, 11 Oct 2016 21:02:00 GMT',
+228 verbose headers   etag: 'W/"57fd5348-9f6f"',
+228 verbose headers   'content-encoding': 'gzip',
+228 verbose headers   'cache-control': 'max-age=300',
+228 verbose headers   'content-length': '5618',
+228 verbose headers   'accept-ranges': 'bytes',
+228 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+228 verbose headers   via: '1.1 varnish',
+228 verbose headers   age: '226',
+228 verbose headers   connection: 'keep-alive',
+228 verbose headers   'x-served-by': 'cache-cdg8732-CDG',
+228 verbose headers   'x-cache': 'HIT',
+228 verbose headers   'x-cache-hits': '1',
+228 verbose headers   'x-timer': 'S1483667571.584193,VS0,VE0',
+228 verbose headers   vary: 'Accept-Encoding' }
+229 silly get cb [ 200,
+229 silly get   { server: 'nginx/1.10.1',
+229 silly get     'content-type': 'application/json',
+229 silly get     'last-modified': 'Tue, 11 Oct 2016 21:02:00 GMT',
+229 silly get     etag: 'W/"57fd5348-9f6f"',
+229 silly get     'content-encoding': 'gzip',
+229 silly get     'cache-control': 'max-age=300',
+229 silly get     'content-length': '5618',
+229 silly get     'accept-ranges': 'bytes',
+229 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+229 silly get     via: '1.1 varnish',
+229 silly get     age: '226',
+229 silly get     connection: 'keep-alive',
+229 silly get     'x-served-by': 'cache-cdg8732-CDG',
+229 silly get     'x-cache': 'HIT',
+229 silly get     'x-cache-hits': '1',
+229 silly get     'x-timer': 'S1483667571.584193,VS0,VE0',
+229 silly get     vary: 'Accept-Encoding' } ]
+230 verbose get saving javascripting to /Users/user/.npm/registry.npmjs.org/javascripting/.cache.json
+231 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+232 http 200 https://registry.npmjs.org/http-server
+233 verbose headers { server: 'nginx/1.10.1',
+233 verbose headers   'content-type': 'application/json',
+233 verbose headers   'last-modified': 'Thu, 05 Jan 2017 23:51:32 GMT',
+233 verbose headers   etag: 'W/"586edc04-ebf8"',
+233 verbose headers   'content-encoding': 'gzip',
+233 verbose headers   'cache-control': 'max-age=300',
+233 verbose headers   'content-length': '7832',
+233 verbose headers   'accept-ranges': 'bytes',
+233 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+233 verbose headers   via: '1.1 varnish',
+233 verbose headers   age: '189',
+233 verbose headers   connection: 'keep-alive',
+233 verbose headers   'x-served-by': 'cache-cdg8722-CDG',
+233 verbose headers   'x-cache': 'HIT',
+233 verbose headers   'x-cache-hits': '23',
+233 verbose headers   'x-timer': 'S1483667571.587185,VS0,VE0',
+233 verbose headers   vary: 'Accept-Encoding' }
+234 silly get cb [ 200,
+234 silly get   { server: 'nginx/1.10.1',
+234 silly get     'content-type': 'application/json',
+234 silly get     'last-modified': 'Thu, 05 Jan 2017 23:51:32 GMT',
+234 silly get     etag: 'W/"586edc04-ebf8"',
+234 silly get     'content-encoding': 'gzip',
+234 silly get     'cache-control': 'max-age=300',
+234 silly get     'content-length': '7832',
+234 silly get     'accept-ranges': 'bytes',
+234 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+234 silly get     via: '1.1 varnish',
+234 silly get     age: '189',
+234 silly get     connection: 'keep-alive',
+234 silly get     'x-served-by': 'cache-cdg8722-CDG',
+234 silly get     'x-cache': 'HIT',
+234 silly get     'x-cache-hits': '23',
+234 silly get     'x-timer': 'S1483667571.587185,VS0,VE0',
+234 silly get     vary: 'Accept-Encoding' } ]
+235 verbose get saving http-server to /Users/user/.npm/registry.npmjs.org/http-server/.cache.json
+236 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+237 http 200 https://registry.npmjs.org/handlebars
+238 verbose headers { server: 'nginx/1.10.1',
+238 verbose headers   'content-type': 'application/json',
+238 verbose headers   'last-modified': 'Fri, 23 Dec 2016 20:36:33 GMT',
+238 verbose headers   etag: 'W/"585d8ad1-fcce"',
+238 verbose headers   'content-encoding': 'gzip',
+238 verbose headers   'cache-control': 'max-age=300',
+238 verbose headers   'content-length': '9161',
+238 verbose headers   'accept-ranges': 'bytes',
+238 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+238 verbose headers   via: '1.1 varnish',
+238 verbose headers   age: '162',
+238 verbose headers   connection: 'keep-alive',
+238 verbose headers   'x-served-by': 'cache-cdg8732-CDG',
+238 verbose headers   'x-cache': 'HIT',
+238 verbose headers   'x-cache-hits': '3',
+238 verbose headers   'x-timer': 'S1483667571.583890,VS0,VE0',
+238 verbose headers   vary: 'Accept-Encoding' }
+239 silly get cb [ 200,
+239 silly get   { server: 'nginx/1.10.1',
+239 silly get     'content-type': 'application/json',
+239 silly get     'last-modified': 'Fri, 23 Dec 2016 20:36:33 GMT',
+239 silly get     etag: 'W/"585d8ad1-fcce"',
+239 silly get     'content-encoding': 'gzip',
+239 silly get     'cache-control': 'max-age=300',
+239 silly get     'content-length': '9161',
+239 silly get     'accept-ranges': 'bytes',
+239 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+239 silly get     via: '1.1 varnish',
+239 silly get     age: '162',
+239 silly get     connection: 'keep-alive',
+239 silly get     'x-served-by': 'cache-cdg8732-CDG',
+239 silly get     'x-cache': 'HIT',
+239 silly get     'x-cache-hits': '3',
+239 silly get     'x-timer': 'S1483667571.583890,VS0,VE0',
+239 silly get     vary: 'Accept-Encoding' } ]
+240 verbose get saving handlebars to /Users/user/.npm/registry.npmjs.org/handlebars/.cache.json
+241 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+242 http 200 https://registry.npmjs.org/grunt
+243 verbose headers { server: 'nginx/1.10.1',
+243 verbose headers   'content-type': 'application/json',
+243 verbose headers   'last-modified': 'Tue, 20 Dec 2016 17:32:28 GMT',
+243 verbose headers   etag: 'W/"58596b2c-1884e"',
+243 verbose headers   'content-encoding': 'gzip',
+243 verbose headers   'cache-control': 'max-age=300',
+243 verbose headers   'content-length': '10938',
+243 verbose headers   'accept-ranges': 'bytes',
+243 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+243 verbose headers   via: '1.1 varnish',
+243 verbose headers   age: '196',
+243 verbose headers   connection: 'keep-alive',
+243 verbose headers   'x-served-by': 'cache-cdg8721-CDG',
+243 verbose headers   'x-cache': 'HIT',
+243 verbose headers   'x-cache-hits': '2',
+243 verbose headers   'x-timer': 'S1483667571.603005,VS0,VE0',
+243 verbose headers   vary: 'Accept-Encoding' }
+244 silly get cb [ 200,
+244 silly get   { server: 'nginx/1.10.1',
+244 silly get     'content-type': 'application/json',
+244 silly get     'last-modified': 'Tue, 20 Dec 2016 17:32:28 GMT',
+244 silly get     etag: 'W/"58596b2c-1884e"',
+244 silly get     'content-encoding': 'gzip',
+244 silly get     'cache-control': 'max-age=300',
+244 silly get     'content-length': '10938',
+244 silly get     'accept-ranges': 'bytes',
+244 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+244 silly get     via: '1.1 varnish',
+244 silly get     age: '196',
+244 silly get     connection: 'keep-alive',
+244 silly get     'x-served-by': 'cache-cdg8721-CDG',
+244 silly get     'x-cache': 'HIT',
+244 silly get     'x-cache-hits': '2',
+244 silly get     'x-timer': 'S1483667571.603005,VS0,VE0',
+244 silly get     vary: 'Accept-Encoding' } ]
+245 verbose get saving grunt to /Users/user/.npm/registry.npmjs.org/grunt/.cache.json
+246 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+247 http 200 https://registry.npmjs.org/bower
+248 verbose headers { server: 'nginx/1.10.1',
+248 verbose headers   'content-type': 'application/json',
+248 verbose headers   'last-modified': 'Fri, 06 Jan 2017 00:28:27 GMT',
+248 verbose headers   etag: 'W/"586ee4ab-2acbc"',
+248 verbose headers   'content-encoding': 'gzip',
+248 verbose headers   'cache-control': 'max-age=300',
+248 verbose headers   'content-length': '16369',
+248 verbose headers   'accept-ranges': 'bytes',
+248 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+248 verbose headers   via: '1.1 varnish',
+248 verbose headers   age: '143',
+248 verbose headers   connection: 'keep-alive',
+248 verbose headers   'x-served-by': 'cache-cdg8729-CDG',
+248 verbose headers   'x-cache': 'HIT',
+248 verbose headers   'x-cache-hits': '1',
+248 verbose headers   'x-timer': 'S1483667571.406400,VS0,VE0',
+248 verbose headers   vary: 'Accept-Encoding' }
+249 silly get cb [ 200,
+249 silly get   { server: 'nginx/1.10.1',
+249 silly get     'content-type': 'application/json',
+249 silly get     'last-modified': 'Fri, 06 Jan 2017 00:28:27 GMT',
+249 silly get     etag: 'W/"586ee4ab-2acbc"',
+249 silly get     'content-encoding': 'gzip',
+249 silly get     'cache-control': 'max-age=300',
+249 silly get     'content-length': '16369',
+249 silly get     'accept-ranges': 'bytes',
+249 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+249 silly get     via: '1.1 varnish',
+249 silly get     age: '143',
+249 silly get     connection: 'keep-alive',
+249 silly get     'x-served-by': 'cache-cdg8729-CDG',
+249 silly get     'x-cache': 'HIT',
+249 silly get     'x-cache-hits': '1',
+249 silly get     'x-timer': 'S1483667571.406400,VS0,VE0',
+249 silly get     vary: 'Accept-Encoding' } ]
+250 verbose get saving bower to /Users/user/.npm/registry.npmjs.org/bower/.cache.json
+251 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+252 http 200 https://registry.npmjs.org/phonegap
+253 verbose headers { server: 'nginx/1.10.1',
+253 verbose headers   'content-type': 'application/json',
+253 verbose headers   'last-modified': 'Wed, 21 Dec 2016 21:06:08 GMT',
+253 verbose headers   etag: 'W/"585aeec0-56a82"',
+253 verbose headers   'content-encoding': 'gzip',
+253 verbose headers   'cache-control': 'max-age=300',
+253 verbose headers   'content-length': '21274',
+253 verbose headers   'accept-ranges': 'bytes',
+253 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+253 verbose headers   via: '1.1 varnish',
+253 verbose headers   age: '228',
+253 verbose headers   connection: 'keep-alive',
+253 verbose headers   'x-served-by': 'cache-cdg8735-CDG',
+253 verbose headers   'x-cache': 'HIT',
+253 verbose headers   'x-cache-hits': '1',
+253 verbose headers   'x-timer': 'S1483667571.404144,VS0,VE0',
+253 verbose headers   vary: 'Accept-Encoding' }
+254 silly get cb [ 200,
+254 silly get   { server: 'nginx/1.10.1',
+254 silly get     'content-type': 'application/json',
+254 silly get     'last-modified': 'Wed, 21 Dec 2016 21:06:08 GMT',
+254 silly get     etag: 'W/"585aeec0-56a82"',
+254 silly get     'content-encoding': 'gzip',
+254 silly get     'cache-control': 'max-age=300',
+254 silly get     'content-length': '21274',
+254 silly get     'accept-ranges': 'bytes',
+254 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+254 silly get     via: '1.1 varnish',
+254 silly get     age: '228',
+254 silly get     connection: 'keep-alive',
+254 silly get     'x-served-by': 'cache-cdg8735-CDG',
+254 silly get     'x-cache': 'HIT',
+254 silly get     'x-cache-hits': '1',
+254 silly get     'x-timer': 'S1483667571.404144,VS0,VE0',
+254 silly get     vary: 'Accept-Encoding' } ]
+255 verbose get saving phonegap to /Users/user/.npm/registry.npmjs.org/phonegap/.cache.json
+256 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+257 http 304 https://registry.npmjs.org/npm
+258 verbose headers { date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+258 verbose headers   via: '1.1 varnish',
+258 verbose headers   'cache-control': 'max-age=300',
+258 verbose headers   etag: 'W/"58543dd0-5aa3f5"',
+258 verbose headers   age: '0',
+258 verbose headers   connection: 'keep-alive',
+258 verbose headers   'x-served-by': 'cache-cdg8734-CDG',
+258 verbose headers   'x-cache': 'HIT',
+258 verbose headers   'x-cache-hits': '1',
+258 verbose headers   'x-timer': 'S1483667571.600688,VS0,VE89',
+258 verbose headers   vary: 'Accept-Encoding' }
+259 silly get cb [ 304,
+259 silly get   { date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+259 silly get     via: '1.1 varnish',
+259 silly get     'cache-control': 'max-age=300',
+259 silly get     etag: 'W/"58543dd0-5aa3f5"',
+259 silly get     age: '0',
+259 silly get     connection: 'keep-alive',
+259 silly get     'x-served-by': 'cache-cdg8734-CDG',
+259 silly get     'x-cache': 'HIT',
+259 silly get     'x-cache-hits': '1',
+259 silly get     'x-timer': 'S1483667571.600688,VS0,VE89',
+259 silly get     vary: 'Accept-Encoding' } ]
+260 verbose etag https://registry.npmjs.org/npm from cache
+261 verbose get saving npm to /Users/user/.npm/registry.npmjs.org/npm/.cache.json
+262 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+263 http 200 https://registry.npmjs.org/react-native-cli
+264 verbose headers { server: 'nginx/1.10.1',
+264 verbose headers   'content-type': 'application/json',
+264 verbose headers   'last-modified': 'Fri, 16 Dec 2016 14:28:05 GMT',
+264 verbose headers   etag: 'W/"5853f9f5-5fe3"',
+264 verbose headers   'content-encoding': 'gzip',
+264 verbose headers   'cache-control': 'max-age=300',
+264 verbose headers   'content-length': '4516',
+264 verbose headers   'accept-ranges': 'bytes',
+264 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+264 verbose headers   via: '1.1 varnish',
+264 verbose headers   age: '0',
+264 verbose headers   connection: 'keep-alive',
+264 verbose headers   'x-served-by': 'cache-cdg8721-CDG',
+264 verbose headers   'x-cache': 'MISS',
+264 verbose headers   'x-cache-hits': '0',
+264 verbose headers   'x-timer': 'S1483667571.594551,VS0,VE95',
+264 verbose headers   vary: 'Accept-Encoding' }
+265 silly get cb [ 200,
+265 silly get   { server: 'nginx/1.10.1',
+265 silly get     'content-type': 'application/json',
+265 silly get     'last-modified': 'Fri, 16 Dec 2016 14:28:05 GMT',
+265 silly get     etag: 'W/"5853f9f5-5fe3"',
+265 silly get     'content-encoding': 'gzip',
+265 silly get     'cache-control': 'max-age=300',
+265 silly get     'content-length': '4516',
+265 silly get     'accept-ranges': 'bytes',
+265 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+265 silly get     via: '1.1 varnish',
+265 silly get     age: '0',
+265 silly get     connection: 'keep-alive',
+265 silly get     'x-served-by': 'cache-cdg8721-CDG',
+265 silly get     'x-cache': 'MISS',
+265 silly get     'x-cache-hits': '0',
+265 silly get     'x-timer': 'S1483667571.594551,VS0,VE95',
+265 silly get     vary: 'Accept-Encoding' } ]
+266 verbose get saving react-native-cli to /Users/user/.npm/registry.npmjs.org/react-native-cli/.cache.json
+267 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+268 http 200 https://registry.npmjs.org/firebase-tools
+269 verbose headers { server: 'nginx/1.10.1',
+269 verbose headers   'content-type': 'application/json',
+269 verbose headers   'last-modified': 'Thu, 22 Dec 2016 01:22:53 GMT',
+269 verbose headers   etag: 'W/"585b2aed-16bb1"',
+269 verbose headers   'content-encoding': 'gzip',
+269 verbose headers   'cache-control': 'max-age=300',
+269 verbose headers   'content-length': '9795',
+269 verbose headers   'accept-ranges': 'bytes',
+269 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+269 verbose headers   via: '1.1 varnish',
+269 verbose headers   age: '0',
+269 verbose headers   connection: 'keep-alive',
+269 verbose headers   'x-served-by': 'cache-cdg8731-CDG',
+269 verbose headers   'x-cache': 'MISS',
+269 verbose headers   'x-cache-hits': '0',
+269 verbose headers   'x-timer': 'S1483667571.588912,VS0,VE100',
+269 verbose headers   vary: 'Accept-Encoding' }
+270 silly get cb [ 200,
+270 silly get   { server: 'nginx/1.10.1',
+270 silly get     'content-type': 'application/json',
+270 silly get     'last-modified': 'Thu, 22 Dec 2016 01:22:53 GMT',
+270 silly get     etag: 'W/"585b2aed-16bb1"',
+270 silly get     'content-encoding': 'gzip',
+270 silly get     'cache-control': 'max-age=300',
+270 silly get     'content-length': '9795',
+270 silly get     'accept-ranges': 'bytes',
+270 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+270 silly get     via: '1.1 varnish',
+270 silly get     age: '0',
+270 silly get     connection: 'keep-alive',
+270 silly get     'x-served-by': 'cache-cdg8731-CDG',
+270 silly get     'x-cache': 'MISS',
+270 silly get     'x-cache-hits': '0',
+270 silly get     'x-timer': 'S1483667571.588912,VS0,VE100',
+270 silly get     vary: 'Accept-Encoding' } ]
+271 verbose get saving firebase-tools to /Users/user/.npm/registry.npmjs.org/firebase-tools/.cache.json
+272 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+273 http 200 https://registry.npmjs.org/version-manager-cordova-software
+274 verbose headers { server: 'nginx/1.10.1',
+274 verbose headers   'content-type': 'application/json',
+274 verbose headers   'last-modified': 'Wed, 06 Jan 2016 20:11:31 GMT',
+274 verbose headers   etag: 'W/"568d74f3-25ac"',
+274 verbose headers   'content-encoding': 'gzip',
+274 verbose headers   'cache-control': 'max-age=300',
+274 verbose headers   'content-length': '2035',
+274 verbose headers   'accept-ranges': 'bytes',
+274 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+274 verbose headers   via: '1.1 varnish',
+274 verbose headers   age: '0',
+274 verbose headers   connection: 'keep-alive',
+274 verbose headers   'x-served-by': 'cache-cdg8722-CDG',
+274 verbose headers   'x-cache': 'MISS',
+274 verbose headers   'x-cache-hits': '0',
+274 verbose headers   'x-timer': 'S1483667571.595193,VS0,VE184',
+274 verbose headers   vary: 'Accept-Encoding' }
+275 silly get cb [ 200,
+275 silly get   { server: 'nginx/1.10.1',
+275 silly get     'content-type': 'application/json',
+275 silly get     'last-modified': 'Wed, 06 Jan 2016 20:11:31 GMT',
+275 silly get     etag: 'W/"568d74f3-25ac"',
+275 silly get     'content-encoding': 'gzip',
+275 silly get     'cache-control': 'max-age=300',
+275 silly get     'content-length': '2035',
+275 silly get     'accept-ranges': 'bytes',
+275 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+275 silly get     via: '1.1 varnish',
+275 silly get     age: '0',
+275 silly get     connection: 'keep-alive',
+275 silly get     'x-served-by': 'cache-cdg8722-CDG',
+275 silly get     'x-cache': 'MISS',
+275 silly get     'x-cache-hits': '0',
+275 silly get     'x-timer': 'S1483667571.595193,VS0,VE184',
+275 silly get     vary: 'Accept-Encoding' } ]
+276 verbose get saving version-manager-cordova-software to /Users/user/.npm/registry.npmjs.org/version-manager-cordova-software/.cache.json
+277 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+278 http 200 https://registry.npmjs.org/scope-chains-closures
+279 verbose headers { server: 'nginx/1.10.1',
+279 verbose headers   'content-type': 'application/json',
+279 verbose headers   'last-modified': 'Sun, 31 May 2015 04:53:31 GMT',
+279 verbose headers   etag: 'W/"556a93cb-23d1"',
+279 verbose headers   'content-encoding': 'gzip',
+279 verbose headers   'cache-control': 'max-age=300',
+279 verbose headers   'content-length': '1923',
+279 verbose headers   'accept-ranges': 'bytes',
+279 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+279 verbose headers   via: '1.1 varnish',
+279 verbose headers   age: '0',
+279 verbose headers   connection: 'keep-alive',
+279 verbose headers   'x-served-by': 'cache-cdg8734-CDG',
+279 verbose headers   'x-cache': 'MISS',
+279 verbose headers   'x-cache-hits': '0',
+279 verbose headers   'x-timer': 'S1483667571.595527,VS0,VE200',
+279 verbose headers   vary: 'Accept-Encoding' }
+280 silly get cb [ 200,
+280 silly get   { server: 'nginx/1.10.1',
+280 silly get     'content-type': 'application/json',
+280 silly get     'last-modified': 'Sun, 31 May 2015 04:53:31 GMT',
+280 silly get     etag: 'W/"556a93cb-23d1"',
+280 silly get     'content-encoding': 'gzip',
+280 silly get     'cache-control': 'max-age=300',
+280 silly get     'content-length': '1923',
+280 silly get     'accept-ranges': 'bytes',
+280 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+280 silly get     via: '1.1 varnish',
+280 silly get     age: '0',
+280 silly get     connection: 'keep-alive',
+280 silly get     'x-served-by': 'cache-cdg8734-CDG',
+280 silly get     'x-cache': 'MISS',
+280 silly get     'x-cache-hits': '0',
+280 silly get     'x-timer': 'S1483667571.595527,VS0,VE200',
+280 silly get     vary: 'Accept-Encoding' } ]
+281 verbose get saving scope-chains-closures to /Users/user/.npm/registry.npmjs.org/scope-chains-closures/.cache.json
+282 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+283 http 200 https://registry.npmjs.org/httpserver
+284 verbose headers { server: 'nginx/1.10.1',
+284 verbose headers   'content-type': 'application/json',
+284 verbose headers   'last-modified': 'Thu, 03 Nov 2016 08:07:34 GMT',
+284 verbose headers   etag: 'W/"581af046-54bd"',
+284 verbose headers   'content-encoding': 'gzip',
+284 verbose headers   'cache-control': 'max-age=300',
+284 verbose headers   'content-length': '3203',
+284 verbose headers   'accept-ranges': 'bytes',
+284 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+284 verbose headers   via: '1.1 varnish',
+284 verbose headers   age: '0',
+284 verbose headers   connection: 'keep-alive',
+284 verbose headers   'x-served-by': 'cache-cdg8733-CDG',
+284 verbose headers   'x-cache': 'MISS',
+284 verbose headers   'x-cache-hits': '0',
+284 verbose headers   'x-timer': 'S1483667571.598778,VS0,VE163',
+284 verbose headers   vary: 'Accept-Encoding' }
+285 silly get cb [ 200,
+285 silly get   { server: 'nginx/1.10.1',
+285 silly get     'content-type': 'application/json',
+285 silly get     'last-modified': 'Thu, 03 Nov 2016 08:07:34 GMT',
+285 silly get     etag: 'W/"581af046-54bd"',
+285 silly get     'content-encoding': 'gzip',
+285 silly get     'cache-control': 'max-age=300',
+285 silly get     'content-length': '3203',
+285 silly get     'accept-ranges': 'bytes',
+285 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+285 silly get     via: '1.1 varnish',
+285 silly get     age: '0',
+285 silly get     connection: 'keep-alive',
+285 silly get     'x-served-by': 'cache-cdg8733-CDG',
+285 silly get     'x-cache': 'MISS',
+285 silly get     'x-cache-hits': '0',
+285 silly get     'x-timer': 'S1483667571.598778,VS0,VE163',
+285 silly get     vary: 'Accept-Encoding' } ]
+286 verbose get saving httpserver to /Users/user/.npm/registry.npmjs.org/httpserver/.cache.json
+287 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+288 http 200 https://registry.npmjs.org/learnyounode
+289 verbose headers { server: 'nginx/1.10.1',
+289 verbose headers   'content-type': 'application/json',
+289 verbose headers   'last-modified': 'Thu, 10 Nov 2016 20:31:04 GMT',
+289 verbose headers   etag: 'W/"5824d908-37495"',
+289 verbose headers   'content-encoding': 'gzip',
+289 verbose headers   'cache-control': 'max-age=300',
+289 verbose headers   'content-length': '13233',
+289 verbose headers   'accept-ranges': 'bytes',
+289 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+289 verbose headers   via: '1.1 varnish',
+289 verbose headers   age: '0',
+289 verbose headers   connection: 'keep-alive',
+289 verbose headers   'x-served-by': 'cache-cdg8720-CDG',
+289 verbose headers   'x-cache': 'MISS',
+289 verbose headers   'x-cache-hits': '0',
+289 verbose headers   'x-timer': 'S1483667571.585749,VS0,VE113',
+289 verbose headers   vary: 'Accept-Encoding' }
+290 silly get cb [ 200,
+290 silly get   { server: 'nginx/1.10.1',
+290 silly get     'content-type': 'application/json',
+290 silly get     'last-modified': 'Thu, 10 Nov 2016 20:31:04 GMT',
+290 silly get     etag: 'W/"5824d908-37495"',
+290 silly get     'content-encoding': 'gzip',
+290 silly get     'cache-control': 'max-age=300',
+290 silly get     'content-length': '13233',
+290 silly get     'accept-ranges': 'bytes',
+290 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+290 silly get     via: '1.1 varnish',
+290 silly get     age: '0',
+290 silly get     connection: 'keep-alive',
+290 silly get     'x-served-by': 'cache-cdg8720-CDG',
+290 silly get     'x-cache': 'MISS',
+290 silly get     'x-cache-hits': '0',
+290 silly get     'x-timer': 'S1483667571.585749,VS0,VE113',
+290 silly get     vary: 'Accept-Encoding' } ]
+291 verbose get saving learnyounode to /Users/user/.npm/registry.npmjs.org/learnyounode/.cache.json
+292 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+293 http 200 https://registry.npmjs.org/forever
+294 verbose headers { server: 'nginx/1.10.1',
+294 verbose headers   'content-type': 'application/json',
+294 verbose headers   'last-modified': 'Wed, 04 Jan 2017 16:41:44 GMT',
+294 verbose headers   etag: 'W/"586d25c8-16747"',
+294 verbose headers   'content-encoding': 'gzip',
+294 verbose headers   'cache-control': 'max-age=300',
+294 verbose headers   'content-length': '13866',
+294 verbose headers   'accept-ranges': 'bytes',
+294 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+294 verbose headers   via: '1.1 varnish',
+294 verbose headers   age: '0',
+294 verbose headers   connection: 'keep-alive',
+294 verbose headers   'x-served-by': 'cache-cdg8733-CDG',
+294 verbose headers   'x-cache': 'HIT',
+294 verbose headers   'x-cache-hits': '1',
+294 verbose headers   'x-timer': 'S1483667571.582041,VS0,VE104',
+294 verbose headers   vary: 'Accept-Encoding' }
+295 silly get cb [ 200,
+295 silly get   { server: 'nginx/1.10.1',
+295 silly get     'content-type': 'application/json',
+295 silly get     'last-modified': 'Wed, 04 Jan 2017 16:41:44 GMT',
+295 silly get     etag: 'W/"586d25c8-16747"',
+295 silly get     'content-encoding': 'gzip',
+295 silly get     'cache-control': 'max-age=300',
+295 silly get     'content-length': '13866',
+295 silly get     'accept-ranges': 'bytes',
+295 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+295 silly get     via: '1.1 varnish',
+295 silly get     age: '0',
+295 silly get     connection: 'keep-alive',
+295 silly get     'x-served-by': 'cache-cdg8733-CDG',
+295 silly get     'x-cache': 'HIT',
+295 silly get     'x-cache-hits': '1',
+295 silly get     'x-timer': 'S1483667571.582041,VS0,VE104',
+295 silly get     vary: 'Accept-Encoding' } ]
+296 verbose get saving forever to /Users/user/.npm/registry.npmjs.org/forever/.cache.json
+297 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+298 http 200 https://registry.npmjs.org/ionic
+299 verbose headers { server: 'nginx/1.10.1',
+299 verbose headers   'content-type': 'application/json',
+299 verbose headers   'last-modified': 'Thu, 22 Dec 2016 16:32:50 GMT',
+299 verbose headers   etag: 'W/"585c0032-cf2f7"',
+299 verbose headers   'content-encoding': 'gzip',
+299 verbose headers   'cache-control': 'max-age=300',
+299 verbose headers   'content-length': '46593',
+299 verbose headers   'accept-ranges': 'bytes',
+299 verbose headers   date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+299 verbose headers   via: '1.1 varnish',
+299 verbose headers   age: '0',
+299 verbose headers   connection: 'keep-alive',
+299 verbose headers   'x-served-by': 'cache-cdg8734-CDG',
+299 verbose headers   'x-cache': 'HIT',
+299 verbose headers   'x-cache-hits': '1',
+299 verbose headers   'x-timer': 'S1483667571.587959,VS0,VE100',
+299 verbose headers   vary: 'Accept-Encoding' }
+300 silly get cb [ 200,
+300 silly get   { server: 'nginx/1.10.1',
+300 silly get     'content-type': 'application/json',
+300 silly get     'last-modified': 'Thu, 22 Dec 2016 16:32:50 GMT',
+300 silly get     etag: 'W/"585c0032-cf2f7"',
+300 silly get     'content-encoding': 'gzip',
+300 silly get     'cache-control': 'max-age=300',
+300 silly get     'content-length': '46593',
+300 silly get     'accept-ranges': 'bytes',
+300 silly get     date: 'Fri, 06 Jan 2017 01:52:51 GMT',
+300 silly get     via: '1.1 varnish',
+300 silly get     age: '0',
+300 silly get     connection: 'keep-alive',
+300 silly get     'x-served-by': 'cache-cdg8734-CDG',
+300 silly get     'x-cache': 'HIT',
+300 silly get     'x-cache-hits': '1',
+300 silly get     'x-timer': 'S1483667571.587959,VS0,VE100',
+300 silly get     vary: 'Accept-Encoding' } ]
+301 verbose get saving ionic to /Users/user/.npm/registry.npmjs.org/ionic/.cache.json
+302 verbose correctMkdir /Users/user/.npm correctMkdir not in flight; initializing
+303 http 404 https://registry.npmjs.org/securechat-server
+304 verbose headers { 'content-type': 'application/json',
+304 verbose headers   'cache-control': 'max-age=0',
+304 verbose headers   'content-length': '2',
+304 verbose headers   'accept-ranges': 'bytes',
+304 verbose headers   date: 'Fri, 06 Jan 2017 01:52:52 GMT',
+304 verbose headers   via: '1.1 varnish',
+304 verbose headers   age: '0',
+304 verbose headers   connection: 'keep-alive',
+304 verbose headers   'x-served-by': 'cache-cdg8732-CDG',
+304 verbose headers   'x-cache': 'MISS',
+304 verbose headers   'x-cache-hits': '0',
+304 verbose headers   'x-timer': 'S1483667571.574547,VS0,VE809',
+304 verbose headers   vary: 'Accept-Encoding' }
+305 silly get cb [ 404,
+305 silly get   { 'content-type': 'application/json',
+305 silly get     'cache-control': 'max-age=0',
+305 silly get     'content-length': '2',
+305 silly get     'accept-ranges': 'bytes',
+305 silly get     date: 'Fri, 06 Jan 2017 01:52:52 GMT',
+305 silly get     via: '1.1 varnish',
+305 silly get     age: '0',
+305 silly get     connection: 'keep-alive',
+305 silly get     'x-served-by': 'cache-cdg8732-CDG',
+305 silly get     'x-cache': 'MISS',
+305 silly get     'x-cache-hits': '0',
+305 silly get     'x-timer': 'S1483667571.574547,VS0,VE809',
+305 silly get     vary: 'Accept-Encoding' } ]
+306 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/securechat-server
+306 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:302:12)
+306 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:280:14)
+306 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:210:14)
+306 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:186:22)
+306 verbose stack     at emitTwo (events.js:106:13)
+306 verbose stack     at Request.emit (events.js:191:7)
+306 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1081:10)
+306 verbose stack     at emitOne (events.js:96:13)
+306 verbose stack     at Request.emit (events.js:188:7)
+306 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1001:12)
+307 verbose statusCode 404
+308 verbose pkgid securechat-server
+309 verbose cwd /Users/user/project/resourcemap_program_assesment_mobile_6
+310 error Darwin 15.6.0
+311 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "update" "-g"
+312 error node v7.4.0
+313 error npm  v4.0.5
+314 error code E404
+315 error 404 Registry returned 404 for GET on https://registry.npmjs.org/securechat-server
+316 error 404
+317 error 404 'securechat-server' is not in the npm registry.
+318 error 404 You should bug the author to publish it (or use the name yourself!)
+319 error 404 Note that you can also install from a
+320 error 404 tarball, folder, http url, or git url.
+321 verbose exit [ 1, true ]

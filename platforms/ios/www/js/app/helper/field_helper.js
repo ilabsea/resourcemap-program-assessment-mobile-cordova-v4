@@ -29,7 +29,7 @@ FieldHelper = {
 
   fieldForUI: function(field){
     var widgetMapper = { "numeric": "number", "yes_no": "select_one", "phone": "tel",
-                         "location": "select_one", "calculation": "text" }
+                         "location": "select_one", "calculation": "text" };
 
     var fieldUI = {
       idfield: field.id,
@@ -245,5 +245,40 @@ FieldHelper = {
 
   imageWithoutPath: function(imageFullPath) {
     return imageFullPath.replace(App.imgPath(), '')
+  },
+
+  getFieldValue: function(field_id){
+    var $fieldUI = $("#" + field_id)
+    if($fieldUI.length){
+      return $fieldUI.val();
+    }
+    else{
+      var layers = FieldController.layers;
+      for(var i=0; i< layers.length; i++){
+        var fields = layers[i].fields;
+        for(var j=0; j< fields.length; j++){
+          field = fields[j];
+          if(field.idfield == field_id){
+            return field.__value;
+          }
+        }
+      }
+      return 0;
+    }
+  },
+
+  getSavedField: function(field_id){
+    var layers = FieldController.layers;
+    for(var i=0; i< layers.length; i++){
+      var fields = layers[i].fields;
+      for(var j=0; j< fields.length; j++){
+        field = fields[j];
+        if(field.idfield == field_id){
+          return field;
+        }
+      }
+    }
+    return null;
   }
+
 };

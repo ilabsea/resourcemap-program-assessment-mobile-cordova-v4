@@ -12,12 +12,12 @@ $(document).on("mobileinit", function() {
     FieldController.layerCollapseFields($this);
   });
 
-  $(document).delegate('.calculation', 'keyup blur', function () {
+  $(document).delegate('.calculation', 'keyup blur change', function () {
     Calculation.calculate($(this));
   });
 
   $(document).delegate('.skipLogicNumber', 'change', function () {
-    var val = $("#" + this.id).val()
+    var val = $("#" + this.id).val();
     SkipLogic.processSkipLogic(this.id, val);
   });
 

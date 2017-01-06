@@ -1,5 +1,5 @@
 RmSetting = {
-  BASE_URL: "http://192.168.1.112:3000",
+  BASE_URL: "http://192.168.1.146:3000",
   DEBUG: true,
   url: function(){
     endpoint = localStorage.getItem("endPoint");

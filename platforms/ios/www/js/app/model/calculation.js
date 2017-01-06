@@ -3,7 +3,7 @@ Calculation = {
     var parendIds  = $element.attr("data-parent-ids").split(",");
     $.each(parendIds, function(_, fieldId){
       if(fieldId)
-        Calculation.updateField(fieldId)
+        Calculation.updateField(fieldId);
     })
   },
 
@@ -28,8 +28,15 @@ Calculation = {
       value = value.replace("NaN", "");
     else if (typeof (value) == "number" && isNaN(value))
       value = "";
-    var $fieldUI = $("#" + field.idfield);
-    $fieldUI.val(value);
+    if($("#" + field.idfield).length){
+      var $fieldUI = $("#" + field.idfield);
+      $fieldUI.val(value);
+    }
+    else{
+      field = FieldHelper.getSavedField(field.idfield);
+      field.__value = value;
+    }
+
   },
 
   generateSyntax: function (field) {
@@ -52,8 +59,8 @@ Calculation = {
               parseFloat(fieldValue);
             break;
           case "numeric":
-            App.log("Field :", $fieldUI.val());
-            fieldValue = parseFloat($fieldUI.val());
+            // fieldValue = parseFloat($fieldUI.val());
+            fieldValue = parseFloat(FieldHelper.getFieldValue(dependField.id));
             if (isNaN(fieldValue))
               fieldValue = 0;
             break;
