@@ -37,10 +37,7 @@ $(document).on("mobileinit", function() {
     var element = $("#" + ele);
     var val = element.find(":selected").data("code");
     if (element.attr('data-is_enable_field_logic')) {
-      if (element.attr('multiple'))
-        SkipLogic.processSkipLogicSelectMany(element, ele);
-      else
-        SkipLogic.processSkipLogic(ele, val);
+      SkipLogic.processSkipLogic(ele);
     }
   });
 

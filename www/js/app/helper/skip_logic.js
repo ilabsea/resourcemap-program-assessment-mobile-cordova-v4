@@ -15,57 +15,54 @@ SkipLogic = {
     }
   },
 
-  processSkipLogic: function (element_id, value_search) {
+  relatedFieldLogic: function(element_id){
     for(var l=0; l<FieldController.layers.length; l++){
       layer = FieldController.layers[l];
       for(var f=0; f<layer.fields.length; f++){
         field = layer.fields[f];
         if (field.config && field.config['field_logics'] ) {
           for(var i=0; i<field.config['field_logics'].length; i++){
-            var fieldLogic = field.config['field_logics'][i]
-            var fieldLogicObj = FieldController.findFieldById(fieldLogic.field_id);
-            if(fieldLogic.field_id.toString() == element_id.toString()){
-              var operationType = fieldLogic.condition_type;
-              if(fieldLogicObj.kind == 'numeric'){
-                value_search = parseInt(value_search);
-                fieldLogic.value = parseInt(fieldLogic.value);
-              }
-              var match = Operators[operationType](value_search, fieldLogic.value);
-              SkipLogic.applySkipLogic(field, fieldLogic.field_id, match);
+            if(field.config['field_logics'][i].field_id.toString() == element_id.toString()){
+              return field;
             }
           }
         }
       }
     }
+    return null;
   },
 
-  processSkipLogicSelectMany: function (element, element_id) {
-    var list_ids = element.find(":selected");
-    var list_codes = new Array();
-    for(var i=0; i< list_ids.length; i++){
-      list_codes.push($(list_ids[i]).data("code"));
+  parseDependantFieldLogicValue: function(fieldLogicObj){
+    var dependantFieldValue = $('#'+fieldLogicObj.idfield).val();
+    switch(fieldLogicObj.kind) {
+      case "numeric":
+        dependantFieldValue = parseInt(dependantFieldValue);
+        break;
+      case "select_one":
+        dependantFieldValue = $('#'+fieldLogicObj.idfield).find(":selected").attr('data-code');
+        break;
     }
-    return SkipLogic.calculateSkipLogicSelectManyByListCode(list_codes, element_id);
+    return dependantFieldValue;
   },
 
-  calculateSkipLogicSelectManyByListCode: function (list_codes, element_id) {
-    for(var l=0; l<FieldController.layers.length; l++){
-      layer = FieldController.layers[l];
-      for(var f=0; f<layer.fields.length; f++){
-        field = layer.fields[f];
-        if (field.config && field.config['field_logics'] ) {
-          for(var i=0; i<field.config['field_logics'].length; i++){
-            field_logic = field.config['field_logics'][i]
-            if(field_logic.field_id == element_id){
-              var fieldLogic = field.config['field_logics'][i]
-              var operationType= fieldLogic.condition_type;
-              var field_logic_value = fieldLogic.value.split(",")
-              var match = Operators["=="](list_codes, field_logic_value);
-              SkipLogic.applySkipLogic(field, fieldLogic.field_id, match);
-            }
-          }
+  processSkipLogic: function(element_id){
+    var field = this.relatedFieldLogic(element_id);
+    if(field){
+      var match = false
+      for(var i=0; i<field.config['field_logics'].length; i++){
+        var fieldLogic = field.config['field_logics'][i]
+        var fieldLogicObj = FieldController.findFieldById(fieldLogic.field_id);
+        var operationType = fieldLogic.condition_type;
+        var dependantFieldValue = this.parseDependantFieldLogicValue(fieldLogicObj);
+        if(fieldLogicObj.kind == 'numeric'){
+          fieldLogic.value = parseInt(fieldLogic.value);
+        }
+        match = Operators[operationType](dependantFieldValue, fieldLogic.value);
+        if(match == true){
+          break;
         }
       }
+      SkipLogic.applySkipLogic(field, fieldLogic.field_id, match);
     }
   },
 

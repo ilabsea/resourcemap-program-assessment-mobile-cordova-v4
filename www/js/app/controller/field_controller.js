@@ -284,14 +284,7 @@ FieldController = {
           SkipLogic.processSkipLogic(field.idfield, parseInt(val));
         }
         if(field.kind == "select_many"){
-          if($("#"+field.idfield).length){
-            val = FieldController.getFieldValueFromUI(field.idfield);
-            codeList = FieldController.findOptionCodeByFieldOptionId(val, field.config.options);
-            SkipLogic.calculateSkipLogicSelectManyByListCode(codeList, field.idfield);
-          }
-          else{
-            SkipLogic.calculateSkipLogicSelectManyByListCode(val, field.idfield);
-          }
+          SkipLogic.processSkipLogic(field.idfield);
         }
         if(field.kind == "yes_no"){
           SkipLogic.processSkipLogic(field.idfield, val);
