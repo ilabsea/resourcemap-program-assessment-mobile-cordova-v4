@@ -3,7 +3,7 @@ CameraModel = {
   openCameraDialog: function (fieldId) {
     CameraModel.fieldId = fieldId;
     var site = MyMembershipObj.getSite();
-    if (site != "" && !MyMembershipController.canEdit(site))
+    if (site != "" && !MyMembershipController.canEditOtherSite(site))
       return false;
     else
       CameraModel.handleOpenCamera();

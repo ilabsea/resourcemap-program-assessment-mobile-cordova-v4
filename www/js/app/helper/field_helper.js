@@ -12,8 +12,10 @@ FieldHelper = {
       fields: []
     }
 
+    var layer_field_permission = MyMembershipController.canEntryDataByLayerId(FieldController.site, newLayer.id_wrapper);
+
     $.each(layer.fields, function (_, field) {
-      var fieldForUI = FieldHelper.fieldForUI(field)
+      var fieldForUI = FieldHelper.fieldForUI(field, layer_field_permission)
 
       for(fieldId in FieldController.site.properties) {
         if(fieldId == fieldForUI.idfield){
@@ -27,12 +29,13 @@ FieldHelper = {
     return newLayer;
   },
 
-  fieldForUI: function(field){
+  fieldForUI: function(field, layer_field_permission){
     var widgetMapper = { "numeric": "number", "yes_no": "select_one", "phone": "tel",
                          "location": "select_one", "calculation": "text" };
 
     var fieldUI = {
       idfield: field.id,
+      layer_id: field.layer_id,
       name: field.name,
       kind: field.kind,
       code: field.code,
@@ -91,7 +94,8 @@ FieldHelper = {
     if (fieldUI.kind == 'location')
       fieldUI.config.locationOptions = Location.getLocations(FieldController.site.lat, FieldController.site.lng, fieldUI.config);
 
-    var can_edit = MyMembershipController.canEdit(FieldController.site);
+    // var can_edit = MyMembershipController.canEditOtherSite(FieldController.site);
+    var can_edit = layer_field_permission;
 
     if (fieldUI.kind == 'yes_no')
       fieldUI.editable = can_edit ? "" : "disabled";

@@ -98,7 +98,7 @@ FieldController = {
 
       // Readonly field
       var site = FieldController.site
-      if (!MyMembershipController.canEdit(site)) {
+      if (!MyMembershipController.canEditOtherSite(site)) {
         $(".tree").off('click'); //field hierarchy
         var select = $('.validateSelectFields').parent('.ui-select');
         select.click(function () {
@@ -512,6 +512,13 @@ FieldController = {
         }, 500);
 
       }, FieldController.errorFetchingField);
+
+      LayerMembershipModel.fetchMembership(cId, function (memberships){
+        uId = UserSession.getUser().id;
+        LayerMembershipOffline.add(uId, memberships);
+      });
+
+      // MyMembershipController.fetchMembershipByCollectionId(cId);
     }else {
       alert(i18n.t("global.no_internet_connection"));
       SiteController.resetMenu();

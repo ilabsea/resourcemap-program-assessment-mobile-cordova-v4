@@ -144,6 +144,24 @@ App = {
       fields: "JSON"
     });
 
+    LayerMembership = persistence.define('layer_memberships', {
+      collection_id: "INT",
+      user_id: "INT",
+      user_offline_id: "INT",
+      layer_id: "INT",
+      read: "BOOL",
+      write: "BOOL"
+    });
+
+    Membership = persistence.define('memberships', {
+      collection_id: "INT",
+      user_id: "INT",
+      user_email: "TEXT",
+      admin: "BOOL",
+      can_edit_other: "BOOL",
+      can_view_other: "BOOL"
+    });
+
     CacheData = persistence.define('cache_datas', {
       key: "TEXT",
       value: "TEXT",

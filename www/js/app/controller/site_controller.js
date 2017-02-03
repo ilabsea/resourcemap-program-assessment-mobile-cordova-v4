@@ -76,8 +76,10 @@ SiteController = {
     SiteController.selectableList = false;
     SiteController.renderOffline();
     if (App.isOnline()) {
+      var cId = CollectionController.id;
       SiteController.renderOnline();
-      MyMembershipController.getMembershipByCollectionId();
+      // MyMembershipController.getMembershipByCollectionId();
+      MyMembershipController.fetchMembershipByCollectionId(cId);
     }
   },
 
@@ -342,7 +344,7 @@ SiteController = {
     var sId = SiteController.id;
     SiteModel.fetchOne(cId, sId, function (site) {
       MyMembershipObj.setSite(site);
-      var can_edit = MyMembershipController.canEdit(site);
+      var can_edit = MyMembershipController.canEditOtherSite(site);
       can_edit ? $("#btn_save_site").show() : $("#btn_save_site").hide()
       var siteData = {
         editable: (can_edit ? "" : "readonly"),

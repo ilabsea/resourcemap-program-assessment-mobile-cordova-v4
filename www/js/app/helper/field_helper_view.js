@@ -23,7 +23,7 @@ var FieldHelperView = {
 
   displayReadOnlyField: function () {
     var site = MyMembershipObj.getSite();
-    if (!MyMembershipController.canEdit(site)) {
+    if (!MyMembershipController.canEditOtherSite(site)) {
       $(".tree").off('click'); //field hierarchy
       var select = $('.validateSelectFields').parent('.ui-select'); //field select
       select.click(function () {
