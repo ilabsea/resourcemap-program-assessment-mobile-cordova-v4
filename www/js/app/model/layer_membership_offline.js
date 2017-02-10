@@ -22,6 +22,10 @@ var LayerMembershipOffline = {
       .filter('layer_id', '=', layerId)
       .one(callback);
   },
+  deleteByCollectionId: function (collection_id, callback) {
+    LayerMembership.all().filter('collection_id', "=", collection_id)
+                    .destroyAll(null, callback);
+  },
   remove: function (layermemberships) {
     layermemberships.forEach(function (layermembership) {
       persistence.remove(layermembership);

@@ -1,12 +1,7 @@
 CameraModel = {
   fieldId: '',
-  openCameraDialog: function (fieldId) {
-    CameraModel.fieldId = fieldId;
-    var site = MyMembershipObj.getSite();
-    if (site != "" && !MyMembershipController.canEditOtherSite(site))
-      return false;
-    else
-      CameraModel.handleOpenCamera();
+  openCameraDialog: function () {
+    CameraModel.handleOpenCamera();
   },
 
   invokeCamera: function (cameraType) {

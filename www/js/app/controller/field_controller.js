@@ -73,48 +73,6 @@ FieldController = {
     return null;
   },
 
-  renderLayer: function(layer, $layerNodeContent){
-    var content = App.Template.process('layer_field', {fields: layer.fields});
-    $layerNodeContent.html(content);
-
-    $.each(layer.fields, function(_, field){
-      if(field.kind == 'hierarchy')
-        Hierarchy.create(field.config, field.__value, field.idfield);
-
-      if (field.custom_widgeted)
-        CustomWidget.setInputNodeId(field);
-
-      if (field.kind == "calculation" && field.config.dependent_fields) {
-        $.each(field.config.dependent_fields, function (_, dependentField) {
-          var $dependentField = $("#" + dependentField.id)
-          $dependentField.addClass('calculation');
-          var parentIds = $dependentField.attr('data-parent-ids') || ""
-          parentIds = parentIds.split(',')
-          parentIds.push(field.idfield)
-          $dependentField.attr('data-parent-ids', parentIds.join(","))
-        })
-      }
-      DigitAllowance.prepareEventListenerOnKeyPress();
-
-      // Readonly field
-      var site = FieldController.site
-      if (!MyMembershipController.canEditOtherSite(site)) {
-        $(".tree").off('click'); //field hierarchy
-        var select = $('.validateSelectFields').parent('.ui-select');
-        select.click(function () {
-          return false;
-        });
-      }
-      $layerNodeContent.enhanceWithin();
-
-      if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many'){
-        var $fieldUI = $("#" + field.idfield);
-        field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
-      }
-
-    })
-  },
-
   displayLayerMenu: function(layerData){
     FieldHelperView.displayLayerMenu(layerData)
   },
@@ -310,6 +268,49 @@ FieldController = {
     this.activeLayer = $layerNode;
   },
 
+  renderLayer: function(layer, $layerNodeContent){
+    var content = App.Template.process('layer_field', {fields: layer.fields});
+    $layerNodeContent.html(content);
+
+    $.each(layer.fields, function(_, field){
+      if(field.kind == 'hierarchy')
+        Hierarchy.create(field.config, field.__value, field.idfield);
+
+      if (field.custom_widgeted)
+        CustomWidget.setInputNodeId(field);
+
+      if (field.kind == "calculation" && field.config.dependent_fields) {
+        $.each(field.config.dependent_fields, function (_, dependentField) {
+          var $dependentField = $("#" + dependentField.id)
+          $dependentField.addClass('calculation');
+          var parentIds = $dependentField.attr('data-parent-ids') || ""
+          parentIds = parentIds.split(',')
+          parentIds.push(field.idfield)
+          $dependentField.attr('data-parent-ids', parentIds.join(","))
+        })
+      }
+      DigitAllowance.prepareEventListenerOnKeyPress();
+      // Readonly field
+      var site = FieldController.site
+      MyMembershipController.layerMembership(site, layer.id_wrapper, function(can_entry){
+        if (!can_entry) {
+          $(".tree").off('click'); //field hierarchy
+          var select = $('.validateSelectFields').parent('.ui-select');
+          select.click(function () {
+            return false;
+          });
+        }
+      });
+      $layerNodeContent.enhanceWithin();
+
+      if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many'){
+        var $fieldUI = $("#" + field.idfield);
+        field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
+      }
+
+    })
+  },
+
   findLayerById: function(layerId) {
     for(var i=0; i<this.layers.length; i++){
       if(this.layers[i].id_wrapper == layerId)
@@ -334,8 +335,10 @@ FieldController = {
     return FieldController.activeLayer;
   },
 
-  buildLayerFields: function(layer) {
-    return FieldHelper.buildLayerFields(layer, this.isOnline)
+  buildLayerFields: function(layer, callback) {
+    FieldHelper.buildLayerFields(layer, function(newLayer){
+      callback(newLayer);
+    });
   },
 
   renderNewSiteForm: function () {
@@ -347,17 +350,19 @@ FieldController = {
     FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
       if(layerOfflines.length == 0)
         FieldHelperView.displayNoFields("field_no_field_pop_up", $('#page-pop-up-no-fields'));
-
+      var layerIndex = 0
       layerOfflines.forEach(function (layerOffline) {
-        var layer = FieldHelper.buildLayerFields(layerOffline);
-        self.layers.push(layer);
+        FieldHelper.buildLayerFields(layerOffline, function(newLayer){
+          self.layers.push(newLayer);
+          if(layerIndex == (layerOfflines.length - 1)){
+            FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
+            FieldController.renderLayerSet();
+            ViewBinding.setBusy(false);
+            Location.prepareLocation();
+          }
+          layerIndex = layerIndex + 1
+        });
       });
-
-      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
-      FieldController.renderLayerSet();
-      ViewBinding.setBusy(false);
-
-      Location.prepareLocation();
     });
   },
 
@@ -377,52 +382,19 @@ FieldController = {
     self.layers = []
 
     FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
+      var layerIndex = 0;
       $.each(layerOfflines, function (_, layerOffline) {
-        var newLayer = FieldController.buildLayerFields(layerOffline);
-        self.layers.push(newLayer);
+        FieldHelper.buildLayerFields(layerOffline, function(newLayer){
+          self.layers.push(newLayer);
+          if(layerIndex == (layerOfflines.length - 1)){
+            FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
+            FieldController.renderLayerSet();
+          }
+          layerIndex = layerIndex + 1;
+        });
       });
-      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
-      FieldController.renderLayerSet();
+
     });
-  },
-
-  renderUpdateOffline: function (site) {
-    this.reset();
-    this.isOnline = false
-    this.site = site;
-    var self = this;
-
-    var cId = CollectionController.id;
-    self.layers = []
-
-    FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
-      $.each(layerOfflines, function (_, layerOffline) {
-        var newLayer = FieldController.buildLayerFields(layerOffline, false);
-        self.layers.push(newLayer);
-      });
-      FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
-      FieldController.renderLayerSet();
-    });
-  },
-
-  renderUpdateOnline: function (site) {
-    this.reset();
-    this.isOnline = true;
-    this.site = site;
-
-    var self = this;
-    self.layers = [];
-    var cId = CollectionController.id;
-
-    FieldModel.fetch(cId, function (layerOnlines) {
-      $.each(layerOnlines, function (_, layerOnline) {
-        var newLayer = FieldController.buildLayerFields(layerOnline);
-        self.layers.push(newLayer);
-      });
-
-      FieldController.displayLayerMenu({field_collections: self.layers.slice(0), site: site});
-      FieldController.renderLayerSet();
-    }, FieldController.errorFetchingField);
   },
 
   getFieldValueFromUI: function(fieldId) {
@@ -515,10 +487,12 @@ FieldController = {
 
       LayerMembershipModel.fetchMembership(cId, function (memberships){
         uId = UserSession.getUser().id;
-        LayerMembershipOffline.add(uId, memberships);
+        LayerMembershipOffline.deleteByCollectionId(cId, function(){
+          LayerMembershipOffline.add(uId, memberships);
+        });
+
       });
 
-      // MyMembershipController.fetchMembershipByCollectionId(cId);
     }else {
       alert(i18n.t("global.no_internet_connection"));
       SiteController.resetMenu();

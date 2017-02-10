@@ -1,33 +1,84 @@
 var MyMembershipController = {
-  canEntryDataByLayerId: function (site, layer_id){
-    var can_entry = MyMembershipController.canEditOtherSite(site);
-    console.log('can entry : ', can_entry);
-    if(can_entry == false){
-      uId = UserSession.getUser().id;
-      can_entry = LayerMembershipOffline.fetchByUserLayerId(uId, layer_id);
-    }
-    return can_entry;
-  },
-
-  canEditOtherSite: function (site, callback) {
+  otherSiteMembership: function(site, callback, layer_id){
     var cId = CollectionController.id;
     MembershipOffline.fetchByCollectionId(cId, function(member){
-      var can_edit = false;
-      if (member.admin)
-        can_edit = true;
-      if (member.can_edit_other)
-        can_edit = true;
-      if (site.user_id == member.user_id)
-        can_edit = true;
+      var uId = UserSession.getUser().id;
+      if (member.admin){
+        callback(true);
+      }else if(member.write){
+        callback(true);
+      }else if(member.read){
+        callback(false);
+      }else{
+        if(site.id){
+          // for edit site: check by the customSite Permission or Layer Permission
+          SiteMembershipOffline.fetchByCollectionUserId(cId, site.id, uId, function(siteMembership){
+            if(siteMembership){
+              callback(siteMembership.write);
+            }else {
+              if(layer_id != undefined){
+                LayerMembershipOffline.fetchByUserLayerId(uId, layer_id, function(layer_membership){
+                  can_entry = layer_membership.write;
+                  callback(can_entry);
+                });
+              }else {
+                callback(false)
+              }
+            }
+          });
+        }else{
+          // for new site : check Layer Permission
+          LayerMembershipOffline.fetchByUserLayerId(uId, layer_id, function(layer_membership){
+            can_entry = layer_membership.write;
+            callback(can_entry);
+          });
+        }
+      }
+    });
+  },
 
+  layerMembership: function (site, layer_id, callback){
+    uId = UserSession.getUser().id;
+    if(typeof site.user_id == 'undefined'){
+      MyMembershipController.isCollectionOwner(function(is_owner){
+        if(is_owner){
+          callback(true);
+        }else{
+          LayerMembershipOffline.fetchByUserLayerId(uId, layer_id, function(layer_membership){
+            can_entry = layer_membership.write;
+            callback(can_entry);
+          });
+        }
+      });
+    }else{
+      MyMembershipController.otherSiteMembership(site, function(can_entry){
+        callback(can_entry);
+      }, layer_id);
+    }
+
+  },
+
+  sitePermission: function(){
+
+  },
+
+  isCollectionOwner: function(callback){
+    cId = CollectionController.id
+    MembershipOffline.fetchByCollectionId(cId, function(member){
+      callback(member.admin);
     });
   },
 
   fetchMembershipByCollectionId: function (cId) {
     MembershipModel.fetch(cId, function(membership){
-      console.log('fetch membership : ', membership);
       MembershipOffline.deleteByCollectionId(cId, function(){
         MembershipOffline.add(membership, cId);
+      });
+    });
+
+    SiteMembershipModel.fetch(cId, function(memberships){
+      SiteMembershipOffline.deleteByCollectionId(cId, function(){
+        SiteMembershipOffline.add(memberships, cId)
       });
     });
   },
