@@ -60,8 +60,12 @@ $(document).on("mobileinit", function() {
   $(document).delegate('.photo', 'click', function () {
     if($(this).is('[readonly]'))
       return false;
-    else
-      CameraModel.openCameraDialog()
+    else{
+      var $this = $(this);
+      var fieldId = $this.attr('data-id');
+      CameraModel.openCameraDialog(fieldId);
+    }
+
   });
 
   $(document).delegate('#form-site-fields input', 'focus', function () {

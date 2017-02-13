@@ -1,6 +1,7 @@
 CameraModel = {
   fieldId: '',
-  openCameraDialog: function () {
+  openCameraDialog: function (fieldId) {
+    CameraModel.fieldId = fieldId;
     CameraModel.handleOpenCamera();
   },
 
