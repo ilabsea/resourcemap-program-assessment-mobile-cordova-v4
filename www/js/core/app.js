@@ -137,6 +137,7 @@ App = {
       collection_id: "INT",
       collection_name: "TEXT",
       user_id: "INT",
+      user_email: "TEXT",
       device_id: "TEXT",
       properties: "TEXT",
       files: "TEXT"
@@ -172,6 +173,15 @@ App = {
       admin: "BOOL",
       can_edit_other: "BOOL",
       can_view_other: "BOOL"
+    });
+
+    SiteMembership = persistence.define('site_memberships', {
+      user_id: "INT",
+      collection_id: "INT",
+      site_id: "INT",
+      none: "BOOL",
+      read: "BOOL",
+      write: "BOOL"
     });
 
     CacheData = persistence.define('cache_datas', {

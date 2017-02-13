@@ -4,7 +4,9 @@ var MembershipOffline = {
       collection_id: cId,
       user_id: member.user_id,
       user_email: member.user_display_name,
-      admin: member.admin
+      admin: member.admin,
+      can_view_other: member.can_view_other,
+      can_edit_other: member.can_edit_other
     };
     var member = new Membership(memberParams);
     persistence.add(member);

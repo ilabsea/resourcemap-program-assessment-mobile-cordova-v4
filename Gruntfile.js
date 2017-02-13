@@ -70,6 +70,8 @@ module.exports = function(grunt) {
        "www/js/app/model/layer_membership_offline.js",
        "www/js/app/model/membership_model.js",
        "www/js/app/model/membership_offline.js",
+       "www/js/app/model/site_membership_model.js",
+       "www/js/app/model/site_membership_offline.js",
 
        "www/js/app/helper/field_helper.js",
        "www/js/app/helper/spinner.js",

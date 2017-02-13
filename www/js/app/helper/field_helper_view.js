@@ -23,13 +23,13 @@ var FieldHelperView = {
 
   displayReadOnlyField: function () {
     var site = MyMembershipObj.getSite();
-    if (!MyMembershipController.canEditOtherSite(site)) {
+    MyMembershipController.otherSiteMembership(site, function(can_edit){
       $(".tree").off('click'); //field hierarchy
       var select = $('.validateSelectFields').parent('.ui-select'); //field select
       select.click(function () {
         return false;
       });
-    }
+    });
   },
 
   displayLocationField: function (templateURL, element, configData) {

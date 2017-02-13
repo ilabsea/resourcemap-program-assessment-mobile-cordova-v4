@@ -13,16 +13,20 @@ CustomWidget = {
                                                     .attr('name', id)
                                                     .attr('data-allows_decimals', field.config.allows_decimals)
                                                     .val(value)
-
             if(field.config.range)
               $node.attr('max', field.config.range.maximum)
                    .attr('min', field.config.range.minimum)
+
+            if(field.editable == 'readonly')
+              $node.attr('readonly', true)
 
             $wrapper.append($node);
           }
           else if(field.kind == 'select_one') {
             var $node = $("<select data-theme='a' data-placeholder='true' data-native-menu='false' class='validateSelectFields needsclick'></select>");
             $node.attr('id', id).attr('name', id);
+            if(field.editable == 'readonly')
+              $node.attr('readonly', true)
 
             $noValueOption = $("<option data-placeholder='true'>Option</option><option value=''>(no value)</option>");
             $node.append($noValueOption);

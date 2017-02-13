@@ -1,7 +1,8 @@
 
 FieldHelper = {
-  buildLayerFields: function (layer, isOnline) {
+  buildLayerFields: function (layer, callback) {
     var layerData = layer._data;
+    var isOnline = false;
 
     var newLayer = {
       cId: CollectionController.id,
@@ -12,30 +13,31 @@ FieldHelper = {
       fields: []
     }
 
-    var layer_field_permission = MyMembershipController.canEntryDataByLayerId(FieldController.site, newLayer.id_wrapper);
+    MyMembershipController.layerMembership(FieldController.site, newLayer.id_wrapper, function(can_entry){
 
-    $.each(layer.fields, function (_, field) {
-      var fieldForUI = FieldHelper.fieldForUI(field, layer_field_permission)
+      $.each(layer.fields, function (_, field) {
+        var fieldForUI = FieldHelper.fieldForUI(field, can_entry, layer.id_wrapper)
 
-      for(fieldId in FieldController.site.properties) {
-        if(fieldId == fieldForUI.idfield){
-          FieldHelper.setFieldValue(fieldForUI, FieldController.site.properties[fieldId], isOnline);
-          break;
+        for(fieldId in FieldController.site.properties) {
+          if(fieldId == fieldForUI.idfield){
+            FieldHelper.setFieldValue(fieldForUI, FieldController.site.properties[fieldId], isOnline);
+            break;
+          }
         }
-      }
-      newLayer.fields.push(fieldForUI);
-    });
+        newLayer.fields.push(fieldForUI);
+      });
+      callback(newLayer);
 
-    return newLayer;
+    });
   },
 
-  fieldForUI: function(field, layer_field_permission){
+  fieldForUI: function(field, layer_field_permission, layer_id){
     var widgetMapper = { "numeric": "number", "yes_no": "select_one", "phone": "tel",
                          "location": "select_one", "calculation": "text" };
 
     var fieldUI = {
       idfield: field.id,
-      layer_id: field.layer_id,
+      layer_id: layer_id,
       name: field.name,
       kind: field.kind,
       code: field.code,
@@ -94,7 +96,6 @@ FieldHelper = {
     if (fieldUI.kind == 'location')
       fieldUI.config.locationOptions = Location.getLocations(FieldController.site.lat, FieldController.site.lng, fieldUI.config);
 
-    // var can_edit = MyMembershipController.canEditOtherSite(FieldController.site);
     var can_edit = layer_field_permission;
 
     if (fieldUI.kind == 'yes_no')
