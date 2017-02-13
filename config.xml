@@ -65,5 +65,4 @@
     <access origin="*://*.gstatic.com/*" subdomains="true" />
     <access origin="*://*.google.com/*" subdomains="true" />
     <access origin="*://*.googleusercontent.com/*" subdomains="true" />
-    <plugin name="cordova-plugin-locationservices" spec="~2.1.0" />
 </widget>

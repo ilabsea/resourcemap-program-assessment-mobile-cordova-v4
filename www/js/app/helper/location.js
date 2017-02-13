@@ -48,8 +48,7 @@ var Location = {
       console.log('error : ', error);
       alert("Location cannot be found.");
     }, {
-      enableHighAccuracy: false,
-      maximumAge: 6000,
+      maximumAge: 6000
     });
   },
 
