@@ -39,14 +39,6 @@
         "is_top_level": false,
         "variables": {}
     },
-    "cordova-plugin-geolocation": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-geolocation"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-sqlite-2": {
         "source": {
             "type": "registry",
@@ -59,6 +51,14 @@
         "source": {
             "type": "registry",
             "id": "cordova-plugin-device"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-locationservices": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-locationservices"
         },
         "is_top_level": true,
         "variables": {}

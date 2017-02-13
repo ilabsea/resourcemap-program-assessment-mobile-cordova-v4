@@ -36,17 +36,20 @@ var Location = {
   },
 
   getCurrentLocation: function () {
-    navigator.geolocation.getCurrentPosition(function (pos) {
+    cordova.plugins.locationServices.geolocation.getCurrentPosition(function (pos) {
+      console.log('pos : ', pos);
       var lat = pos.coords.latitude;
       var lng = pos.coords.longitude;
       $("#site_lat").val(lat);
       $("#site_lng").val(lng);
       $("#mark_lat").val(lat);
       $("#mark_lng").val(lng);
-    }, function () {
+    }, function (error) {
+      console.log('error : ', error);
       alert("Location cannot be found.");
     }, {
-      enableHighAccuracy: false
+      enableHighAccuracy: false,
+      maximumAge: 6000,
     });
   },
 
