@@ -490,7 +490,6 @@ FieldController = {
         LayerMembershipOffline.deleteByCollectionId(cId, function(){
           LayerMembershipOffline.add(uId, memberships);
         });
-
       });
 
     }else {

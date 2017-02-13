@@ -58,10 +58,6 @@ var MyMembershipController = {
 
   },
 
-  sitePermission: function(){
-
-  },
-
   isCollectionOwner: function(callback){
     cId = CollectionController.id
     MembershipOffline.fetchByCollectionId(cId, function(member){
@@ -73,6 +69,13 @@ var MyMembershipController = {
     MembershipModel.fetch(cId, function(membership){
       MembershipOffline.deleteByCollectionId(cId, function(){
         MembershipOffline.add(membership, cId);
+      });
+    });
+
+    LayerMembershipModel.fetchMembership(cId, function (memberships){
+      uId = UserSession.getUser().id;
+      LayerMembershipOffline.deleteByCollectionId(cId, function(){
+        LayerMembershipOffline.add(uId, memberships);
       });
     });
 

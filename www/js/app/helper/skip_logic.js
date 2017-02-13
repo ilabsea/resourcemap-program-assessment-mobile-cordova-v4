@@ -16,6 +16,7 @@ SkipLogic = {
   },
 
   relatedFieldLogic: function(element_id){
+    result = [] ;
     for(var l=0; l<FieldController.layers.length; l++){
       layer = FieldController.layers[l];
       for(var f=0; f<layer.fields.length; f++){
@@ -23,13 +24,13 @@ SkipLogic = {
         if (field.config && field.config['field_logics'] ) {
           for(var i=0; i<field.config['field_logics'].length; i++){
             if(field.config['field_logics'][i].field_id.toString() == element_id.toString()){
-              return field;
+              result.push(field) ;
             }
           }
         }
       }
     }
-    return null;
+    return result;
   },
 
   parseDependantFieldLogicValue: function(fieldLogicObj){
@@ -46,23 +47,26 @@ SkipLogic = {
   },
 
   processSkipLogic: function(element_id){
-    var field = this.relatedFieldLogic(element_id);
-    if(field){
-      var match = false
-      for(var i=0; i<field.config['field_logics'].length; i++){
-        var fieldLogic = field.config['field_logics'][i]
-        var fieldLogicObj = FieldController.findFieldById(fieldLogic.field_id);
-        var operationType = fieldLogic.condition_type;
-        var dependantFieldValue = this.parseDependantFieldLogicValue(fieldLogicObj);
-        if(fieldLogicObj.kind == 'numeric'){
-          fieldLogic.value = parseInt(fieldLogic.value);
+    var relatedFieldsWithLogic = this.relatedFieldLogic(element_id);
+
+    if(relatedFieldsWithLogic.length > 0){
+      for(var l=0; l<relatedFieldsWithLogic.length; l++){
+        var match = false
+        for(var i=0; i<relatedFieldsWithLogic[l].config['field_logics'].length; i++){
+          var fieldLogic = relatedFieldsWithLogic[l].config['field_logics'][i]
+          var fieldLogicObj = FieldController.findFieldById(fieldLogic.field_id);
+          var operationType = fieldLogic.condition_type;
+          var dependantFieldValue = this.parseDependantFieldLogicValue(fieldLogicObj);
+          if(fieldLogicObj.kind == 'numeric'){
+            fieldLogic.value = parseInt(fieldLogic.value);
+          }
+          match = Operators[operationType](dependantFieldValue, fieldLogic.value);
+          if(match == true){
+            break;
+          }
         }
-        match = Operators[operationType](dependantFieldValue, fieldLogic.value);
-        if(match == true){
-          break;
-        }
+        SkipLogic.applySkipLogic(relatedFieldsWithLogic[l], fieldLogic.field_id, match);
       }
-      SkipLogic.applySkipLogic(field, fieldLogic.field_id, match);
     }
   },
 
