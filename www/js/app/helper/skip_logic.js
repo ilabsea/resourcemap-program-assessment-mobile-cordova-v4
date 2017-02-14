@@ -43,6 +43,9 @@ SkipLogic = {
         dependantFieldValue = $('#'+fieldLogicObj.idfield).find(":selected").attr('data-code');
         break;
     }
+
+    if(dependantFieldValue == undefined)
+      dependantFieldValue = FieldController.findFieldById(fieldLogicObj.idfield).__value;
     return dependantFieldValue;
   },
 
