@@ -5,9 +5,9 @@ var MyMembershipController = {
       var uId = UserSession.getUser().id;
       if (member.admin){
         callback(true);
-      }else if(member.write){
+      }else if(member.can_edit_other){
         callback(true);
-      }else if(member.read){
+      }else if(member.can_view_other){
         callback(false);
       }else{
         if(site.id){
