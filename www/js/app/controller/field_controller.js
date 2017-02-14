@@ -107,6 +107,9 @@ FieldController = {
 
 
   validateField: function(field){
+    if(field.editable == 'readonly'){ //skip validation if the field is readonly
+      return true
+    }
     if(field.kind == 'email' && field.__value) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if(!re.test(field.__value)){
@@ -391,7 +394,7 @@ FieldController = {
             FieldController.renderLayerSet();
           }
           layerIndex = layerIndex + 1;
-        });
+        }, isOnline);
       });
 
     });

@@ -1,8 +1,8 @@
 
 FieldHelper = {
-  buildLayerFields: function (layer, callback) {
+  buildLayerFields: function (layer, callback, isOnline) {
     var layerData = layer._data;
-    var isOnline = false;
+    var isOnline = isOnline;
 
     var newLayer = {
       cId: CollectionController.id,
@@ -215,7 +215,6 @@ FieldHelper = {
       case "date":
         if (value) {
           var date = prepareForClient(value.split("T")[0]);
-          // alert("set value original: " + value + "set value: " + date)
           field.__value = date;
         }
         break;
