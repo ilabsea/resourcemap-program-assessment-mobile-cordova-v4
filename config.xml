@@ -60,6 +60,7 @@
     <preference name="android-installLocation" value="auto" />
     <preference name="AndroidLaunchMode" value="singleTask" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
+    <preference name="loadUrlTimeoutValue" value="700000" />
     <access origin="*" />
     <access origin="*://*.googleapis.com/*" subdomains="true" />
     <access origin="*://*.gstatic.com/*" subdomains="true" />
