@@ -68,7 +68,7 @@ $(document).on("mobileinit", function() {
       if (sId == "load-more-site-list") {
         SiteOffline.sitePage++;
         SiteController.renderOffline();
-        $(li).remove();
+        $(li).parent().remove();
       }
       else {
         CollectionController.id = cId;
@@ -105,7 +105,7 @@ $(document).on("mobileinit", function() {
       if (sId == "load-more-site-list") {
         SiteOffline.sitePage++;
         SiteController.renderOfflineSites();
-        $(li).remove();
+        $(li).parent().remove();
       }
       else {
         CollectionController.id = cId;
