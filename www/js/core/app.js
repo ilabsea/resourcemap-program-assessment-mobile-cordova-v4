@@ -134,7 +134,6 @@ App = {
       collection_id: "INT",
       collection_name: "TEXT",
       user_id: "INT",
-      user_email: "TEXT",
       device_id: "TEXT",
       properties: "TEXT",
       files: "TEXT"
