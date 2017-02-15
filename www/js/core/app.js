@@ -19,7 +19,6 @@ App = {
       console.log(text, data);
   },
   initialize: function () {
-    console.log('initialize');
     this.bindEvents();
     this.setUpConfig();
     //for mobile web testing without platform
@@ -66,7 +65,6 @@ App = {
   },
 
   onDeviceReady: function () {
-    console.log('onDeviceReady');
     App.connectDB(App.DB_NAME, App.DB_SIZE);
 
     document.addEventListener("offline", function() {
@@ -80,7 +78,6 @@ App = {
     $(".clearPreviousDisplay").html("");
   },
   redirectTo: function (nextPage, options) {
-    App.log("Redirect to ", nextPage);
     $.mobile.pageContainer.pagecontainer('change', nextPage, options);
   },
   isOnline: function () {
@@ -149,12 +146,6 @@ App = {
       name_wrapper: "TEXT",
       id_wrapper: "INT",
       fields: "JSON"
-    });
-
-    CacheData = persistence.define('cache_datas', {
-      key: "TEXT",
-      value: "TEXT",
-      user: "TEXT"
     });
 
     LayerMembership = persistence.define('layer_memberships', {

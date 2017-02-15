@@ -30,6 +30,22 @@ persistence.defineMigration(2, {
   }
 });
 
+persistence.defineMigration(3, {
+  up: function() {
+    this.createTable('site_memberships', function(t){
+      t.integer('user_id');
+      t.integer('collection_id');
+      t.integer('site_id');
+      t.boolean('none');
+      t.boolean('read');
+      t.boolean('write');
+    });
+  },
+  down: function() {
+    this.dropTable('site_memberships');
+  }
+});
+
 function migrate(){
     console.log('migrating...');
     persistence.migrations.init( function(){
