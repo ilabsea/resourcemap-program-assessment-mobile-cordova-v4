@@ -353,6 +353,7 @@ FieldController = {
     FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
       if(layerOfflines.length == 0)
         FieldHelperView.displayNoFields("field_no_field_pop_up", $('#page-pop-up-no-fields'));
+      Location.prepareLocation();
       var layerIndex = 0
       layerOfflines.forEach(function (layerOffline) {
         FieldHelper.buildLayerFields(layerOffline, function(newLayer){
@@ -361,7 +362,6 @@ FieldController = {
             FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
             FieldController.renderLayerSet();
             ViewBinding.setBusy(false);
-            Location.prepareLocation();
           }
           layerIndex = layerIndex + 1
         });
