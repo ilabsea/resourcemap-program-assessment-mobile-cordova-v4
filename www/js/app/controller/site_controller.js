@@ -501,6 +501,7 @@ SiteController = {
   },
 
   refreshSiteList: function(){
+    SiteOffline.sitePage = 0;
     if(SiteController.currentPage == "#page-site-list-all"){
       SiteController.renderOfflineSites();
       $("#btn-toggle-site-all").text(i18n.t('global.selectAllSites'));
@@ -510,6 +511,8 @@ SiteController = {
       $("#btn-toggle-site").text(i18n.t('global.selectAllSites'));
       $("#btn-toggle-site").removeClass('ui-icon-check').addClass('ui-icon-none');
     }
-    $("#load-more-site")[0].remove();
+    if($("#load-more-site")[0])
+      $("#load-more-site")[0].remove() ;
+    App.emptyHTML();
   }
 };
