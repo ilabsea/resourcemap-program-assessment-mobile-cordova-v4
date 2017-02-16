@@ -103,7 +103,6 @@ App = {
       alert("Your device must support a database connection");
 
     App.defineSchema()
-    console.log('connectDB');
     persistence.schemaSync(function(){
       migrate();
     });

@@ -47,10 +47,7 @@ persistence.defineMigration(3, {
 });
 
 function migrate(){
-    console.log('migrating...');
     persistence.migrations.init( function(){
-        console.log('migration init');
-        // this should migrate up to the latest version, in our case: 2
         persistence.migrate( function(){
             console.log('migration complete!');
         } );
