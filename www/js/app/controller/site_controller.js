@@ -420,8 +420,11 @@ SiteController = {
 
       SiteModel.create(data["site"],
         function () {
-          persistence.remove(site);
-          persistence.flush();
+          if(site){
+            persistence.remove(site);
+            persistence.flush();
+          }
+
           SiteController.counterOffline += 1;
           $("li[data-id="+site.id+"]").remove();
           callback()

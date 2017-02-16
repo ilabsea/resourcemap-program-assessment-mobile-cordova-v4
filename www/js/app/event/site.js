@@ -146,7 +146,6 @@ $(document).on("mobileinit", function() {
 
 
   $(document).delegate('#btn-send-server', 'click', function () {
-    console.log('sendToServerAll : ');
     SiteController.sendToServer();
   });
 
