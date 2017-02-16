@@ -1,5 +1,5 @@
 SiteOffline = {
-  limit: 2,
+  limit: 5,
   sitePage: 0,
   nbSites: 0,
 
