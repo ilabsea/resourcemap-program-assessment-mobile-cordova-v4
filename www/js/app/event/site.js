@@ -146,6 +146,7 @@ $(document).on("mobileinit", function() {
 
 
   $(document).delegate('#btn-send-server', 'click', function () {
+    console.log('sendToServerAll : ');
     SiteController.sendToServer();
   });
 
@@ -185,7 +186,7 @@ $(document).on("mobileinit", function() {
     SiteController.save()
   });
 
-  $(document).delegate('#btn-toggle-site', 'click', function() {
+  $(document).delegate('#btn-toggle-site, #btn-toggle-site-all', 'click', function() {
     $selectedSites = $('.btn_select_site');
     if($selectedSites.hasClass('ui-icon-none')){
       $(this).text(i18n.t('global.unselectAllSites'));

@@ -37,7 +37,6 @@ var Location = {
 
   getCurrentLocation: function () {
     cordova.plugins.locationServices.geolocation.getCurrentPosition(function (pos) {
-      console.log('pos : ', pos);
       var lat = pos.coords.latitude;
       var lng = pos.coords.longitude;
       $("#site_lat").val(lat);
@@ -45,7 +44,6 @@ var Location = {
       $("#mark_lat").val(lat);
       $("#mark_lng").val(lng);
     }, function (error) {
-      console.log('error : ', error);
       alert("Location cannot be found.");
     }, {
       maximumAge: 6000

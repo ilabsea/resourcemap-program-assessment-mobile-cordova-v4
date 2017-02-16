@@ -390,6 +390,9 @@ SiteController = {
   processingOfflineSiteToServer: function() {
     var siteId = this.selectedOfflineSites.shift();
     SiteOffline.fetchBySiteId(siteId, function(site){
+      if(!siteId){
+        SiteController.refreshSiteList();
+      }
       SiteController.processingOneSiteToServer(site, function(){
         SiteController.processingOfflineSiteToServer();
       });
@@ -495,5 +498,18 @@ SiteController = {
       $menu.selectmenu("refresh");
       SiteController.render();
     }
+  },
+
+  refreshSiteList: function(){
+    if(SiteController.currentPage == "#page-site-list-all"){
+      SiteController.renderOfflineSites();
+      $("#btn-toggle-site-all").text(i18n.t('global.selectAllSites'));
+      $("#btn-toggle-site-all").removeClass('ui-icon-check').addClass('ui-icon-none');
+    }else{
+      SiteController.renderOffline();
+      $("#btn-toggle-site").text(i18n.t('global.selectAllSites'));
+      $("#btn-toggle-site").removeClass('ui-icon-check').addClass('ui-icon-none');
+    }
+    $("#load-more-site")[0].remove();
   }
 };
